@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>搭建 Hexo 轻博客 | Frost He&#39;s House</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="搭建博客的第一步，就是要找到符合自己需求的博客框架。之前用 LAMP 搭过 Wordpress，但始终觉得就写博客这个需求太重了，环境尽量越简单越好。与同事们交流得知 Hexo，自己便开始 DIY。 环境准备 Node.js 安装 hexo npm 包 git bash 客户端  hexo 是 npm 的一个包，首先从 Node.js 官网下载对应系统的安装包。Node.js 安装完成后会自动在环">
+<meta property="og:type" content="article">
+<meta property="og:title" content="搭建 Hexo 轻博客">
+<meta property="og:url" content="https://www.github.com/BerdyPango/berdypango.github.io/2018/03/05/setup-hexo/index.html">
+<meta property="og:site_name" content="Frost He&#39;s House">
+<meta property="og:description" content="搭建博客的第一步，就是要找到符合自己需求的博客框架。之前用 LAMP 搭过 Wordpress，但始终觉得就写博客这个需求太重了，环境尽量越简单越好。与同事们交流得知 Hexo，自己便开始 DIY。 环境准备 Node.js 安装 hexo npm 包 git bash 客户端  hexo 是 npm 的一个包，首先从 Node.js 官网下载对应系统的安装包。Node.js 安装完成后会自动在环">
+<meta property="og:updated_time" content="2018-03-05T16:06:52.124Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="搭建 Hexo 轻博客">
+<meta name="twitter:description" content="搭建博客的第一步，就是要找到符合自己需求的博客框架。之前用 LAMP 搭过 Wordpress，但始终觉得就写博客这个需求太重了，环境尽量越简单越好。与同事们交流得知 Hexo，自己便开始 DIY。 环境准备 Node.js 安装 hexo npm 包 git bash 客户端  hexo 是 npm 的一个包，首先从 Node.js 官网下载对应系统的安装包。Node.js 安装完成后会自动在环">
+  
+    <link rel="alternate" href="/atom.xml" title="Frost He&#39;s House" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Frost He&#39;s House</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Suche"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://www.github.com/BerdyPango/berdypango.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-setup-hexo" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/03/05/setup-hexo/" class="article-date">
+  <time datetime="2018-03-05T15:21:36.000Z" itemprop="datePublished">2018-03-05</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      搭建 Hexo 轻博客
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>搭建博客的第一步，就是要找到符合自己需求的博客框架。之前用 LAMP 搭过 Wordpress，但始终觉得就写博客这个需求太重了，环境尽量越简单越好。与同事们交流得知 <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>，自己便开始 DIY。</p>
+<h1 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h1><ul>
+<li>Node.js</li>
+<li>安装 hexo npm 包</li>
+<li>git bash 客户端</li>
+</ul>
+<p><code>hexo</code> 是 npm 的一个包，首先从 <a href="https://nodejs.org/zh-cn/" target="_blank" rel="noopener">Node.js</a> 官网下载对应系统的安装包。<code>Node.js</code> 安装完成后会自动在环境变量中加入 npm 的路径，接着在 CLI 中使用以下命令安装 hexo 包：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g hexo</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>-g 参数表示 global，意味着将全局安装该包<br>确认安装已经成功：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo version</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<h1 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h1><p>初始化 hexo 目录有两种方式：</p>
+<ul>
+<li>首先创建目录，在目录中运行 cmd.exe 并执行 <code>hexo init</code>，该命令会将当前文件夹作为目录</li>
+<li>执行打开 cmd 或 terminal，使用 <code>hexo init &lt;folder&gt;</code> 初始化目录，并使用 <code>cd &lt;folder&gt;</code> 导航到该目录<blockquote>
+<p><code>hexo init &lt;folder&gt;</code> 命令中，如果 folder 所包含的目录层级中有任何不存在的目录，该命令会自动创建该层级下的目录</p>
+</blockquote>
+</li>
+</ul>
+<p>新建完成后，得到以下的目录结构：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── _config.yml</span><br><span class="line">├── package.json</span><br><span class="line">├── scaffolds</span><br><span class="line">├── source</span><br><span class="line">|   ├── _drafts</span><br><span class="line">|   └── _posts</span><br><span class="line">└── themes</span><br></pre></td></tr></table></figure></p>
+<h2 id="config-yml"><a href="#config-yml" class="headerlink" title="_config.yml"></a>_config.yml</h2><p>_config.yml 包含了所有对 hexo 博客站点的配置信息。</p>
+<h3 id="网站-Site"><a href="#网站-Site" class="headerlink" title="网站(Site)"></a>网站(Site)</h3><table>
+<thead>
+<tr>
+<th>参数</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>title</td>
+<td>网站标题</td>
+</tr>
+<tr>
+<td>subtitle</td>
+<td>网站副标题</td>
+</tr>
+<tr>
+<td>description</td>
+<td>网站描述</td>
+</tr>
+<tr>
+<td>author</td>
+<td>作者名字</td>
+</tr>
+<tr>
+<td>language</td>
+<td>网站使用的语言</td>
+</tr>
+<tr>
+<td>timezone</td>
+<td>时区</td>
+</tr>
+</tbody>
+</table>
+<p>其中，<code>description</code> 主要用于 SEO，告诉搜索引擎一个关于站点的简单描述，通常建议在其中包含网站的关键词。<code>author</code> 参数用于主题显示文章的作者。</p>
+<h3 id="网址-url"><a href="#网址-url" class="headerlink" title="网址(url)"></a>网址(url)</h3><table>
+<thead>
+<tr>
+<th>参数</th>
+<th>描述</th>
+<th>默认值(示例值)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>url</td>
+<td>根地址</td>
+<td><a href="http://www.your-site.conm/blog/" target="_blank" rel="noopener">http://www.your-site.conm/blog/</a></td>
+</tr>
+<tr>
+<td>root</td>
+<td>站点根目录</td>
+<td>/blog/</td>
+</tr>
+<tr>
+<td>permalink</td>
+<td>文章的永久链接格式</td>
+<td>:year/:month/:day/:title/</td>
+</tr>
+<tr>
+<td>permalink_defaults</td>
+<td>永久链接中各部分的默认值</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><code>url</code> 和 <code>root</code> 总是成对修改，例如，想要把站点的根目录放在子目录 /blog 下，那么 root 的值应该修改为 /blog/，url 的值对应修改为 <a href="http://www.your-site.com/blog/。" target="_blank" rel="noopener">http://www.your-site.com/blog/。</a><br>官方文档中的网站存放于子目录的意思是，hexo 项目包含的是生成站点的源代码文件，包括 source 目录下的 _posts，均用于生成网站，而“网站”是指生成好之后的静态资源文件集。</p>
+</blockquote>
+<h1 id="本地测试"><a href="#本地测试" class="headerlink" title="本地测试"></a>本地测试</h1><p>初始化 hexo 的目标目录：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo init &lt;target-directory&gt;</span><br></pre></td></tr></table></figure></p>
+<p>该命令将在目标目录创建 hexo 的初始化模板</p>
+<p>本地生成并 serve：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> &lt;target-directory&gt;</span><br><span class="line">hexo g</span><br><span class="line">hexo server</span><br></pre></td></tr></table></figure></p>
+<p>此时在浏览器中访问 localhost 对应的端口号将看到一个初始化的博客模板已经生成成功</p>
+<p>使用如下命令来创建新的文章，在 source/_posts 下一个对应的文件被创建<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo new <span class="string">"my-first-post"</span></span><br></pre></td></tr></table></figure></p>
+<p>Hexo 的所有文章都以 .md (MarkDown) 扩展名结束，这也是我第一次知道 .md 文件的意思，并有机会可以练习编写 .md 文件</p>
+<p>导航到该文件可以看到其格式符合 .md 文件的预定义标记</p>
+<figure class="highlight ml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">title: my-first-post</span><br><span class="line">date: <span class="number">2018</span>-<span class="number">03</span>-<span class="number">01</span> <span class="number">02</span>:<span class="number">51</span>:<span class="number">53</span></span><br><span class="line">tags:</span><br><span class="line">---</span><br></pre></td></tr></table></figure>
+<p>重新生成博客文章并启动 server<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hexo g</span><br><span class="line">hexo server</span><br></pre></td></tr></table></figure></p>
+<p>可以看到在文章列表中已经出现刚刚创建的文章名称，进一步修改该文件，hexo server 将实时更新其内容</p>
+<h1 id="同步到-git-仓库"><a href="#同步到-git-仓库" class="headerlink" title="同步到 git 仓库"></a>同步到 git 仓库</h1>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://www.github.com/BerdyPango/berdypango.github.io/2018/03/05/setup-hexo/" data-id="cjeefggxn000cl0khf2xfz7rx" class="article-share-link">Teilen</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2018/03/04/install-nginx-on-mac-os/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Älter</strong>
+      <div class="article-nav-title">在 MacOS 上安装 nginx</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Make-the-Best-of-My-MacMini/">Make the Best of My MacMini</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/diary/">diary</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Make-the-Best-of-My-MacMini/" style="font-size: 20px;">Make the Best of My MacMini</a> <a href="/tags/diary/" style="font-size: 10px;">diary</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archiv</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">letzter Beitrag</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/03/05/setup-hexo/">搭建 Hexo 轻博客</a>
+          </li>
+        
+          <li>
+            <a href="/2018/03/04/install-nginx-on-mac-os/">在 MacOS 上安装 nginx</a>
+          </li>
+        
+          <li>
+            <a href="/2018/03/03/git-push-to-mac-os/">Git push 到 MacOS</a>
+          </li>
+        
+          <li>
+            <a href="/2018/03/03/remote-control-against-mac-os/">在 Windows 环境下远程控制 MacOS</a>
+          </li>
+        
+          <li>
+            <a href="/2018/03/01/about/">关于我的博客</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 Frost He<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

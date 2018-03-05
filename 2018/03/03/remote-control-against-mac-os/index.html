@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>在 Windows 环境下远程控制 MacOS | Frost He&#39;s House</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="准备工作为了把闲置已久的 Mac mini 变成一个可在 Windows 环境下远程操作的小型私有服务器，需要现实至少以下两点目标：  使用 ssh 客户端远程登录，类似通过 PuTTy 管理其他类 Linux 系统 使用 sftp客户端实现文件传输的需求  同时，要确保 MacOS 主机与客户端主机在网络上是互通的，要么在同一局域网下通过 ip 地址访问，要么使用域名映射固定 ip 地址。 Ma">
+<meta name="keywords" content="Make the Best of My MacMini">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在 Windows 环境下远程控制 MacOS">
+<meta property="og:url" content="https://www.github.com/BerdyPango/berdypango.github.io/2018/03/03/remote-control-against-mac-os/index.html">
+<meta property="og:site_name" content="Frost He&#39;s House">
+<meta property="og:description" content="准备工作为了把闲置已久的 Mac mini 变成一个可在 Windows 环境下远程操作的小型私有服务器，需要现实至少以下两点目标：  使用 ssh 客户端远程登录，类似通过 PuTTy 管理其他类 Linux 系统 使用 sftp客户端实现文件传输的需求  同时，要确保 MacOS 主机与客户端主机在网络上是互通的，要么在同一局域网下通过 ip 地址访问，要么使用域名映射固定 ip 地址。 Ma">
+<meta property="og:updated_time" content="2018-03-03T03:20:30.007Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="在 Windows 环境下远程控制 MacOS">
+<meta name="twitter:description" content="准备工作为了把闲置已久的 Mac mini 变成一个可在 Windows 环境下远程操作的小型私有服务器，需要现实至少以下两点目标：  使用 ssh 客户端远程登录，类似通过 PuTTy 管理其他类 Linux 系统 使用 sftp客户端实现文件传输的需求  同时，要确保 MacOS 主机与客户端主机在网络上是互通的，要么在同一局域网下通过 ip 地址访问，要么使用域名映射固定 ip 地址。 Ma">
+  
+    <link rel="alternate" href="/atom.xml" title="Frost He&#39;s House" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Frost He&#39;s House</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Suche"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://www.github.com/BerdyPango/berdypango.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-remote-control-against-mac-os" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/03/03/remote-control-against-mac-os/" class="article-date">
+  <time datetime="2018-03-03T00:51:53.000Z" itemprop="datePublished">2018-03-03</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      在 Windows 环境下远程控制 MacOS
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h1><p>为了把闲置已久的 Mac mini 变成一个可在 Windows 环境下远程操作的小型私有服务器，需要现实至少以下两点目标：</p>
+<ul>
+<li>使用 <code>ssh</code> 客户端远程登录，类似通过 PuTTy 管理其他类 Linux 系统</li>
+<li>使用 <code>sftp</code>客户端实现文件传输的需求</li>
+</ul>
+<p>同时，要确保 MacOS 主机与客户端主机在网络上是互通的，要么在同一局域网下通过 ip 地址访问，要么使用域名映射固定 ip 地址。</p>
+<p>Mac Os 自带了 ssh，但默认是禁用的，通常我们进行以下步骤的确认：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$sudo</span> systemsetup -getremotelogin</span><br><span class="line">Remote Login: Off</span><br></pre></td></tr></table></figure>
+<p>该命令查询本地计算机远程登录功能是否启用，如果显示 Off，则执行以下命令开启：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$sudo</span> systemsetup -setremotelogin on</span><br></pre></td></tr></table></figure></p>
+<p>再次执行查询命令以确认上一条命令生效并且该功能启用：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$sudo</span> systemsetup -getremotelogin</span><br><span class="line">Remote Login: On</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>$sudo systemsetup -getremotelogin 将同时启用 ssh 以及 sftp server</p>
+</blockquote>
+<p>在这些命令前加上 <code>sudo</code> 是必须的，因为这些操作均要求管理员权限。</p>
+<h1 id="在-Windows-下远程操作-MacOS"><a href="#在-Windows-下远程操作-MacOS" class="headerlink" title="在 Windows 下远程操作 MacOS"></a>在 Windows 下远程操作 MacOS</h1><p>现在，在 Windows 系统下使用 bash 或 PuTTy 客户端，连接到该 Mac 所在的 ip 地址：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh username@ipaddress</span><br></pre></td></tr></table></figure></p>
+<p>登录完成便与在 Mac OS 本机上使用账户操作终端一样了。</p>
+<blockquote>
+<p>远程登录同时开启了 sftp 服务，这意味着如果使用类似 winscp 之类的文件传输客户端也可以连接 Mac OS 并完成文件传输。</p>
+</blockquote>
+<h1 id="为远程登录添加安全访问机制"><a href="#为远程登录添加安全访问机制" class="headerlink" title="为远程登录添加安全访问机制"></a>为远程登录添加安全访问机制</h1><p><code>ssh</code> 针对不同 group 的用户提供了不同的远程访问策略，使用密码登录是一件非常不安全的，如果该 MacOS 主机在通过内网穿透或拥有公网 ip 暴露在互联网下，那么随时有遭受攻击的可能，为了加强安全性，我们可以：</p>
+<ul>
+<li>禁止使用密码验证登录</li>
+<li>开启 ssh key pair 验证登录</li>
+</ul>
+<p>确保我们已经进行远程登录后，首先导航到 ssh 配置所在的目录：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /etc/ssh/</span><br></pre></td></tr></table></figure></p>
+<p>列出文件列表：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ls -ll</span><br></pre></td></tr></table></figure></p>
+<p>使用 vi 编辑器打开 <code>sshd_config</code> 文件：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi sshd_config</span><br></pre></td></tr></table></figure></p>
+<p>按下 ‘i’ 使 <code>vim</code> 进入 ‘insert’ 模式<br>找到 <code>#PasswordAuthentication yes</code> 一行，删除行头的 ‘#’ 字符，并将 ‘yes’ 改为 ‘no’</p>
+<blockquote>
+<p>‘#’ 表示对该行进行注释</p>
+</blockquote>
+<p>找到 <code>#PubKeyAuthentication yes</code> 一行，删除行头的 ‘#’ 字符，按下 ‘esc’ 键退出 ‘insert’ 模式，按下 ‘:wq’ 以保存并退出 <code>vim</code> 编辑器。</p>
+<blockquote>
+<p>若要修改生效， <code>sshd</code> 进程需要重新读取该配置，但这会让已经通过密码登录的会话中断，并且在 public key 部署前没有任何机会重新进行远程连接，所以这一步放到最后来做。</p>
+</blockquote>
+<p>现在，复制先准备好的 <code>ssh public key</code> 文件内的值，回到登录用户的主目录并导航到 .ssh 目录下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> <span class="comment">#</span></span><br><span class="line"><span class="built_in">cd</span> .ssh</span><br></pre></td></tr></table></figure></p>
+<p>新建 <code>authorized_keys</code> 文件并使用 <code>vim</code> 编辑器编辑：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">touch authorized_keys</span><br><span class="line"><span class="variable">$sudo</span> vi authorized_keys</span><br></pre></td></tr></table></figure></p>
+<p>粘贴已经复制到剪贴板中的 <code>ssh public key</code> 的值，’:wq’ 保存并退出。</p>
+<blockquote>
+<p>在前文提及的 /etc/ssh/sshd_config 中有一行 <code>AuthorizedKeyFiles</code>，该行的默认值为 ‘.ssh/authorized_keys’，该项配置是 sshd 进程提取 <code>public key</code> 的依据，如果对该值进行了修改，那么这里新建的文件也必须要与之对应。</p>
+</blockquote>
+<p>现在，重新读取 sshd 的配置文件信息<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$sudo</span> launchctl load -w /System/Library/LaunchDaemons/ssh.plist</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://www.github.com/BerdyPango/berdypango.github.io/2018/03/03/remote-control-against-mac-os/" data-id="cjeefggxc0004l0kh407hlh5c" class="article-share-link">Teilen</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Make-the-Best-of-My-MacMini/">Make the Best of My MacMini</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/03/03/git-push-to-mac-os/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Neuer</strong>
+      <div class="article-nav-title">
+        
+          Git push 到 MacOS
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/03/01/about/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Älter</strong>
+      <div class="article-nav-title">关于我的博客</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Make-the-Best-of-My-MacMini/">Make the Best of My MacMini</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/diary/">diary</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Make-the-Best-of-My-MacMini/" style="font-size: 20px;">Make the Best of My MacMini</a> <a href="/tags/diary/" style="font-size: 10px;">diary</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archiv</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">letzter Beitrag</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/03/05/setup-hexo/">搭建 Hexo 轻博客</a>
+          </li>
+        
+          <li>
+            <a href="/2018/03/04/install-nginx-on-mac-os/">在 MacOS 上安装 nginx</a>
+          </li>
+        
+          <li>
+            <a href="/2018/03/03/git-push-to-mac-os/">Git push 到 MacOS</a>
+          </li>
+        
+          <li>
+            <a href="/2018/03/03/remote-control-against-mac-os/">在 Windows 环境下远程控制 MacOS</a>
+          </li>
+        
+          <li>
+            <a href="/2018/03/01/about/">关于我的博客</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 Frost He<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

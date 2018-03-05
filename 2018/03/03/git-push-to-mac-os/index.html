@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>Git push 到 MacOS | Frost He&#39;s House</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="MacOS 没有自带 git，需要通过 XCode Command Line Tools 进行安装，当通过 ssh 客户端远程登录到 MacOS 并执行 git --version，MacOS 会自动弹出确认框以进行安装，这里手动在 MacOS 系统点击确认按钮才能继续。安装完成后再次执行 git --version，已能够看到版本号。新建或导航到一个喜欢的目录，将其作为新 repository">
+<meta name="keywords" content="Make the Best of My MacMini">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Git push 到 MacOS">
+<meta property="og:url" content="https://www.github.com/BerdyPango/berdypango.github.io/2018/03/03/git-push-to-mac-os/index.html">
+<meta property="og:site_name" content="Frost He&#39;s House">
+<meta property="og:description" content="MacOS 没有自带 git，需要通过 XCode Command Line Tools 进行安装，当通过 ssh 客户端远程登录到 MacOS 并执行 git --version，MacOS 会自动弹出确认框以进行安装，这里手动在 MacOS 系统点击确认按钮才能继续。安装完成后再次执行 git --version，已能够看到版本号。新建或导航到一个喜欢的目录，将其作为新 repository">
+<meta property="og:updated_time" content="2018-03-04T10:44:18.353Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Git push 到 MacOS">
+<meta name="twitter:description" content="MacOS 没有自带 git，需要通过 XCode Command Line Tools 进行安装，当通过 ssh 客户端远程登录到 MacOS 并执行 git --version，MacOS 会自动弹出确认框以进行安装，这里手动在 MacOS 系统点击确认按钮才能继续。安装完成后再次执行 git --version，已能够看到版本号。新建或导航到一个喜欢的目录，将其作为新 repository">
+  
+    <link rel="alternate" href="/atom.xml" title="Frost He&#39;s House" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Frost He&#39;s House</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Suche"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://www.github.com/BerdyPango/berdypango.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-git-push-to-mac-os" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/03/03/git-push-to-mac-os/" class="article-date">
+  <time datetime="2018-03-03T02:35:17.000Z" itemprop="datePublished">2018-03-03</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Git push 到 MacOS
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>MacOS 没有自带 git，需要通过 XCode Command Line Tools 进行安装，当通过 ssh 客户端远程登录到 MacOS 并执行 <code>git --version</code>，MacOS 会自动弹出确认框以进行安装，这里手动在 MacOS 系统点击确认按钮才能继续。安装完成后再次执行 <code>git --version</code>，已能够看到版本号。新建或导航到一个喜欢的目录，将其作为新 repository 的根目录。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p development/hobby-project/my-first-git-repository</span><br><span class="line"><span class="built_in">cd</span> development/hobby-project/my-first-git-repository</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>因为这里有 3 层目录结构，不带任何参数的 <code>mkdir</code> 命令将不会递归创建目录，<code>-p</code> 选项表示，如果任何层级的目录不存在，将递归创建目录，如果所有层次的目录都已存在，则不会进行任何操作。同时，要确保登录到远程机器的用户拥有针对创建目录的所有层级的读写权限，否则 git pull 和 git push 将会报错。如果权限不正确，使用 $sudo chown -R 命令更改文件夹或文件权限。</p>
+</blockquote>
+<p>现在，’development/hobby-project/my-first-git-repository’ 将成为远程 repository 根目录，执行：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$sudo</span> git init --bare</span><br><span class="line">Initialized empty Git repository <span class="keyword">in</span> /Users/XXX/development/hobby-project/my-first-git-repository/</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>git init –bare 参数指明该 repository 用于共享，git 将仅保存历史记录，一般来说服务器上的仓库多为 –bare，其目的在于分发而非修改，参考 <a href="http://www.saintsjd.com/2011/01/what-is-a-bare-git-repository/" target="_blank" rel="noopener">what is a git bare repository</a>。</p>
+</blockquote>
+<p>远程仓库创建完成后，回到客户端主机，这里采用 ssh 协议进行通信，如果没有现有的 key，则创建 key。这里使用了已有的 key，ssh 默认配置存放在用户 home 目录下的 .ssh 文件夹下，如果没有指定 <code>config</code> 文件，则 id_rsa 作为默认的 key 文件名，具体参考 <a href="https://www.digitalocean.com/community/tutorials/how-to-configure-custom-connection-options-for-your-ssh-client" target="_blank" rel="noopener">How To Configure Custom Connection Options for your SSH Client</a>。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://www.github.com/BerdyPango/berdypango.github.io/2018/03/03/git-push-to-mac-os/" data-id="cjeefggx80001l0khjg508snm" class="article-share-link">Teilen</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Make-the-Best-of-My-MacMini/">Make the Best of My MacMini</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/03/04/install-nginx-on-mac-os/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Neuer</strong>
+      <div class="article-nav-title">
+        
+          在 MacOS 上安装 nginx
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/03/03/remote-control-against-mac-os/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Älter</strong>
+      <div class="article-nav-title">在 Windows 环境下远程控制 MacOS</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Make-the-Best-of-My-MacMini/">Make the Best of My MacMini</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/diary/">diary</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Make-the-Best-of-My-MacMini/" style="font-size: 20px;">Make the Best of My MacMini</a> <a href="/tags/diary/" style="font-size: 10px;">diary</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archiv</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">letzter Beitrag</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/03/05/setup-hexo/">搭建 Hexo 轻博客</a>
+          </li>
+        
+          <li>
+            <a href="/2018/03/04/install-nginx-on-mac-os/">在 MacOS 上安装 nginx</a>
+          </li>
+        
+          <li>
+            <a href="/2018/03/03/git-push-to-mac-os/">Git push 到 MacOS</a>
+          </li>
+        
+          <li>
+            <a href="/2018/03/03/remote-control-against-mac-os/">在 Windows 环境下远程控制 MacOS</a>
+          </li>
+        
+          <li>
+            <a href="/2018/03/01/about/">关于我的博客</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 Frost He<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

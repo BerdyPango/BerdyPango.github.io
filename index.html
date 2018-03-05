@@ -9,7 +9,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta property="og:type" content="website">
 <meta property="og:title" content="Frost He&#39;s House">
-<meta property="og:url" content="http://yoursite.com/index.html">
+<meta property="og:url" content="https://www.github.com/BerdyPango/berdypango.github.io/index.html">
 <meta property="og:site_name" content="Frost He&#39;s House">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Frost He&#39;s House">
@@ -53,7 +53,7 @@
         <a id="nav-search-btn" class="nav-icon" title="Suche"></a>
       </nav>
       <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://www.github.com/BerdyPango/berdypango.github.io"></form>
       </div>
     </div>
   </div>
@@ -61,10 +61,10 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-setup-hexo" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2018/02/28/hello-world/" class="article-date">
-  <time datetime="2018-02-28T15:09:54.720Z" itemprop="datePublished">2018-02-28</time>
+    <a href="/2018/03/05/setup-hexo/" class="article-date">
+  <time datetime="2018-03-05T15:21:36.000Z" itemprop="datePublished">2018-03-05</time>
 </a>
     
   </div>
@@ -75,7 +75,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/02/28/hello-world/">This is my first post</a>
+      <a class="article-title" href="/2018/03/05/setup-hexo/">搭建 Hexo 轻博客</a>
     </h1>
   
 
@@ -83,22 +83,329 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+        <p>搭建博客的第一步，就是要找到符合自己需求的博客框架。之前用 LAMP 搭过 Wordpress，但始终觉得就写博客这个需求太重了，环境尽量越简单越好。与同事们交流得知 <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>，自己便开始 DIY。</p>
+<h1 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h1><ul>
+<li>Node.js</li>
+<li>安装 hexo npm 包</li>
+<li>git bash 客户端</li>
+</ul>
+<p><code>hexo</code> 是 npm 的一个包，首先从 <a href="https://nodejs.org/zh-cn/" target="_blank" rel="noopener">Node.js</a> 官网下载对应系统的安装包。<code>Node.js</code> 安装完成后会自动在环境变量中加入 npm 的路径，接着在 CLI 中使用以下命令安装 hexo 包：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g hexo</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>-g 参数表示 global，意味着将全局安装该包<br>确认安装已经成功：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo version</span><br></pre></td></tr></table></figure></p>
+</blockquote>
+<h1 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h1><p>初始化 hexo 目录有两种方式：</p>
+<ul>
+<li>首先创建目录，在目录中运行 cmd.exe 并执行 <code>hexo init</code>，该命令会将当前文件夹作为目录</li>
+<li>执行打开 cmd 或 terminal，使用 <code>hexo init &lt;folder&gt;</code> 初始化目录，并使用 <code>cd &lt;folder&gt;</code> 导航到该目录<blockquote>
+<p><code>hexo init &lt;folder&gt;</code> 命令中，如果 folder 所包含的目录层级中有任何不存在的目录，该命令会自动创建该层级下的目录</p>
+</blockquote>
+</li>
+</ul>
+<p>新建完成后，得到以下的目录结构：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── _config.yml</span><br><span class="line">├── package.json</span><br><span class="line">├── scaffolds</span><br><span class="line">├── source</span><br><span class="line">|   ├── _drafts</span><br><span class="line">|   └── _posts</span><br><span class="line">└── themes</span><br></pre></td></tr></table></figure></p>
+<h2 id="config-yml"><a href="#config-yml" class="headerlink" title="_config.yml"></a>_config.yml</h2><p>_config.yml 包含了所有对 hexo 博客站点的配置信息。</p>
+<h3 id="网站-Site"><a href="#网站-Site" class="headerlink" title="网站(Site)"></a>网站(Site)</h3><table>
+<thead>
+<tr>
+<th>参数</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>title</td>
+<td>网站标题</td>
+</tr>
+<tr>
+<td>subtitle</td>
+<td>网站副标题</td>
+</tr>
+<tr>
+<td>description</td>
+<td>网站描述</td>
+</tr>
+<tr>
+<td>author</td>
+<td>作者名字</td>
+</tr>
+<tr>
+<td>language</td>
+<td>网站使用的语言</td>
+</tr>
+<tr>
+<td>timezone</td>
+<td>时区</td>
+</tr>
+</tbody>
+</table>
+<p>其中，<code>description</code> 主要用于 SEO，告诉搜索引擎一个关于站点的简单描述，通常建议在其中包含网站的关键词。<code>author</code> 参数用于主题显示文章的作者。</p>
+<h3 id="网址-url"><a href="#网址-url" class="headerlink" title="网址(url)"></a>网址(url)</h3><table>
+<thead>
+<tr>
+<th>参数</th>
+<th>描述</th>
+<th>默认值(示例值)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>url</td>
+<td>根地址</td>
+<td><a href="http://www.your-site.conm/blog/" target="_blank" rel="noopener">http://www.your-site.conm/blog/</a></td>
+</tr>
+<tr>
+<td>root</td>
+<td>站点根目录</td>
+<td>/blog/</td>
+</tr>
+<tr>
+<td>permalink</td>
+<td>文章的永久链接格式</td>
+<td>:year/:month/:day/:title/</td>
+</tr>
+<tr>
+<td>permalink_defaults</td>
+<td>永久链接中各部分的默认值</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><code>url</code> 和 <code>root</code> 总是成对修改，例如，想要把站点的根目录放在子目录 /blog 下，那么 root 的值应该修改为 /blog/，url 的值对应修改为 <a href="http://www.your-site.com/blog/。" target="_blank" rel="noopener">http://www.your-site.com/blog/。</a><br>官方文档中的网站存放于子目录的意思是，hexo 项目包含的是生成站点的源代码文件，包括 source 目录下的 _posts，均用于生成网站，而“网站”是指生成好之后的静态资源文件集。</p>
+</blockquote>
+<h1 id="本地测试"><a href="#本地测试" class="headerlink" title="本地测试"></a>本地测试</h1><p>初始化 hexo 的目标目录：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo init &lt;target-directory&gt;</span><br></pre></td></tr></table></figure></p>
+<p>该命令将在目标目录创建 hexo 的初始化模板</p>
+<p>本地生成并 serve：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> &lt;target-directory&gt;</span><br><span class="line">hexo g</span><br><span class="line">hexo server</span><br></pre></td></tr></table></figure></p>
+<p>此时在浏览器中访问 localhost 对应的端口号将看到一个初始化的博客模板已经生成成功</p>
+<p>使用如下命令来创建新的文章，在 source/_posts 下一个对应的文件被创建<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo new <span class="string">"my-first-post"</span></span><br></pre></td></tr></table></figure></p>
+<p>Hexo 的所有文章都以 .md (MarkDown) 扩展名结束，这也是我第一次知道 .md 文件的意思，并有机会可以练习编写 .md 文件</p>
+<p>导航到该文件可以看到其格式符合 .md 文件的预定义标记</p>
+<figure class="highlight ml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">title: my-first-post</span><br><span class="line">date: <span class="number">2018</span>-<span class="number">03</span>-<span class="number">01</span> <span class="number">02</span>:<span class="number">51</span>:<span class="number">53</span></span><br><span class="line">tags:</span><br><span class="line">---</span><br></pre></td></tr></table></figure>
+<p>重新生成博客文章并启动 server<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hexo g</span><br><span class="line">hexo server</span><br></pre></td></tr></table></figure></p>
+<p>可以看到在文章列表中已经出现刚刚创建的文章名称，进一步修改该文件，hexo server 将实时更新其内容</p>
+<h1 id="同步到-git-仓库"><a href="#同步到-git-仓库" class="headerlink" title="同步到 git 仓库"></a>同步到 git 仓库</h1>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://www.github.com/BerdyPango/berdypango.github.io/2018/03/05/setup-hexo/" data-id="cjeefggxn000cl0khf2xfz7rx" class="article-share-link">Teilen</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-install-nginx-on-mac-os" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/03/04/install-nginx-on-mac-os/" class="article-date">
+  <time datetime="2018-03-04T14:00:51.000Z" itemprop="datePublished">2018-03-04</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/03/04/install-nginx-on-mac-os/">在 MacOS 上安装 nginx</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="安装-nginx"><a href="#安装-nginx" class="headerlink" title="安装 nginx"></a>安装 nginx</h1><p>使用 HomeBrew 在 MacOS 上安装 nginx:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install nginx</span><br></pre></td></tr></table></figure></p>
+<p>安装完成后，会显示一些提示信息：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">==&gt; Caveats</span><br><span class="line">Docroot is: /usr/local/var/www</span><br><span class="line"></span><br><span class="line">The default port has been set in /usr/local/etc/nginx/nginx.conf to 8080 so that</span><br><span class="line">nginx can run without sudo.</span><br><span class="line"></span><br><span class="line">nginx will load all files in /usr/local/etc/nginx/servers/.</span><br><span class="line"></span><br><span class="line">To have launchd start nginx now and restart at login:</span><br><span class="line">  brew services start nginx</span><br><span class="line">Or, if you don&apos;t want/need a background service you can just run:</span><br><span class="line">  nginx</span><br><span class="line">==&gt; Summary</span><br></pre></td></tr></table></figure></p>
+<p>可以归纳为：</p>
+<ul>
+<li>网站根目录在 /usr/local/var/www</li>
+<li>默认端口在 为 /usr/local/etc/nginx/nginx.conf 文件中配置为 8080，这样 nginx 无需 sudo 权限就可执行</li>
+<li>nginx 将从 /usr/local/etc/nginx/servers/ 目录读取所有配置文件信息</li>
+<li>要让 nginx 随机启动请执行命令 <code>brew services start nginx</code></li>
+<li>如果不需要启动后台服务，请直接执行命令 <code>nginx</code></li>
+</ul>
+<h1 id="配置新站点"><a href="#配置新站点" class="headerlink" title="配置新站点"></a>配置新站点</h1><p>创建一个目录作为 host 新站点的根目录，例如<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p /usr/<span class="built_in">local</span>/var/www/your-site-name</span><br></pre></td></tr></table></figure></p>
+<p>查看 /usr/local/etc/nginx 目录，有一个名为 ‘nginx.conf.default’ 的文件，该文件通常为网站配置的起始点。首先导航到 /usr/local/etc/nginx/servers/ 目录，然后将该默认配置文件复制一份。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /usr/<span class="built_in">local</span>/etc/nginx/servers/</span><br><span class="line">cp ../nginx.conf.default your-site-name.conf</span><br></pre></td></tr></table></figure></p>
+<p>修改 listen, server_name, location 块下的 root 和 index 项的值到对应的值，保存并退出配置文件。利用 <code>nginx -t</code> 检查配置的有效性，一切准备就绪后，执行 <code>brew services reload nginx</code> 命令重新加载配置。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/02/28/hello-world/" data-id="cje7dannq0000dckhpk4duz2g" class="article-share-link">Teilen</a>
+      <a data-url="https://www.github.com/BerdyPango/berdypango.github.io/2018/03/04/install-nginx-on-mac-os/" data-id="cjeefggxb0003l0khc7wjzd9g" class="article-share-link">Teilen</a>
       
       
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Make-the-Best-of-My-MacMini/">Make the Best of My MacMini</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-git-push-to-mac-os" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/03/03/git-push-to-mac-os/" class="article-date">
+  <time datetime="2018-03-03T02:35:17.000Z" itemprop="datePublished">2018-03-03</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/03/03/git-push-to-mac-os/">Git push 到 MacOS</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>MacOS 没有自带 git，需要通过 XCode Command Line Tools 进行安装，当通过 ssh 客户端远程登录到 MacOS 并执行 <code>git --version</code>，MacOS 会自动弹出确认框以进行安装，这里手动在 MacOS 系统点击确认按钮才能继续。安装完成后再次执行 <code>git --version</code>，已能够看到版本号。新建或导航到一个喜欢的目录，将其作为新 repository 的根目录。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p development/hobby-project/my-first-git-repository</span><br><span class="line"><span class="built_in">cd</span> development/hobby-project/my-first-git-repository</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>因为这里有 3 层目录结构，不带任何参数的 <code>mkdir</code> 命令将不会递归创建目录，<code>-p</code> 选项表示，如果任何层级的目录不存在，将递归创建目录，如果所有层次的目录都已存在，则不会进行任何操作。同时，要确保登录到远程机器的用户拥有针对创建目录的所有层级的读写权限，否则 git pull 和 git push 将会报错。如果权限不正确，使用 $sudo chown -R 命令更改文件夹或文件权限。</p>
+</blockquote>
+<p>现在，’development/hobby-project/my-first-git-repository’ 将成为远程 repository 根目录，执行：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$sudo</span> git init --bare</span><br><span class="line">Initialized empty Git repository <span class="keyword">in</span> /Users/XXX/development/hobby-project/my-first-git-repository/</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>git init –bare 参数指明该 repository 用于共享，git 将仅保存历史记录，一般来说服务器上的仓库多为 –bare，其目的在于分发而非修改，参考 <a href="http://www.saintsjd.com/2011/01/what-is-a-bare-git-repository/" target="_blank" rel="noopener">what is a git bare repository</a>。</p>
+</blockquote>
+<p>远程仓库创建完成后，回到客户端主机，这里采用 ssh 协议进行通信，如果没有现有的 key，则创建 key。这里使用了已有的 key，ssh 默认配置存放在用户 home 目录下的 .ssh 文件夹下，如果没有指定 <code>config</code> 文件，则 id_rsa 作为默认的 key 文件名，具体参考 <a href="https://www.digitalocean.com/community/tutorials/how-to-configure-custom-connection-options-for-your-ssh-client" target="_blank" rel="noopener">How To Configure Custom Connection Options for your SSH Client</a>。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://www.github.com/BerdyPango/berdypango.github.io/2018/03/03/git-push-to-mac-os/" data-id="cjeefggx80001l0khjg508snm" class="article-share-link">Teilen</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Make-the-Best-of-My-MacMini/">Make the Best of My MacMini</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-remote-control-against-mac-os" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/03/03/remote-control-against-mac-os/" class="article-date">
+  <time datetime="2018-03-03T00:51:53.000Z" itemprop="datePublished">2018-03-03</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/03/03/remote-control-against-mac-os/">在 Windows 环境下远程控制 MacOS</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h1><p>为了把闲置已久的 Mac mini 变成一个可在 Windows 环境下远程操作的小型私有服务器，需要现实至少以下两点目标：</p>
+<ul>
+<li>使用 <code>ssh</code> 客户端远程登录，类似通过 PuTTy 管理其他类 Linux 系统</li>
+<li>使用 <code>sftp</code>客户端实现文件传输的需求</li>
+</ul>
+<p>同时，要确保 MacOS 主机与客户端主机在网络上是互通的，要么在同一局域网下通过 ip 地址访问，要么使用域名映射固定 ip 地址。</p>
+<p>Mac Os 自带了 ssh，但默认是禁用的，通常我们进行以下步骤的确认：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$sudo</span> systemsetup -getremotelogin</span><br><span class="line">Remote Login: Off</span><br></pre></td></tr></table></figure>
+<p>该命令查询本地计算机远程登录功能是否启用，如果显示 Off，则执行以下命令开启：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$sudo</span> systemsetup -setremotelogin on</span><br></pre></td></tr></table></figure></p>
+<p>再次执行查询命令以确认上一条命令生效并且该功能启用：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$sudo</span> systemsetup -getremotelogin</span><br><span class="line">Remote Login: On</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>$sudo systemsetup -getremotelogin 将同时启用 ssh 以及 sftp server</p>
+</blockquote>
+<p>在这些命令前加上 <code>sudo</code> 是必须的，因为这些操作均要求管理员权限。</p>
+<h1 id="在-Windows-下远程操作-MacOS"><a href="#在-Windows-下远程操作-MacOS" class="headerlink" title="在 Windows 下远程操作 MacOS"></a>在 Windows 下远程操作 MacOS</h1><p>现在，在 Windows 系统下使用 bash 或 PuTTy 客户端，连接到该 Mac 所在的 ip 地址：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh username@ipaddress</span><br></pre></td></tr></table></figure></p>
+<p>登录完成便与在 Mac OS 本机上使用账户操作终端一样了。</p>
+<blockquote>
+<p>远程登录同时开启了 sftp 服务，这意味着如果使用类似 winscp 之类的文件传输客户端也可以连接 Mac OS 并完成文件传输。</p>
+</blockquote>
+<h1 id="为远程登录添加安全访问机制"><a href="#为远程登录添加安全访问机制" class="headerlink" title="为远程登录添加安全访问机制"></a>为远程登录添加安全访问机制</h1><p><code>ssh</code> 针对不同 group 的用户提供了不同的远程访问策略，使用密码登录是一件非常不安全的，如果该 MacOS 主机在通过内网穿透或拥有公网 ip 暴露在互联网下，那么随时有遭受攻击的可能，为了加强安全性，我们可以：</p>
+<ul>
+<li>禁止使用密码验证登录</li>
+<li>开启 ssh key pair 验证登录</li>
+</ul>
+<p>确保我们已经进行远程登录后，首先导航到 ssh 配置所在的目录：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /etc/ssh/</span><br></pre></td></tr></table></figure></p>
+<p>列出文件列表：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ls -ll</span><br></pre></td></tr></table></figure></p>
+<p>使用 vi 编辑器打开 <code>sshd_config</code> 文件：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi sshd_config</span><br></pre></td></tr></table></figure></p>
+<p>按下 ‘i’ 使 <code>vim</code> 进入 ‘insert’ 模式<br>找到 <code>#PasswordAuthentication yes</code> 一行，删除行头的 ‘#’ 字符，并将 ‘yes’ 改为 ‘no’</p>
+<blockquote>
+<p>‘#’ 表示对该行进行注释</p>
+</blockquote>
+<p>找到 <code>#PubKeyAuthentication yes</code> 一行，删除行头的 ‘#’ 字符，按下 ‘esc’ 键退出 ‘insert’ 模式，按下 ‘:wq’ 以保存并退出 <code>vim</code> 编辑器。</p>
+<blockquote>
+<p>若要修改生效， <code>sshd</code> 进程需要重新读取该配置，但这会让已经通过密码登录的会话中断，并且在 public key 部署前没有任何机会重新进行远程连接，所以这一步放到最后来做。</p>
+</blockquote>
+<p>现在，复制先准备好的 <code>ssh public key</code> 文件内的值，回到登录用户的主目录并导航到 .ssh 目录下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> <span class="comment">#</span></span><br><span class="line"><span class="built_in">cd</span> .ssh</span><br></pre></td></tr></table></figure></p>
+<p>新建 <code>authorized_keys</code> 文件并使用 <code>vim</code> 编辑器编辑：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">touch authorized_keys</span><br><span class="line"><span class="variable">$sudo</span> vi authorized_keys</span><br></pre></td></tr></table></figure></p>
+<p>粘贴已经复制到剪贴板中的 <code>ssh public key</code> 的值，’:wq’ 保存并退出。</p>
+<blockquote>
+<p>在前文提及的 /etc/ssh/sshd_config 中有一行 <code>AuthorizedKeyFiles</code>，该行的默认值为 ‘.ssh/authorized_keys’，该项配置是 sshd 进程提取 <code>public key</code> 的依据，如果对该值进行了修改，那么这里新建的文件也必须要与之对应。</p>
+</blockquote>
+<p>现在，重新读取 sshd 的配置文件信息<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$sudo</span> launchctl load -w /System/Library/LaunchDaemons/ssh.plist</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://www.github.com/BerdyPango/berdypango.github.io/2018/03/03/remote-control-against-mac-os/" data-id="cjeefggxc0004l0kh407hlh5c" class="article-share-link">Teilen</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Make-the-Best-of-My-MacMini/">Make the Best of My MacMini</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-about" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/03/01/about/" class="article-date">
+  <time datetime="2018-03-01T13:21:36.000Z" itemprop="datePublished">2018-03-01</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/03/01/about/">关于我的博客</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>自从成为程序员以来，一直有记笔记的习惯，虽然记录笔记很花时间，但它可以帮助自己对遇到的问题以及寻求其解决途径的过程加深理解和巩固印象，并且对个人来讲有一个统一的地方进行查阅。最近，用了三年的 WizNote 又到期了，于是，便有了自建博客的想法。</p>
+<p>我想在这里写下所有我认为有价值的内容，其中可能包括某个技术的备忘要点，某些技术的深入探索，读书笔记，和日常工作中遇到的问题，不同类别的文章会加以分类。总之，我暂时想象不出这个站点日后会变成什么样子。希望今后某一天我回看这些内容的时候，会欣慰的发现原来自己已经学到了这么多东西，慢慢的朝自己理想的方向前进。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://www.github.com/BerdyPango/berdypango.github.io/2018/03/01/about/" data-id="cjeefggx50000l0khv9cuu14a" class="article-share-link">Teilen</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/diary/">diary</a></li></ul>
+
     </footer>
   </div>
   
@@ -116,15 +423,29 @@
 
   
     
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Make-the-Best-of-My-MacMini/">Make the Best of My MacMini</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/diary/">diary</a></li></ul>
+    </div>
+  </div>
+
 
   
     
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Make-the-Best-of-My-MacMini/" style="font-size: 20px;">Make the Best of My MacMini</a> <a href="/tags/diary/" style="font-size: 10px;">diary</a>
+    </div>
+  </div>
+
   
     
   <div class="widget-wrap">
     <h3 class="widget-title">Archiv</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li></ul>
     </div>
   </div>
 
@@ -137,7 +458,23 @@
       <ul>
         
           <li>
-            <a href="/2018/02/28/hello-world/">This is my first post</a>
+            <a href="/2018/03/05/setup-hexo/">搭建 Hexo 轻博客</a>
+          </li>
+        
+          <li>
+            <a href="/2018/03/04/install-nginx-on-mac-os/">在 MacOS 上安装 nginx</a>
+          </li>
+        
+          <li>
+            <a href="/2018/03/03/git-push-to-mac-os/">Git push 到 MacOS</a>
+          </li>
+        
+          <li>
+            <a href="/2018/03/03/remote-control-against-mac-os/">在 Windows 环境下远程控制 MacOS</a>
+          </li>
+        
+          <li>
+            <a href="/2018/03/01/about/">关于我的博客</a>
           </li>
         
       </ul>
