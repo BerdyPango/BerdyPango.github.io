@@ -85,7 +85,7 @@
 <meta property="og:site_name" content="Frost He&#39;s House">
 <meta property="og:description" content="不同于其他 Linux 系统，MacOS 使用了 brew 作为包管理器，并同时肩负了服务进程管理器的角色，在本机完成博客内容的准备工作之后，开始考虑把 MacOS 变成一个 web server。">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-03-05T19:04:06.716Z">
+<meta property="og:updated_time" content="2018-03-06T01:30:03.274Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="在 MacOS 上安装 nginx">
 <meta name="twitter:description" content="不同于其他 Linux 系统，MacOS 使用了 brew 作为包管理器，并同时肩负了服务进程管理器的角色，在本机完成博客内容的准备工作之后，开始考虑把 MacOS 变成一个 web server。">
@@ -342,9 +342,10 @@
 <li>要让 <code>nginx</code> 随用户登录一同启动请执行命令 <code>brew services start nginx</code></li>
 <li>若不需要作为后台服务启动，请直接执行命令 <code>nginx</code></li>
 </ul>
-<h1 id="配置新站点"><a href="#配置新站点" class="headerlink" title="配置新站点"></a>配置新站点</h1><p>创建一个目录作为 host 新站点的根目录，例如<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p /usr/<span class="built_in">local</span>/var/www/your-site-name</span><br></pre></td></tr></table></figure></p>
-<p>查看 /usr/local/etc/nginx 目录，有一个名为 ‘nginx.conf.default’ 的文件，该文件通常为网站配置的起始点。首先导航到 /usr/local/etc/nginx/servers/ 目录，然后将该默认配置文件复制一份。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /usr/<span class="built_in">local</span>/etc/nginx/servers/</span><br><span class="line">cp ../nginx.conf.default your-site-name.conf</span><br></pre></td></tr></table></figure></p>
-<p>修改 listen, server_name, location 块下的 root 和 index 项的值到对应的值，保存并退出配置文件。利用 <code>nginx -t</code> 检查配置的有效性，一切准备就绪后，执行 <code>brew services reload nginx</code> 命令重新加载配置。</p>
+<h1 id="配置新站点"><a href="#配置新站点" class="headerlink" title="配置新站点"></a>配置新站点</h1><p>创建一个目录作为新站点的根目录，例如<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p /usr/<span class="built_in">local</span>/var/www/your-site-name</span><br></pre></td></tr></table></figure></p>
+<p>查看 <code>/usr/local/etc/nginx</code> 目录，有一个名为 <code>nginx.conf.default</code> 的文件，该文件通常为网站配置的起始点。首先导航到 <code>/usr/local/etc/nginx/servers/</code> 目录，然后将该默认配置文件复制一份。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /usr/<span class="built_in">local</span>/etc/nginx/servers/</span><br><span class="line">cp ../nginx.conf.default your-site-name.conf</span><br></pre></td></tr></table></figure></p>
+<p>修改 <code>listen</code>, <code>server_name</code>, <code>location</code> 块下的 <code>root</code> 和 <code>index</code> 项的值到对应的值，保存并退出配置文件。利用 <code>nginx -t</code> 检查配置的有效性，一切准备就绪后，执行 <code>brew services reload nginx</code> 命令重新加载配置。</p>
+<p>之后，通过在浏览器中的输入对应主机的 ip 地址或域名及端口号，即可访问到部署到 <code>nginx</code> 的站点</p>
 
       
     </div>

@@ -85,7 +85,7 @@
 <meta property="og:site_name" content="Frost He&#39;s House">
 <meta property="og:description" content="为了把闲置已久的 Mac mini 变成一个可在 Windows 环境下远程操作的小型私有服务器，需要现实至少以下两点目标：  使用 ssh 客户端远程登录，类似通过 PuTTy 管理其他类 Linux 系统 使用 sftp客户端实现文件传输的需求  同时，要确保 MacOS 主机与客户端主机在网络上是互通的，要么在同一局域网下通过 ip 地址访问，要么使用域名映射固定 ip 地址。">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-03-05T18:53:46.553Z">
+<meta property="og:updated_time" content="2018-03-06T01:24:11.502Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="在 Windows 环境下远程控制 MacOS">
 <meta name="twitter:description" content="为了把闲置已久的 Mac mini 变成一个可在 Windows 环境下远程操作的小型私有服务器，需要现实至少以下两点目标：  使用 ssh 客户端远程登录，类似通过 PuTTy 管理其他类 Linux 系统 使用 sftp客户端实现文件传输的需求  同时，要确保 MacOS 主机与客户端主机在网络上是互通的，要么在同一局域网下通过 ip 地址访问，要么使用域名映射固定 ip 地址。">
@@ -337,28 +337,26 @@
 </ul>
 <p>同时，要确保 MacOS 主机与客户端主机在网络上是互通的，要么在同一局域网下通过 ip 地址访问，要么使用域名映射固定 ip 地址。</p>
 <a id="more"></a>
-<h1 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h1><p>Mac Os 自带了 ssh，但默认是禁用的，通常我们进行以下步骤的确认：</p>
+<h1 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h1><p>MacOS 自带了 <code>ssh</code>，但默认是禁用的，通常我们进行以下步骤的确认：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$sudo</span> systemsetup -getremotelogin</span><br><span class="line">Remote Login: Off</span><br></pre></td></tr></table></figure>
 <p>该命令查询本地计算机远程登录功能是否启用，如果显示 Off，则执行以下命令开启：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$sudo</span> systemsetup -setremotelogin on</span><br></pre></td></tr></table></figure></p>
 <p>再次执行查询命令以确认上一条命令生效并且该功能启用：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$sudo</span> systemsetup -getremotelogin</span><br><span class="line">Remote Login: On</span><br></pre></td></tr></table></figure></p>
-<blockquote>
-<p>$sudo systemsetup -getremotelogin 将同时启用 ssh 以及 sftp server</p>
-</blockquote>
+<div class="note info"><p><code>$sudo systemsetup -getremotelogin</code> 将同时启用 <code>ssh</code> 以及 <code>sftp server</code></p></div>
 <p>在这些命令前加上 <code>sudo</code> 是必须的，因为这些操作均要求管理员权限。</p>
 <h1 id="在-Windows-下远程操作-MacOS"><a href="#在-Windows-下远程操作-MacOS" class="headerlink" title="在 Windows 下远程操作 MacOS"></a>在 Windows 下远程操作 MacOS</h1><p>现在，在 Windows 系统下使用 bash 或 PuTTy 客户端，连接到该 Mac 所在的 ip 地址：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh username@ipaddress</span><br></pre></td></tr></table></figure></p>
-<p>登录完成便与在 Mac OS 本机上使用账户操作终端一样了。</p>
+<p>登录完成后便与在 MacOS 本机上使用该账号操作 <code>terminal</code> 一样了。</p>
 <blockquote>
-<p>远程登录同时开启了 sftp 服务，这意味着如果使用类似 winscp 之类的文件传输客户端也可以连接 Mac OS 并完成文件传输。</p>
+<p>远程登录同时开启了 <code>sftp</code> 服务，这意味着如果使用类似 <code>winscp</code> 之类的文件传输客户端也可以连接 MacOS 并完成文件传输。</p>
 </blockquote>
 <h1 id="为远程登录添加安全访问机制"><a href="#为远程登录添加安全访问机制" class="headerlink" title="为远程登录添加安全访问机制"></a>为远程登录添加安全访问机制</h1><p><code>ssh</code> 针对不同 group 的用户提供了不同的远程访问策略，使用密码登录是一件非常不安全的，如果该 MacOS 主机在通过内网穿透或拥有公网 ip 暴露在互联网下，那么随时有遭受攻击的可能，为了加强安全性，我们可以：</p>
 <ul>
 <li>禁止使用密码验证登录</li>
-<li>开启 ssh key pair 验证登录</li>
+<li>开启 <code>ssh key pair</code> 验证登录</li>
 </ul>
-<p>确保我们已经进行远程登录后，首先导航到 ssh 配置所在的目录：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /etc/ssh/</span><br></pre></td></tr></table></figure></p>
+<p>确保我们已经进行远程登录后，首先导航到 <code>ssh</code> 配置所在的目录：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /etc/ssh/</span><br></pre></td></tr></table></figure></p>
 <p>列出文件列表：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ls -ll</span><br></pre></td></tr></table></figure></p>
-<p>使用 vi 编辑器打开 <code>sshd_config</code> 文件：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi sshd_config</span><br></pre></td></tr></table></figure></p>
-<p>按下 ‘i’ 使 <code>vim</code> 进入 ‘insert’ 模式<br>找到 <code>#PasswordAuthentication yes</code> 一行，删除行头的 ‘#’ 字符，并将 ‘yes’ 改为 ‘no’</p>
+<p>使用 <a href="https://github.com/vim/vim" target="_blank" rel="noopener">vim</a> 编辑器打开 <code>sshd_config</code> 文件：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi sshd_config</span><br></pre></td></tr></table></figure></p>
+<p>按下 ‘i’ 使 <code>vim</code> 进入 <code>insert</code> 模式<br>找到 <code>#PasswordAuthentication yes</code> 一行，删除行头的 ‘#’ 字符，并将 ‘yes’ 改为 ‘no’</p>
 <blockquote>
 <p>‘#’ 表示对该行进行注释</p>
 </blockquote>
@@ -366,11 +364,11 @@
 <blockquote>
 <p>若要修改生效， <code>sshd</code> 进程需要重新读取该配置，但这会让已经通过密码登录的会话中断，并且在 public key 部署前没有任何机会重新进行远程连接，所以这一步放到最后来做。</p>
 </blockquote>
-<p>现在，复制先准备好的 <code>ssh public key</code> 文件内的值，回到登录用户的主目录并导航到 .ssh 目录下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> <span class="comment">#</span></span><br><span class="line"><span class="built_in">cd</span> .ssh</span><br></pre></td></tr></table></figure></p>
+<p>现在，复制先准备好的 <code>ssh public key</code> 的值，回到登录用户的主目录并导航到 <code>.ssh</code> 目录下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> <span class="comment">#</span></span><br><span class="line"><span class="built_in">cd</span> .ssh</span><br></pre></td></tr></table></figure></p>
 <p>新建 <code>authorized_keys</code> 文件并使用 <code>vim</code> 编辑器编辑：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">touch authorized_keys</span><br><span class="line"><span class="variable">$sudo</span> vi authorized_keys</span><br></pre></td></tr></table></figure></p>
 <p>粘贴已经复制到剪贴板中的 <code>ssh public key</code> 的值，’:wq’ 保存并退出。</p>
 <blockquote>
-<p>在前文提及的 /etc/ssh/sshd_config 中有一行 <code>AuthorizedKeyFiles</code>，该行的默认值为 ‘.ssh/authorized_keys’，该项配置是 sshd 进程提取 <code>public key</code> 的依据，如果对该值进行了修改，那么这里新建的文件也必须要与之对应。</p>
+<p>在前文提及的 <code>/etc/ssh/sshd_config</code> 中有一行 <code>AuthorizedKeyFiles</code>，该行的默认值为 <code>.ssh/authorized_keys</code>，该项配置是 <code>sshd</code> 进程提取 <code>public key</code> 的依据，如果对该值进行了修改，那么这里新建的文件也必须要与之对应。</p>
 </blockquote>
 <p>现在，重新读取 sshd 的配置文件信息<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$sudo</span> launchctl load -w /System/Library/LaunchDaemons/ssh.plist</span><br></pre></td></tr></table></figure></p>
 
