@@ -66,7 +66,7 @@
 
 
 
-  <meta name="keywords" content="Make the Best of My MacMini," />
+  <meta name="keywords" content="diy,make-the-best-of-my-macmini," />
 
 
 
@@ -77,18 +77,18 @@
 
 
 
-<meta name="description" content="不同于其他 Linux 系统，MacOS 使用了 brew 作为包管理器，并同时肩负了服务进程管理器的角色，在本机完成博客内容的准备工作之后，开始考虑把 MacOS 变成一个 web server。">
-<meta name="keywords" content="Make the Best of My MacMini">
+<meta name="description" content="MacOS 没有自带 git，需要通过 XCode Command Line Tools 进行安装，当通过 ssh 客户端远程登录到 MacOS 并执行 git --version，MacOS 会自动弹出确认框以进行安装，这里需要手动在 MacOS 系统界面下点击确认按钮才能继续。完成安装后再次执行 git --version，已能够看到版本号。新建或导航到一个目录，将其作为新 repositor">
+<meta name="keywords" content="diy,make-the-best-of-my-macmini">
 <meta property="og:type" content="article">
-<meta property="og:title" content="在 MacOS 上安装 nginx">
-<meta property="og:url" content="https://berdypango.github.io/2018/03/04/install-nginx-on-mac-os/index.html">
-<meta property="og:site_name" content="Frost He&#39;s House">
-<meta property="og:description" content="不同于其他 Linux 系统，MacOS 使用了 brew 作为包管理器，并同时肩负了服务进程管理器的角色，在本机完成博客内容的准备工作之后，开始考虑把 MacOS 变成一个 web server。">
+<meta property="og:title" content="Git push 到 MacOS">
+<meta property="og:url" content="https://berdypango.github.io/MacOS/macos-git-push-to-repository/index.html">
+<meta property="og:site_name" content="Pango.Handbook">
+<meta property="og:description" content="MacOS 没有自带 git，需要通过 XCode Command Line Tools 进行安装，当通过 ssh 客户端远程登录到 MacOS 并执行 git --version，MacOS 会自动弹出确认框以进行安装，这里需要手动在 MacOS 系统界面下点击确认按钮才能继续。完成安装后再次执行 git --version，已能够看到版本号。新建或导航到一个目录，将其作为新 repositor">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-03-06T01:30:03.274Z">
+<meta property="og:updated_time" content="2018-03-11T18:41:56.547Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="在 MacOS 上安装 nginx">
-<meta name="twitter:description" content="不同于其他 Linux 系统，MacOS 使用了 brew 作为包管理器，并同时肩负了服务进程管理器的角色，在本机完成博客内容的准备工作之后，开始考虑把 MacOS 变成一个 web server。">
+<meta name="twitter:title" content="Git push 到 MacOS">
+<meta name="twitter:description" content="MacOS 没有自带 git，需要通过 XCode Command Line Tools 进行安装，当通过 ssh 客户端远程登录到 MacOS 并执行 git --version，MacOS 会自动弹出确认框以进行安装，这里需要手动在 MacOS 系统界面下点击确认按钮才能继续。完成安装后再次执行 git --version，已能够看到版本号。新建或导航到一个目录，将其作为新 repositor">
 
 
 
@@ -118,13 +118,13 @@
 
 
 
-  <link rel="canonical" href="https://berdypango.github.io/2018/03/04/install-nginx-on-mac-os/"/>
+  <link rel="canonical" href="https://berdypango.github.io/MacOS/macos-git-push-to-repository/"/>
 
 
 
 
 
-  <title>在 MacOS 上安装 nginx | Frost He's House</title>
+  <title>Git push 到 MacOS | Pango.Handbook</title>
   
 
 
@@ -154,12 +154,12 @@
     <div class="custom-logo-site-title">
       <a href="/"  class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">Frost He's House</span>
+        <span class="site-title">Pango.Handbook</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
       
-        <p class="site-subtitle">Frost He's House</p>
+        <p class="site-subtitle"></p>
       
   </div>
 
@@ -241,7 +241,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://berdypango.github.io/2018/03/04/install-nginx-on-mac-os/">
+    <link itemprop="mainEntityOfPage" href="https://berdypango.github.io/MacOS/macos-git-push-to-repository/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Frost He">
@@ -250,7 +250,7 @@
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Frost He's House">
+      <meta itemprop="name" content="Pango.Handbook">
     </span>
 
     
@@ -258,7 +258,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">在 MacOS 上安装 nginx</h1>
+          <h1 class="post-title" itemprop="name headline">Git push 到 MacOS</h1>
         
 
         <div class="post-meta">
@@ -270,8 +270,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-03-04T22:00:51+08:00">
-                2018-03-04
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-07-03T21:35:17+08:00">
+                2016-07-03
               </time>
             
 
@@ -330,22 +330,13 @@
       
 
       
-        <p>不同于其他 Linux 系统，MacOS 使用了 <code>brew</code> 作为包管理器，并同时肩负了服务进程管理器的角色，在本机完成博客内容的准备工作之后，开始考虑把 MacOS 变成一个 web server。</p>
+        <p>MacOS 没有自带 <code>git</code>，需要通过 XCode Command Line Tools 进行安装，当通过 <code>ssh</code> 客户端远程登录到 MacOS 并执行 <code>git --version</code>，MacOS 会自动弹出确认框以进行安装，这里需要手动在 MacOS 系统界面下点击确认按钮才能继续。完成安装后再次执行 <code>git --version</code>，已能够看到版本号。新建或导航到一个目录，将其作为新 <code>repository</code> 的根目录。</p>
 <a id="more"></a>
-<h1 id="安装-nginx"><a href="#安装-nginx" class="headerlink" title="安装 nginx"></a>安装 nginx</h1><p>使用 HomeBrew 在 MacOS 上安装 <a href="https://nginx.org/en/" target="_blank" rel="noopener">nginx</a>:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install nginx</span><br></pre></td></tr></table></figure></p>
-<p>安装完成后，会显示如下提示信息：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">==&gt; Caveats</span><br><span class="line">Docroot is: /usr/local/var/www</span><br><span class="line"></span><br><span class="line">The default port has been set in /usr/local/etc/nginx/nginx.conf to 8080 so that</span><br><span class="line">nginx can run without sudo.</span><br><span class="line"></span><br><span class="line">nginx will load all files in /usr/local/etc/nginx/servers/.</span><br><span class="line"></span><br><span class="line">To have launchd start nginx now and restart at login:</span><br><span class="line">  brew services start nginx</span><br><span class="line">Or, if you don&apos;t want/need a background service you can just run:</span><br><span class="line">  nginx</span><br><span class="line">==&gt; Summary</span><br></pre></td></tr></table></figure></p>
-<p>可归纳为：</p>
-<ul>
-<li>网站根目录在 <code>/usr/local/var/www</code></li>
-<li>默认端口在 为 <code>/usr/local/etc/nginx/nginx.conf</code> 文件中配置为 <code>8080</code>，这样 <code>nginx</code> 无需 <code>$sudo</code> 权限就可执行</li>
-<li><code>nginx</code> 将从 <code>/usr/local/etc/nginx/servers/</code> 目录读取所有配置文件信息</li>
-<li>要让 <code>nginx</code> 随用户登录一同启动请执行命令 <code>brew services start nginx</code></li>
-<li>若不需要作为后台服务启动，请直接执行命令 <code>nginx</code></li>
-</ul>
-<h1 id="配置新站点"><a href="#配置新站点" class="headerlink" title="配置新站点"></a>配置新站点</h1><p>创建一个目录作为新站点的根目录，例如<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p /usr/<span class="built_in">local</span>/var/www/your-site-name</span><br></pre></td></tr></table></figure></p>
-<p>查看 <code>/usr/local/etc/nginx</code> 目录，有一个名为 <code>nginx.conf.default</code> 的文件，该文件通常为网站配置的起始点。首先导航到 <code>/usr/local/etc/nginx/servers/</code> 目录，然后将该默认配置文件复制一份。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /usr/<span class="built_in">local</span>/etc/nginx/servers/</span><br><span class="line">cp ../nginx.conf.default your-site-name.conf</span><br></pre></td></tr></table></figure></p>
-<p>修改 <code>listen</code>, <code>server_name</code>, <code>location</code> 块下的 <code>root</code> 和 <code>index</code> 项的值到对应的值，保存并退出配置文件。利用 <code>nginx -t</code> 检查配置的有效性，一切准备就绪后，执行 <code>brew services reload nginx</code> 命令重新加载配置。</p>
-<p>之后，通过在浏览器中的输入对应主机的 ip 地址或域名及端口号，即可访问到部署到 <code>nginx</code> 的站点</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p development/hobby-project/my-first-git-repository</span><br><span class="line"><span class="built_in">cd</span> development/hobby-project/my-first-git-repository</span><br></pre></td></tr></table></figure>
+<div class="note info"><p>因为这里有 3 层目录结构，不带任何参数的 <code>mkdir</code> 命令将不会递归创建目录，<code>-p</code> 选项表示，如果任何层级的目录不存在，将递归创建目录，如果所有层次的目录都已存在，则不会进行任何操作。同时，要确保登录到远程机器的用户拥有针对创建目录的所有层级的读写权限，否则 <code>git pull</code> 和 <code>git push</code> 将会报错。如果权限不正确，使用 <code>$sudo chown -R</code> 命令更改文件夹或文件权限。</p></div>
+<p>现在，<code>development/hobby-project/my-first-git-repository</code> 将作为远程 <code>repository</code> 根目录，执行：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$sudo</span> git init --bare</span><br><span class="line">Initialized empty Git repository <span class="keyword">in</span> /Users/XXX/development/hobby-project/my-first-git-repository/</span><br></pre></td></tr></table></figure></p>
+<div class="note info"><p><code>git init --bare</code> 参数指明该 <code>repository</code> 用于分布式版本控制的中心仓库，<code>git</code> 将仅保存历史记录，一般来说服务器上的仓库多使用 <code>--bare</code> 创建，其目的在于分发而非修改，参考 <a href="http://www.saintsjd.com/2011/01/what-is-a-bare-git-repository/" target="_blank" rel="noopener">what is a git bare repository</a>。</p></div>
+<p>远程仓库创建完成后，回到客户端主机，这里采用 <code>ssh</code> 协议进行通信，如果没有现成的 <code>key</code>，需要先生成 <code>key pair</code>。<code>ssh</code> 默认配置存放在用户 <code>home</code> 目录下的 <code>.ssh</code> 文件夹下，如果没有指定 <code>config</code> 文件，则 <code>id_rsa</code> 作为默认的 <code>key</code> 文件名，具体参考 <a href="https://www.digitalocean.com/community/tutorials/how-to-configure-custom-connection-options-for-your-ssh-client" target="_blank" rel="noopener">How To Configure Custom Connection Options for your SSH Client</a>。</p>
 
       
     </div>
@@ -363,7 +354,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Make-the-Best-of-My-MacMini/" rel="tag"># Make the Best of My MacMini</a>
+            <a href="/tags/diy/" rel="tag"># diy</a>
+          
+            <a href="/tags/make-the-best-of-my-macmini/" rel="tag"># make-the-best-of-my-macmini</a>
           
         </div>
       
@@ -376,8 +369,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/03/03/git-push-to-mac-os/" rel="next" title="Git push 到 MacOS">
-                <i class="fa fa-chevron-left"></i> Git push 到 MacOS
+              <a href="/MacOS/macos-remote-control/" rel="next" title="在 Windows 环境下远程控制 MacOS">
+                <i class="fa fa-chevron-left"></i> 在 Windows 环境下远程控制 MacOS
               </a>
             
           </div>
@@ -385,6 +378,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/MacOS/macos-install-nginx/" rel="prev" title="在 MacOS 上安装 nginx">
+                在 MacOS 上安装 nginx <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -436,17 +433,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            Table of Contents
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            Overview
-          </li>
-        </ul>
-      
 
-      <section class="site-overview-wrap sidebar-panel">
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -461,7 +449,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -472,7 +460,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-count">6</span>
                   <span class="site-state-item-name">categories</span>
                 </a>
               </div>
@@ -483,7 +471,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">tags</span>
                 
               </div>
@@ -506,22 +494,6 @@
         </div>
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#安装-nginx"><span class="nav-number">1.</span> <span class="nav-text">安装 nginx</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#配置新站点"><span class="nav-number">2.</span> <span class="nav-text">配置新站点</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       

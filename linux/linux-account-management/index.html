@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next mist" lang="default">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="linux," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Linux 使用文件及配置相应的权限来存储用户帐号和群组信息，在成功创建好用户帐号之后，以下几处文件会发生相应的改变  /etc/passwd: Linux 管理用户帐号的数据库 /etc/shadow: Linux 管理用户帐号密码配置的数据库 /etc/group: Linux 管理群组的数据库 /etc/gshadow: Linux 管理群组密码配置的数据库">
+<meta name="keywords" content="linux">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux 基础 - 用户管理">
+<meta property="og:url" content="https://berdypango.github.io/linux/linux-account-management/index.html">
+<meta property="og:site_name" content="Pango.Handbook">
+<meta property="og:description" content="Linux 使用文件及配置相应的权限来存储用户帐号和群组信息，在成功创建好用户帐号之后，以下几处文件会发生相应的改变  /etc/passwd: Linux 管理用户帐号的数据库 /etc/shadow: Linux 管理用户帐号密码配置的数据库 /etc/group: Linux 管理群组的数据库 /etc/gshadow: Linux 管理群组密码配置的数据库">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-03-11T18:41:56.547Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Linux 基础 - 用户管理">
+<meta name="twitter:description" content="Linux 使用文件及配置相应的权限来存储用户帐号和群组信息，在成功创建好用户帐号之后，以下几处文件会发生相应的改变  /etc/passwd: Linux 管理用户帐号的数据库 /etc/shadow: Linux 管理用户帐号密码配置的数据库 /etc/group: Linux 管理群组的数据库 /etc/gshadow: Linux 管理群组密码配置的数据库">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://berdypango.github.io/linux/linux-account-management/"/>
+
+
+
+
+
+  <title>Linux 基础 - 用户管理 | Pango.Handbook</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Pango.Handbook</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://berdypango.github.io/linux/linux-account-management/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Frost He">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pango.Handbook">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Linux 基础 - 用户管理</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-05-21T22:34:47+08:00">
+                2016-05-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/linux/" itemprop="url" rel="index">
+                    <span itemprop="name">linux</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Linux 使用文件及配置相应的权限来存储用户帐号和群组信息，在成功创建好用户帐号之后，以下几处文件会发生相应的改变</p>
+<ul>
+<li>/etc/passwd: Linux 管理用户帐号的数据库</li>
+<li>/etc/shadow: Linux 管理用户帐号密码配置的数据库</li>
+<li>/etc/group: Linux 管理群组的数据库</li>
+<li>/etc/gshadow: Linux 管理群组密码配置的数据库</li>
+</ul>
+<a id="more"></a>
+<h1 id="用户帐号管理"><a href="#用户帐号管理" class="headerlink" title="用户帐号管理"></a>用户帐号管理</h1><p>Linux 系统用户管理相关命令主要有：</p>
+<ul>
+<li><code>useradd</code>：新建用户</li>
+<li><code>passwd</code>：设置用户密码</li>
+<li><code>chage</code>: 变更密码策略</li>
+<li><code>usermod</code>：编辑用户</li>
+<li><code>userdel</code>：删除用户</li>
+</ul>
+<h2 id="新建用户帐号-useradd"><a href="#新建用户帐号-useradd" class="headerlink" title="新建用户帐号 - useradd"></a>新建用户帐号 - useradd</h2><p>linux 系统以 <code>useradd</code> 命令来新建 Unix 用户，该命令带有一系列参数：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">useradd [-u UID] [-g 初始群组] [-G 次要群组] [-mM] [-c 说明栏] [-d 家目录绝对路径] [- s shell] &lt;new-user-name&gt;</span><br><span class="line"></span><br><span class="line">-u ：接 UID ，一组数字，直接指定一个特定的 UID 给这个用户</span><br><span class="line">-g ：为该用户指定初始群组 initial group，该群组的 GID 会被放置到/etc/passwd 的第四个栏位</span><br><span class="line">-G ：为该用户指定次要群组，该选项与参数会修改 /etc/group 内第四栏的值</span><br><span class="line">-M ：强制！不要建立用户 Home 目录(系统帐号预设值)</span><br><span class="line">-m ：强制！要建立用户 Home 目录(一般帐号预设值)</span><br><span class="line">-c ：用户备注，该值修改 /etc/passwd 文件的第五栏的内容</span><br><span class="line">-d ：指定特定目录成为该用户的 Home 目录，而不采用预设值，需指定绝对路径</span><br><span class="line">-r ：建立一个系统帐号，该帐号的 UID 会有限制(参考/etc/login.defs)</span><br><span class="line">-s ：指定 `shell` ，若不指定则预设为 /bin/bash</span><br><span class="line">-e ：指定该用户的过期日期，格式为『YYYY-MM-DD』此项写入 `/etc/shadow` 第八栏</span><br><span class="line">-f ：指定密码是否立即失效，写入 /etc/shadow 的第七栏位。0 为立刻失效，-1 为永远不失效(密码只会过期而强制于登入时重新设定而已)</span><br></pre></td></tr></table></figure>
+<p>例如，执行以下命令新建一个用户：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$sudo</span> useradd pango</span><br></pre></td></tr></table></figure></p>
+<p>该命令创建一个名为 <code>pango</code> 的用户，由于没有使用 <code>-r</code> 指令，将随机分配一个 1000 以上的数值作为 <code>uid</code>，创建一个名为 <code>pango</code> 的群组并作初始群组，为该用户创建 Home 目录，使用 /bin/bash 作为工作环境。该命令对系统的以下部分做出修改：</p>
+<ul>
+<li>在 /etc/passwd 里面新建一行用户值，包含 UID/GID/Home 目录等；</li>
+<li>在 /etc/shadow 里面将此用户的密码相关参数填入，但是尚设置密码；</li>
+<li>在 /etc/group 里面加入一个与用户名称一样的群组名称，如果已经存在与该用户名同名的群组名，则不会新建群组</li>
+<li>在 /home 目录下新建一个与帐号同名的目录作为用户的 Home 目录，且权限为 700</li>
+</ul>
+<blockquote>
+<p>注意，在 linux 系统中新增用户帐号和群组时，名称是区分大小写的</p>
+</blockquote>
+<p><code>useradd</code> 指令参考 /etc/defaults/useradd 文件中的配置作为缺省参数的预设值，使用 <code>useradd -D</code> 指令查看预设值：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ useradd -D</span><br><span class="line">GROUP=100                   <span class="comment"># 预设的群组，系统内 GID = 100 的群组为 users 群组，但目前很多发行版都采用私有群组制，即为每个新建的用户帐号创建与之同名的群组来隔离权限</span></span><br><span class="line">HOME=/home                  <span class="comment"># 预设的 Home 目录</span></span><br><span class="line">INACTIVE=-1                 <span class="comment"># 密码失效日期，对应 /etc/shadow 第 7 栏</span></span><br><span class="line">EXPIRE=                     <span class="comment"># 用户帐号失效日，对应 /etc/shadow 第 8 栏</span></span><br><span class="line">SHELL=/bin/sh               <span class="comment"># 默认使用的 shell 程序名，如果 server 不希望任何新建的用户帐号登入系统取得 shell，那么将此项改为 /sbin/nologin</span></span><br><span class="line">SKEL=/etc/skel              <span class="comment"># Home 目录初始内容参考目录，即为新建用户创建 Home 目录时需要复制的初始内容，例如，在该目录下新增 www 目录，那么后续每个创建的新用户 Home 目录都会有 www 目录</span></span><br><span class="line">CREATE_MAIL_SPOOL=no        <span class="comment"># 是否主动帮用户建立邮件信箱，如果该项为 yes，则会新建 /var/spool/mail/&#123;username&#125; 目录作为该用户的邮箱</span></span><br></pre></td></tr></table></figure></p>
+<p>使用 <code>nano</code> 或 <code>vim</code> 查看 /etc/default/useradd 文件可以得到更多的详细信息：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ nano /etc/default/useradd</span><br></pre></td></tr></table></figure></p>
+<p>登录信息参考在 /etc/login.defs 文件中定义，使用 <code>nano</code> 查看该文件<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">$ nano /etc/login.defs</span><br><span class="line">MAIL_DIR /var/spool/mail        <span class="comment"># 用户预设邮件信箱放置目录</span></span><br><span class="line"></span><br><span class="line">PASS_MAX_DAYS 99999             <span class="comment"># /etc/shadow 内的第 5 栏，多久需变更密码日数 </span></span><br><span class="line">PASS_MIN_DAYS 0                 <span class="comment"># /etc/shadow 内的第 4 栏，多久不可重新设定密码日数 </span></span><br><span class="line">PASS_MIN_LEN 5                  <span class="comment"># 密码最短字符长度，已被 pam 模组取代</span></span><br><span class="line">PASS_WARN_AGE 7                 <span class="comment"># /etc/shadow 内的第 6 栏，过期前会警告的日数</span></span><br><span class="line"></span><br><span class="line">UID_MIN 1000                    <span class="comment"># 用户最小的 UID，意即小于 1000 的 UID 为系统保留 </span></span><br><span class="line">UID_MAX 60000                   <span class="comment"># 用户能够用的最大 UID </span></span><br><span class="line">SYS_UID_MIN 201                 <span class="comment"># 保留给用户自行设定的系统帐号最小值 UID </span></span><br><span class="line">SYS_UID_MAX 999                 <span class="comment"># 保留给用户自行设定的系统帐号最大值 UID </span></span><br><span class="line">GID_MIN 1000                    <span class="comment"># 用户自订群组的最小 GID，小于 1000 为系统保留 </span></span><br><span class="line">GID_MAX 60000                   <span class="comment"># 用户自订群组的最大 GID </span></span><br><span class="line">SYS_GID_MIN 201                 <span class="comment"># 保留给用户自行设定的系统帐号最小值 GID </span></span><br><span class="line">SYS_GID_MAX 999                 <span class="comment"># 保留给用户自行设定的系统帐号最大值 GID</span></span><br><span class="line"></span><br><span class="line">CREATE_HOME yes                 <span class="comment"># 在不加 -M 及 -m 时，是否主动建立用户家目录</span></span><br><span class="line">UMASK 077                       <span class="comment"># 用户 Home 目录建立的 umask ，因此权限会是 700 </span></span><br><span class="line">USERGROUPS_ENAB yes             <span class="comment"># 使用 userdel 删除时，是否删除初始群组 </span></span><br><span class="line">ENCRYPT_METHOD SHA512           <span class="comment"># 密码加密的机制使用的是 sha512 加密算法</span></span><br></pre></td></tr></table></figure></p>
+<p>所以，系统在执行 <code>useradd</code> 命令时至少会参考：</p>
+<ul>
+<li>/etc/default/useradd</li>
+<li>/etc/login.defs</li>
+<li>/etc/skel/*</li>
+</ul>
+<p>现在查看 /etc/passwd 档案的最后一行：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pango:x:1000:1000::/home/pango:/bin/bash</span><br></pre></td></tr></table></figure></p>
+<p>该文件是存放所有用户信息的数据库，每一行代表一个用户，每行由 6 个 <code>:</code> 分隔成了 7 个栏位：</p>
+<ol>
+<li>用户名</li>
+<li>密码</li>
+<li>用户 UID：0 保留给系统管理员 root 账号；1~999 保留给系统账号，这些账号通常为执行某些系统服务所用，不能通过 <code>shell</code> 登录；1000~4294967295，保留给一般账号</li>
+<li>用户初始群组 GIP</li>
+<li>备注</li>
+<li>Home 目录，预设值为 /home/{username}</li>
+<li>执行 Shell 的程序目录，预设值为 /bin/bash</li>
+</ol>
+<h2 id="设置帐号密码-passwd"><a href="#设置帐号密码-passwd" class="headerlink" title="设置帐号密码 - passwd"></a>设置帐号密码 - passwd</h2><p>现在，新建的用户 pango 还没有密码，在设置密码之前是无法登录的，执行 <code>passwd</code> <username> 来为新用户指定密码：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">$ passwd [--stdin] [帐号名称] <span class="comment"># 所有人均可使用来改自己的密码 </span></span><br><span class="line">$ passwd [-l] [-u] [--stdin] [-S] [-n 日数] [-x 日数] [-w 日数] [-i 日数] 帐号 <span class="comment"># root 功能</span></span><br><span class="line">选项与参数：</span><br><span class="line">--stdin ：可以透过来自前一个管线的资料，作为密码输入，对 shell script 有用</span><br><span class="line">-l ：是 Lock 的意思，会将 /etc/shadow 第 2 栏最前面加上 <span class="string">'!'</span> 使密码失效；</span><br><span class="line">-u ：与 -l 相对，是 Unlock 的意思</span><br><span class="line">-S ：列出密码相关参数，亦即 shadow 档案内的大部分信息</span><br><span class="line">-n ：后面接天数，shadow 的第 4 栏位，多久不可修改密码天数</span><br><span class="line">-x ：后面接天数，shadow 的第 5 栏位，多久内必须要更动密码</span><br><span class="line">-w ：后面接天数，shadow 的第 6 栏位，密码过期前的警告天数</span><br><span class="line">-i ：后面接天数，shadow 的第 7 栏位，密码失效天数</span><br><span class="line"></span><br><span class="line"><span class="variable">$sudo</span> passwd pango</span><br><span class="line">Enter new Unix Password:</span><br><span class="line">Retype new Unix Password:</span><br></pre></td></tr></table></figure></username></p>
+<blockquote>
+<p><code>passwd</code> 指令在不接参数时表示修改当前登录用户的密码</p>
+</blockquote>
+<p>密码设置成功后，在 <code>/etc/shadow</code> 文件中发生了一些改变，定位到该文件的最后一行：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pango:<span class="variable">$6</span><span class="variable">$csIys5qj</span><span class="variable">$OslSKU</span>.3SljbHXTXJEPgWvNi1w9CGlBKO3uqJyWueQN1ypA7SuNzJWjesdSvg6KPv0X6tRmkkDBFI2cbSJ.xR/:17600:0:99999:7:::</span><br></pre></td></tr></table></figure></p>
+<p>该文件存储了所有用户的密码相关配置，每一行代表一个用户的密码信息，每行由 8 个 <code>:</code> 分隔为 9 个栏位：</p>
+<ol>
+<li>用户名</li>
+<li>经过加密的密码</li>
+<li>最近修改密码日期，该值为一个代表 <code>day</code> 的数值，从 1970-01-01 日算起</li>
+<li>密码不可修改天数：该值指示密码在最近一次修改后多久之后才能再次被修改</li>
+<li>密码有效期（天）：该值指示密码再最近一次修改后的有效天数</li>
+<li>密码需要变更前的警告天数</li>
+<li>密码失效延迟（天）：密码过期后的缓冲时间</li>
+<li>账号失效日期（天）：该值指示该用户的总生命周期多长，与密码有效无效无关</li>
+<li>系统保留扩展项：</li>
+</ol>
+<p>通过标准输入 <code>--stdin</code> 来修改密码，例如，帮助 pango 用户将其密码修改为 ‘abc543CC’</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">echo</span> <span class="string">"abc543CC"</span> | passwd --stdin pango</span><br><span class="line">Changing password <span class="keyword">for</span> user pango.</span><br><span class="line">passwd: all authentication tokens updated successfully.</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><code>--stdin</code> 选项并不存在于所有 Linux 发行版本的系统中，使用前先 <code>man passwd</code> 查看是否支持</p>
+</blockquote>
+<h2 id="管理帐号密码策略-chage"><a href="#管理帐号密码策略-chage" class="headerlink" title="管理帐号密码策略 - chage"></a>管理帐号密码策略 - chage</h2><p>除了使用 <code>passwd</code> 指令，还可以使用 <code>chage</code> 指令来管理密码策略，其用法大致如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ chage [-ldEImMW] 用户帐号名</span><br><span class="line">选项与参数：</span><br><span class="line">-l ：列出该帐号的详细密码参数；</span><br><span class="line">-d ：后面接日期，修改 shadow 第 3 栏位(最近一次更改密码的日期)，格式 YYYY-MM-DD</span><br><span class="line">-E ：后面接日期，修改 shadow 第 8 栏位(帐号失效日)，格式 YYYY-MM-DD</span><br><span class="line">-I ：后面接天数，修改 shadow 第 7 栏位(密码失效日期)</span><br><span class="line">-m ：后面接天数，修改 shadow 第 4 栏位(密码最短保留天数)</span><br><span class="line">-M ：后面接天数，修改 shadow 第 5 栏位(密码多久需要进行变更)</span><br><span class="line">-W ：后面接天数，修改 shadow 第 6 栏位(密码过期前警告日期)</span><br></pre></td></tr></table></figure></p>
+<p><code>passwd -S</code> 只是简单显示了密码详情，而 <code>chage -l</code> 更多为管理员提供了更强的参考信息，列出 pango 的详细密码参数 ：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ chage -l pango</span><br><span class="line">Last password change : Jul 20, 2015</span><br><span class="line">Password expires : Sep 18, 2015</span><br><span class="line">Password inactive : Sep 28, 2015</span><br><span class="line">Account expires : never</span><br><span class="line">Minimum number of days between password change : 0</span><br><span class="line">Maximum number of days between password change : 60</span><br><span class="line">Number of days of warning before password expires : 7</span><br></pre></td></tr></table></figure></p>
+<h2 id="修改用户帐号信息-usermod"><a href="#修改用户帐号信息-usermod" class="headerlink" title="修改用户帐号信息 - usermod"></a>修改用户帐号信息 - usermod</h2><p>当需要修改用户帐号的信息时，我们可以通过前往相应的文件例如，/etc/passwd 和 /etc/shadow 中去修改对应行的值以达到修改用户帐号信息的目的。也可以使用 <code>usermod</code> 指令对用户帐号进行修改：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">$ usermod [-cdegGlsuLU] username </span><br><span class="line">选项与参数：</span><br><span class="line">-c ：修改用户备注，对应 /etc/passwd 第 5 栏</span><br><span class="line">-d ：修改帐号 Home 目录，对应 /etc/passwd 的第 6 栏；</span><br><span class="line">-e ：修改帐号失效日期，格式是 YYYY-MM-DD，对应 /etc/shadow 内的第 8 栏</span><br><span class="line">-f ：修改密码失效延迟时间，对应 shadow 的第 7 栏。</span><br><span class="line">-g ：修改初始群组，修改 /etc/passwd 的第 4 栏</span><br><span class="line">-G ：修改次要群组组，修改该用户支援的群组，修改应用到 /etc/group</span><br><span class="line">-a ：与 -G 合用，表示 append，追求次要群组而非改变</span><br><span class="line">-l ：修改帐号名称， /etc/passwd 的第 1 栏</span><br><span class="line">-s ：修改 shell 接入程序，后面接 Shell 的实际程序，例如 /bin/bash 或 /bin/csh 等等</span><br><span class="line">-u ：修改 uid 对应 /etc/passwd 第 3 栏</span><br><span class="line">-L ：暂时锁定用户，暂时无法登入。仅修改 /etc/shadow 的密码栏。</span><br><span class="line">-U ：解锁用户，移除 /etc/shadow 密码栏的 <span class="string">'!'</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="删除用户帐号-userdel"><a href="#删除用户帐号-userdel" class="headerlink" title="删除用户帐号 - userdel"></a>删除用户帐号 - userdel</h2><p>当需要删除用户帐号时，执行 <code>userdel</code> 命令，该命令会对以下文件造成影响：</p>
+<ul>
+<li>用户帐号/密码相关值：/etc/passwd，/etc/shadow</li>
+<li>用户群组相关参数：/etc/group，/etc/gshadow</li>
+<li>用户个人资料目录：/home/{username}，/var/spool/mail/{username}</li>
+</ul>
+<p>该指令用法如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ userdel [-r] username </span><br><span class="line">选项与参数：</span><br><span class="line">-r ：连同用户的 Home 目录也一起删除</span><br></pre></td></tr></table></figure></p>
+<p>例如，删除 pango 用户帐号及其 Home 目录：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$sudo</span> userdel -r pango</span><br></pre></td></tr></table></figure></p>
+<p>通常，在移除一个帐号时，我们可以手动修改 /etc/passwd 和 /etc/shadow 文件中该用户关联的行数据。如果该帐号只是<strong>暂时冻结</strong>，那么将 /etc/shadow 中第 8 栏（帐号失效日）设为 0 就可让该账户无法使用，但所有与该帐号相关的资料都会保留，使用 <code>userdel</code> 意味着<strong>真的确定该用户不会在主机上的使用任何资料了</strong>。</p>
+<blockquote>
+<p>通常，一个用户在使用主机一段时间之后，会在更多其他的目录中产生属于他的文档，因此，在下达 <code>userdel -r username</code> 之前，先以 <code>find / -user username</code> 指令查出整个系统内属于 username 的档案，删除之后，再删除该用户帐号。</p>
+</blockquote>
+<h2 id="用户端指令-id-finger-chfn-chsh"><a href="#用户端指令-id-finger-chfn-chsh" class="headerlink" title="用户端指令 - id, finger, chfn, chsh"></a>用户端指令 - id, finger, chfn, chsh</h2><p><code>useradd</code>，<code>usermod</code>，<code>userdel</code> 都是系统管理员才能使用的命令，一般用户无法进行操作，有以下几个指令供一般用户使用：</p>
+<ul>
+<li>id: 该指令可以查询当前用户或其他用户的 UID/GID 值</li>
+<li>finger: 查询用户的口令信息，将有<ul>
+<li>Login: 用户帐号信息</li>
+<li>Name: 备注信息</li>
+<li>Directory: Home 目录</li>
+<li>Shell: shell 对应的程序</li>
+<li>Never logged in: 登入信息</li>
+<li>No mail: 查看 /var/spool/mail 中的信箱资料</li>
+<li>No Plan: 查看 ~{username}/.plan 资料</li>
+</ul>
+</li>
+<li>chfn: 修改指纹信息，不常用</li>
+<li>chsh: 修改 shell，参数如下：<ul>
+<li>-l，列出所有可用的 shell，即 /etc/shells 中的内容</li>
+<li>-s，修改为指定的 shell</li>
+</ul>
+</li>
+</ul>
+<h1 id="群组管理"><a href="#群组管理" class="headerlink" title="群组管理"></a>群组管理</h1><p>群组管理涉及新增，修改和删除，群组的内容与以下两个档案有关：</p>
+<ul>
+<li>/etc/group</li>
+<li>/etc/gshadow</li>
+</ul>
+<h2 id="新增群组-groupadd"><a href="#新增群组-groupadd" class="headerlink" title="新增群组 - groupadd"></a>新增群组 - groupadd</h2><p>使用 <code>groupadd</code> 来新增群组，该命令使用方法如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ groupadd [-g gid] [-r] 群组名称</span><br><span class="line">选项与参数：</span><br><span class="line">-g ：指定群组 GID</span><br><span class="line">-r ：指定该群组为系统群组，与 /etc/login.defs 内的 GID_MIN 有关</span><br></pre></td></tr></table></figure></p>
+<p>执行命令查看新建的群组：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ nano /etc/group</span><br><span class="line">...</span><br><span class="line">&lt;your-new-group-name&gt;:x:&lt;gid&gt;:</span><br></pre></td></tr></table></figure></p>
+<p>该命令查询 /etc/group 文件，该文件是 <code>linux</code> 系统保存所有群组的数据库，每一行代表一个群组，每行的值由 3 个 <code>:</code> 分隔为 4 栏不同的值，其具体指：</p>
+<ol>
+<li>群组名称</li>
+<li>群组密码，以 <code>x</code> 表示，引用 /etc/gshadow 的第 2 栏</li>
+<li>群组 id</li>
+<li>该群组包含的用户名称，每个用户名称由 <code>,</code> 分隔 </li>
+</ol>
+<p><code>x</code> 表示该群组的密码，其在 /etc/gshadow 文件中对应第 2 栏的值，<code>gshadow</code> 文件保存了所有群组的详细配置，但只有拥有 <code>root</code> 权限的用户才能查看该文件。由于该群组刚刚创建，没有指定任何用户，故该值为空。</p>
+<p>查看 /etc/gshadow 文件可以看到对应的行，其格式如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;your-new-group-name&gt;:!::usernames</span><br></pre></td></tr></table></figure></p>
+<p>这个文件内的格式几乎与 /etc/group 一摸一样，第 2 栏是密码栏，如果密码栏为 ‘!’ 或空，表示该群组不具有群组管理员：</p>
+<ol>
+<li>群组名称</li>
+<li>密码栏，若为 ‘!’ 表示无合法密码，无群组管理员</li>
+<li>群组管理员的帐号</li>
+<li>所有加入该群组的帐号，与 /etc/group 内容相同</li>
+</ol>
+<h2 id="修改群组-groupmod"><a href="#修改群组-groupmod" class="headerlink" title="修改群组 - groupmod"></a>修改群组 - groupmod</h2><p>与 <code>usermod</code> 类似，<code>groupmod</code> 指令用于对已有群组的信息进行修改<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ groupmod [-g gid] [-n group_name] 群组名</span><br><span class="line">选项与参数：</span><br><span class="line">-g ：修改既有的 GID 值；</span><br><span class="line">-n ：修改既有的群组名称</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>一个群组创建之后，为了避免引起不必要的错乱，通常不建议随意修改其 GID</p>
+</blockquote>
+<h2 id="删除群组-groupdel"><a href="#删除群组-groupdel" class="headerlink" title="删除群组 - groupdel"></a>删除群组 - groupdel</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">groupdel [groupname]</span><br></pre></td></tr></table></figure>
+<p>使用 <code>groupdel</code> 来删除已有的群组，如果有用户帐号已经关联一个群组作为其初始群组，将无法直接删除该群组，否则当用户登入系统后，系统将找不到其对应的群组。想要删除该群组，必须：</p>
+<ul>
+<li>修改与之关联的用户的初始群组</li>
+<li>删除该用户，再删除群组</li>
+</ul>
+<h2 id="群组管理员-gpasswd"><a href="#群组管理员-gpasswd" class="headerlink" title="群组管理员 - gpasswd"></a>群组管理员 - gpasswd</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$ gpasswd groupname </span><br><span class="line">$ gpasswd [-A user1,...] [-M user3,...] groupname </span><br><span class="line">$ gpasswd [-rR] groupname </span><br><span class="line">选项与参数：</span><br><span class="line">若没有任何参数时，表示给予 groupname 一个密码(/etc/gshadow)</span><br><span class="line">-A ：将 groupname 的主控权交由参数代表的多个用户管理(该群组的管理员)</span><br><span class="line">-M ：将某些帐号加入这个群组当中！</span><br><span class="line">-r ：将 groupname 的密码移除</span><br><span class="line">-R ：让 groupname 的密码栏失效</span><br><span class="line">-a ：将用户加入到 groupname 这个群组中</span><br><span class="line">-d ：将用户移除 groupname 这个群组中</span><br></pre></td></tr></table></figure>
+<h2 id="初始群组，次要群组和有效群组"><a href="#初始群组，次要群组和有效群组" class="headerlink" title="初始群组，次要群组和有效群组"></a>初始群组，次要群组和有效群组</h2><p>在执行 <code>useradd</code> 命令新建用户时，使用 <code>-g</code> 命令指定初始群组，该群组的 GID 被写入到 /etc/passwd 对应的 GID 栏位，而 <code>-G</code> 指定的次要群组则将用户名写入 /etc/group 第 4 栏。</p>
+<p>当用户登入系统进入 <code>shell</code> 环境后，系统总是以该用户所在的初始群组作为有效群组，即，当用户执行类似 <code>touch</code> 的指令创建新的文件或文件夹时，其权限会给予用户当前的有效群组。执行 <code>groups</code> 可查看当前登录用户所属的所有群组，排在第一位的即表示当前有效群组。</p>
+<p>可通过执行 <code>newgrp</code> 指令将用户所属的另一个群组切换为当前有效群组，该动作导致用户进入另一个 <code>shell</code> 环境，当用户完成操作不再需要该群组支持时，应使用 <code>exit</code> 指令退回到之前的 <code>shell</code> 环境。</p>
+<p>参考资料：<a href="http://linux.vbird.org/linux_basic/0410accountmanager.php" target="_blank" rel="noopener">http://linux.vbird.org/linux_basic/0410accountmanager.php</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/linux/" rel="tag"># linux</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/Web/hexo/hexo_setup/" rel="next" title="搭建 Hexo 轻博客">
+                <i class="fa fa-chevron-left"></i> 搭建 Hexo 轻博客
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/MacOS/macos-remote-control/" rel="prev" title="在 Windows 环境下远程控制 MacOS">
+                在 Windows 环境下远程控制 MacOS <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Frost He</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">tags</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#用户帐号管理"><span class="nav-number">1.</span> <span class="nav-text">用户帐号管理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#新建用户帐号-useradd"><span class="nav-number">1.1.</span> <span class="nav-text">新建用户帐号 - useradd</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#设置帐号密码-passwd"><span class="nav-number">1.2.</span> <span class="nav-text">设置帐号密码 - passwd</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#管理帐号密码策略-chage"><span class="nav-number">1.3.</span> <span class="nav-text">管理帐号密码策略 - chage</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#修改用户帐号信息-usermod"><span class="nav-number">1.4.</span> <span class="nav-text">修改用户帐号信息 - usermod</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#删除用户帐号-userdel"><span class="nav-number">1.5.</span> <span class="nav-text">删除用户帐号 - userdel</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#用户端指令-id-finger-chfn-chsh"><span class="nav-number">1.6.</span> <span class="nav-text">用户端指令 - id, finger, chfn, chsh</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#群组管理"><span class="nav-number">2.</span> <span class="nav-text">群组管理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#新增群组-groupadd"><span class="nav-number">2.1.</span> <span class="nav-text">新增群组 - groupadd</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#修改群组-groupmod"><span class="nav-number">2.2.</span> <span class="nav-text">修改群组 - groupmod</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#删除群组-groupdel"><span class="nav-number">2.3.</span> <span class="nav-text">删除群组 - groupdel</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#群组管理员-gpasswd"><span class="nav-number">2.4.</span> <span class="nav-text">群组管理员 - gpasswd</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#初始群组，次要群组和有效群组"><span class="nav-number">2.5.</span> <span class="nav-text">初始群组，次要群组和有效群组</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2015 &mdash; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Frost He</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
