@@ -80,14 +80,14 @@
 <meta name="description" content="Linux 使用文件及配置相应的权限来存储用户帐号和群组信息，在成功创建好用户帐号之后，以下几处文件会发生相应的改变  /etc/passwd: Linux 管理用户帐号的数据库 /etc/shadow: Linux 管理用户帐号密码配置的数据库 /etc/group: Linux 管理群组的数据库 /etc/gshadow: Linux 管理群组密码配置的数据库">
 <meta name="keywords" content="linux">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Linux 基础 - 用户管理">
+<meta property="og:title" content="Linux 基础 - 用户和群组管理">
 <meta property="og:url" content="https://berdypango.github.io/linux/linux-account-management/index.html">
 <meta property="og:site_name" content="Pango.Handbook">
 <meta property="og:description" content="Linux 使用文件及配置相应的权限来存储用户帐号和群组信息，在成功创建好用户帐号之后，以下几处文件会发生相应的改变  /etc/passwd: Linux 管理用户帐号的数据库 /etc/shadow: Linux 管理用户帐号密码配置的数据库 /etc/group: Linux 管理群组的数据库 /etc/gshadow: Linux 管理群组密码配置的数据库">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-03-11T18:41:56.547Z">
+<meta property="og:updated_time" content="2018-03-18T14:07:28.049Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Linux 基础 - 用户管理">
+<meta name="twitter:title" content="Linux 基础 - 用户和群组管理">
 <meta name="twitter:description" content="Linux 使用文件及配置相应的权限来存储用户帐号和群组信息，在成功创建好用户帐号之后，以下几处文件会发生相应的改变  /etc/passwd: Linux 管理用户帐号的数据库 /etc/shadow: Linux 管理用户帐号密码配置的数据库 /etc/group: Linux 管理群组的数据库 /etc/gshadow: Linux 管理群组密码配置的数据库">
 
 
@@ -101,7 +101,7 @@
     sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
     fancybox: true,
     tabs: true,
-    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    motion: {"enable":false},
     duoshuo: {
       userId: '0',
       author: 'Author'
@@ -124,7 +124,7 @@
 
 
 
-  <title>Linux 基础 - 用户管理 | Pango.Handbook</title>
+  <title>Linux 基础 - 用户和群组管理 | Pango.Handbook</title>
   
 
 
@@ -189,6 +189,16 @@
         </li>
       
         
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
         <li class="menu-item menu-item-categories">
           <a href="/categories/" rel="section">
             
@@ -210,9 +220,43 @@
       
 
       
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            Search
+          </a>
+        </li>
+      
     </ul>
   
 
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="Searching..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
   
 </nav>
 
@@ -258,7 +302,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Linux 基础 - 用户管理</h1>
+          <h1 class="post-title" itemprop="name headline">Linux 基础 - 用户和群组管理</h1>
         
 
         <div class="post-meta">
@@ -270,8 +314,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-05-21T22:34:47+08:00">
-                2016-05-21
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2015-04-21T22:34:47+08:00">
+                2015-04-21
               </time>
             
 
@@ -314,6 +358,27 @@
           
 
           
+            <div class="post-wordcount">
+              
+                
+                  <span class="post-meta-divider">|</span>
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  4,364
+                </span>
+              
+
+              
+
+              
+            </div>
+          
 
           
 
@@ -347,7 +412,7 @@
 <li><code>userdel</code>：删除用户</li>
 </ul>
 <h2 id="新建用户帐号-useradd"><a href="#新建用户帐号-useradd" class="headerlink" title="新建用户帐号 - useradd"></a>新建用户帐号 - useradd</h2><p>linux 系统以 <code>useradd</code> 命令来新建 Unix 用户，该命令带有一系列参数：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">useradd [-u UID] [-g 初始群组] [-G 次要群组] [-mM] [-c 说明栏] [-d 家目录绝对路径] [- s shell] &lt;new-user-name&gt;</span><br><span class="line"></span><br><span class="line">-u ：接 UID ，一组数字，直接指定一个特定的 UID 给这个用户</span><br><span class="line">-g ：为该用户指定初始群组 initial group，该群组的 GID 会被放置到/etc/passwd 的第四个栏位</span><br><span class="line">-G ：为该用户指定次要群组，该选项与参数会修改 /etc/group 内第四栏的值</span><br><span class="line">-M ：强制！不要建立用户 Home 目录(系统帐号预设值)</span><br><span class="line">-m ：强制！要建立用户 Home 目录(一般帐号预设值)</span><br><span class="line">-c ：用户备注，该值修改 /etc/passwd 文件的第五栏的内容</span><br><span class="line">-d ：指定特定目录成为该用户的 Home 目录，而不采用预设值，需指定绝对路径</span><br><span class="line">-r ：建立一个系统帐号，该帐号的 UID 会有限制(参考/etc/login.defs)</span><br><span class="line">-s ：指定 `shell` ，若不指定则预设为 /bin/bash</span><br><span class="line">-e ：指定该用户的过期日期，格式为『YYYY-MM-DD』此项写入 `/etc/shadow` 第八栏</span><br><span class="line">-f ：指定密码是否立即失效，写入 /etc/shadow 的第七栏位。0 为立刻失效，-1 为永远不失效(密码只会过期而强制于登入时重新设定而已)</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">useradd [-u UID] [-g 初始群组] [-G 次要群组] [-mM] [-c 说明栏] [-d 家目录绝对路径] [- s shell] &lt;new-user-name&gt;</span><br><span class="line"></span><br><span class="line">-u ：接 UID ，一组数字，直接指定一个特定的 UID 给这个用户</span><br><span class="line">-g ：为该用户指定初始群组 initial group，该群组的 GID 会被放置到/etc/passwd 的第四个栏位</span><br><span class="line">-G ：为该用户指定次要群组，该选项与参数会修改 /etc/group 内第四栏的值</span><br><span class="line">-M ：不要为用户建立 Home 目录(系统帐号预设值)</span><br><span class="line">-m ：为用户建立 Home 目录(一般帐号预设值)</span><br><span class="line">-c ：用户备注，该值修改 /etc/passwd 文件的第五栏的内容</span><br><span class="line">-d ：指定特定目录成为该用户的 Home 目录，而不采用预设值，需指定绝对路径</span><br><span class="line">-r ：建立一个系统帐号，该帐号的 UID 会有限制(参考/etc/login.defs)</span><br><span class="line">-s ：指定 `shell` ，若不指定则预设为 /bin/bash</span><br><span class="line">-e ：指定该用户的过期日期，格式为『YYYY-MM-DD』此项写入 `/etc/shadow` 第八栏</span><br><span class="line">-f ：指定密码是否立即失效，写入 /etc/shadow 的第七栏位。0 为立刻失效，-1 为永远不失效(密码只会过期而强制于登入时重新设定而已)</span><br></pre></td></tr></table></figure>
 <p>例如，执行以下命令新建一个用户：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$sudo</span> useradd pango</span><br></pre></td></tr></table></figure></p>
 <p>该命令创建一个名为 <code>pango</code> 的用户，由于没有使用 <code>-r</code> 指令，将随机分配一个 1000 以上的数值作为 <code>uid</code>，创建一个名为 <code>pango</code> 的群组并作初始群组，为该用户创建 Home 目录，使用 /bin/bash 作为工作环境。该命令对系统的以下部分做出修改：</p>
 <ul>
@@ -379,7 +444,7 @@
 <li>Home 目录，预设值为 /home/{username}</li>
 <li>执行 Shell 的程序目录，预设值为 /bin/bash</li>
 </ol>
-<h2 id="设置帐号密码-passwd"><a href="#设置帐号密码-passwd" class="headerlink" title="设置帐号密码 - passwd"></a>设置帐号密码 - passwd</h2><p>现在，新建的用户 pango 还没有密码，在设置密码之前是无法登录的，执行 <code>passwd</code> <username> 来为新用户指定密码：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">$ passwd [--stdin] [帐号名称] <span class="comment"># 所有人均可使用来改自己的密码 </span></span><br><span class="line">$ passwd [-l] [-u] [--stdin] [-S] [-n 日数] [-x 日数] [-w 日数] [-i 日数] 帐号 <span class="comment"># root 功能</span></span><br><span class="line">选项与参数：</span><br><span class="line">--stdin ：可以透过来自前一个管线的资料，作为密码输入，对 shell script 有用</span><br><span class="line">-l ：是 Lock 的意思，会将 /etc/shadow 第 2 栏最前面加上 <span class="string">'!'</span> 使密码失效；</span><br><span class="line">-u ：与 -l 相对，是 Unlock 的意思</span><br><span class="line">-S ：列出密码相关参数，亦即 shadow 档案内的大部分信息</span><br><span class="line">-n ：后面接天数，shadow 的第 4 栏位，多久不可修改密码天数</span><br><span class="line">-x ：后面接天数，shadow 的第 5 栏位，多久内必须要更动密码</span><br><span class="line">-w ：后面接天数，shadow 的第 6 栏位，密码过期前的警告天数</span><br><span class="line">-i ：后面接天数，shadow 的第 7 栏位，密码失效天数</span><br><span class="line"></span><br><span class="line"><span class="variable">$sudo</span> passwd pango</span><br><span class="line">Enter new Unix Password:</span><br><span class="line">Retype new Unix Password:</span><br></pre></td></tr></table></figure></username></p>
+<h2 id="设置帐号密码-passwd"><a href="#设置帐号密码-passwd" class="headerlink" title="设置帐号密码 - passwd"></a>设置帐号密码 - passwd</h2><p>现在，新建的用户 pango 还没有密码，在设置密码之前是无法登录的，执行 <code>passwd</code> <username> 来为新用户指定密码：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">$ passwd [--stdin] [帐号名称] <span class="comment"># 所有人均可使用来改自己的密码 </span></span><br><span class="line">$ passwd [-l] [-u] [--stdin] [-S] [-n 日数] [-x 日数] [-w 日数] [-i 日数] 帐号 <span class="comment"># root 功能</span></span><br><span class="line">选项与参数：</span><br><span class="line">--stdin ：可以透过来自前一个管线的资料，作为密码输入，对 shell script 有用</span><br><span class="line">-l ：是 Lock 的意思，会将 /etc/shadow 第 2 栏最前面加上 <span class="string">'!'</span> 使密码失效；</span><br><span class="line">-u ：与 -l 相对，是 Unlock 的意思</span><br><span class="line">-S ：列出密码相关参数，亦即 shadow 档案内的大部分信息</span><br><span class="line">-n ：自上一次修改密码后的密码不可修改天数，shadow 的第 4 栏位</span><br><span class="line">-x ：自上一次修改密码后的密码有效天数，shadow 的第 5 栏位</span><br><span class="line">-w ：密码过期前的警告天数，shadow 的第 6 栏位</span><br><span class="line">-i ：密码失效缓冲天数，shadow 的第 7 栏位</span><br><span class="line"></span><br><span class="line"><span class="variable">$sudo</span> passwd pango</span><br><span class="line">Enter new Unix Password:</span><br><span class="line">Retype new Unix Password:</span><br></pre></td></tr></table></figure></username></p>
 <blockquote>
 <p><code>passwd</code> 指令在不接参数时表示修改当前登录用户的密码</p>
 </blockquote>
@@ -401,7 +466,7 @@
 <blockquote>
 <p><code>--stdin</code> 选项并不存在于所有 Linux 发行版本的系统中，使用前先 <code>man passwd</code> 查看是否支持</p>
 </blockquote>
-<h2 id="管理帐号密码策略-chage"><a href="#管理帐号密码策略-chage" class="headerlink" title="管理帐号密码策略 - chage"></a>管理帐号密码策略 - chage</h2><p>除了使用 <code>passwd</code> 指令，还可以使用 <code>chage</code> 指令来管理密码策略，其用法大致如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ chage [-ldEImMW] 用户帐号名</span><br><span class="line">选项与参数：</span><br><span class="line">-l ：列出该帐号的详细密码参数；</span><br><span class="line">-d ：后面接日期，修改 shadow 第 3 栏位(最近一次更改密码的日期)，格式 YYYY-MM-DD</span><br><span class="line">-E ：后面接日期，修改 shadow 第 8 栏位(帐号失效日)，格式 YYYY-MM-DD</span><br><span class="line">-I ：后面接天数，修改 shadow 第 7 栏位(密码失效日期)</span><br><span class="line">-m ：后面接天数，修改 shadow 第 4 栏位(密码最短保留天数)</span><br><span class="line">-M ：后面接天数，修改 shadow 第 5 栏位(密码多久需要进行变更)</span><br><span class="line">-W ：后面接天数，修改 shadow 第 6 栏位(密码过期前警告日期)</span><br></pre></td></tr></table></figure></p>
+<h2 id="管理帐号密码策略-chage"><a href="#管理帐号密码策略-chage" class="headerlink" title="管理帐号密码策略 - chage"></a>管理帐号密码策略 - chage</h2><p>除了使用 <code>passwd</code> 指令，还可以使用 <code>chage</code> 指令来管理密码策略，其用法大致如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ chage [-ldEImMW] 用户帐号名</span><br><span class="line">选项与参数：</span><br><span class="line">-l ：列出该帐号的详细密码参数；</span><br><span class="line">-d ：修改 shadow 第 3 栏位(最近一次更改密码的日期)，格式 YYYY-MM-DD</span><br><span class="line">-E ：修改 shadow 第 8 栏位(帐号失效日)，格式 YYYY-MM-DD</span><br><span class="line">-I ：修改 shadow 第 7 栏位(密码失效日期)</span><br><span class="line">-m ：修改 shadow 第 4 栏位(密码最短保留天数)</span><br><span class="line">-M ：修改 shadow 第 5 栏位(密码多久需要进行变更)</span><br><span class="line">-W ：修改 shadow 第 6 栏位(密码过期前警告日期)</span><br></pre></td></tr></table></figure></p>
 <p><code>passwd -S</code> 只是简单显示了密码详情，而 <code>chage -l</code> 更多为管理员提供了更强的参考信息，列出 pango 的详细密码参数 ：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ chage -l pango</span><br><span class="line">Last password change : Jul 20, 2015</span><br><span class="line">Password expires : Sep 18, 2015</span><br><span class="line">Password inactive : Sep 28, 2015</span><br><span class="line">Account expires : never</span><br><span class="line">Minimum number of days between password change : 0</span><br><span class="line">Maximum number of days between password change : 60</span><br><span class="line">Number of days of warning before password expires : 7</span><br></pre></td></tr></table></figure></p>
 <h2 id="修改用户帐号信息-usermod"><a href="#修改用户帐号信息-usermod" class="headerlink" title="修改用户帐号信息 - usermod"></a>修改用户帐号信息 - usermod</h2><p>当需要修改用户帐号的信息时，我们可以通过前往相应的文件例如，/etc/passwd 和 /etc/shadow 中去修改对应行的值以达到修改用户帐号信息的目的。也可以使用 <code>usermod</code> 指令对用户帐号进行修改：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">$ usermod [-cdegGlsuLU] username </span><br><span class="line">选项与参数：</span><br><span class="line">-c ：修改用户备注，对应 /etc/passwd 第 5 栏</span><br><span class="line">-d ：修改帐号 Home 目录，对应 /etc/passwd 的第 6 栏；</span><br><span class="line">-e ：修改帐号失效日期，格式是 YYYY-MM-DD，对应 /etc/shadow 内的第 8 栏</span><br><span class="line">-f ：修改密码失效延迟时间，对应 shadow 的第 7 栏。</span><br><span class="line">-g ：修改初始群组，修改 /etc/passwd 的第 4 栏</span><br><span class="line">-G ：修改次要群组组，修改该用户支援的群组，修改应用到 /etc/group</span><br><span class="line">-a ：与 -G 合用，表示 append，追求次要群组而非改变</span><br><span class="line">-l ：修改帐号名称， /etc/passwd 的第 1 栏</span><br><span class="line">-s ：修改 shell 接入程序，后面接 Shell 的实际程序，例如 /bin/bash 或 /bin/csh 等等</span><br><span class="line">-u ：修改 uid 对应 /etc/passwd 第 3 栏</span><br><span class="line">-L ：暂时锁定用户，暂时无法登入。仅修改 /etc/shadow 的密码栏。</span><br><span class="line">-U ：解锁用户，移除 /etc/shadow 密码栏的 <span class="string">'!'</span></span><br></pre></td></tr></table></figure></p>
 <h2 id="删除用户帐号-userdel"><a href="#删除用户帐号-userdel" class="headerlink" title="删除用户帐号 - userdel"></a>删除用户帐号 - userdel</h2><p>当需要删除用户帐号时，执行 <code>userdel</code> 命令，该命令会对以下文件造成影响：</p>
@@ -504,8 +569,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/Web/hexo/hexo_setup/" rel="next" title="搭建 Hexo 轻博客">
-                <i class="fa fa-chevron-left"></i> 搭建 Hexo 轻博客
+              <a href="/diary/about/" rel="next" title="关于我的博客">
+                <i class="fa fa-chevron-left"></i> 关于我的博客
               </a>
             
           </div>
@@ -514,8 +579,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/MacOS/macos-remote-control/" rel="prev" title="在 Windows 环境下远程控制 MacOS">
-                在 Windows 环境下远程控制 MacOS <i class="fa fa-chevron-right"></i>
+              <a href="/Version-Control/Git/git-embeded-repository/" rel="prev" title="Git Module 与嵌套 Repository">
+                Git Module 与嵌套 Repository <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -568,17 +633,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            Table of Contents
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            Overview
-          </li>
-        </ul>
-      
 
-      <section class="site-overview-wrap sidebar-panel">
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -593,7 +649,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-count">10</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -604,7 +660,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-count">11</span>
                   <span class="site-state-item-name">categories</span>
                 </a>
               </div>
@@ -614,10 +670,10 @@
               
               
               <div class="site-state-item site-state-tags">
-                
-                  <span class="site-state-item-count">5</span>
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">12</span>
                   <span class="site-state-item-name">tags</span>
-                
+                </a>
               </div>
             
 
@@ -639,22 +695,6 @@
       </section>
 
       
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#用户帐号管理"><span class="nav-number">1.</span> <span class="nav-text">用户帐号管理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#新建用户帐号-useradd"><span class="nav-number">1.1.</span> <span class="nav-text">新建用户帐号 - useradd</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#设置帐号密码-passwd"><span class="nav-number">1.2.</span> <span class="nav-text">设置帐号密码 - passwd</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#管理帐号密码策略-chage"><span class="nav-number">1.3.</span> <span class="nav-text">管理帐号密码策略 - chage</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#修改用户帐号信息-usermod"><span class="nav-number">1.4.</span> <span class="nav-text">修改用户帐号信息 - usermod</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#删除用户帐号-userdel"><span class="nav-number">1.5.</span> <span class="nav-text">删除用户帐号 - userdel</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#用户端指令-id-finger-chfn-chsh"><span class="nav-number">1.6.</span> <span class="nav-text">用户端指令 - id, finger, chfn, chsh</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#群组管理"><span class="nav-number">2.</span> <span class="nav-text">群组管理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#新增群组-groupadd"><span class="nav-number">2.1.</span> <span class="nav-text">新增群组 - groupadd</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#修改群组-groupmod"><span class="nav-number">2.2.</span> <span class="nav-text">修改群组 - groupmod</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#删除群组-groupdel"><span class="nav-number">2.3.</span> <span class="nav-text">删除群组 - groupdel</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#群组管理员-gpasswd"><span class="nav-number">2.4.</span> <span class="nav-text">群组管理员 - gpasswd</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#初始群组，次要群组和有效群组"><span class="nav-number">2.5.</span> <span class="nav-text">初始群组，次要群组和有效群组</span></a></li></ol></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
-      
 
       
 
@@ -670,7 +710,7 @@
       <div class="footer-inner">
         <div class="copyright">&copy; 2015 &mdash; <span itemprop="copyrightYear">2018</span>
   <span class="with-love">
-    <i class="fa fa-user"></i>
+    <i class="fa fa-"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">Frost He</span>
 
@@ -682,11 +722,7 @@
 
 
 
-  <span class="post-meta-divider">|</span>
 
-
-
-  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.4</div>
 
 
 
@@ -695,6 +731,15 @@
 
 
 
+
+  <script type="text/javascript">
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//tajs.qq.com/stats?sId=65458438";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
 
 
 
@@ -834,6 +879,323 @@
 
   
 
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === '') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
 
 
 
@@ -850,6 +1212,9 @@
   
 
   
+  <script type="text/javascript" src="/js/src/js.cookie.js?v=5.1.4"></script>
+  <script type="text/javascript" src="/js/src/scroll-cookie.js?v=5.1.4"></script>
+
 
   
 
