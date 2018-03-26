@@ -77,18 +77,18 @@
 
 
 
-<meta name="description" content="Linux 使用文件及配置相应的权限来存储用户帐号和群组信息，在成功创建好用户帐号之后，以下几处文件会发生相应的改变  /etc/passwd: Linux 管理用户帐号的数据库 /etc/shadow: Linux 管理用户帐号密码配置的数据库 /etc/group: Linux 管理群组的数据库 /etc/gshadow: Linux 管理群组密码配置的数据库">
+<meta name="description" content="本文主要记录了 Linux 系统下与用户何群组相关的指令和操作指南">
 <meta name="keywords" content="linux">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Linux 基础 - 用户和群组管理">
-<meta property="og:url" content="https://berdypango.github.io/linux/linux-account-management/index.html">
+<meta property="og:title" content="Linux 基础 - 用户和群组">
+<meta property="og:url" content="https://berdypango.github.io/linux/linux-account-and-group/index.html">
 <meta property="og:site_name" content="Pango.Handbook">
-<meta property="og:description" content="Linux 使用文件及配置相应的权限来存储用户帐号和群组信息，在成功创建好用户帐号之后，以下几处文件会发生相应的改变  /etc/passwd: Linux 管理用户帐号的数据库 /etc/shadow: Linux 管理用户帐号密码配置的数据库 /etc/group: Linux 管理群组的数据库 /etc/gshadow: Linux 管理群组密码配置的数据库">
+<meta property="og:description" content="本文主要记录了 Linux 系统下与用户何群组相关的指令和操作指南">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-03-18T14:07:28.049Z">
+<meta property="og:updated_time" content="2018-03-26T17:19:44.356Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Linux 基础 - 用户和群组管理">
-<meta name="twitter:description" content="Linux 使用文件及配置相应的权限来存储用户帐号和群组信息，在成功创建好用户帐号之后，以下几处文件会发生相应的改变  /etc/passwd: Linux 管理用户帐号的数据库 /etc/shadow: Linux 管理用户帐号密码配置的数据库 /etc/group: Linux 管理群组的数据库 /etc/gshadow: Linux 管理群组密码配置的数据库">
+<meta name="twitter:title" content="Linux 基础 - 用户和群组">
+<meta name="twitter:description" content="本文主要记录了 Linux 系统下与用户何群组相关的指令和操作指南">
 
 
 
@@ -118,13 +118,13 @@
 
 
 
-  <link rel="canonical" href="https://berdypango.github.io/linux/linux-account-management/"/>
+  <link rel="canonical" href="https://berdypango.github.io/linux/linux-account-and-group/"/>
 
 
 
 
 
-  <title>Linux 基础 - 用户和群组管理 | Pango.Handbook</title>
+  <title>Linux 基础 - 用户和群组 | Pango.Handbook</title>
   
 
 
@@ -285,7 +285,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://berdypango.github.io/linux/linux-account-management/">
+    <link itemprop="mainEntityOfPage" href="https://berdypango.github.io/linux/linux-account-and-group/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Frost He">
@@ -302,7 +302,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Linux 基础 - 用户和群组管理</h1>
+          <h1 class="post-title" itemprop="name headline">Linux 基础 - 用户和群组</h1>
         
 
         <div class="post-meta">
@@ -380,6 +380,10 @@
             </div>
           
 
+          
+              <div class="post-description">
+                  本文主要记录了 Linux 系统下与用户何群组相关的指令和操作指南
+              </div>
           
 
         </div>
@@ -477,7 +481,7 @@
 </ul>
 <p>该指令用法如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ userdel [-r] username </span><br><span class="line">选项与参数：</span><br><span class="line">-r ：连同用户的 Home 目录也一起删除</span><br></pre></td></tr></table></figure></p>
 <p>例如，删除 pango 用户帐号及其 Home 目录：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$sudo</span> userdel -r pango</span><br></pre></td></tr></table></figure></p>
-<p>通常，在移除一个帐号时，我们可以手动修改 /etc/passwd 和 /etc/shadow 文件中该用户关联的行数据。如果该帐号只是<strong>暂时冻结</strong>，那么将 /etc/shadow 中第 8 栏（帐号失效日）设为 0 就可让该账户无法使用，但所有与该帐号相关的资料都会保留，使用 <code>userdel</code> 意味着<strong>真的确定该用户不会在主机上的使用任何资料了</strong>。</p>
+<p>通常，在移除一个帐号时，我们可以手动修改 /etc/passwd 和 /etc/shadow 文件中该用户关联的行数据。如果该帐号只是「<strong>暂时冻结</strong>」，那么将 /etc/shadow 中第 8 栏（帐号失效日）设为 0 就可让该账户无法使用，但所有与该帐号相关的资料都会保留，使用 <code>userdel</code> 意味着「<strong>真的确定该用户不会在主机上的使用任何资料了</strong>」。</p>
 <blockquote>
 <p>通常，一个用户在使用主机一段时间之后，会在更多其他的目录中产生属于他的文档，因此，在下达 <code>userdel -r username</code> 之前，先以 <code>find / -user username</code> 指令查出整个系统内属于 username 的档案，删除之后，再删除该用户帐号。</p>
 </blockquote>
@@ -649,7 +653,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-count">13</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -671,7 +675,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-count">13</span>
                   <span class="site-state-item-name">tags</span>
                 </a>
               </div>
@@ -1212,9 +1216,6 @@
   
 
   
-  <script type="text/javascript" src="/js/src/js.cookie.js?v=5.1.4"></script>
-  <script type="text/javascript" src="/js/src/scroll-cookie.js?v=5.1.4"></script>
-
 
   
 
