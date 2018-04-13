@@ -85,7 +85,7 @@
 <meta property="og:site_name" content="Pango.Handbook">
 <meta property="og:description" content="Config Server Firewall(CSF) 基于一般的防火墙功能(数据包过滤)进行了扩展，支持大多数 Linux 发行版本，其支持列表可在其官网找到。以下以 ubuntu 系统为例介绍 CSF 的使用。">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-03-18T18:37:42.938Z">
+<meta property="og:updated_time" content="2018-03-26T17:30:22.170Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="为 Linux 系统配置 CSF">
 <meta name="twitter:description" content="Config Server Firewall(CSF) 基于一般的防火墙功能(数据包过滤)进行了扩展，支持大多数 Linux 发行版本，其支持列表可在其官网找到。以下以 ubuntu 系统为例介绍 CSF 的使用。">
@@ -370,7 +370,7 @@
                   <span class="post-meta-item-text">Words count in article&#58;</span>
                 
                 <span title="Words count in article">
-                  2,021
+                  2,025
                 </span>
               
 
@@ -422,13 +422,13 @@
 <h2 id="UI-集成"><a href="#UI-集成" class="headerlink" title="UI 集成"></a>UI 集成</h2><p>除了命令行工具之外，CSF 对 cPanel 和 Webmin 提供了 UI 集成。</p>
 <h2 id="IP-屏蔽列表"><a href="#IP-屏蔽列表" class="headerlink" title="IP 屏蔽列表"></a>IP 屏蔽列表</h2><p>CSF 可使用该功能从预设的源下载屏蔽的 ip 地址列表。</p>
 <h1 id="安装-ConfigServer-Firewall"><a href="#安装-ConfigServer-Firewall" class="headerlink" title="安装 ConfigServer Firewall"></a>安装 ConfigServer Firewall</h1><h2 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h2><p>从官网下载安装包到当前工作目录：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget http://download.configserver.com/csf.tgz</span><br></pre></td></tr></table></figure></p>
-<h2 id="解压缩"><a href="#解压缩" class="headerlink" title="解压缩"></a>解压缩</h2><p>下载下来的是一个经过压缩的压缩包，安装之前需要解压缩<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -xzf csf.tgz</span><br></pre></td></tr></table></figure></p>
+<h2 id="解压缩"><a href="#解压缩" class="headerlink" title="解压缩"></a>解压缩</h2><p>下载下来的是一个压缩包，安装之前需要解压缩<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -xzf csf.tgz</span><br></pre></td></tr></table></figure></p>
 <h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>在进行安装之前，首先禁用其他防火墙脚本，例如 UFW，执行以下指令禁用 UFW：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$sudo</span> ufw <span class="built_in">disable</span></span><br></pre></td></tr></table></figure></p>
 <p>导航到刚刚解压出来的文件夹 <code>csf</code>，执行安装脚本：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> csf</span><br><span class="line"><span class="variable">$sudo</span> sh install.sh</span><br><span class="line">...</span><br><span class="line">Installation Completed</span><br></pre></td></tr></table></figure></p>
 <p>安装完成后，查看指定的 iptables 是否可用：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$sudo</span> perl /usr/<span class="built_in">local</span>/csf/bin/csftest.pl</span><br><span class="line"></span><br><span class="line">Testing ip_tables/iptable_filter...OK</span><br><span class="line">Testing ipt_LOG...OK</span><br><span class="line">Testing ipt_multiport/xt_multiport...OK</span><br><span class="line">Testing ipt_REJECT...OK</span><br><span class="line">Testing ipt_state/xt_state...OK</span><br><span class="line">Testing ipt_limit/xt_limit...OK</span><br><span class="line">Testing ipt_recent...OK</span><br><span class="line">Testing xt_connlimit...OK</span><br><span class="line">Testing ipt_owner/xt_owner...OK</span><br><span class="line">Testing iptable_nat/ipt_REDIRECT...OK</span><br><span class="line">Testing iptable_nat/ipt_DNAT...OK</span><br><span class="line"></span><br><span class="line">RESULT: csf should <span class="keyword">function</span> on this server</span><br></pre></td></tr></table></figure></p>
 <p>出现以上报告内容则表明 CSF 已可在服务器上正常运行。</p>
 <blockquote>
-<p>此时，通过登录到服务器的 ip 地址会被自动加入到白名单中，同时 SSH 占用的端口(即便是自定义的端口)会自动开启，CSF 默认使用测试模式，该模式下所有的 iptables 规则将在 5 分钟后自动被移除。一旦确认所有配置已经就绪，应切换为工作模式。</p>
+<p>此时，通过远程登录连接到服务器的 ip 地址会被自动加入到白名单中，同时 SSH 占用的端口(即便是自定义的端口)也会放行，CSF 默认使用测试模式，该模式下所有的 iptables 规则将在 5 分钟后自动被移除。一旦确认所有配置已经就绪，应该由测试模式切换为工作模式。</p>
 </blockquote>
 <h1 id="基本配置"><a href="#基本配置" class="headerlink" title="基本配置"></a>基本配置</h1><p>通过编辑 /etc/csf/csf.conf 文件来配置 CSF，保存更改后，执行 <code>csf -r</code> 来使配置重新生效。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$sudo</span> nano /etc/csf/csf.conf</span><br></pre></td></tr></table></figure></p>
 <h2 id="配置端口"><a href="#配置端口" class="headerlink" title="配置端口"></a>配置端口</h2><p>配置文件中默认开启的端口如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">TCP_IN = <span class="string">"20,21,22,25,53,80,110,143,443,465,587,993,995"</span></span><br><span class="line"></span><br><span class="line">TCP_OUT = <span class="string">"20,21,22,25,53,80,110,113,443"</span></span><br><span class="line"></span><br><span class="line">UDP_IN = <span class="string">"20,21,53"</span></span><br><span class="line"></span><br><span class="line">UDP_OUT = <span class="string">"20,21,53,113,123"</span></span><br></pre></td></tr></table></figure></p>
@@ -524,8 +524,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/Web/hexo/hexo_setup/" rel="prev" title="搭建 Hexo 轻博客">
-                搭建 Hexo 轻博客 <i class="fa fa-chevron-right"></i>
+              <a href="/Web/ASP-NET-CORE/aspnetcore-application-localization/" rel="prev" title="ASP.NET CORE 应用 - 国际化与本土化">
+                ASP.NET CORE 应用 - 国际化与本土化 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -594,7 +594,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-count">19</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -605,7 +605,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-count">12</span>
                   <span class="site-state-item-name">categories</span>
                 </a>
               </div>
@@ -616,7 +616,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-count">14</span>
                   <span class="site-state-item-name">tags</span>
                 </a>
               </div>

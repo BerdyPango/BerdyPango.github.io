@@ -1,0 +1,1157 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next mist" lang="default">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="asp.net core," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="ASP.NET Core 国际化与本土化的最佳实践，阅读微软官网文档的摘抄和心得">
+<meta name="keywords" content="asp.net core">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ASP.NET CORE 应用 - 国际化与本土化">
+<meta property="og:url" content="https://berdypango.github.io/Web/ASP-NET-CORE/aspnetcore-application-localization/index.html">
+<meta property="og:site_name" content="Pango.Handbook">
+<meta property="og:description" content="ASP.NET Core 国际化与本土化的最佳实践，阅读微软官网文档的摘抄和心得">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-04-13T18:03:31.461Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ASP.NET CORE 应用 - 国际化与本土化">
+<meta name="twitter:description" content="ASP.NET Core 国际化与本土化的最佳实践，阅读微软官网文档的摘抄和心得">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://berdypango.github.io/Web/ASP-NET-CORE/aspnetcore-application-localization/"/>
+
+
+
+
+
+  <title>ASP.NET CORE 应用 - 国际化与本土化 | Pango.Handbook</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Pango.Handbook</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            Search
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="Searching..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://berdypango.github.io/Web/ASP-NET-CORE/aspnetcore-application-localization/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Frost He">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pango.Handbook">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">ASP.NET CORE 应用 - 国际化与本土化</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-04-12T19:32:00+08:00">
+                2016-04-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Web/" itemprop="url" rel="index">
+                    <span itemprop="name">Web</span>
+                  </a>
+                </span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Web/ASP-NET-CORE/" itemprop="url" rel="index">
+                    <span itemprop="name">ASP.NET CORE</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                  <span class="post-meta-divider">|</span>
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  3,251
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+              <div class="post-description">
+                  ASP.NET Core 国际化与本土化的最佳实践，阅读微软官网文档的摘抄和心得
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>参考文档: <a href="https://docs.microsoft.com/en-us/aspnet/core/fundamentals/localization?view=aspnetcore-2.1" target="_blank" rel="noopener">Globalization and localization in ASP.NET Core</a></p>
+<h1 id="国际化和本土化"><a href="#国际化和本土化" class="headerlink" title="国际化和本土化"></a>国际化和本土化</h1><p><strong>「国际化(Globalization)」</strong> 表示将 app 设计为支持不同语言文化的过程。</p>
+<p><strong>「本土化(Localization)」</strong> 表示将 app 调整为支持某个特定语言文化的过程。</p>
+<p>要实现本土化，至少需要: </p>
+<ul>
+<li>提供本土化的 app 的内容</li>
+<li>提供支持语言文化的本土化 Resources</li>
+<li>为每一个 request 实现选择语言文化的策略</li>
+</ul>
+<h2 id="IStringLocalizer-和-IStringLocalizer"><a href="#IStringLocalizer-和-IStringLocalizer" class="headerlink" title="IStringLocalizer 和 IStringLocalizer"></a>IStringLocalizer 和 IStringLocalizer<t></t></h2><p><code>IStringLocalizer</code> 和 <code>IStringLocalizer&lt;T&gt;</code> 在框架层面提供了对本土化的支持，该接口使用 <code>ResourceManager</code> 和 <code>ResourceReader</code> 在运行时提供特定语言文化的资源，该接口公开一个索引器来查询本土化的字符串。该接口不需要在开发时设置中立语言并为不同的字符串提供默认值，示例代码如下: </p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> Microsoft.AspNetCore.Mvc;</span><br><span class="line"><span class="keyword">using</span> Microsoft.Extensions.Localization;</span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">Localization.StarterWeb.Controllers</span></span><br><span class="line">&#123;</span><br><span class="line">    [<span class="meta">Route(<span class="meta-string">"api/[controller]"</span>)</span>]</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">class</span> <span class="title">AboutController</span> : <span class="title">Controller</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">readonly</span> IStringLocalizer&lt;AboutController&gt; _localizer;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">AboutController</span>(<span class="params">IStringLocalizer&lt;AboutController&gt; localizer</span>)</span></span><br><span class="line"><span class="function">        </span>&#123;</span><br><span class="line">            _localizer = localizer;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        [<span class="meta">HttpGet</span>]</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">string</span> <span class="title">Get</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">        </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> _localizer[<span class="string">"About Title"</span>];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>以上代码中，<code>IStringLocalizer&lt;AboutController&gt;</code> 的实例由容器注入，如果在对应的资源中找不到 ‘About Title’ 的值，将直接返回该键，这里的 ‘About Title’ 是字面值，当有其他语言文化的资源文件被创建并提供了针对该字面值的本土化版本后，这里将返回相应的本土化字符串。这样在开发时无需预先定义资源文件并提供默认值。但遇到字面值较长的情况时，仍然建议使用传统方式来实现本土化——即为各个资源事先定义键，再在各个资源文件中提供对应的翻译版本。</p>
+<h2 id="IHtmlLocalizer-和-IHtmlLocalizer"><a href="#IHtmlLocalizer-和-IHtmlLocalizer" class="headerlink" title="IHtmlLocalizer 和 IHtmlLocalizer"></a>IHtmlLocalizer 和 IHtmlLocalizer<t></t></h2><p>IHtmlLocalizer 和 IHtmlLocalizer<t> 支持 HTML 化的资源，该接口对格式化的参数进行编码，但 HTML 部分不会编码，示例如下:<br><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> System;</span><br><span class="line"><span class="keyword">using</span> Microsoft.AspNetCore.Http;</span><br><span class="line"><span class="keyword">using</span> Microsoft.AspNetCore.Localization;</span><br><span class="line"><span class="keyword">using</span> Microsoft.AspNetCore.Mvc;</span><br><span class="line"><span class="keyword">using</span> Microsoft.AspNetCore.Mvc.Localization;</span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">Localization.StarterWeb.Controllers</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">class</span> <span class="title">BookController</span> : <span class="title">Controller</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">readonly</span> IHtmlLocalizer&lt;BookController&gt; _localizer;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">BookController</span>(<span class="params">IHtmlLocalizer&lt;BookController&gt; localizer</span>)</span></span><br><span class="line"><span class="function">        </span>&#123;</span><br><span class="line">            _localizer = localizer;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> IActionResult <span class="title">Hello</span>(<span class="params"><span class="keyword">string</span> name</span>)</span></span><br><span class="line"><span class="function">        </span>&#123;</span><br><span class="line">            ViewData[<span class="string">"Message"</span>] = _localizer[<span class="string">"&lt;b&gt;Hello&lt;/b&gt;&lt;i&gt; &#123;0&#125;&lt;/i&gt;"</span>, name];</span><br><span class="line"></span><br><span class="line">            <span class="keyword">return</span> View();</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure><br>注意上述代码引用了 <code>Microsoft.AspNetCore.Localization</code> 和 <code>Microsoft.AspNetCore.Mvc.Localization</code> 命名空间，只有 <code>name</code> 参数被 HTML 编码。</t></p>
+<h2 id="IStringLocalizerFactory"><a href="#IStringLocalizerFactory" class="headerlink" title="IStringLocalizerFactory"></a>IStringLocalizerFactory</h2><p><code>IStringLocalizerFactory</code> 演示了一种更加底层的方法，示例如下:<br><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">class</span> <span class="title">TestController</span> : <span class="title">Controller</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">readonly</span> IStringLocalizer _localizer;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">readonly</span> IStringLocalizer _localizer2;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">TestController</span>(<span class="params">IStringLocalizerFactory factory</span>)</span></span><br><span class="line"><span class="function">        </span>&#123;</span><br><span class="line">            <span class="keyword">var</span> type = <span class="keyword">typeof</span>(SharedResource);</span><br><span class="line">            <span class="keyword">var</span> assemblyName = <span class="keyword">new</span> AssemblyName(type.GetTypeInfo().Assembly.FullName);</span><br><span class="line">            _localizer = factory.Create(type);</span><br><span class="line">            _localizer2 = factory.Create(<span class="string">"SharedResource"</span>, assemblyName.Name);</span><br><span class="line">        &#125;       </span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> IActionResult <span class="title">About</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">        </span>&#123;</span><br><span class="line">            ViewData[<span class="string">"Message"</span>] = _localizer[<span class="string">"Your application description page."</span>] </span><br><span class="line">                + <span class="string">" loc 2: "</span> + _localizer2[<span class="string">"Your application description page."</span>];</span><br></pre></td></tr></table></figure><br>以上代码演示了 <code>IStringLocalizerFactory.Create</code> 方法的两种重载，从演示中可以看出，<code>SharedResource</code> 被放置到了另一个程序集中，通过这种方式可以将资源与控制器等分离。</p>
+<blockquote>
+<p>你可以以控制器，区域为单位对字符串资源进行划分，或者不划分直接使用一个包含所有资源的类型。一些开发人员喜欢以 <code>Startup</code> 类来承载共享字符串资源。</p>
+</blockquote>
+<p>下面的示例使用了两个不同的 <code>IStringLocalizer&lt;T&gt;</code> 实例:<br><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">InfoController</span> : <span class="title">Controller</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">readonly</span> IStringLocalizer&lt;InfoController&gt; _localizer;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">readonly</span> IStringLocalizer&lt;SharedResource&gt; _sharedLocalizer;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">InfoController</span>(<span class="params">IStringLocalizer&lt;InfoController&gt; localizer,</span></span></span><br><span class="line"><span class="function"><span class="params">                   IStringLocalizer&lt;SharedResource&gt; sharedLocalizer</span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        _localizer = localizer;</span><br><span class="line">        _sharedLocalizer = sharedLocalizer;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">string</span> <span class="title">TestLoc</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">string</span> msg = <span class="string">"Shared resx: "</span> + _sharedLocalizer[<span class="string">"Hello!"</span>] +</span><br><span class="line">                     <span class="string">" Info resx "</span> + _localizer[<span class="string">"Hello!"</span>];</span><br><span class="line">        <span class="keyword">return</span> msg;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="视图本土化"><a href="#视图本土化" class="headerlink" title="视图本土化"></a>视图本土化</h2><p><code>IViewLocalizer</code> 接口为视图提供本土化字符串，ViewLocalizer 类型为该接口的默认实现，以下代码展示了如何使用该类型:<br><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">@<span class="keyword">using</span> Microsoft.AspNetCore.Mvc.Localization</span><br><span class="line"></span><br><span class="line">@inject IViewLocalizer Localizer</span><br><span class="line"></span><br><span class="line">@&#123;</span><br><span class="line">    ViewData[<span class="string">"Title"</span>] = Localizer[<span class="string">"About"</span>];</span><br><span class="line">&#125;</span><br><span class="line">&lt;h2&gt;@ViewData[<span class="string">"Title"</span>].&lt;/h2&gt;</span><br><span class="line">&lt;h3&gt;@ViewData[<span class="string">"Message"</span>]&lt;/h3&gt;</span><br><span class="line"></span><br><span class="line">&lt;p&gt;@Localizer[<span class="string">"Use this area to provide additional information."</span>]&lt;/p&gt;</span><br></pre></td></tr></table></figure><br>IViewLocalizer 的默认实现基于 View 的文件名查找资源，该类型没有提供设置共享资源文件的选项，并且该类型实现了 IHtmlLocalizer 接口，要在 View 中使用共享资源文件，注入 <code>IHtmlLocalizer&lt;T&gt;</code>:<br><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">@<span class="keyword">using</span> Microsoft.AspNetCore.Mvc.Localization</span><br><span class="line">@<span class="keyword">using</span> Localization.StarterWeb.Services</span><br><span class="line"></span><br><span class="line">@inject IViewLocalizer Localizer</span><br><span class="line">@inject IHtmlLocalizer&lt;SharedResource&gt; SharedLocalizer</span><br><span class="line"></span><br><span class="line">@&#123;</span><br><span class="line">    ViewData[<span class="string">"Title"</span>] = Localizer[<span class="string">"About"</span>];</span><br><span class="line">&#125;</span><br><span class="line">&lt;h2&gt;@ViewData[<span class="string">"Title"</span>].&lt;/h2&gt;</span><br><span class="line"></span><br><span class="line">&lt;h1&gt;@SharedLocalizer[<span class="string">"Hello!"</span>]&lt;/h1&gt;</span><br></pre></td></tr></table></figure></p>
+<h2 id="数据注解实现本土化"><a href="#数据注解实现本土化" class="headerlink" title="数据注解实现本土化"></a>数据注解实现本土化</h2><p>数据注解的字符串内容默认与 <code>IStringLocalizer&lt;T&gt;</code> 协同实现本土化，因为已经设置了 <code>ResourcesPath = &quot;Resources&quot;</code>，<strong>RegiserViewModel</strong> 中 <code>Attribute</code> 查询消息的依据为:</p>
+<ul>
+<li>Resources/ViewModels.Account.RegisterViewModel.fr.resx</li>
+<li>Resources/ViewModels/Account/RegisterViewModel.fr.resx<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">RegisterViewModel</span></span><br><span class="line">&#123;</span><br><span class="line">    [<span class="meta">Required(ErrorMessage = <span class="meta-string">"The Email field is required."</span>)</span>]</span><br><span class="line">    [<span class="meta">EmailAddress(ErrorMessage = <span class="meta-string">"The Email field is not a valid email address."</span>)</span>]</span><br><span class="line">    [<span class="meta">Display(Name = <span class="meta-string">"Email"</span>)</span>]</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">string</span> Email &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line"></span><br><span class="line">    [<span class="meta">Required(ErrorMessage = <span class="meta-string">"The Password field is required."</span>)</span>]</span><br><span class="line">    [<span class="meta">StringLength(8, ErrorMessage = <span class="meta-string">"The &#123;0&#125; must be at least &#123;2&#125; characters long."</span>, MinimumLength = 6)</span>]</span><br><span class="line">    [<span class="meta">DataType(DataType.Password)</span>]</span><br><span class="line">    [<span class="meta">Display(Name = <span class="meta-string">"Password"</span>)</span>]</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">string</span> Password &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line"></span><br><span class="line">    [<span class="meta">DataType(DataType.Password)</span>]</span><br><span class="line">    [<span class="meta">Display(Name = <span class="meta-string">"Confirm password"</span>)</span>]</span><br><span class="line">    [<span class="meta">Compare(<span class="meta-string">"Password"</span>, ErrorMessage = <span class="meta-string">"The password and confirmation password do not match."</span>)</span>]</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">string</span> ConfirmPassword &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="数据注解使用统一资源定位"><a href="#数据注解使用统一资源定位" class="headerlink" title="数据注解使用统一资源定位"></a>数据注解使用统一资源定位</h3><p>如前文所述，数据注解将以所在类型文件名称为依据查询对应的资源，以下代码展示了如何为不同的类型统一查询资源的地址:<br><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">ConfigureServices</span>(<span class="params">IServiceCollection services</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    services.AddMvc()</span><br><span class="line">        .AddDataAnnotationsLocalization(options =&gt; &#123;</span><br><span class="line">            options.DataAnnotationLocalizerProvider = (type, factory) =&gt;</span><br><span class="line">                factory.Create(<span class="keyword">typeof</span>(SharedResource));</span><br><span class="line">        &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br><code>SharedResource</code> 对应于存储字符串资源的类型，通过这种方式，数据注解将使用该类型作为查询依据。</p>
+<h1 id="为支持的语言文化提供本土化资源"><a href="#为支持的语言文化提供本土化资源" class="headerlink" title="为支持的语言文化提供本土化资源"></a>为支持的语言文化提供本土化资源</h1><h2 id="SupportedCultures-和-SupportedUICultures"><a href="#SupportedCultures-和-SupportedUICultures" class="headerlink" title="SupportedCultures 和 SupportedUICultures"></a>SupportedCultures 和 SupportedUICultures</h2><p>ASP.NET CORE 允许指定两个接收 <code>CultureInfo</code> 值的属性:</p>
+<ul>
+<li><code>SupportedCultures</code>: 该属性决定与语言文化有关的输出结果，如日期，时间，数字和货币等格式；该值还决定文本的排序规则，大小写转换和字符串比较，有关服务器如何获取语言文化信息，参见 <a href="https://docs.microsoft.com/en-us/dotnet/api/system.stringcomparer.currentculture?view=netframework-4.7.2#System_StringComparer_CurrentCulture" target="_blank" rel="noopener">CultureInfo.CurrentCulture</a>。</li>
+<li><code>SupportedUICultures</code>: 该属性决定 ResourceMangaer 该从哪一个 <em>.resx</em> 文件读取对应资源的翻译版本，.NET 的每一个线程都包含一个 <code>CurrentCulture</code> 和 <code>CurrentUICulture</code> 属性，ASP.NET CORE 在渲染与语言文化相关的功能时会检查它们。</li>
+</ul>
+<h2 id="资源文件"><a href="#资源文件" class="headerlink" title="资源文件"></a>资源文件</h2><p>非默认语言的字符串资源字典为单独的 <em>.resx</em> 资源文件。资源文件的默认命名约定为类型的完全限定名去掉程序集部分，例如，LocalizationWebSite.Web.dll 程序集的类型 LocalizationWebSite.Web.Startup 的法语版本资源文件的名称为 <code>Startup.fr.resx</code>，其中 fr 为语言文化编码，LocalizationWebsite.Web.Controllers.HomeController 的对应资源文件会命名为 <code>Controllers.HomeController.fr.resx</code>。如果目标类型命名空间与所在程序集不同，则命名时以完全限定名开头。</p>
+<p>在 Startup.cs 类型中的 <code>ConfigureServices</code> 方法中将 <code>ResourcesPath</code> 设置为 “Resources”，那么 HomeController 对应的法语版本资源文件的相对路径为 <code>Resources/Controllers.HomeController.fr.resx</code>。另外，可以通过文件夹组织资源文件，如果不设置 <code>ResourcesPath</code>，将在项目根目录下查找 <em>.resx</em> 文件，使用 <code>.</code> 语法还是 <code>/</code> 路径作为约定取决于如何组织资源文件。</p>
+<p>在 Razor 视图中应用资源文件基于相同的模式，假设 <code>ResourcesPath</code> 设置为 “Resources”，那么 Views/Home/About.cshtml 视图的法语版本资源文件就应该定位在: </p>
+<ul>
+<li>Resources/Views/Home/About.fr.resx</li>
+<li>Resources/Views.Home.About.fr.resx</li>
+</ul>
+<p>如果不指定 <code>ResourcesPath</code>，那么系统将在与视图相同的文件夹下查找资源文件。</p>
+<h1 id="语言文化的回退-fallback-行为"><a href="#语言文化的回退-fallback-行为" class="headerlink" title="语言文化的回退(fallback)行为"></a>语言文化的回退(fallback)行为</h1><p>本土化机制首先从目标的语言文化开始查找，如果没有找到，它首先还原为目标语言文化的父级文化，即 <code>CultureInfo.Parent</code>，如果父级语言文化也未能找到，则返回默认资源文件中的值，如果默认资源文件也没有，则直接返回键。</p>
+<h2 id="Visual-Studio-生成资源文件"><a href="#Visual-Studio-生成资源文件" class="headerlink" title="Visual Studio 生成资源文件"></a>Visual Studio 生成资源文件</h2><p>如果通过 Visuall Studio 新建一个默认资源文件(不带任何语言编码的 .resx 文件)，Visuall Studio 会为该文件生成一个类，为每一个新添加的键生成一个对应的属性，这不是 ASP.NET CORE 推荐的方式，我们希望每次新建资源文件时都带上语言编码，这样 Visuall Studio 便不会为其生成类型。</p>
+<h2 id="添加对其他语言文化的支持"><a href="#添加对其他语言文化的支持" class="headerlink" title="添加对其他语言文化的支持"></a>添加对其他语言文化的支持</h2><p>除了默认语言，每一个语言文化都需要一个唯一的资源文件，新建带有语言文化编码的资源文件是支持新语言文件的必须步骤。</p>
+<h1 id="实现语言文化选择的机制"><a href="#实现语言文化选择的机制" class="headerlink" title="实现语言文化选择的机制"></a>实现语言文化选择的机制</h1><h2 id="配置本土化"><a href="#配置本土化" class="headerlink" title="配置本土化"></a>配置本土化</h2><p>本土化由 <code>ConfigureServices</code> 方法配置:<br><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">services.AddLocalization(options =&gt; options.ResourcesPath = <span class="string">"Resources"</span>);</span><br><span class="line"></span><br><span class="line">services.AddMvc()</span><br><span class="line">    .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)</span><br><span class="line">    .AddDataAnnotationsLocalization();</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li><code>AddLocalization</code>: 将本土化服务添加到服务容器，以上代码同时设置了 <code>ResourcesPath</code>。</li>
+<li><code>AddViewLocalization</code>: 添加对视图文件的本土化支持，在此例中，视图本土化基于视图文件名称的后缀。例如，Index.fr.cshtml 文件中的 “fr” 以示区别。</li>
+<li><code>AddDataAnnotationsLocalization</code>: 对数据注解本土化的支持，以 <code>IStringLocalizer</code> 抽象实现。</li>
+</ul>
+<h2 id="本土化中间件"><a href="#本土化中间件" class="headerlink" title="本土化中间件"></a>本土化中间件</h2><p>请求的当前语言文化由本土化中间件进行设置，该中间件在 <code>Configure</code> 方法中启用。该中间件必须在任何试图检查请求语言文化数据的中间件(例如，<code>app.UseMvcWithDefaultRoute()</code>)启用之前启用。<br><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> supportedCultures = <span class="keyword">new</span>[]</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">new</span> CultureInfo(enUSCulture),</span><br><span class="line">    <span class="keyword">new</span> CultureInfo(<span class="string">"en-AU"</span>),</span><br><span class="line">    <span class="keyword">new</span> CultureInfo(<span class="string">"en-GB"</span>),</span><br><span class="line">    <span class="keyword">new</span> CultureInfo(<span class="string">"en"</span>),</span><br><span class="line">    <span class="keyword">new</span> CultureInfo(<span class="string">"es-ES"</span>),</span><br><span class="line">    <span class="keyword">new</span> CultureInfo(<span class="string">"es-MX"</span>),</span><br><span class="line">    <span class="keyword">new</span> CultureInfo(<span class="string">"es"</span>),</span><br><span class="line">    <span class="keyword">new</span> CultureInfo(<span class="string">"fr-FR"</span>),</span><br><span class="line">    <span class="keyword">new</span> CultureInfo(<span class="string">"fr"</span>),</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">app.UseRequestLocalization(<span class="keyword">new</span> RequestLocalizationOptions</span><br><span class="line">&#123;</span><br><span class="line">    DefaultRequestCulture = <span class="keyword">new</span> RequestCulture(enUSCulture),</span><br><span class="line">    <span class="comment">// Formatting numbers, dates, etc.</span></span><br><span class="line">    SupportedCultures = supportedCultures,</span><br><span class="line">    <span class="comment">// UI strings that we have localized.</span></span><br><span class="line">    SupportedUICultures = supportedCultures</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">app.UseStaticFiles();</span><br><span class="line"><span class="comment">// To configure external authentication, </span></span><br><span class="line"><span class="comment">// see: http://go.microsoft.com/fwlink/?LinkID=532715</span></span><br><span class="line">app.UseAuthentication();</span><br><span class="line">app.UseMvcWithDefaultRoute();</span><br></pre></td></tr></table></figure><br><code>UseRequestLocalization</code> 初始化一个 <code>RequestLocalizationOptions</code> 对象，每次有请求到达时，系统会遍历 <code>RequestLocalizationOptions</code> 中的 <code>RequestCultureProvider</code> 列表，第一个匹配请求语言文化的提供器将被应用。<code>RequestLocalizationOptions</code> 类型包含了以下默认的提供器:</p>
+<ol>
+<li>QueryStringRequestCultureProvider</li>
+<li>CookieRequestCultureProvider</li>
+<li>AcceptLanguageHeaderRequestCultureProvider</li>
+</ol>
+<p>默认提供器遍历列表从最具体到最抽象，后文将讨论如何改变遍历顺序抑或添加一个自定义的提供器。如果任何提供器都不能匹配请求的语言文化，那么采用 <code>DefaultRequestCulture</code>。</p>
+<h2 id="QueryStringRequestCultureProvider"><a href="#QueryStringRequestCultureProvider" class="headerlink" title="QueryStringRequestCultureProvider"></a>QueryStringRequestCultureProvider</h2><p>一些网站应用会在查询字符串中携带代表语言文化的参数，该方法易于调试和测试。默认情况下，<code>QueryStringRequestCultureProvider</code> 作为第一个本土化提供器注册到 <code>RequestCultureProvider</code> 列表，那么在查询字符串中携带 <code>culture</code> 和 <code>ui-culture</code> 参数则会被解析为对应的语言文化，例如:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://localhost:500/?culture=es-MX&amp;ui-culture=es-MX</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>如果只传递其中一个值，那么 <code>culture</code> 和 <code>ui-culture</code> 都将被设置为该值。</p>
+</blockquote>
+<h2 id="CookieRequestCultureProvider"><a href="#CookieRequestCultureProvider" class="headerlink" title="CookieRequestCultureProvider"></a>CookieRequestCultureProvider</h2><p>部署到生产环境中运行网站应用程序通常会使用 <code>ASP.NET Core culture cookie</code> 来实现本土化，使用 <code>MakeCookieValue</code> 方法创建 <code>cookie</code>。</p>
+<p><code>CookieRequestCultureProvider.DefaultCookieName</code> 返回默认的 <code>cookie</code> 名称，该默认值为 <code>.AspNetCore.Culture</code>。该值的格式为 <code>c=%LANGCODE%|uic=%LANGCODE%</code>，其中 <code>c</code> 代表 <code>culture</code>，<code>uic</code> 代表 <code>ui-culture</code>，例如:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">c=en-UK|uic=en-US</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>如果只传递其中一个值，那么 <code>culture</code> 和 <code>ui-culture</code> 都将被设置为该值。</p>
+</blockquote>
+<h2 id="Accept-Language-HTTP-Header"><a href="#Accept-Language-HTTP-Header" class="headerlink" title="Accept-Language HTTP Header"></a>Accept-Language HTTP Header</h2><p><a href="https://www.w3.org/International/questions/qa-accept-lang-locales" target="_blank" rel="noopener">Accept-Language header</a> 在多数浏览器中都可以修改，它最初是用来指定用户的语言，该值指示浏览器应该将何种语言包含在请求头中，该值通常继承自操作系统。从浏览器发送的请求头中检查用户的偏好语言通常不是一种可靠的办法，应用程序应该提供另一种机制允许用户设置偏好语言。</p>
+<h2 id="使用自定义提供器"><a href="#使用自定义提供器" class="headerlink" title="使用自定义提供器"></a>使用自定义提供器</h2><p>假设想要将用户偏好的语言保存在数据库中，可通过编写一个自定义提供器来查询这些值，以下代码展示了如何添加一个自定义本土化提供器:<br><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">const</span> <span class="keyword">string</span> enUSCulture = <span class="string">"en-US"</span>;</span><br><span class="line"></span><br><span class="line">services.Configure&lt;RequestLocalizationOptions&gt;(options =&gt;</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">var</span> supportedCultures = <span class="keyword">new</span>[]</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">new</span> CultureInfo(enUSCulture),</span><br><span class="line">        <span class="keyword">new</span> CultureInfo(<span class="string">"fr"</span>)</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    options.DefaultRequestCulture = <span class="keyword">new</span> RequestCulture(culture: enUSCulture, uiCulture: enUSCulture);</span><br><span class="line">    options.SupportedCultures = supportedCultures;</span><br><span class="line">    options.SupportedUICultures = supportedCultures;</span><br><span class="line"></span><br><span class="line">    options.RequestCultureProviders.Insert(<span class="number">0</span>, <span class="keyword">new</span> CustomRequestCultureProvider(<span class="keyword">async</span> context =&gt;</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// My custom request culture logic</span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ProviderCultureResult(<span class="string">"en"</span>);</span><br><span class="line">    &#125;));</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure><br>使用 <code>RequestLocalizationOptions</code> 来添加和移除本土化提供器，Insert 方法的第一个参数为索引值，该值同时决定了顺序。</p>
+<h2 id="程序化设置语言文化"><a href="#程序化设置语言文化" class="headerlink" title="程序化设置语言文化"></a>程序化设置语言文化</h2><h1 id="国际化与本土化术语"><a href="#国际化与本土化术语" class="headerlink" title="国际化与本土化术语"></a>国际化与本土化术语</h1><p>即使所有的计算机以数字编码的方式存储文本，但不同的系统却使用不同的数字编码来存储相同的文本。<br>RFC 4646 格式提供了 <code>&lt;languagecode2&gt;-&lt;country/regioncode2&gt;</code> 格式的参考，<code>&lt;languagecode2&gt;</code> 为语言码，<code>&lt;country/regioncode2&gt;</code> 为子文化码，例如 en-US 和 en-AU 分别代表美国英语和澳大利亚英语。RFC 4646 是 ISO 639 代表语言的两位小写语言码与 ISO 3166 代表国家和地区的两位大写文化码的组合。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/asp-net-core/" rel="tag"># asp.net core</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/linux/linux-configure-csf/" rel="next" title="为 Linux 系统配置 CSF">
+                <i class="fa fa-chevron-left"></i> 为 Linux 系统配置 CSF
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/Web/ASP-NET-CORE/aspnetcore-application-validation/" rel="prev" title="ASP.NET CORE 应用 - 验证">
+                ASP.NET CORE 应用 - 验证 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Frost He</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2015 &mdash; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Frost He</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+
+
+
+
+
+        
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//tajs.qq.com/stats?sId=65458438";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === '') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -85,7 +85,7 @@
 <meta property="og:site_name" content="Pango.Handbook">
 <meta property="og:description" content="本文主要记录了 Linux 系统下与用户何群组相关的指令和操作指南">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-03-26T17:19:44.356Z">
+<meta property="og:updated_time" content="2018-04-08T16:20:43.195Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux 基础 - 用户和群组">
 <meta name="twitter:description" content="本文主要记录了 Linux 系统下与用户何群组相关的指令和操作指南">
@@ -399,7 +399,8 @@
       
 
       
-        <p>Linux 使用文件及配置相应的权限来存储用户帐号和群组信息，在成功创建好用户帐号之后，以下几处文件会发生相应的改变</p>
+        <p>参考资料：<a href="http://linux.vbird.org/linux_basic/0410accountmanager.php" target="_blank" rel="noopener">http://linux.vbird.org/linux_basic/0410accountmanager.php</a></p>
+<p>Linux 使用文件及配置相应的权限来存储用户帐号和群组信息，在成功创建好用户帐号之后，以下几处文件会发生相应的改变</p>
 <ul>
 <li>/etc/passwd: Linux 管理用户帐号的数据库</li>
 <li>/etc/shadow: Linux 管理用户帐号密码配置的数据库</li>
@@ -542,7 +543,6 @@
 <h2 id="初始群组，次要群组和有效群组"><a href="#初始群组，次要群组和有效群组" class="headerlink" title="初始群组，次要群组和有效群组"></a>初始群组，次要群组和有效群组</h2><p>在执行 <code>useradd</code> 命令新建用户时，使用 <code>-g</code> 命令指定初始群组，该群组的 GID 被写入到 /etc/passwd 对应的 GID 栏位，而 <code>-G</code> 指定的次要群组则将用户名写入 /etc/group 第 4 栏。</p>
 <p>当用户登入系统进入 <code>shell</code> 环境后，系统总是以该用户所在的初始群组作为有效群组，即，当用户执行类似 <code>touch</code> 的指令创建新的文件或文件夹时，其权限会给予用户当前的有效群组。执行 <code>groups</code> 可查看当前登录用户所属的所有群组，排在第一位的即表示当前有效群组。</p>
 <p>可通过执行 <code>newgrp</code> 指令将用户所属的另一个群组切换为当前有效群组，该动作导致用户进入另一个 <code>shell</code> 环境，当用户完成操作不再需要该群组支持时，应使用 <code>exit</code> 指令退回到之前的 <code>shell</code> 环境。</p>
-<p>参考资料：<a href="http://linux.vbird.org/linux_basic/0410accountmanager.php" target="_blank" rel="noopener">http://linux.vbird.org/linux_basic/0410accountmanager.php</a></p>
 
       
     </div>
@@ -583,8 +583,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/Version-Control/Git/git-embeded-repository/" rel="prev" title="Git Module 与嵌套 Repository">
-                Git Module 与嵌套 Repository <i class="fa fa-chevron-right"></i>
+              <a href="/linux/linux-profile-and-privilege/" rel="prev" title="Linux 基础 - 档案与权限">
+                Linux 基础 - 档案与权限 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -653,7 +653,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-count">19</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -664,7 +664,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-count">12</span>
                   <span class="site-state-item-name">categories</span>
                 </a>
               </div>
@@ -675,7 +675,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-count">14</span>
                   <span class="site-state-item-name">tags</span>
                 </a>
               </div>
