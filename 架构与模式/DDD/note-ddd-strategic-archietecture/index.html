@@ -66,7 +66,7 @@
 
 
 
-  <meta name="keywords" content="linux," />
+  <meta name="keywords" content="ddd,note," />
 
 
 
@@ -77,18 +77,21 @@
 
 
 
-<meta name="description" content="本文介绍了 Linux 系统">
-<meta name="keywords" content="linux">
+<meta name="description" content="本文记录了 DDD 与架构风格和模式之间的关系，并阐述了常见架构的应用场景">
+<meta name="keywords" content="ddd,note">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Linux 基础 - 档案与目录管理">
-<meta property="og:url" content="https://berdypango.github.io/linux/linux-document-management/index.html">
+<meta property="og:title" content="《实现领域驱动设计》读书笔记(3) - 战略建模之架构">
+<meta property="og:url" content="https://berdypango.github.io/架构与模式/DDD/note-ddd-strategic-archietecture/index.html">
 <meta property="og:site_name" content="Pango.Handbook">
-<meta property="og:description" content="本文介绍了 Linux 系统">
+<meta property="og:description" content="本文记录了 DDD 与架构风格和模式之间的关系，并阐述了常见架构的应用场景">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-04-09T13:57:50.340Z">
+<meta property="og:image" content="https://berdypango.github.io/架构与模式/DDD/note-ddd-strategic-archietecture/port&adapter.png">
+<meta property="og:image" content="https://berdypango.github.io/架构与模式/DDD/note-ddd-strategic-archietecture/SOA.png">
+<meta property="og:updated_time" content="2018-04-16T03:45:44.859Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Linux 基础 - 档案与目录管理">
-<meta name="twitter:description" content="本文介绍了 Linux 系统">
+<meta name="twitter:title" content="《实现领域驱动设计》读书笔记(3) - 战略建模之架构">
+<meta name="twitter:description" content="本文记录了 DDD 与架构风格和模式之间的关系，并阐述了常见架构的应用场景">
+<meta name="twitter:image" content="https://berdypango.github.io/架构与模式/DDD/note-ddd-strategic-archietecture/port&adapter.png">
 
 
 
@@ -118,13 +121,13 @@
 
 
 
-  <link rel="canonical" href="https://berdypango.github.io/linux/linux-document-management/"/>
+  <link rel="canonical" href="https://berdypango.github.io/架构与模式/DDD/note-ddd-strategic-archietecture/"/>
 
 
 
 
 
-  <title>Linux 基础 - 档案与目录管理 | Pango.Handbook</title>
+  <title>《实现领域驱动设计》读书笔记(3) - 战略建模之架构 | Pango.Handbook</title>
   
 
 
@@ -285,7 +288,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://berdypango.github.io/linux/linux-document-management/">
+    <link itemprop="mainEntityOfPage" href="https://berdypango.github.io/架构与模式/DDD/note-ddd-strategic-archietecture/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Frost He">
@@ -302,7 +305,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Linux 基础 - 档案与目录管理</h1>
+          <h1 class="post-title" itemprop="name headline">《实现领域驱动设计》读书笔记(3) - 战略建模之架构</h1>
         
 
         <div class="post-meta">
@@ -314,8 +317,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2015-04-29T17:21:36+08:00">
-                2015-04-29
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-28T19:36:25+08:00">
+                2017-02-28
               </time>
             
 
@@ -337,8 +340,19 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/linux/" itemprop="url" rel="index">
-                    <span itemprop="name">linux</span>
+                  <a href="/categories/架构与模式/" itemprop="url" rel="index">
+                    <span itemprop="name">架构与模式</span>
+                  </a>
+                </span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/架构与模式/DDD/" itemprop="url" rel="index">
+                    <span itemprop="name">DDD</span>
                   </a>
                 </span>
 
@@ -370,7 +384,7 @@
                   <span class="post-meta-item-text">Words count in article&#58;</span>
                 
                 <span title="Words count in article">
-                  161
+                  3,347
                 </span>
               
 
@@ -382,7 +396,7 @@
 
           
               <div class="post-description">
-                  本文介绍了 Linux 系统
+                  本文记录了 DDD 与架构风格和模式之间的关系，并阐述了常见架构的应用场景
               </div>
           
 
@@ -399,22 +413,81 @@
       
 
       
-        <p>档案管理主要涉及: </p>
+        <p>系列大纲: <a href="http://localhost:4000/tags/ddd/" target="_blank" rel="noopener">《实现领域驱动设计》读书笔记</a></p>
+<p>本文大纲:</p>
 <ul>
-<li>显示档案详情</li>
-<li>拷贝</li>
-<li>删除档案</li>
-<li>移动档案</li>
+<li><a href="#%E5%88%86%E5%B1%82%E6%9E%B6%E6%9E%84">分层架构</a><ul>
+<li><a href="#%E4%BE%9D%E8%B5%96%E5%80%92%E7%BD%AE%E5%8E%9F%E5%88%99">依赖倒置原则</a></li>
 </ul>
-<h1 id="ls-检视档案"><a href="#ls-检视档案" class="headerlink" title="ls(检视档案)"></a>ls(检视档案)</h1><p>ls 常用的选项有:</p>
+</li>
+<li><a href="#%E5%85%AD%E8%BE%B9%E5%BD%A2%E6%9E%B6%E6%9E%84%E7%AB%AF%E5%8F%A3%E4%B8%8E%E9%80%82%E9%85%8D%E5%99%A8%E6%9E%B6%E6%9E%84%EF%BC%8C%E6%B4%8B%E8%91%B1%E6%9E%B6%E6%9E%84">六边形架构(端口与适配器架构，洋葱架构)</a></li>
+<li><a href="#%E9%9D%A2%E5%90%91%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84service-oriented-architecture-soa">面向服务架构(Service-Oriented Architecture, SOA)</a></li>
+<li><a href="#restrepresentational-state-transfer">REST(Representational State Transfer)</a><ul>
+<li><a href="#restful-http-%E6%9C%8D%E5%8A%A1%E7%AB%AF%E7%9A%84%E5%85%B3%E9%94%AE%E6%96%B9%E9%9D%A2">RESTful HTTP 服务端的关键方面</a></li>
+<li><a href="#rest-%E5%92%8C-ddd">REST 和 DDD</a></li>
+</ul>
+</li>
+<li><a href="#%E5%91%BD%E4%BB%A4%E4%B8%8E%E6%9F%A5%E8%AF%A2%E8%81%8C%E8%B4%A3%E5%88%86%E7%A6%BB---cqrs">命令与查询职责分离 - CQRS</a></li>
+<li><a href="#%E4%BA%8B%E4%BB%B6%E9%A9%B1%E5%8A%A8%E6%9E%B6%E6%9E%84">事件驱动架构</a></li>
+<li><a href="#%E6%95%B0%E6%8D%AE%E7%BD%91%E7%BB%87%E5%92%8C%E5%9F%BA%E4%BA%8E%E7%BD%91%E6%A0%BC%E7%9A%84%E5%88%86%E5%B8%83%E5%BC%8F%E8%AE%A1%E7%AE%97">数据网织和基于网格的分布式计算</a></li>
+</ul>
+<h1 id="分层架构"><a href="#分层架构" class="headerlink" title="分层架构"></a>分层架构</h1><p>分层架构的一个重要原则是: 每层只能与位于其下方的层发生耦合。<strong>「严格分层架构」</strong>只允许某层与直接位于其下方的层发生偶尔，而<strong>「松散分层架构」</strong>则允许任意上方层与任意下方层发生耦合。由于用户界面层和应用服务层经常需要与基础设施打交道，许多系统都是基于松散分层架构的。</p>
+<p>在分层架构中，领域的核心域通常只位于架构的其中一层，<strong>用户界面层</strong>和<strong>应用服务层</strong>均位于其上，有人认为既然用户界面需要对用户输入进行验证，那么它就应该包含业务逻辑。事实上，用户界面进行的验证和领域模型的验证是不同的，在用户界面中使用的只是数据的渲染和展现，此时可以使用展现模型将用户界面与领域模型解耦。</p>
+<blockquote>
+<p>此处的用户，可能是人也可能是其他系统，用户界面是应用层的直接消费方。</p>
+</blockquote>
+<p>应用服务位于应用层中，应用服务和领域服务是不同的，领域逻辑也不应该出现在应用服务中。应用服务可以用于控制持久化事务和安全认证，或者向其他系统发送基于事件的消息通知，另外还可以用于创建邮件以发送给用户。<strong>应用服务本身并不处理业务逻辑，但它是领域模型的直接消费者，它主要用于协调领域对象的操作，应用服务是很轻量的。</strong>比如<strong>聚合</strong>。同时，应用服务是表达用例和用户故事的主要手段。因此，应用服务通常的用途是: 接收来自用户界面的输入参数，再通过资源库获取到<strong>聚合</strong>实例，然后执行相应的操作，例如:<br><figure class="highlight bash"><figcaption><span>C#</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">@Transactional</span><br><span class="line">public void CommitBacklogItemToSprint(string tenantId, string backlogItemId, string sprintId)&#123;</span><br><span class="line">    // construct wanted id objects.</span><br><span class="line">    var tenantId = new TenantId(tenantId);</span><br><span class="line">    var backlogItemId = new BacklogItemId(backlogItemId);</span><br><span class="line">    // get backlogItem object from repository.</span><br><span class="line">    var backlogItem = backlogItemRepository.BacklogItemOfId(tenantId, backlogItemId);</span><br><span class="line"></span><br><span class="line">    var sprintId = new SprintId(sprintId);</span><br><span class="line">    var sprint = sprintRepository.SprintOfId(tenantId, sprintId);</span><br><span class="line"></span><br><span class="line">    // call the commit method from backlogItem.</span><br><span class="line">    backlogItem.CommitTo(sprint);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>如果应用服务比上述功能复杂许多，这通常意味着领域逻辑已经泄露到应用服务中了，此时的领域模型将变成贫血模型。因此，最佳实践是将应用服务做成很薄的一层。</p>
+<blockquote>
+<p>上述代码很好的诠释了前文提及的关于应用服务<strong>「协调领域对象的操作」</strong>的功能</p>
+</blockquote>
+<h2 id="依赖倒置原则"><a href="#依赖倒置原则" class="headerlink" title="依赖倒置原则"></a>依赖倒置原则</h2><ul>
+<li>高层模块不应该依赖于低层模块，两者都应该依赖于抽象</li>
+<li>抽象不应该依赖于细节，细节应该依赖于抽象。</li>
+</ul>
+<h1 id="六边形架构-端口与适配器架构，洋葱架构"><a href="#六边形架构-端口与适配器架构，洋葱架构" class="headerlink" title="六边形架构(端口与适配器架构，洋葱架构)"></a>六边形架构(端口与适配器架构，洋葱架构)</h1><p>当传统的分层架构引入了依赖倒置原则，会发现已经不存在分层的概念了，无论是高层还是低层都依赖于抽象，好像把整个分层架构推平了。在六边形架构中，不同的消费者通过<strong>「对等」</strong>的方式与系统交互，当需要新增消费者时，只需添加一个新的适配器将客户输入转化成能被系统 API 所理解的参数就行了。同时，系统输出，例如图形界面，持久化和消息等都可以通过不同方式实现，并且是可替换的，对于每种特定的输出，都有一个新的适配器负责完成相应的转化功能。</p>
+<p>六边形架构提倡用<strong>「内部区域」</strong>和<strong>「外部区域」</strong>来看待整个系统，在外部区域中，不同的客户代码提交输入，内部系统用于获取持久化数据，并对程序输出进行存储，或在中途将输出转发到另外的地方(比如消息)。</p>
+<blockquote>
+<p>端口和适配器的意思是，将系统想象成一般的计算机，HTTP 协议和 AMPQ 协议以及用户界面可看成不同的端口，而适配器则负责将来自这些协议的数据转化成系统 API 能够理解的参数。</p>
+</blockquote>
+<p>在使用六边形架构时，我们应该根据用例来设计应用程序，而不是根据需要支持的客户数目来设计。任何客户都可能向不同的端口发出请求，但是所有的适配器都将使用相同的 API。</p>
+<p>应用程序位于六边形架构的内部区域，公共 API 通过应用服务暴露给外部区域，而如前文所述，应用服务是领域模型的直接消费者，所有的输入都将委派给内部的领域对象。</p>
+<p>我们可以将资源库的实现看作是持久化适配器，该适配器用于访问先前存储的聚合实例，或者保存新的实例，我们可以通过不同的方式实现资源库，如关系型数据库，文档型数据库以及内存数据库，他们分别对应着不同的适配器，但服务于同一种端口——<strong>持久化</strong>，即同一个端口可以有多种适配器。</p>
+<img src="/架构与模式/DDD/note-ddd-strategic-archietecture/port&adapter.png" title="六边形架构">
+<p>六边形架构的好处在于易于测试，整个应用程序和领域模型可以在没有客户和存储机制的条件下进行设计开发。基于六边形架构，可以扩展为 SOA，REST，事件驱动架构，CQRS 架构或者数据网织或基于网格的分布式缓存，还有可能 Map-Reduce 这种分布式并行处理方式。</p>
+<h1 id="面向服务架构-Service-Oriented-Architecture-SOA"><a href="#面向服务架构-Service-Oriented-Architecture-SOA" class="headerlink" title="面向服务架构(Service-Oriented Architecture, SOA)"></a>面向服务架构(Service-Oriented Architecture, SOA)</h1><p>服务的设计原则如下: </p>
 <ul>
-<li><code>-a</code>: 全部档案，包括隐藏档案</li>
-<li><code>-d</code>: 仅列出目录</li>
-<li><code>-l</code>: 列出详情</li>
+<li>服务契约: 通过契约文档，服务阐述自身的目的与功能</li>
+<li>松耦合: 服务将依赖关系最小化</li>
+<li>服务抽象: 服务只发布契约，而向消费方隐藏内部逻辑</li>
+<li>服务重用性: 一种服务可以被其他服务重用</li>
+<li>服务自治性: 服务自行控制环境与资源以保持独立性，这有助于保持服务的一致性和可靠性</li>
+<li>服务无状态性: 服务负责消费者的状态管理，但不能与服务的自治性发生冲突</li>
+<li>服务可发现性: 消费方可以通过服务元数据来查找服务和理解服务</li>
+<li>服务组合性: 一种服务可以由其他服务组合而成，而不管其他服务的大小和复杂性如何</li>
 </ul>
-<p>ls 指令包含了很多功能，Linux 档案系统记录了与档案有关的权限和属性，这些数据都放在 i-node 里面，有关 i-node 的详情，见后文。</p>
-<p>由于 <code>ls -l</code> 非常常用，很多 Linux 的发布版本使用 <code>ll</code> 指令使其成为 <code>ls -l</code> 的缩写，而这是由 Bash shell 的 alias 功能实现的，有关这部分内容，见后文。</p>
-
+<p>这些原则可以与六边形架构结合起来，此时服务边界位于最左侧，而领域模型位于中心位置，消费方可以通过 REST，SOAP 和消息机制获取服务。</p>
+<img src="/架构与模式/DDD/note-ddd-strategic-archietecture/SOA.png" title="支持 SOA 的六边形架构">
+<p>业务服务可以由任意数量的技术服务来提供，技术服务可以是 REST 资源，SOAP 接口或消息类型。业务服务强调业务战略，即如何对业务和技术进行整合。</p>
+<h1 id="REST-Representational-State-Transfer"><a href="#REST-Representational-State-Transfer" class="headerlink" title="REST(Representational State Transfer)"></a>REST(Representational State Transfer)</h1><p>REST 既不是使用 HTTP 直接发送 XML/JSON，也不是将 URI 的查询参数传递给方法。<strong>REST 是一种架构风格</strong>，架构风格之于架构就像设计模式之于设计一样，它将不同架构实现共有的东西抽象出来，使得我们在谈论架构时不至于陷入技术细节中。分布式系统架构存在多种架构风格，包括<strong>客户端-服务器</strong>架构风格和<strong>分布式对象</strong>风格。REST 是 Web 架构的一种架构风格，和其他技术一样，我们可以通过不同的方式来使用 Web 协议，有些使用方式符合设计者的初衷，而有些则不然。例如，你可以使用关系型数据库管理系统(RDBMS)创建表，列，外键关联，视图和约束等，你也可以只创建一张包含两列的表，一列表示‘键’，一列表示‘值’，然后将序列化之后的对象保存在值列中。此时，你依然在使用 RDBMS，但你却使用不到多少 RDBMS 的功能，如查询，组合，排列和分组等。</p>
+<p>同理，Web 协议既可以按照它的设计初衷为人所用——此时便是一种遵循 REST 架构风格的方式——也可以通过一种不遵循其设计初衷的方式为人所用。因此，当我们没有获得由使用 REST 风格的 HTTP 所带来的好处时，采用另一种分布式系统架构可能是合适的，就像在保存拥有唯一键的数值时，NoSQL 键值对存储方式是一种更好的选择一样。</p>
+<h2 id="RESTful-HTTP-服务端的关键方面"><a href="#RESTful-HTTP-服务端的关键方面" class="headerlink" title="RESTful HTTP 服务端的关键方面"></a>RESTful HTTP 服务端的关键方面</h2><p><strong>「资源」</strong>是关键的概念，系统的设计者将决定哪些有意义的<strong>「东西」</strong>可以暴露给外界，并且给这些<strong>「东西」</strong>一个唯一的身份标识。通常来说，每种资源都拥有一个 URI，每个 URI 都需要指向某个资源。</p>
+<p>另一个关键方面是<strong>「无状态通信」</strong>，消息是自描述的，例如，HTTP 请求本身便包含了服务端所需要的所有信息，服务端可以使用其本身的状态来辅助通信，重要的是: 我们不能依靠请求本身来创建一个隐式上下文环境(会话)。无状态通信保证了不同请求之间的相互独立性，这在很大程度上提高了系统的可伸缩性。</p>
+<p>将资源看作对象，那么每一个对象都支持相同的接口，可以调用的方法是一个固定即可，它们全都可以用 HTTP 动作表示，其中最重要的有 GET，PUT，POST 和 DELETE。这也是将 REST 与其他架构风格区别开来的关键。虽然乍一看这些方法将会转化成 CRUD 操作，但通常我们所创建的资源并不表示任何持久化实体，而是封装了某种行为，当调用 HTTP 动词对应的操作时，实际上是在调用这些行为。在 HTTP 规范中，每种 HTTP 方法都有一个明确的定义，比如 GET 方法只能用于<strong>「安全」</strong>的操作: </p>
+<ul>
+<li>它可能完成一些客户并没有要求的动作行为</li>
+<li>它总是读取数据</li>
+<li>它可能被缓存起来</li>
+</ul>
+<p>最后，通过使用 HATEOAS(Hypermedia as Engine of Application State)，REST 服务的消费方可以沿着某种路径发现应用程序可能的状态变化。简单来讲，就是单个资源并不独立存在，不同资源是相互链接在一起的，对于服务器来说，这意味着在返回中包含对其他资源的链接，由此消费方便可通过这些链接访问到相应的资源。</p>
+<h2 id="REST-和-DDD"><a href="#REST-和-DDD" class="headerlink" title="REST 和 DDD"></a>REST 和 DDD</h2><p>不建议将领域模型直接暴露给外界，这样会使系统接口变得非常脆弱，领域模型的任何改变都会导致系统接口的改变。要将 DDD 与 RESTful HTTP 合并起来使用，我们有两种方式。</p>
+<p>第一种方法是为系统接口层单独创建一个限界上下文，再在此上下文中通过适当的策略来访问核心模型，这是一种经典的方法，它将系统接口看作一个整体，通过资源抽象将系统功能暴露给外界，而不是通过服务或远程接口。这种方法让核心域和系统接口之间完成了解耦。</p>
+<p>另一种方法用于需要使用标准媒体类型的时候。如果某种媒体类型并不用于支持单个系统接口，而是用于一组相似的客户端-服务器交互场景，此时可以创建一个领域模型来处理每一种媒体类型。这种方法本质上为 DDD 中的共享内核或发布语言。</p>
+<blockquote>
+<p>这里提到的媒体类型表示 MIME type。</p>
+</blockquote>
+<p>通常来讲，添加新资源并在已有资源中创建到新资源的链接是非常简单的，要添加新的格式也同样如此。另外，基于 REST 的系统也是非常容易理解，系统被分为很多较小的资源块，每一个资源块都可以独立测试和调试。HTTP 设计本身以及 URI 成熟的重写与缓存机制使得 RESTful HTTP 成为一种不错的架构选择，该架构具有很好的松耦合性和可伸缩性。</p>
+<h1 id="命令与查询职责分离-CQRS"><a href="#命令与查询职责分离-CQRS" class="headerlink" title="命令与查询职责分离 - CQRS"></a>命令与查询职责分离 - CQRS</h1><h1 id="事件驱动架构"><a href="#事件驱动架构" class="headerlink" title="事件驱动架构"></a>事件驱动架构</h1><h1 id="数据网织和基于网格的分布式计算"><a href="#数据网织和基于网格的分布式计算" class="headerlink" title="数据网织和基于网格的分布式计算"></a>数据网织和基于网格的分布式计算</h1>
       
     </div>
     
@@ -431,7 +504,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/linux/" rel="tag"># linux</a>
+            <a href="/tags/ddd/" rel="tag"># ddd</a>
+          
+            <a href="/tags/note/" rel="tag"># note</a>
           
         </div>
       
@@ -444,8 +519,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/linux/linux-directory-operations/" rel="next" title="Linux 基础 - 目录操作与 $PATH">
-                <i class="fa fa-chevron-left"></i> Linux 基础 - 目录操作与 $PATH
+              <a href="/架构与模式/DDD/note-ddd-strategic/" rel="next" title="《实现领域驱动设计》读书笔记(2) - 战略建模">
+                <i class="fa fa-chevron-left"></i> 《实现领域驱动设计》读书笔记(2) - 战略建模
               </a>
             
           </div>
@@ -454,8 +529,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/Version-Control/Git/git-embeded-repository/" rel="prev" title="Git Module 与嵌套 Repository">
-                Git Module 与嵌套 Repository <i class="fa fa-chevron-right"></i>
+              <a href="/架构与模式/DDD/note-ddd-tactical-entity/" rel="prev" title="《实现领域驱动设计》读书笔记(4) - 战术建模之实体">
+                《实现领域驱动设计》读书笔记(4) - 战术建模之实体 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -524,7 +599,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-count">20</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
