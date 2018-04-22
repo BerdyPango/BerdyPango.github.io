@@ -85,7 +85,7 @@
 <meta property="og:site_name" content="Pango.Handbook">
 <meta property="og:description" content="本文主要记录了 Linux 系统下与用户何群组相关的指令和操作指南">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-04-16T03:53:19.669Z">
+<meta property="og:updated_time" content="2018-04-18T01:51:00.557Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux 基础 - 用户和群组">
 <meta name="twitter:description" content="本文主要记录了 Linux 系统下与用户何群组相关的指令和操作指南">
@@ -370,7 +370,7 @@
                   <span class="post-meta-item-text">Words count in article&#58;</span>
                 
                 <span title="Words count in article">
-                  4,364
+                  4,460
                 </span>
               
 
@@ -399,7 +399,31 @@
       
 
       
-        <p>参考资料：<a href="http://linux.vbird.org/linux_basic/0410accountmanager.php" target="_blank" rel="noopener">http://linux.vbird.org/linux_basic/0410accountmanager.php</a></p>
+        <p>参考资料：</p>
+<ul>
+<li><a href="http://linux.vbird.org/linux_basic/0410accountmanager.php" target="_blank" rel="noopener">http://linux.vbird.org/linux_basic/0410accountmanager.php</a></li>
+</ul>
+<p>本文大纲:<br><!-- TOC --></p>
+<ul>
+<li><a href="#%E7%94%A8%E6%88%B7%E5%B8%90%E5%8F%B7%E7%AE%A1%E7%90%86">用户帐号管理</a><ul>
+<li><a href="#%E6%96%B0%E5%BB%BA%E7%94%A8%E6%88%B7%E5%B8%90%E5%8F%B7---useradd">新建用户帐号 - useradd</a></li>
+<li><a href="#%E8%AE%BE%E7%BD%AE%E5%B8%90%E5%8F%B7%E5%AF%86%E7%A0%81---passwd">设置帐号密码 - passwd</a></li>
+<li><a href="#%E7%AE%A1%E7%90%86%E5%B8%90%E5%8F%B7%E5%AF%86%E7%A0%81%E7%AD%96%E7%95%A5---chage">管理帐号密码策略 - chage</a></li>
+<li><a href="#%E4%BF%AE%E6%94%B9%E7%94%A8%E6%88%B7%E5%B8%90%E5%8F%B7%E4%BF%A1%E6%81%AF---usermod">修改用户帐号信息 - usermod</a></li>
+<li><a href="#%E5%88%A0%E9%99%A4%E7%94%A8%E6%88%B7%E5%B8%90%E5%8F%B7---userdel">删除用户帐号 - userdel</a></li>
+<li><a href="#%E7%94%A8%E6%88%B7%E7%AB%AF%E6%8C%87%E4%BB%A4---id-finger-chfn-chsh">用户端指令 - id, finger, chfn, chsh</a></li>
+</ul>
+</li>
+<li><a href="#%E7%BE%A4%E7%BB%84%E7%AE%A1%E7%90%86">群组管理</a><ul>
+<li><a href="#%E6%96%B0%E5%A2%9E%E7%BE%A4%E7%BB%84---groupadd">新增群组 - groupadd</a></li>
+<li><a href="#%E4%BF%AE%E6%94%B9%E7%BE%A4%E7%BB%84---groupmod">修改群组 - groupmod</a></li>
+<li><a href="#%E5%88%A0%E9%99%A4%E7%BE%A4%E7%BB%84---groupdel">删除群组 - groupdel</a></li>
+<li><a href="#%E7%BE%A4%E7%BB%84%E7%AE%A1%E7%90%86%E5%91%98---gpasswd">群组管理员 - gpasswd</a></li>
+<li><a href="#%E5%88%9D%E5%A7%8B%E7%BE%A4%E7%BB%84%EF%BC%8C%E6%AC%A1%E8%A6%81%E7%BE%A4%E7%BB%84%E5%92%8C%E6%9C%89%E6%95%88%E7%BE%A4%E7%BB%84">初始群组，次要群组和有效群组</a></li>
+</ul>
+</li>
+</ul>
+<!-- /TOC -->
 <p>Linux 使用文件及配置相应的权限来存储用户帐号和群组信息，在成功创建好用户帐号之后，以下几处文件会发生相应的改变</p>
 <ul>
 <li>/etc/passwd: Linux 管理用户帐号的数据库</li>
@@ -653,7 +677,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-count">24</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>

@@ -80,14 +80,14 @@
 <meta name="description" content="ASP.NET Core 验证的最佳实践，阅读微软官网文档的摘抄和心得">
 <meta name="keywords" content="asp.net core">
 <meta property="og:type" content="article">
-<meta property="og:title" content="ASP.NET CORE 应用 - 验证">
-<meta property="og:url" content="https://berdypango.github.io/Web/ASP-NET-CORE/aspnetcore-application-validation/index.html">
+<meta property="og:title" content="ASP.NET Core 应用 - 验证">
+<meta property="og:url" content="https://berdypango.github.io/Web/ASP-NET-Core/aspnetcore-application-validation/index.html">
 <meta property="og:site_name" content="Pango.Handbook">
 <meta property="og:description" content="ASP.NET Core 验证的最佳实践，阅读微软官网文档的摘抄和心得">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-04-16T03:59:36.219Z">
+<meta property="og:updated_time" content="2018-04-17T07:16:54.912Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="ASP.NET CORE 应用 - 验证">
+<meta name="twitter:title" content="ASP.NET Core 应用 - 验证">
 <meta name="twitter:description" content="ASP.NET Core 验证的最佳实践，阅读微软官网文档的摘抄和心得">
 
 
@@ -118,13 +118,13 @@
 
 
 
-  <link rel="canonical" href="https://berdypango.github.io/Web/ASP-NET-CORE/aspnetcore-application-validation/"/>
+  <link rel="canonical" href="https://berdypango.github.io/Web/ASP-NET-Core/aspnetcore-application-validation/"/>
 
 
 
 
 
-  <title>ASP.NET CORE 应用 - 验证 | Pango.Handbook</title>
+  <title>ASP.NET Core 应用 - 验证 | Pango.Handbook</title>
   
 
 
@@ -285,7 +285,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://berdypango.github.io/Web/ASP-NET-CORE/aspnetcore-application-validation/">
+    <link itemprop="mainEntityOfPage" href="https://berdypango.github.io/Web/ASP-NET-Core/aspnetcore-application-validation/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Frost He">
@@ -302,7 +302,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">ASP.NET CORE 应用 - 验证</h1>
+          <h1 class="post-title" itemprop="name headline">ASP.NET Core 应用 - 验证</h1>
         
 
         <div class="post-meta">
@@ -348,8 +348,8 @@
                 
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Web/ASP-NET-CORE/" itemprop="url" rel="index">
-                    <span itemprop="name">ASP.NET CORE</span>
+                  <a href="/categories/Web/ASP-NET-Core/" itemprop="url" rel="index">
+                    <span itemprop="name">ASP.NET Core</span>
                   </a>
                 </span>
 
@@ -410,7 +410,11 @@
       
 
       
-        <p>本文大纲: </p>
+        <p>参考资料: </p>
+<ul>
+<li><a href="https://docs.microsoft.com/en-us/aspnet/core/mvc/models/validation?view=aspnetcore-2.1" target="_blank" rel="noopener">Model validation in ASP.NET Core MVC</a></li>
+</ul>
+<p>本文大纲: </p>
 <ul>
 <li><a href="#%E9%AA%8C%E8%AF%81%E7%89%B9%E6%80%A7">验证特性</a></li>
 <li><a href="#required-%E7%89%B9%E6%80%A7%E7%9A%84%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9">Required 特性的注意事项</a></li>
@@ -423,7 +427,6 @@
 <li><a href="#iclientmodelvalidator">IClientModelValidator</a></li>
 <li><a href="#%E8%BF%9C%E7%A8%8B%E9%AA%8C%E8%AF%81">远程验证</a></li>
 </ul>
-<p>参考资料: <a href="https://docs.microsoft.com/en-us/aspnet/core/mvc/models/validation?view=aspnetcore-2.1" target="_blank" rel="noopener">Model validation in ASP.NET Core MVC</a></p>
 <h1 id="验证特性"><a href="#验证特性" class="headerlink" title="验证特性"></a>验证特性</h1><p>ASP.NET Core 内置了一系列用于验证的 <code>attribute</code>(以下使用特性代替) 使得开发人员可以声明式地将它们应用于任何类型或属性。</p>
 <figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Movie</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span> ID &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line"></span><br><span class="line">    [<span class="meta">StringLength(60, MinimumLength = 3)</span>]</span><br><span class="line">    [<span class="meta">Required</span>]</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">string</span> Title &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line"></span><br><span class="line">    [<span class="meta">Display(Name = <span class="meta-string">"Release Date"</span>)</span>]</span><br><span class="line">    [<span class="meta">DataType(DataType.Date)</span>]</span><br><span class="line">    <span class="keyword">public</span> DateTime ReleaseDate &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line"></span><br><span class="line">    [<span class="meta">Range(1, 100)</span>]</span><br><span class="line">    [<span class="meta">DataType(DataType.Currency)</span>]</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">decimal</span> Price &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line"></span><br><span class="line">    [<span class="meta">RegularExpression(@<span class="meta-string">"^[A-Z]+[a-zA-Z"</span><span class="meta-string">"'\s-]*$"</span>)</span>]</span><br><span class="line">    [<span class="meta">Required</span>]</span><br><span class="line">    [<span class="meta">StringLength(30)</span>]</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">string</span> Genre &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line"></span><br><span class="line">    [<span class="meta">RegularExpression(@<span class="meta-string">"^[A-Z]+[a-zA-Z"</span><span class="meta-string">"'\s-]*$"</span>)</span>]</span><br><span class="line">    [<span class="meta">StringLength(5)</span>]</span><br><span class="line">    [<span class="meta">Required</span>]</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">string</span> Rating &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <ul>
@@ -512,8 +515,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/Web/ASP-NET-CORE/aspnetcore-application-localization/" rel="next" title="ASP.NET CORE 应用 - 国际化与本土化">
-                <i class="fa fa-chevron-left"></i> ASP.NET CORE 应用 - 国际化与本土化
+              <a href="/Web/ASP-NET-Core/aspnetcore-application-localization/" rel="next" title="ASP.NET Core 应用 - 国际化与本土化">
+                <i class="fa fa-chevron-left"></i> ASP.NET Core 应用 - 国际化与本土化
               </a>
             
           </div>
@@ -522,8 +525,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/Web/ASP-NET-CORE/aspnetcore-application-viewcomponent/" rel="prev" title="ASP.NET CORE 应用 - 视图组件">
-                ASP.NET CORE 应用 - 视图组件 <i class="fa fa-chevron-right"></i>
+              <a href="/Web/ASP-NET-Core/aspnetcore-application-viewcomponent/" rel="prev" title="ASP.NET Core 应用 - 视图组件">
+                ASP.NET Core 应用 - 视图组件 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -592,7 +595,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-count">24</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>

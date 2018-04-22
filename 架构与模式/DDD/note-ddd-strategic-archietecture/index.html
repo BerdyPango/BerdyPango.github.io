@@ -77,20 +77,20 @@
 
 
 
-<meta name="description" content="本文记录了 DDD 与架构风格和模式之间的关系，并阐述了常见架构的应用场景">
+<meta name="description" content="从传统分层架构到六边形架构，再到以六边形架构为基础扩展出的其他架构形态。架构只是实现领域驱动设计的建模工具，">
 <meta name="keywords" content="ddd,note">
 <meta property="og:type" content="article">
 <meta property="og:title" content="《实现领域驱动设计》读书笔记(3) - 战略建模之架构">
 <meta property="og:url" content="https://berdypango.github.io/架构与模式/DDD/note-ddd-strategic-archietecture/index.html">
 <meta property="og:site_name" content="Pango.Handbook">
-<meta property="og:description" content="本文记录了 DDD 与架构风格和模式之间的关系，并阐述了常见架构的应用场景">
+<meta property="og:description" content="从传统分层架构到六边形架构，再到以六边形架构为基础扩展出的其他架构形态。架构只是实现领域驱动设计的建模工具，">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://berdypango.github.io/架构与模式/DDD/note-ddd-strategic-archietecture/port&adapter.png">
 <meta property="og:image" content="https://berdypango.github.io/架构与模式/DDD/note-ddd-strategic-archietecture/SOA.png">
-<meta property="og:updated_time" content="2018-04-16T04:20:59.716Z">
+<meta property="og:updated_time" content="2018-04-18T11:12:45.957Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="《实现领域驱动设计》读书笔记(3) - 战略建模之架构">
-<meta name="twitter:description" content="本文记录了 DDD 与架构风格和模式之间的关系，并阐述了常见架构的应用场景">
+<meta name="twitter:description" content="从传统分层架构到六边形架构，再到以六边形架构为基础扩展出的其他架构形态。架构只是实现领域驱动设计的建模工具，">
 <meta name="twitter:image" content="https://berdypango.github.io/架构与模式/DDD/note-ddd-strategic-archietecture/port&adapter.png">
 
 
@@ -384,7 +384,7 @@
                   <span class="post-meta-item-text">Words count in article&#58;</span>
                 
                 <span title="Words count in article">
-                  3,347
+                  5,462
                 </span>
               
 
@@ -396,7 +396,7 @@
 
           
               <div class="post-description">
-                  本文记录了 DDD 与架构风格和模式之间的关系，并阐述了常见架构的应用场景
+                  从传统分层架构到六边形架构，再到以六边形架构为基础扩展出的其他架构形态。架构只是实现领域驱动设计的建模工具，
               </div>
           
 
@@ -416,42 +416,55 @@
         <p>系列大纲: <a href="/tags/ddd/">《实现领域驱动设计》读书笔记</a></p>
 <p>本文大纲:</p>
 <ul>
-<li><a href="#%E5%88%86%E5%B1%82%E6%9E%B6%E6%9E%84">分层架构</a><ul>
+<li><a href="#%E5%88%86%E5%B1%82%E6%9E%B6%E6%9E%84">分层架构</a></li>
+<li><a href="#%E5%85%AD%E8%BE%B9%E5%BD%A2%E6%9E%B6%E6%9E%84%E7%AB%AF%E5%8F%A3%E4%B8%8E%E9%80%82%E9%85%8D%E5%99%A8%E6%9E%B6%E6%9E%84%EF%BC%8C%E6%B4%8B%E8%91%B1%E6%9E%B6%E6%9E%84">六边形架构(端口与适配器架构，洋葱架构)</a><ul>
 <li><a href="#%E4%BE%9D%E8%B5%96%E5%80%92%E7%BD%AE%E5%8E%9F%E5%88%99">依赖倒置原则</a></li>
 </ul>
 </li>
-<li><a href="#%E5%85%AD%E8%BE%B9%E5%BD%A2%E6%9E%B6%E6%9E%84%E7%AB%AF%E5%8F%A3%E4%B8%8E%E9%80%82%E9%85%8D%E5%99%A8%E6%9E%B6%E6%9E%84%EF%BC%8C%E6%B4%8B%E8%91%B1%E6%9E%B6%E6%9E%84">六边形架构(端口与适配器架构，洋葱架构)</a></li>
 <li><a href="#%E9%9D%A2%E5%90%91%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84service-oriented-architecture-soa">面向服务架构(Service-Oriented Architecture, SOA)</a></li>
 <li><a href="#restrepresentational-state-transfer">REST(Representational State Transfer)</a><ul>
 <li><a href="#restful-http-%E6%9C%8D%E5%8A%A1%E7%AB%AF%E7%9A%84%E5%85%B3%E9%94%AE%E6%96%B9%E9%9D%A2">RESTful HTTP 服务端的关键方面</a></li>
 <li><a href="#rest-%E5%92%8C-ddd">REST 和 DDD</a></li>
 </ul>
 </li>
-<li><a href="#%E5%91%BD%E4%BB%A4%E4%B8%8E%E6%9F%A5%E8%AF%A2%E8%81%8C%E8%B4%A3%E5%88%86%E7%A6%BB---cqrs">命令与查询职责分离 - CQRS</a></li>
-<li><a href="#%E4%BA%8B%E4%BB%B6%E9%A9%B1%E5%8A%A8%E6%9E%B6%E6%9E%84">事件驱动架构</a></li>
+<li><a href="#%E5%91%BD%E4%BB%A4%E4%B8%8E%E6%9F%A5%E8%AF%A2%E8%81%8C%E8%B4%A3%E5%88%86%E7%A6%BB---cqrs">命令与查询职责分离 - CQRS</a><ul>
+<li><a href="#%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%92%8C%E6%9F%A5%E8%AF%A2%E5%A4%84%E7%90%86%E5%99%A8">客户端和查询处理器</a></li>
+<li><a href="#%E6%9F%A5%E8%AF%A2%E6%A8%A1%E5%9E%8B">查询模型</a></li>
+</ul>
+</li>
+<li><a href="#%E4%BA%8B%E4%BB%B6%E9%A9%B1%E5%8A%A8%E6%9E%B6%E6%9E%84">事件驱动架构</a><ul>
+<li><a href="#%E7%AE%A1%E9%81%93%E5%92%8C%E8%BF%87%E6%BB%A4%E5%99%A8">管道和过滤器</a></li>
+<li><a href="#%E9%95%BF%E6%97%B6%E5%A4%84%E7%90%86%E8%BF%87%E7%A8%8Bsaga">长时处理过程(Saga)</a></li>
+<li><a href="#%E4%BA%8B%E4%BB%B6%E6%BA%90eventsource">事件源(EventSource)</a></li>
+</ul>
+</li>
 <li><a href="#%E6%95%B0%E6%8D%AE%E7%BD%91%E7%BB%87%E5%92%8C%E5%9F%BA%E4%BA%8E%E7%BD%91%E6%A0%BC%E7%9A%84%E5%88%86%E5%B8%83%E5%BC%8F%E8%AE%A1%E7%AE%97">数据网织和基于网格的分布式计算</a></li>
 </ul>
-<h1 id="分层架构"><a href="#分层架构" class="headerlink" title="分层架构"></a>分层架构</h1><p>分层架构的一个重要原则是: 每层只能与位于其下方的层发生耦合。<strong>「严格分层架构」</strong>只允许某层与直接位于其下方的层发生偶尔，而<strong>「松散分层架构」</strong>则允许任意上方层与任意下方层发生耦合。由于用户界面层和应用服务层经常需要与基础设施打交道，许多系统都是基于松散分层架构的。</p>
-<p>在分层架构中，领域的核心域通常只位于架构的其中一层，<strong>用户界面层</strong>和<strong>应用服务层</strong>均位于其上，有人认为既然用户界面需要对用户输入进行验证，那么它就应该包含业务逻辑。事实上，用户界面进行的验证和领域模型的验证是不同的，在用户界面中使用的只是数据的渲染和展现，此时可以使用展现模型将用户界面与领域模型解耦。</p>
+<h1 id="分层架构"><a href="#分层架构" class="headerlink" title="分层架构"></a>分层架构</h1><p>分层架构的一个重要原则是: 每层只能与位于其下方的层发生耦合。<strong>「严格分层架构」</strong>只允许某层与直接位于其下方的层发生偶尔，而<strong>「松散分层架构」</strong>则允许任意上方层与任意下方层发生耦合。由于<strong>「用户界面层」</strong>和<strong>「应用服务层」</strong>经常需要与基础设施打交道，许多系统都是基于<strong>「松散分层架构」</strong>的。</p>
+<p>在分层架构中，领域的核心域通常只位于架构的其中一层，<strong>「用户界面层」</strong>和<strong>「应用服务层」</strong>均位于其上。</p>
 <blockquote>
-<p>此处的用户，可能是人也可能是其他系统，用户界面是应用层的直接消费方。</p>
+<p>根据笔者的理解，用户界面层对应所有对系统产生消费行为的客户端，可能是人也可能是其他系统，用户界面是应用层的直接消费方。</p>
 </blockquote>
-<p>应用服务位于应用层中，应用服务和领域服务是不同的，领域逻辑也不应该出现在应用服务中。应用服务可以用于控制持久化事务和安全认证，或者向其他系统发送基于事件的消息通知，另外还可以用于创建邮件以发送给用户。<strong>应用服务本身并不处理业务逻辑，但它是领域模型的直接消费者，它主要用于协调领域对象的操作，应用服务是很轻量的。</strong>比如<strong>聚合</strong>。同时，应用服务是表达用例和用户故事的主要手段。因此，应用服务通常的用途是: 接收来自用户界面的输入参数，再通过资源库获取到<strong>聚合</strong>实例，然后执行相应的操作，例如:<br><figure class="highlight bash"><figcaption><span>C#</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">@Transactional</span><br><span class="line">public void CommitBacklogItemToSprint(string tenantId, string backlogItemId, string sprintId)&#123;</span><br><span class="line">    // construct wanted id objects.</span><br><span class="line">    var tenantId = new TenantId(tenantId);</span><br><span class="line">    var backlogItemId = new BacklogItemId(backlogItemId);</span><br><span class="line">    // get backlogItem object from repository.</span><br><span class="line">    var backlogItem = backlogItemRepository.BacklogItemOfId(tenantId, backlogItemId);</span><br><span class="line"></span><br><span class="line">    var sprintId = new SprintId(sprintId);</span><br><span class="line">    var sprint = sprintRepository.SprintOfId(tenantId, sprintId);</span><br><span class="line"></span><br><span class="line">    // call the commit method from backlogItem.</span><br><span class="line">    backlogItem.CommitTo(sprint);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>如果应用服务比上述功能复杂许多，这通常意味着领域逻辑已经泄露到应用服务中了，此时的领域模型将变成贫血模型。因此，最佳实践是将应用服务做成很薄的一层。</p>
+<p>有人认为既然用户界面需要对用户输入进行验证，那么它就应该包含业务逻辑。事实上，<strong>用户界面进行的验证和领域模型的验证是不同的</strong>，在用户界面中使用的只是数据的渲染和展现，而领域模型的验证的关注点却跟一致性有关，此时可以使用展现模型将用户界面与领域模型解耦。</p>
+<blockquote>
+<p><strong>「应用服务」</strong>位于应用层中，<strong>「应用服务」</strong>和<strong>「领域服务」</strong>的职责是不同的，后续的文章专门针对两者进行了讨论。</p>
+</blockquote>
+<p>领域逻辑不应该出现在应用服务中，应用服务可以用于控制持久化事务和安全认证，或者向其他系统发送基于事件的消息通知，另外还可以用于创建邮件以发送给用户。<strong>应用服务本身并不处理业务逻辑，但它是领域模型的直接消费者，它主要用于协调领域对象的操作，应用服务是很轻量的</strong>。比如<strong>聚合</strong>。同时，应用服务是表达用例和用户故事的主要手段。因此，应用服务通常的用途是: 接收来自用户界面的输入参数，再通过资源库获取到<strong>聚合</strong>实例，然后执行相应的操作，例如:<br><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">@Transactional</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">CommitBacklogItemToSprint</span>(<span class="params"><span class="keyword">string</span> tenantId, <span class="keyword">string</span> backlogItemId, <span class="keyword">string</span> sprintId</span>)</span>&#123;</span><br><span class="line">    <span class="comment">// construct wanted id objects.</span></span><br><span class="line">    <span class="keyword">var</span> tenantId = <span class="keyword">new</span> TenantId(tenantId);</span><br><span class="line">    <span class="keyword">var</span> backlogItemId = <span class="keyword">new</span> BacklogItemId(backlogItemId);</span><br><span class="line">    <span class="comment">// get backlogItem object from repository.</span></span><br><span class="line">    <span class="keyword">var</span> backlogItem = backlogItemRepository.BacklogItemOfId(tenantId, backlogItemId);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> sprintId = <span class="keyword">new</span> SprintId(sprintId);</span><br><span class="line">    <span class="keyword">var</span> sprint = sprintRepository.SprintOfId(tenantId, sprintId);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// call the commit method from backlogItem.</span></span><br><span class="line">    backlogItem.CommitTo(sprint);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <blockquote>
 <p>上述代码很好的诠释了前文提及的关于应用服务<strong>「协调领域对象的操作」</strong>的功能</p>
 </blockquote>
-<h2 id="依赖倒置原则"><a href="#依赖倒置原则" class="headerlink" title="依赖倒置原则"></a>依赖倒置原则</h2><ul>
+<p>如果应用服务比上述功能复杂许多，这通常意味着领域逻辑已经泄露到应用服务中了，此时的领域模型将变成<strong>「贫血领域模型」</strong>。因此，最佳实践是将应用服务做成很薄的一层。</p>
+<h1 id="六边形架构-端口与适配器架构，洋葱架构"><a href="#六边形架构-端口与适配器架构，洋葱架构" class="headerlink" title="六边形架构(端口与适配器架构，洋葱架构)"></a>六边形架构(端口与适配器架构，洋葱架构)</h1><h2 id="依赖倒置原则"><a href="#依赖倒置原则" class="headerlink" title="依赖倒置原则"></a>依赖倒置原则</h2><ul>
 <li>高层模块不应该依赖于低层模块，两者都应该依赖于抽象</li>
 <li>抽象不应该依赖于细节，细节应该依赖于抽象。</li>
 </ul>
-<h1 id="六边形架构-端口与适配器架构，洋葱架构"><a href="#六边形架构-端口与适配器架构，洋葱架构" class="headerlink" title="六边形架构(端口与适配器架构，洋葱架构)"></a>六边形架构(端口与适配器架构，洋葱架构)</h1><p>当传统的分层架构引入了依赖倒置原则，会发现已经不存在分层的概念了，无论是高层还是低层都依赖于抽象，好像把整个分层架构推平了。在六边形架构中，不同的消费者通过<strong>「对等」</strong>的方式与系统交互，当需要新增消费者时，只需添加一个新的适配器将客户输入转化成能被系统 API 所理解的参数就行了。同时，系统输出，例如图形界面，持久化和消息等都可以通过不同方式实现，并且是可替换的，对于每种特定的输出，都有一个新的适配器负责完成相应的转化功能。</p>
+<p>当传统的分层架构引入了依赖倒置原则，会发现已经不存在分层的概念了，无论是高层还是低层都依赖于抽象，好像把整个分层架构推平了。在六边形架构中，不同的消费者通过<strong>「对等」</strong>的方式与系统交互，当需要新增消费者时，只需添加一个新的适配器将客户输入转化成能被系统 API 所理解的参数就行了。同时，系统输出，例如<strong>「图形界面」</strong>，<strong>「持久化」</strong>和<strong>「消息」</strong>等都可以通过不同方式实现，并且是可替换的，对于每种特定的输出，都有一个新的适配器负责完成相应的转化功能。</p>
 <p>六边形架构提倡用<strong>「内部区域」</strong>和<strong>「外部区域」</strong>来看待整个系统，在外部区域中，不同的客户代码提交输入，内部系统用于获取持久化数据，并对程序输出进行存储，或在中途将输出转发到另外的地方(比如消息)。</p>
 <blockquote>
-<p>端口和适配器的意思是，将系统想象成一般的计算机，HTTP 协议和 AMPQ 协议以及用户界面可看成不同的端口，而适配器则负责将来自这些协议的数据转化成系统 API 能够理解的参数。</p>
+<p>依据笔者理解，端口和适配器的意思是，将系统想象成一般的计算机，HTTP 协议和 AMPQ 协议以及用户界面可看作不同的端口，而适配器则负责将来自这些协议的数据转化成系统 API 能够理解的数据。</p>
 </blockquote>
 <p>在使用六边形架构时，我们应该根据用例来设计应用程序，而不是根据需要支持的客户数目来设计。任何客户都可能向不同的端口发出请求，但是所有的适配器都将使用相同的 API。</p>
-<p>应用程序位于六边形架构的内部区域，公共 API 通过应用服务暴露给外部区域，而如前文所述，应用服务是领域模型的直接消费者，所有的输入都将委派给内部的领域对象。</p>
+<p>应用程序位于六边形架构的<strong>「内部区域」</strong>，公共 API 通过<strong>「应用服务」</strong>暴露给外部区域，而如前文所述，应用服务是领域模型的直接消费者，所有的输入都将委派给内部的领域对象。</p>
 <p>我们可以将资源库的实现看作是持久化适配器，该适配器用于访问先前存储的聚合实例，或者保存新的实例，我们可以通过不同的方式实现资源库，如关系型数据库，文档型数据库以及内存数据库，他们分别对应着不同的适配器，但服务于同一种端口——<strong>持久化</strong>，即同一个端口可以有多种适配器。</p>
 <img src="/架构与模式/DDD/note-ddd-strategic-archietecture/port&adapter.png" title="六边形架构">
 <p>六边形架构的好处在于易于测试，整个应用程序和领域模型可以在没有客户和存储机制的条件下进行设计开发。基于六边形架构，可以扩展为 SOA，REST，事件驱动架构，CQRS 架构或者数据网织或基于网格的分布式缓存，还有可能 Map-Reduce 这种分布式并行处理方式。</p>
@@ -469,11 +482,15 @@
 <p>这些原则可以与六边形架构结合起来，此时服务边界位于最左侧，而领域模型位于中心位置，消费方可以通过 REST，SOAP 和消息机制获取服务。</p>
 <img src="/架构与模式/DDD/note-ddd-strategic-archietecture/SOA.png" title="支持 SOA 的六边形架构">
 <p>业务服务可以由任意数量的技术服务来提供，技术服务可以是 REST 资源，SOAP 接口或消息类型。业务服务强调业务战略，即如何对业务和技术进行整合。</p>
-<h1 id="REST-Representational-State-Transfer"><a href="#REST-Representational-State-Transfer" class="headerlink" title="REST(Representational State Transfer)"></a>REST(Representational State Transfer)</h1><p>REST 既不是使用 HTTP 直接发送 XML/JSON，也不是将 URI 的查询参数传递给方法。<strong>REST 是一种架构风格</strong>，架构风格之于架构就像设计模式之于设计一样，它将不同架构实现共有的东西抽象出来，使得我们在谈论架构时不至于陷入技术细节中。分布式系统架构存在多种架构风格，包括<strong>客户端-服务器</strong>架构风格和<strong>分布式对象</strong>风格。REST 是 Web 架构的一种架构风格，和其他技术一样，我们可以通过不同的方式来使用 Web 协议，有些使用方式符合设计者的初衷，而有些则不然。例如，你可以使用关系型数据库管理系统(RDBMS)创建表，列，外键关联，视图和约束等，你也可以只创建一张包含两列的表，一列表示‘键’，一列表示‘值’，然后将序列化之后的对象保存在值列中。此时，你依然在使用 RDBMS，但你却使用不到多少 RDBMS 的功能，如查询，组合，排列和分组等。</p>
-<p>同理，Web 协议既可以按照它的设计初衷为人所用——此时便是一种遵循 REST 架构风格的方式——也可以通过一种不遵循其设计初衷的方式为人所用。因此，当我们没有获得由使用 REST 风格的 HTTP 所带来的好处时，采用另一种分布式系统架构可能是合适的，就像在保存拥有唯一键的数值时，NoSQL 键值对存储方式是一种更好的选择一样。</p>
+<h1 id="REST-Representational-State-Transfer"><a href="#REST-Representational-State-Transfer" class="headerlink" title="REST(Representational State Transfer)"></a>REST(Representational State Transfer)</h1><p>REST 既不是使用 HTTP 直接发送 XML/JSON，也不是将 URI 的查询参数传递给方法。<strong>REST 是一种架构风格</strong>，架构风格之于架构就像设计模式之于设计一样，它将不同架构实现共有的东西抽象出来，使得我们在谈论架构时不至于陷入技术细节中。分布式系统架构存在多种架构风格，包括<strong>客户端-服务器</strong>架构风格和<strong>分布式对象(例如远程过程调用)</strong>风格。REST 是 Web 架构的一种架构风格，和其他技术一样，我们可以通过不同的方式来使用 Web 协议，有些使用方式符合设计者的初衷，而有些则不然。例如，你可以使用关系型数据库管理系统(RDBMS)创建表，列，外键关联，视图和约束等，你也可以只创建一张包含两列的表，一列表示‘键’，一列表示‘值’，然后将序列化之后的对象保存在值列中。此时，你依然在使用 RDBMS，但你却使用不到多少 RDBMS 的功能，如查询，组合，排列和分组等。</p>
+<p>同理，Web 协议既可以按照它的设计初衷为人所用——此时便是一种遵循 REST 架构风格的方式——也可以通过一种不遵循其设计初衷的方式为人所用。因此，当我们没有足够充分的理由使用 REST 风格的 HTTP 所带来的好处时，采用另一种分布式系统架构可能是合适的，就像在保存拥有唯一键的数值时，NoSQL 键值对存储方式是一种更好的选择一样。</p>
 <h2 id="RESTful-HTTP-服务端的关键方面"><a href="#RESTful-HTTP-服务端的关键方面" class="headerlink" title="RESTful HTTP 服务端的关键方面"></a>RESTful HTTP 服务端的关键方面</h2><p><strong>「资源」</strong>是关键的概念，系统的设计者将决定哪些有意义的<strong>「东西」</strong>可以暴露给外界，并且给这些<strong>「东西」</strong>一个唯一的身份标识。通常来说，每种资源都拥有一个 URI，每个 URI 都需要指向某个资源。</p>
-<p>另一个关键方面是<strong>「无状态通信」</strong>，消息是自描述的，例如，HTTP 请求本身便包含了服务端所需要的所有信息，服务端可以使用其本身的状态来辅助通信，重要的是: 我们不能依靠请求本身来创建一个隐式上下文环境(会话)。无状态通信保证了不同请求之间的相互独立性，这在很大程度上提高了系统的可伸缩性。</p>
-<p>将资源看作对象，那么每一个对象都支持相同的接口，可以调用的方法是一个固定即可，它们全都可以用 HTTP 动作表示，其中最重要的有 GET，PUT，POST 和 DELETE。这也是将 REST 与其他架构风格区别开来的关键。虽然乍一看这些方法将会转化成 CRUD 操作，但通常我们所创建的资源并不表示任何持久化实体，而是封装了某种行为，当调用 HTTP 动词对应的操作时，实际上是在调用这些行为。在 HTTP 规范中，每种 HTTP 方法都有一个明确的定义，比如 GET 方法只能用于<strong>「安全」</strong>的操作: </p>
+<p>另一个关键方面是<strong>「无状态通信」</strong>，消息是自描述的，例如，HTTP 请求本身便包含了服务端所需要的全部信息，服务端可以使用其本身的状态来辅助通信，重要的是: <strong>我们不能依靠请求本身来创建一个隐式上下文环境(会话)</strong>。无状态通信保证了不同请求之间的相互独立性，这在很大程度上提高了系统的可伸缩性。</p>
+<p>如果将资源看作对象，那么每一个对象都支持相同的接口，可以调用的方法是一个固定的集合，它们全都可以用 HTTP 动作表示，其中最重要的有 <code>GET</code>，<code>PUT</code>，<code>POST</code> 和 <code>DELETE</code>。这也是将 REST 与其他架构风格区别开来的关键。虽然乍一看这些方法将会转化成 <strong>CRUD</strong> 操作，但通常我们所创建的资源并不表示任何持久化实体，而是封装了某种行为，当调用 HTTP 动词对应的操作时，实际上是在调用这些行为。</p>
+<blockquote>
+<p>依据笔者理解，对象化的资源并不代表任何领域模型中的实体，而是根据某一项业务操作抽象出来的资源块，其中包括用以展示的数据和具有一致性边界的行为。</p>
+</blockquote>
+<p>在 HTTP 规范中，每种 HTTP 方法都有一个明确的定义，比如 <code>GET</code> 方法只能用于<strong>「安全」</strong>的操作: </p>
 <ul>
 <li>它可能完成一些客户并没有要求的动作行为</li>
 <li>它总是读取数据</li>
@@ -487,7 +504,41 @@
 <p>这里提到的媒体类型表示 MIME type。</p>
 </blockquote>
 <p>通常来讲，添加新资源并在已有资源中创建到新资源的链接是非常简单的，要添加新的格式也同样如此。另外，基于 REST 的系统也是非常容易理解，系统被分为很多较小的资源块，每一个资源块都可以独立测试和调试。HTTP 设计本身以及 URI 成熟的重写与缓存机制使得 RESTful HTTP 成为一种不错的架构选择，该架构具有很好的松耦合性和可伸缩性。</p>
-<h1 id="命令与查询职责分离-CQRS"><a href="#命令与查询职责分离-CQRS" class="headerlink" title="命令与查询职责分离 - CQRS"></a>命令与查询职责分离 - CQRS</h1><h1 id="事件驱动架构"><a href="#事件驱动架构" class="headerlink" title="事件驱动架构"></a>事件驱动架构</h1><h1 id="数据网织和基于网格的分布式计算"><a href="#数据网织和基于网格的分布式计算" class="headerlink" title="数据网织和基于网格的分布式计算"></a>数据网织和基于网格的分布式计算</h1>
+<h1 id="命令与查询职责分离-CQRS"><a href="#命令与查询职责分离-CQRS" class="headerlink" title="命令与查询职责分离 - CQRS"></a>命令与查询职责分离 - CQRS</h1><p>从<strong>「资源库」</strong>中查询所有需要显示的数据是困难的，特别是在需要显示来自不同聚合类型与实例的数据时，领域越复杂，这种困难越大。一种被软件系统广泛采用的做法是使用<strong>「数据传输对象(Data Transfer Object, DTO)」</strong>，即从不同的资源库中获取聚合实例，然后再将它们组装成 DTO。</p>
+<p>然而，查询这些数据所带来的性能消耗可能会随着数据量增大而显著降低，另外一种办法是使用 <strong>「CQRS(Command-Query Responsibility Segregation)」</strong>。CQRS 是将紧缩(Stringent)对象(或组件)设计原则和命令-查询分离(CQS)应用在架构模式中的结果。</p>
+<blockquote><p>一个方法要么是执行某种动作命令，要么是返回数据的查询，而不能两者皆是。换句话说，问题不应该对答案进行修改。一个方法只有在具有参考透明性的时候才能返回数据，此时该方法不会产生副作用。</p>
+<footer><strong>[Bertrand Meyer]</strong></footer></blockquote>
+<p>在对象层面，这意味着:</p>
+<ul>
+<li>如果一个方法修改了对象的状态，该方法便是一个命令(Command)，它不应该返回数据，在 Java 和 C# 中，这样的方法应该声明为 void</li>
+<li>如果一个方法返回了数据，该方法便是一个查询(Query)，此时它不应该通过直接或间接的手段修改对象的状态，在 Java 或 C# 中，这样的方法应该以其返回的数据类型进行声明</li>
+</ul>
+<p>在领域模型中，我们通常会看到同时包含命令和查询的聚合，也经常在资源库中看到不同的查询方法，这些方法对对象属性进行过滤。但在 CQRS 中，我们忽略这些常态的情形，而是通过另一种方式来查询用于显示的数据。</p>
+<p>假设，一个聚合不再有查询方法，只有命令方法，资源库也将变成只有 <code>Add()</code> 或 <code>Save()</code> 方法(分别支持创建和更新操作)，同时只有一个查询方法，如 <code>FromId()</code>，这个唯一的查询方法以聚合 ID 作为参数，然后返回该聚合实例。资源库不能使用其他方法来查询聚合，比如对属性进行过滤等。在将所有查询方法移除之后，我们将此时的模型称为<strong>「命令模型(Command Model)」</strong>，但我们仍然需要向用户显示数据，为此我们将创建第二个模型，该模型专门用于优化查询，称之为<strong>「查询模型(Query Model)」</strong>。</p>
+<blockquote>
+<p>你可能会认为: 这种架构风格需要大量的额外工作，我们解决了一些问题，同时带来了另外的问题，而且我们需要编写更多的代码。但无论如何，不要急于否定这种架构，在某些情况下，新增的复杂性是合理的。</p>
+</blockquote>
+<p>因此，领域模型被一分为二，最终得到如下图所示的系统组件:</p>
+<h2 id="客户端和查询处理器"><a href="#客户端和查询处理器" class="headerlink" title="客户端和查询处理器"></a>客户端和查询处理器</h2><p>客户端可以是 Web 浏览器，也可以是桌面应用程序，它们将使用运行在服务器端的一组查询处理器。查询处理器表示一个只知道如何向数据库执行基本查询并将查询结果以某种格式返回的简单组件。</p>
+<h2 id="查询模型"><a href="#查询模型" class="headerlink" title="查询模型"></a>查询模型</h2><p>查询模型是一种非规范化数据模型，它并不反映领域行为，只是用于数据显示。如果数据模型是 SQL 数据库，那么每个数据库表视图便是一种数据显示视图，它可以包含很多列，甚至是所有数据的超集，表视图可以通过多张表进行创建，此时每张表代表整个显示数据的一个逻辑子集。</p>
+<p>todo..</p>
+<h1 id="事件驱动架构"><a href="#事件驱动架构" class="headerlink" title="事件驱动架构"></a>事件驱动架构</h1><p>事件驱动架构不见得必须与六边形架构一同使用，但引入六边形架构有助于理解事件驱动架构。</p>
+<h2 id="管道和过滤器"><a href="#管道和过滤器" class="headerlink" title="管道和过滤器"></a>管道和过滤器</h2><p>考虑以下地 shell 命令，它便是一种最简单的管道和过滤器:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat phone_numbers.txt | grep 303 | wc -l</span><br></pre></td></tr></table></figure></p>
+<p>这行 Linux 命令用于在 phone_numbers.txt 文件中统计含有电话区号 “303” 的所有文本行的数量:</p>
+<ol>
+<li>cat 命令向标准输出流输出 phone_numbers.txt 文件中的内容。通常来说，标准输出流与终端相连，但其后连接了 “|” 符号，输出会通过管道转向下一个命令工具。</li>
+<li>grep 命令从标准输出流中读取数据，即从 cat 命令输出的内容，并匹配含有 “303” 的所有行，并将查找到的结果通过管道转向下一个命令工具。</li>
+<li>最后，wc 命令读取标准输出流，即 grep 命令的输出结果，其参数 <code>-l</code> 表示统计所读行的数量。由于在 wc 命令之后没有另外的管道了，此时的输出直接显示在终端。</li>
+</ol>
+<p>每个工具都接收一个数据集，对其进行处理，再输出另一个数据集，每一个命令都充当着过滤器的作用。在整个过滤过程完成之后，输入数据和输出数据可能完全不一样了，本例中，原始输入数据是一个文本文件，最终输出的只有一个数字 “3”。</p>
+<p>领域模型中发布领域事件的组件便可类比这里的过滤器，而领域事件则可类比为管道。</p>
+<h2 id="长时处理过程-Saga"><a href="#长时处理过程-Saga" class="headerlink" title="长时处理过程(Saga)"></a>长时处理过程(Saga)</h2><p>todo..</p>
+<h2 id="事件源-EventSource"><a href="#事件源-EventSource" class="headerlink" title="事件源(EventSource)"></a>事件源(EventSource)</h2><p>事件源是指: 对于某个聚合上的每次命令操作，都有至少一个领域事件发布出去，该领域事件描述了操作的执行结果。每一个领域事件都将被保存到<strong>「事件存储」</strong>中，每次从资源库中获取某个聚合时，我们将根据发生在该聚合上的历史事件来重建该聚合实例，事件的作用顺序与它们的产生顺序相同。</p>
+<p>随着时间推移，发生在聚合实例上的事件越来越多，那么，重放这些成百上千的事件会对那些操作繁忙的模型造成影响，为了避免这种瓶颈，我们可以通过聚合状态<strong>「快照」</strong>的方式来进行优化。可以创建一个聚合内存状态的快照，此时的快照反应了聚合在事件存储历史中某个事件发生后的状态。为了达到这样的目的，我们需要利用该事件及其发生前的所有事件来重建聚合实例，之后对聚合状态进行序列化，再把序列化之后的快照保存在事件存储中。这样，便可通过聚合快照来实例化某个聚合，接着再重放比快照更新的事件来修改聚合的状态，直至读取时发生在聚合上的最后一个事件。</p>
+<p>创建快照所需的前置事件数量临界值可以由团队确立，例如，发现某个聚合在接收到 50 个事件之后为其创建快照可以获得最佳性能，那么 50 就是其临界值。</p>
+<p>事件通常以二进制的方式保存在事件存储中，这使得事件源不能用于查询操作。事实上，为事件源所设计的资源库只有一个接受聚合 ID 的查询方法，因此需要另外的方法来支持查询，通常将 CQRS 和事件源一同使用。</p>
+<h1 id="数据网织和基于网格的分布式计算"><a href="#数据网织和基于网格的分布式计算" class="headerlink" title="数据网织和基于网格的分布式计算"></a>数据网织和基于网格的分布式计算</h1><p>todo..</p>
+
       
     </div>
     
@@ -599,7 +650,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-count">24</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
