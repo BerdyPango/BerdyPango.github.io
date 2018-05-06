@@ -98,7 +98,7 @@
     root: '/',
     scheme: 'Mist',
     version: '5.1.4',
-    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    sidebar: {"display":"hide"},
     fancybox: true,
     tabs: true,
     motion: {"enable":false},
@@ -140,10 +140,8 @@
 
   
   
-    
-  
 
-  <div class="container sidebar-position-left page-post-detail">
+  <div class="container  page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -661,8 +659,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -677,7 +684,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">25</span>
+                  <span class="site-state-item-count">26</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -722,6 +729,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#用户帐号管理"><span class="nav-text">用户帐号管理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#新建用户帐号-useradd"><span class="nav-text">新建用户帐号 - useradd</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#设置帐号密码-passwd"><span class="nav-text">设置帐号密码 - passwd</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#管理帐号密码策略-chage"><span class="nav-text">管理帐号密码策略 - chage</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#修改用户帐号信息-usermod"><span class="nav-text">修改用户帐号信息 - usermod</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#删除用户帐号-userdel"><span class="nav-text">删除用户帐号 - userdel</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#用户端指令-id-finger-chfn-chsh"><span class="nav-text">用户端指令 - id, finger, chfn, chsh</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#群组管理"><span class="nav-text">群组管理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#新增群组-groupadd"><span class="nav-text">新增群组 - groupadd</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#修改群组-groupmod"><span class="nav-text">修改群组 - groupmod</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#删除群组-groupdel"><span class="nav-text">删除群组 - groupdel</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#群组管理员-gpasswd"><span class="nav-text">群组管理员 - gpasswd</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#初始群组，次要群组和有效群组"><span class="nav-text">初始群组，次要群组和有效群组</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

@@ -91,7 +91,7 @@
 <meta property="og:image" content="https://berdypango.github.io/Web/ASP-NET-Core/aspnetcore-fundamentals-configuration/configuration-provider.png">
 <meta property="og:image" content="https://berdypango.github.io/Web/ASP-NET-Core/aspnetcore-fundamentals-configuration/4-core-objects.png">
 <meta property="og:image" content="https://berdypango.github.io/Web/ASP-NET-Core/aspnetcore-fundamentals-configuration/options-uml.png">
-<meta property="og:updated_time" content="2018-04-22T08:16:35.268Z">
+<meta property="og:updated_time" content="2018-05-06T15:06:27.250Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ASP.NET Core 框架基础 - 配置系统">
 <meta name="twitter:description" content="配置 API 提供了统一的方式以键值对的形式来读取和设置配置项，配置项在运行时从多个配置源读取信息，并以一个多层级的字典表树来存储这些值">
@@ -105,7 +105,7 @@
     root: '/',
     scheme: 'Mist',
     version: '5.1.4',
-    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    sidebar: {"display":"hide"},
     fancybox: true,
     tabs: true,
     motion: {"enable":false},
@@ -147,10 +147,8 @@
 
   
   
-    
-  
 
-  <div class="container sidebar-position-left page-post-detail">
+  <div class="container  page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -388,7 +386,7 @@
                   <span class="post-meta-item-text">Words count in article&#58;</span>
                 
                 <span title="Words count in article">
-                  3,623
+                  3,635
                 </span>
               
 
@@ -460,7 +458,7 @@
 <h1 id="从编程角度认识配置系统"><a href="#从编程角度认识配置系统" class="headerlink" title="从编程角度认识配置系统"></a>从编程角度认识配置系统</h1><p>从编程角度来看，开发人员主要用到了以下三个对象</p>
 <ul>
 <li>Configuration: 客户代码最终使用的包含配置项的对象</li>
-<li>ConfigurationBuilder: 构建 Configuration 对象的对象</li>
+<li>ConfigurationBuilder: 构建 <code>Configuration</code> 的对象</li>
 <li>ConfigurationSource: 配置源对象</li>
 </ul>
 <img src="/Web/ASP-NET-Core/aspnetcore-fundamentals-configuration/3-objects.png" title="配置系统所使用的三个对象">
@@ -474,7 +472,7 @@
 <h2 id="配置数据的转换"><a href="#配置数据的转换" class="headerlink" title="配置数据的转换"></a>配置数据的转换</h2><p>配置从原始结构向逻辑结构的转换需要一种<strong>「中间结构」</strong>——数据字典，整棵配置树的所有节点都会转换成基于字典的中间结构，最终再完成针对，对象之间以 <code>:</code> 进行连接。</p>
 <img src="/Web/ASP-NET-Core/aspnetcore-fundamentals-configuration/conversion-process.png" title="转换流程">
 <p>这里的 <code>Configuration</code> 是代指所有实现了 <code>IConfiguration</code> 接口类型的统称。一个 <code>Configuration</code> 对象具有树形层次结构的意思不是说对应的类型具有对应的数据成员(字段或属性)定义，而是它提供的 API 在<strong>逻辑上</strong>体现出树形层次结构，配置树是一种逻辑结构。</p>
-<h2 id="Configuration-对象"><a href="#Configuration-对象" class="headerlink" title="Configuration 对象"></a>Configuration 对象</h2><p>一个 <code>Configuration</code> 对象表示配置树的某个配置节点。对于组成整棵树的所有配置节点来说，表示根节点的对象与表示其它配置节点的对象是不同的，所以配置模型采用不同的接口来表示它们。具体来说，根节点配置用 <code>IConfigurationRoot</code> 接口表示，根节点以外的其他配置节点则用 <code>IConfigurationSection</code> 接口表示，这两个接口都是 <code>IConfiguration</code> 的继承者。下图为我们展示了由一个 <code>ConfigurationRoot</code> 对象和一组 <code>ConfigurationSection</code> 对象构成的配置树。<br><img src="/Web/ASP-NET-Core/aspnetcore-fundamentals-configuration/root&section.png" title="配置节点的两种类型"><br>以下是 <code>IConfigurationRoot</code> 接口的定义，该接口仅定义了一个 <code>Reload</code> 方法实现对配置数据的重新加载。ConfigurationRoot 对象表示配置树的根，也是整棵配置树的体现，如果如果它被重新加载了，意味着整棵配置树承载的所有配置数据均被重新加载了。<br><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">IConfigurationRoot</span> : <span class="title">IConfiguration</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">Reload</span>(<span class="params"></span>)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br>非根配置节点的 <code>IConfigurationSection</code> 接口具有如下三个属性: </p>
+<h2 id="Configuration-对象"><a href="#Configuration-对象" class="headerlink" title="Configuration 对象"></a>Configuration 对象</h2><p>一个 <code>Configuration</code> 对象表示配置树的某个配置节点。对于组成整棵树的所有配置节点来说，表示根节点的对象与表示其它配置节点的对象是不同的，所以配置模型采用不同的接口来表示它们。具体来说，根节点配置用 <code>IConfigurationRoot</code> 接口表示，根节点以外的其他配置节点则用 <code>IConfigurationSection</code> 接口表示，这两个接口都是 <code>IConfiguration</code> 的继承者。下图为我们展示了由一个 <code>ConfigurationRoot</code> 对象和一组 <code>ConfigurationSection</code> 对象构成的配置树。<br><img src="/Web/ASP-NET-Core/aspnetcore-fundamentals-configuration/root&section.png" title="配置节点的两种类型"><br>以下是 <code>IConfigurationRoot</code> 接口的定义，该接口仅定义了一个 <code>Reload</code> 方法实现对配置数据的重新加载。<code>ConfigurationRoot</code> 对象表示配置树的根，也是整棵配置树的体现，如果如果它被重新加载了，意味着整棵配置树承载的所有配置数据均被重新加载了。<br><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">IConfigurationRoot</span> : <span class="title">IConfiguration</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">Reload</span>(<span class="params"></span>)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br>非根配置节点的 <code>IConfigurationSection</code> 接口具有如下三个属性: </p>
 <ul>
 <li>Key: 只读，用来唯一标识多个具有相同父节点的 <code>ConfigurationSection</code> 对象</li>
 <li>Path 表示当前配置节点在配置树中的路径，该路径由 <code>ConfigurationSection</code> 的 Key 组成，并采用冒号(<code>:</code>)作为分隔符。Path 和 Key 的组合体现了当前配置节在整个配置树中的位置。</li>
@@ -487,7 +485,7 @@
 <blockquote>
 <p><code>IConfiguration</code> 的索引器执行与 <code>GetSection</code> 方法相同的逻辑。</p>
 </blockquote>
-<h2 id="ConfigurationProvider-对象"><a href="#ConfigurationProvider-对象" class="headerlink" title="ConfigurationProvider 对象"></a>ConfigurationProvider 对象</h2><p>虽然每种不同类型的配置源都具有一个对应的 <code>ConfigurationSource</code> 类型，但是针对原始数据的读取并不由 <code>ConfigurationSource</code> 来提供，而是委托一个对应的 <code>ConfigurationProvider</code> 对象来完成。不同配置类型的 <code>ConfigurationSource</code> 由不同的 <code>ConfigurationProvider</code> 实现来读取。<br><img src="/Web/ASP-NET-Core/aspnetcore-fundamentals-configuration/configuration-provider.png" title="ConfigurationProvider"><br>ConfigurationProvider 是所有实现了 <code>IConfigurationProvider</code> <code>接口类型的统称。ConfigurationProvider</code> 将配置数据从原始结构转换数据字典，所以现定义在 <code>IConfigurationProvider</code> 接口中的方法大都体现为针对字典对象的操作:<br><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">IConfigurationProvider</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="function"><span class="keyword">void</span> <span class="title">Load</span>(<span class="params"></span>)</span>;</span><br><span class="line"> </span><br><span class="line">  <span class="function"><span class="keyword">bool</span> <span class="title">TryGet</span>(<span class="params"><span class="keyword">string</span> key, <span class="keyword">out</span> <span class="keyword">string</span> <span class="keyword">value</span></span>)</span>;</span><br><span class="line">  <span class="function"><span class="keyword">void</span> <span class="title">Set</span>(<span class="params"><span class="keyword">string</span> key, <span class="keyword">string</span> <span class="keyword">value</span></span>)</span>;</span><br><span class="line">  <span class="function">IEnumerable&lt;<span class="keyword">string</span>&gt; <span class="title">GetChildKeys</span>(<span class="params">IEnumerable&lt;<span class="keyword">string</span>&gt; earlierKeys, <span class="keyword">string</span> parentPath</span>)</span></span><br><span class="line"><span class="function">&#125;</span></span><br></pre></td></tr></table></figure><br>配置数据通过调用 <code>ConfigurationProvider</code> 的 Load 方法完成加载。<code>TryGet</code> 方法获取由指定的Key 所标识的配置项的值。<code>ConfigurationProvider</code> 是只读的，<code>ConfigurationProvider</code> 只负责从持久化资源中读取配置数据，而不负责更新保存在持久化资源的配置数据，它的 <code>Set</code> 方法设置的配置数据只会保存在内存中。<code>ConfigurationProvider</code> 的 <code>GetChildKeys</code> 方法用于获取某个指定配置节点的所有子节点的 Key。</p>
+<h2 id="ConfigurationProvider-对象"><a href="#ConfigurationProvider-对象" class="headerlink" title="ConfigurationProvider 对象"></a>ConfigurationProvider 对象</h2><p>虽然每种不同类型的配置源都具有一个对应的 <code>ConfigurationSource</code> 类型，但是针对原始数据的读取并不由 <code>ConfigurationSource</code> 来提供，而是委托一个对应的 <code>ConfigurationProvider</code> 对象来完成。不同配置类型的 <code>ConfigurationSource</code> 由不同的 <code>ConfigurationProvider</code> 实现来读取。<br><img src="/Web/ASP-NET-Core/aspnetcore-fundamentals-configuration/configuration-provider.png" title="ConfigurationProvider"><br><code>ConfigurationProvider</code> 是所有实现了 <code>IConfigurationProvider</code> <code>接口类型的统称。ConfigurationProvider</code> 将配置数据从原始结构转换数据字典，所以现定义在 <code>IConfigurationProvider</code> 接口中的方法大都体现为针对字典对象的操作:<br><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">IConfigurationProvider</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="function"><span class="keyword">void</span> <span class="title">Load</span>(<span class="params"></span>)</span>;</span><br><span class="line"> </span><br><span class="line">  <span class="function"><span class="keyword">bool</span> <span class="title">TryGet</span>(<span class="params"><span class="keyword">string</span> key, <span class="keyword">out</span> <span class="keyword">string</span> <span class="keyword">value</span></span>)</span>;</span><br><span class="line">  <span class="function"><span class="keyword">void</span> <span class="title">Set</span>(<span class="params"><span class="keyword">string</span> key, <span class="keyword">string</span> <span class="keyword">value</span></span>)</span>;</span><br><span class="line">  <span class="function">IEnumerable&lt;<span class="keyword">string</span>&gt; <span class="title">GetChildKeys</span>(<span class="params">IEnumerable&lt;<span class="keyword">string</span>&gt; earlierKeys, <span class="keyword">string</span> parentPath</span>)</span></span><br><span class="line"><span class="function">&#125;</span></span><br></pre></td></tr></table></figure><br>配置数据通过调用 <code>ConfigurationProvider</code> 的 Load 方法完成加载。<code>TryGet</code> 方法获取由指定的Key 所标识的配置项的值。<code>ConfigurationProvider</code> 是只读的，<code>ConfigurationProvider</code> 只负责从持久化资源中读取配置数据，而不负责更新保存在持久化资源的配置数据，它的 <code>Set</code> 方法设置的配置数据只会保存在内存中。<code>ConfigurationProvider</code> 的 <code>GetChildKeys</code> 方法用于获取某个指定配置节点的所有子节点的 Key。</p>
 <h2 id="ConfigurationSource-对象"><a href="#ConfigurationSource-对象" class="headerlink" title="ConfigurationSource 对象"></a>ConfigurationSource 对象</h2><p><code>ConfiurationSource</code> 在配置模型中代表配置源，是对所有实现了 <code>IConfigurationSource</code> 接口的类型的统称，它通过注册到 <code>ConfigurationBuilder</code> 上为后者创建的 <code>Configuration</code> 提供原始的配置数据。由于针对原始配置数据的读取实现在相应的 <code>ConfigurationProvider</code> 中，所以 <code>ConfigurationSource</code> 的作用在于提供相应的 <code>ConfigurationProvider</code>。如下面的代码片段所示，该接口具有一个唯一的 <code>Build</code> 方法根据指定的 <code>ConfigurationBuilder</code> 对象提供对应的<code>ConfigurationProvider</code>。<br><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">IConfigurationSource</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function">IConfigurationProvider <span class="title">Build</span>(<span class="params">IConfigurationBuilder builder</span>)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <h2 id="ConfigurationBuilder-对象"><a href="#ConfigurationBuilder-对象" class="headerlink" title="ConfigurationBuilder 对象"></a>ConfigurationBuilder 对象</h2><p><code>ConfigurationBulder</code> 是对所有实现了 <code>IConfigurationBulder</code> 接口的类型的统称。 <code>ConfigurationBulder</code> 在整个配置模型中处于一个核心地位，它是 <code>Configuration</code> 的创建者，<code>IConfigurationBulder</code> 接口定义了两个方法，其中 <code>Add</code> 方法用于注册 <code>ConfigurationSource</code>，最终的 <code>Configuration</code> 则通过 <code>Build</code> 方法创建，后者返回一个代表整棵配置的数的<code>ConfigurationRoot</code> 对象。注册的 <code>ConfigurationSource</code> 被保存在通过 <code>Sources</code> 属性表示的集合中，<code>Properties</code> 属性则以字典的形式存放任意的自定义属性。<br><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">IConfigurationBuilder</span></span><br><span class="line">&#123;</span><br><span class="line">    IEnumerable&lt;IConfigurationSource&gt;  Sources &#123; <span class="keyword">get</span>; &#125;</span><br><span class="line">    Dictionary&lt;<span class="keyword">string</span>, <span class="keyword">object</span>&gt;         Properties &#123; <span class="keyword">get</span>; &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="function">IConfigurationBuilder     <span class="title">Add</span>(<span class="params">IConfigurationSource source</span>)</span>;</span><br><span class="line">    <span class="function">IConfigurationRoot        <span class="title">Build</span>(<span class="params"></span>)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br>配置系统提供了 <code>ConfigurationBulder</code> 类型作为 <code>IConfigurationBulder</code> 接口的默认实现者。<code>Build</code> 方法体现了配置系统读取原始配置数据并生成配置树的默认机制。<code>ConfigurationRoot</code> 代表一颗完整的配置树，但是不论是 <code>ConfigurationRoot</code> 还是 <code>ConfigurationSection</code>，它们自身都没有维护任何数据。这句话有点自相矛盾，因为配置树仅仅是 API 在逻辑上所体现的数据结构，并不代表具体的配置数据也是按照这样的结构进行存储的。</p>
 <h1 id="对象关系图"><a href="#对象关系图" class="headerlink" title="对象关系图"></a>对象关系图</h1><p>配置系统的四个核心对象之间的关系简单而清晰，可以通过一句话来概括: <code>ConfigurationBuilder</code> 利用注册的 <code>ConfigurationSource</code> 提供的 <code>ConfigurationProvider</code> 读取原始配置数据并创建出相应的 <code>Configuration</code> 对象。下图所示的UML展示了配置模型涉及的主要接口/类型以及它们之间的关系:<br><img src="/Web/ASP-NET-Core/aspnetcore-fundamentals-configuration/4-core-objects.png" title="配置系统核心对象关系图"></p>
@@ -509,7 +507,7 @@
 </ul>
 <p>这个两个服务分别通过扩展方法 <code>AddOptions</code> 和 <code>Configure</code> 方法注册到指定的 <code>ServiceCollection</code> 中，服务的真实类型分别是 <code>OptionsManager&lt;TOptions&gt;</code> 和 <code>ConfigureFromConfigurationOptions&lt;TOptions&gt;</code>，后者派生于 <code>ConfigureOptions&lt;TOptions&gt;</code>。下图所示的 UML 体现了 <code>Options</code> 模型中涉及的这些接口／类型以及它们之间的关系。</p>
 <img src="/Web/ASP-NET-Core/aspnetcore-fundamentals-configuration/options-uml.png" title="对象关系图">
-<h1 id="同步-Configuration-的更改"><a href="#同步-Configuration-的更改" class="headerlink" title="同步 Configuration 的更改"></a>同步 Configuration 的更改</h1><p>todo…</p>
+<h1 id="同步-Configuration-的更改"><a href="#同步-Configuration-的更改" class="headerlink" title="同步 Configuration 的更改"></a>同步 Configuration 的更改</h1><p>参考<a href="http://www.cnblogs.com/artech/p/new-config-system-10.html" target="_blank" rel="noopener">配置的同步机制是如何实现的？</a></p>
 
       
     </div>
@@ -604,8 +602,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -620,7 +627,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">25</span>
+                  <span class="site-state-item-count">26</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -665,6 +672,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#从编程角度认识配置系统"><span class="nav-text">从编程角度认识配置系统</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#从设计角度认识配置系统"><span class="nav-text">从设计角度认识配置系统</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#配置数据的转换"><span class="nav-text">配置数据的转换</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Configuration-对象"><span class="nav-text">Configuration 对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ConfigurationProvider-对象"><span class="nav-text">ConfigurationProvider 对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ConfigurationSource-对象"><span class="nav-text">ConfigurationSource 对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ConfigurationBuilder-对象"><span class="nav-text">ConfigurationBuilder 对象</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#对象关系图"><span class="nav-text">对象关系图</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Options-模式"><span class="nav-text">Options 模式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#配置绑定"><span class="nav-text">配置绑定</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#扩展方法-AddOptions"><span class="nav-text">扩展方法 AddOptions</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#扩展方法-Configure"><span class="nav-text">扩展方法 Configure</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建-Options-对象"><span class="nav-text">创建 Options 对象</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#同步-Configuration-的更改"><span class="nav-text">同步 Configuration 的更改</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

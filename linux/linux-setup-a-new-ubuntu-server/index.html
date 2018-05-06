@@ -101,7 +101,7 @@
     root: '/',
     scheme: 'Mist',
     version: '5.1.4',
-    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    sidebar: {"display":"hide"},
     fancybox: true,
     tabs: true,
     motion: {"enable":false},
@@ -143,10 +143,8 @@
 
   
   
-    
-  
 
-  <div class="container sidebar-position-left page-post-detail">
+  <div class="container  page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -541,8 +539,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -557,7 +564,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">25</span>
+                  <span class="site-state-item-count">26</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -602,6 +609,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#准备工作"><span class="nav-text">准备工作</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#主机命名-hostname-可选的"><span class="nav-text">主机命名 hostname(可选的)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#新建群组-groupadd"><span class="nav-text">新建群组 - groupadd</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#新建用户-useradd"><span class="nav-text">新建用户 - useradd</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#配置服务器安全策略"><span class="nav-text">配置服务器安全策略</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#禁用密码登录并启用-ssh-公钥登录"><span class="nav-text">禁用密码登录并启用 ssh 公钥登录</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

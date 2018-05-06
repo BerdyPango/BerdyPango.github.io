@@ -101,7 +101,7 @@
     root: '/',
     scheme: 'Mist',
     version: '5.1.4',
-    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    sidebar: {"display":"hide"},
     fancybox: true,
     tabs: true,
     motion: {"enable":false},
@@ -143,10 +143,8 @@
 
   
   
-    
-  
 
-  <div class="container sidebar-position-left page-post-detail">
+  <div class="container  page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -634,8 +632,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -650,7 +657,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">25</span>
+                  <span class="site-state-item-count">26</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -695,6 +702,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#分层架构"><span class="nav-text">分层架构</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#六边形架构-端口与适配器架构，洋葱架构"><span class="nav-text">六边形架构(端口与适配器架构，洋葱架构)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#依赖倒置原则"><span class="nav-text">依赖倒置原则</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#面向服务架构-Service-Oriented-Architecture-SOA"><span class="nav-text">面向服务架构(Service-Oriented Architecture, SOA)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#REST-Representational-State-Transfer"><span class="nav-text">REST(Representational State Transfer)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#RESTful-HTTP-服务端的关键方面"><span class="nav-text">RESTful HTTP 服务端的关键方面</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#REST-和-DDD"><span class="nav-text">REST 和 DDD</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#命令与查询职责分离-CQRS"><span class="nav-text">命令与查询职责分离 - CQRS</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#客户端和查询处理器"><span class="nav-text">客户端和查询处理器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查询模型"><span class="nav-text">查询模型</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#事件驱动架构"><span class="nav-text">事件驱动架构</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#管道和过滤器"><span class="nav-text">管道和过滤器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#长时处理过程-Saga"><span class="nav-text">长时处理过程(Saga)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#事件源-EventSource"><span class="nav-text">事件源(EventSource)</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#数据网织和基于网格的分布式计算"><span class="nav-text">数据网织和基于网格的分布式计算</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
