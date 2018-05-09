@@ -66,7 +66,7 @@
 
 
 
-  <meta name="keywords" content="Developer, Frost He" />
+  <meta name="keywords" content="ops,docker," />
 
 
 
@@ -77,13 +77,18 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="Pango.Handbook">
-<meta property="og:url" content="https://berdypango.github.io/archives/2015/index.html">
+<meta name="description" content="本文基于 Docker GetStarted 官方文档，介绍了 Docker Compose 和 Docker Service 的概念以及如何使用">
+<meta name="keywords" content="ops,docker">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Docker 初探 (3) - Service">
+<meta property="og:url" content="https://berdypango.github.io/deployment/note-docker-services/index.html">
 <meta property="og:site_name" content="Pango.Handbook">
+<meta property="og:description" content="本文基于 Docker GetStarted 官方文档，介绍了 Docker Compose 和 Docker Service 的概念以及如何使用">
 <meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-05-09T15:07:10.418Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Pango.Handbook">
+<meta name="twitter:title" content="Docker 初探 (3) - Service">
+<meta name="twitter:description" content="本文基于 Docker GetStarted 官方文档，介绍了 Docker Compose 和 Docker Service 的概念以及如何使用">
 
 
 
@@ -113,13 +118,13 @@
 
 
 
-  <link rel="canonical" href="https://berdypango.github.io/archives/2015/"/>
+  <link rel="canonical" href="https://berdypango.github.io/deployment/note-docker-services/"/>
 
 
 
 
 
-  <title>Archive | Pango.Handbook</title>
+  <title>Docker 初探 (3) - Service | Pango.Handbook</title>
   
 
 
@@ -136,7 +141,7 @@
   
   
 
-  <div class="container  page-archive">
+  <div class="container  page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -264,258 +269,242 @@
           <div id="content" class="content">
             
 
+  <div id="posts" class="posts-expand">
+    
+
+  
+
   
   
   
-  <div class="post-block archive">
-    <div id="posts" class="posts-collapse">
-      <span class="archive-move-on"></span>
 
-      <span class="archive-page-counter">
-        
-        
-         
-        
-        OK! 31 posts in total. Keep on posting.
-      </span>
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://berdypango.github.io/deployment/note-docker-services/">
 
-      
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Frost He">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pango.Handbook">
+    </span>
+
+    
+      <header class="post-header">
 
         
         
+          <h1 class="post-title" itemprop="name headline">Docker 初探 (3) - Service</h1>
         
 
-        
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-01-30T23:09:17+08:00">
+                2018-01-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
           
-          <div class="collection-title">
-            <h1 class="archive-year" id="archive-year-2015">2015</h1>
-          </div>
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/Version-Control/Git/git-embeded-repository/" itemprop="url">
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
               
-                <span itemprop="name">Git Module 与嵌套 Repository</span>
+                <span class="post-meta-item-text">In</span>
               
-            </a>
-        
-      </h2>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/deployment/" itemprop="url" rel="index">
+                    <span itemprop="name">deployment</span>
+                  </a>
+                </span>
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2015-09-13T21:11:22+08:00"
-              content="2015-09-13" >
-          09-13
-        </time>
-      </div>
+                
+                
+              
+            </span>
+          
 
-    </header>
-  </article>
+          
+            
+          
 
+          
+          
 
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                  <span class="post-meta-divider">|</span>
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  1,242
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+              <div class="post-description">
+                  本文基于 Docker GetStarted 官方文档，介绍了 Docker Compose 和 Docker Service 的概念以及如何使用
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/MacOS/macos-install-nginx/" itemprop="url">
-              
-                <span itemprop="name">在 MacOS 上安装 nginx</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2015-07-04T22:00:51+08:00"
-              content="2015-07-04" >
-          07-04
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
       
 
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/MacOS/macos-git-push-to-repository/" itemprop="url">
-              
-                <span itemprop="name">Git push 到 MacOS</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2015-07-03T21:35:17+08:00"
-              content="2015-07-03" >
-          07-03
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
+      
+        <p>参考资料: <a href="https://docs.docker.com/get-started/part3/" target="_blank" rel="noopener">Services</a></p>
+<h1 id="Docker-Compose"><a href="#Docker-Compose" class="headerlink" title="Docker Compose"></a>Docker Compose</h1><p><code>Docker Compose</code> 是用以定义与运行多容器 <code>Docker</code> 应用的工具，使用 YAML 文件配置应用的服务，之后，执行一句简单的命令行来创建和启动定义好的应用。<code>Compose</code> 在 <code>Docker for Mac</code> 和 <code>Docker for Windows</code> 上都已经预装了，但 <code>Linux</code> 系统需要手动安装。</p>
+<h2 id="安装-Docker-Compose"><a href="#安装-Docker-Compose" class="headerlink" title="安装 Docker Compose"></a>安装 Docker Compose</h2><ol>
+<li>执行命令下载 Docker Compose 的最新版<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo curl -L https://github.com/docker/compose/releases/download/1.21.0/docker-compose-$(uname -s)-$(uname -m) -o /usr/<span class="built_in">local</span>/bin/docker-compose</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<blockquote>
+<p>将版本号改为 <a href="https://github.com/docker/compose/releases" target="_blank" rel="noopener">Compose repository release page on GitHub</a> 上最新版的版本号。</p>
+</blockquote>
+<ol start="2">
+<li><p>为 <code>docker-compose</code> 可执行程序添加执行权限。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo chmod +x /usr/<span class="built_in">local</span>/bin/docker-compose</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>测试安装是否成功:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ docker-compose --version</span><br><span class="line">docker-compose version 1.21.2, build a133471</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>有关 Docker Compose 更多详情参考 <a href="https://docs.docker.com/compose/overview/" target="_blank" rel="noopener">Docker Compose</a></p>
+<h1 id="关于-Service"><a href="#关于-Service" class="headerlink" title="关于 Service"></a>关于 Service</h1><p>在分布式系统中，各个部件被称作 <code>Services</code>。例如，一个视频分享网站，它很可能包含一个把应用数据存到数据库中的服务，用户上传一个视频后，在后台转码视频的专有服务以及一个响应前台的服务。一个 <code>service</code> 仅仅运行一个 <code>image</code>，但它指导了改 <code>image</code> 应该如何运行 - 应该使用哪个端口，需要运行多少个 <code>container</code> 实例以支撑服务的容量。<code>container</code> 实例数量的增减用以伸缩该服务。</p>
+<h1 id="docker-compose-yml-文件"><a href="#docker-compose-yml-文件" class="headerlink" title="docker-compose.yml 文件"></a>docker-compose.yml 文件</h1><p><code>docker-compose.yml</code> 文件是一个定义 <code>container</code> 应该如何运作的 <code>YAML</code> 文件。新建该文件放置于任何想要的位置，并为其填充内容:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">touch docker-compose.yml</span><br><span class="line"></span><br><span class="line">version: <span class="string">"3"</span></span><br><span class="line">services:</span><br><span class="line">  web:</span><br><span class="line">    <span class="comment"># replace username/repo:tag with your name and image details</span></span><br><span class="line">    image: frosthe/get-started:part2</span><br><span class="line">    deploy:</span><br><span class="line">      replicas: 5</span><br><span class="line">      resources:</span><br><span class="line">        limits:</span><br><span class="line">          cpus: <span class="string">"0.1"</span></span><br><span class="line">          memory: 50M</span><br><span class="line">      restart_policy:</span><br><span class="line">        condition: on-failure</span><br><span class="line">    ports:</span><br><span class="line">      - <span class="string">"80:80"</span></span><br><span class="line">    networks:</span><br><span class="line">      - webnet</span><br><span class="line">networks:</span><br><span class="line">  webnet:</span><br></pre></td></tr></table></figure></p>
+<p>该文件告知 Docker 执行以下事情:</p>
+<ul>
+<li>拉取 frosthe/get-started:part2 的image</li>
+<li>定义了一个名为 <code>web</code> 的服务，该服务运行该 <code>image</code> 的 5 份实例，且限制每个实例最多占用 10% 的 CPU 和 50M 的内存</li>
+<li>立即重启 <code>container</code> 如果任何一个启动失败</li>
+<li>映射主机的 80 端口到 <code>web</code> 服务的 80 端口</li>
+<li>告知名为 <code>web</code> 的服务的所有 <code>container</code> 实例通过一个名为 <code>webnet</code> 的负载均衡网络共享 80 端口(其内部机制为 <code>container</code> 轮流将它们自己发布到 <code>web</code> 服务的 80 端口)</li>
+<li>定义 <code>webnet</code> 网络，默认配置为一个叠加的负载均衡网络</li>
+</ul>
+<h1 id="启动新的负载均衡应用"><a href="#启动新的负载均衡应用" class="headerlink" title="启动新的负载均衡应用"></a>启动新的负载均衡应用</h1><p>首先初始化一个 <code>swarm</code>:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker swarm init</span><br><span class="line"></span><br><span class="line">Swarm initialized: current node (iqaw9hws38ctvpghyxaycrj4t) is now a manager.</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>有关 <code>swarm</code> 的介绍，参考 <a href="/deployment/note-docker-swarms">Docker 初探 (4) - Swarms</a>，如果不运行该指令，将会报 “this node is not a swarm manager” 的错误信息</p>
+</blockquote>
+<p>现在，运行该程序，给它一个名称:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">docker stack deploy -c docker-compose.yml getstartedlab</span><br><span class="line"></span><br><span class="line">Creating network getstartedlab_webnet</span><br><span class="line">Creating service getstartedlab_web</span><br></pre></td></tr></table></figure></p>
+<p>执行 <code>docker service ls</code> 查看是否成功运行:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ID                  NAME                MODE                REPLICAS            IMAGE                       PORTS</span><br><span class="line">o3jo325ds62i        getstartedlab_web   replicated          5/5                 frosthe/get-started:part2   *:80-&gt;80/tcp</span><br></pre></td></tr></table></figure></p>
+<p>可以看到名为 <code>web</code> 的服务已经运行，在一个服务中单独运行的 <code>container</code> 称为一个 <code>task</code>，<code>task</code> 会被分配递增的数字 ID，直到定义的副本数量的最大值，列出该服务的所有 <code>task</code>:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">docker service ps ls</span><br><span class="line"></span><br><span class="line">ID                  NAME                  IMAGE                       NODE                DESIRED STATE       CURRENT STATE           ERROR               PORTS</span><br><span class="line">g7dr8ecu5a6d        getstartedlab_web.1   frosthe/get-started:part2   Aiur                Running             Running 2 minutes ago</span><br><span class="line">1gu635hjck46        getstartedlab_web.2   frosthe/get-started:part2   Aiur                Running             Running 2 minutes ago</span><br><span class="line">rny0soxz5rh6        getstartedlab_web.3   frosthe/get-started:part2   Aiur                Running             Running 2 minutes ago</span><br><span class="line">zfvdxi8e6jpt        getstartedlab_web.4   frosthe/get-started:part2   Aiur                Running             Running 2 minutes ago</span><br><span class="line">qudnod8hs9xw        getstartedlab_web.5   frosthe/get-started:part2   Aiur                Running             Running 2 minutes ago</span><br></pre></td></tr></table></figure></p>
+<p>如果使用命令列出当前系统中的 container，这些 task 也会被包含其中，但不会由其从属的 service 作筛选:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">docker container ls</span><br><span class="line"></span><br><span class="line">CONTAINER ID        IMAGE                       COMMAND             CREATED             STATUS              PORTS               NAMES</span><br><span class="line">6642f46afaa4        frosthe/get-started:part2   &quot;python app.py&quot;     4 minutes ago       Up 4 minutes        80/tcp              getstartedlab_web.4.zfvdxi8e6jpte0qcobidxvuq6</span><br><span class="line">00ffa6c89b09        frosthe/get-started:part2   &quot;python app.py&quot;     4 minutes ago       Up 4 minutes        80/tcp              getstartedlab_web.5.qudnod8hs9xwyhe07o2xomm25</span><br><span class="line">bc1563fa67f8        frosthe/get-started:part2   &quot;python app.py&quot;     4 minutes ago       Up 4 minutes        80/tcp              getstartedlab_web.3.rny0soxz5rh641082ybs1h6vj</span><br><span class="line">526e37ad6994        frosthe/get-started:part2   &quot;python app.py&quot;     4 minutes ago       Up 4 minutes        80/tcp              getstartedlab_web.1.g7dr8ecu5a6dh5ua5lqo0cbjw</span><br><span class="line">ee599ab17416        frosthe/get-started:part2   &quot;python app.py&quot;     4 minutes ago       Up 4 minutes        80/tcp              getstartedlab_web.2.1gu635hjck46xt8leib3md9nb</span><br></pre></td></tr></table></figure></p>
+<p>现在，通过 ip 地址访问该应用，连续刷新浏览器，会看到每次刷新后 <code>Hostname</code> 一项都改变。之前提到过，<code>Hostname</code> 返回的是 <code>container</code> 的 ID，所以这里会看到 <code>Hostname</code> 的值为 5 个副本 ID 值轮流变化。</p>
+<h1 id="扩展该应用"><a href="#扩展该应用" class="headerlink" title="扩展该应用"></a>扩展该应用</h1><p>可以在 <code>docker-compose.yml</code> 文件中修改 <code>replicas</code> 的值来扩展计算量，然后再次执行 <code>docker stack deploy</code> 命令:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker stack deploy -c docker-compose.yml getstartedlab</span><br></pre></td></tr></table></figure></p>
+<p>Docker 支持实时更新，不需要关闭 stack 或停止任何 container。</p>
+<h1 id="停止应用及-swarm"><a href="#停止应用及-swarm" class="headerlink" title="停止应用及 swarm"></a>停止应用及 swarm</h1><ul>
+<li><p>停止 app:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">docker stack rm getstartedlab</span><br><span class="line"></span><br><span class="line">Removing service getstartedlab_web</span><br><span class="line">Removing network getstartedlab_webnet</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>停止 swarm:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker swarm leave --force</span><br><span class="line"></span><br><span class="line">Node left the swarm.</span><br></pre></td></tr></table></figure></li>
+</ul>
 
       
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/MacOS/macos-remote-control/" itemprop="url">
-              
-                <span itemprop="name">在 Windows 环境下远程控制 MacOS</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2015-06-30T19:51:53+08:00"
-              content="2015-06-30" >
-          06-30
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/Web/hexo/hexo_setup/" itemprop="url">
-              
-                <span itemprop="name">搭建 Hexo 轻博客</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2015-05-07T23:21:36+08:00"
-              content="2015-05-07" >
-          05-07
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/diary/about/" itemprop="url">
-              
-                <span itemprop="name">关于我的博客</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2015-03-04T21:21:36+08:00"
-              content="2015-03-04" >
-          03-04
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-      
-
     </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/ops/" rel="tag"># ops</a>
+          
+            <a href="/tags/docker/" rel="tag"># docker</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/deployment/note-docker-containers/" rel="next" title="Docker 初探 (2) - Containers">
+                <i class="fa fa-chevron-left"></i> Docker 初探 (2) - Containers
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
 
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -523,6 +512,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -543,8 +536,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -604,6 +606,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Docker-Compose"><span class="nav-text">Docker Compose</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装-Docker-Compose"><span class="nav-text">安装 Docker Compose</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#关于-Service"><span class="nav-text">关于 Service</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#docker-compose-yml-文件"><span class="nav-text">docker-compose.yml 文件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#启动新的负载均衡应用"><span class="nav-text">启动新的负载均衡应用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#扩展该应用"><span class="nav-text">扩展该应用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#停止应用及-swarm"><span class="nav-text">停止应用及 swarm</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -742,6 +760,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
