@@ -66,7 +66,7 @@
 
 
 
-  <meta name="keywords" content="Developer, Frost He" />
+  <meta name="keywords" content="ops,docker," />
 
 
 
@@ -77,13 +77,20 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="Pango.Handbook">
-<meta property="og:url" content="https://berdypango.github.io/categories/diary/index.html">
+<meta name="description" content="本文简要介绍了 Docker 的 Stacks 概念">
+<meta name="keywords" content="ops,docker">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Docker 初探 (5) - Stacks">
+<meta property="og:url" content="https://berdypango.github.io/deployment/note-docker-stacks/index.html">
 <meta property="og:site_name" content="Pango.Handbook">
+<meta property="og:description" content="本文简要介绍了 Docker 的 Stacks 概念">
 <meta property="og:locale" content="default">
+<meta property="og:image" content="https://berdypango.github.io/deployment/note-docker-stacks/visualizer.png">
+<meta property="og:updated_time" content="2018-05-10T12:26:04.798Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Pango.Handbook">
+<meta name="twitter:title" content="Docker 初探 (5) - Stacks">
+<meta name="twitter:description" content="本文简要介绍了 Docker 的 Stacks 概念">
+<meta name="twitter:image" content="https://berdypango.github.io/deployment/note-docker-stacks/visualizer.png">
 
 
 
@@ -113,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="https://berdypango.github.io/categories/diary/"/>
+  <link rel="canonical" href="https://berdypango.github.io/deployment/note-docker-stacks/"/>
 
 
 
 
 
-  <title>Category: diary | Pango.Handbook</title>
+  <title>Docker 初探 (5) - Stacks | Pango.Handbook</title>
   
 
 
@@ -136,7 +143,7 @@
   
   
 
-  <div class="container  ">
+  <div class="container  page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -264,55 +271,245 @@
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block category">
+  <div id="posts" class="posts-expand">
+    
 
-    <div id="posts" class="posts-collapse">
-      <div class="collection-title">
-        <h1>diary<small>Category</small>
-        </h1>
-      </div>
+  
 
-      
-        
+  
+  
+  
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://berdypango.github.io/deployment/note-docker-stacks/">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Frost He">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pango.Handbook">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/diary/about/" itemprop="url">
-              
-                <span itemprop="name">关于我的博客</span>
-              
-            </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline">Docker 初探 (5) - Stacks</h1>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2015-03-04T21:21:36+08:00"
-              content="2015-03-04" >
-          03-04
-        </time>
-      </div>
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-02-01T23:09:17+08:00">
+                2018-02-01
+              </time>
+            
 
-    </header>
-  </article>
+            
 
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/deployment/" itemprop="url" rel="index">
+                    <span itemprop="name">deployment</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                  <span class="post-meta-divider">|</span>
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  757
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+              <div class="post-description">
+                  本文简要介绍了 Docker 的 Stacks 概念
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>参考资料:</p>
+<ul>
+<li><a href="https://docs.docker.com/get-started/part5/" target="_blank" rel="noopener">Stacks</a></li>
+</ul>
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>一个 <code>Stack</code> 是一组相互作用并共享依赖的 <code>service</code>，并且一起协同和伸缩的单元，一个 <code>Stack</code> 可以能够定义包含一个系统的所有功能。之前关于 <code>Service</code> 的介绍中已经用到了 <code>stack</code>，但那只是包含单个服务的 <code>stack</code>，在生产环境中 <code>stack</code> 往往许多服务，并将它们运行在不同的主机上。</p>
+<h1 id="添加一个新的-service-并重新部署"><a href="#添加一个新的-service-并重新部署" class="headerlink" title="添加一个新的 service 并重新部署"></a>添加一个新的 service 并重新部署</h1><p>首先添加一个免费的可视化服务以监控 <code>swarm</code> 是如何调度 <code>container</code> 的。</p>
+<ol>
+<li>打开 docker-compose.yml，填充以下内容:<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">"3"</span></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line"><span class="attr">  web:</span></span><br><span class="line">    <span class="comment"># replace username/repo:tag with your name and image details</span></span><br><span class="line"><span class="attr">    image:</span> <span class="string">username/repo:tag</span></span><br><span class="line"><span class="attr">    deploy:</span></span><br><span class="line"><span class="attr">      replicas:</span> <span class="number">5</span></span><br><span class="line"><span class="attr">      restart_policy:</span></span><br><span class="line"><span class="attr">        condition:</span> <span class="string">on-failure</span></span><br><span class="line"><span class="attr">      resources:</span></span><br><span class="line"><span class="attr">        limits:</span></span><br><span class="line"><span class="attr">          cpus:</span> <span class="string">"0.1"</span></span><br><span class="line"><span class="attr">          memory:</span> <span class="number">50</span><span class="string">M</span></span><br><span class="line"><span class="attr">    ports:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">"80:80"</span></span><br><span class="line"><span class="attr">    networks:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">webnet</span></span><br><span class="line"><span class="attr">  visualizer:</span></span><br><span class="line"><span class="attr">    image:</span> <span class="string">dockersamples/visualizer:stable</span></span><br><span class="line"><span class="attr">    ports:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">"8080:8080"</span></span><br><span class="line"><span class="attr">    volumes:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">"/var/run/docker.sock:/var/run/docker.sock"</span></span><br><span class="line"><span class="attr">    deploy:</span></span><br><span class="line"><span class="attr">      placement:</span></span><br><span class="line"><span class="attr">        constraints:</span> <span class="string">[node.role</span> <span class="string">==</span> <span class="string">manager]</span></span><br><span class="line"><span class="attr">    networks:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">webnet</span></span><br><span class="line"><span class="attr">networks:</span></span><br><span class="line"><span class="attr">  webnet:</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>在 <code>web</code> 服务之后，添加了一个名为 <code>visualizer</code> 的服务，注意两项: </p>
+<ul>
+<li><code>volumns</code> 表示给予其访问 <code>docker</code> 主机的 <code>socket</code> 文件的权限。</li>
+<li><code>placement</code> 确保该服务仅能在 <code>swarm manager</code> 上运行。</li>
+</ul>
+<ol start="2">
+<li>重新部署 stack<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ docker stack deploy -c docker-compose.yml getstartedlab</span><br><span class="line"></span><br><span class="line">Updating service getstartedlab_web (id: fmh8sn491klzx4vnz6uft0wc9)</span><br><span class="line">Creating service getstartedlab_visualizer</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<img src="/deployment/note-docker-stacks/visualizer.png" title="Visualizer">
+<p>从图上可以看出，<code>visualizer</code> 的单副本服务运行在了作为 <code>Swarm Manager</code> 的 <code>Aiur</code> 主机上。<code>Visualizer</code> 是一个可以包含在任何 <code>stack</code> 中单独运行的服务，它没有任何依赖。</p>
+<h1 id="持久化数据"><a href="#持久化数据" class="headerlink" title="持久化数据"></a>持久化数据</h1><p>现在，为 Stack 添加 Redis 数据库服务。</p>
+<ol>
+<li>在 docker-compose.yml 文件中新增服务声明:<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">redis:</span></span><br><span class="line"><span class="attr">  image:</span> <span class="string">redis</span></span><br><span class="line"><span class="attr">  ports:</span></span><br><span class="line"><span class="bullet">    -</span> <span class="string">"6379:6379"</span></span><br><span class="line"><span class="attr">  volumes:</span></span><br><span class="line"><span class="bullet">    -</span> <span class="string">"/home/pango/data:/data"</span></span><br><span class="line"><span class="attr">  deploy:</span></span><br><span class="line"><span class="attr">    placement:</span></span><br><span class="line"><span class="attr">      constraints:</span> <span class="string">[node.role</span> <span class="string">==</span> <span class="string">manager]</span></span><br><span class="line"><span class="attr">  command:</span> <span class="string">redis-server</span> <span class="bullet">--appendonly</span> <span class="literal">yes</span></span><br><span class="line"><span class="attr">  networks:</span></span><br><span class="line"><span class="bullet">    -</span> <span class="string">webnet</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>Redis 官方提供了 Docker 的 image 并将其命名为 <code>redis</code>，所以没有 <code>username/repo</code> 的前缀，redis 的 container 预设端口为 6379，在 Compose 文件中同样以 6379 端口加以映射并对外界开放。在 redis 服务的声明中，有如下几点重要信息:</p>
+<ul>
+<li>redis 始终在 <code>swarm manager</code> 上运行，所以它总是使用相同的文件系统</li>
+<li>redis 访问 <code>container</code> 中的 <code>/data</code> 目录来持久化数据，并映射到主机文件系统的 <code>/home/docker/data</code> 目录</li>
+</ul>
+<blockquote>
+<p>如果不加以映射，那么 <code>redis</code> 仅将数据保存在 <code>container</code> 中的 <code>/data</code> 目录下，一旦该 <code>container</code> 被重新部署则数据就会被清除。</p>
+</blockquote>
+<ol start="2">
+<li><p>在 <code>Swarm Manager</code> 主机上创建 <code>/data</code> 目录:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir ~/data</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>重新部署 stack:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ docker stack deploy -c docker-compose.yml getstartedlab</span><br><span class="line"></span><br><span class="line">Updating service getstartedlab_web (id: fmh8sn491klzx4vnz6uft0wc9)</span><br><span class="line">Updating service getstartedlab_visualizer (id: oj86dzaracmuoxb3ucvi7ro1e)</span><br><span class="line">Creating service getstartedlab_redis</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>执行 <code>docker service ls</code> 验证 3 个服务都已运行:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ docker service ls</span><br><span class="line"></span><br><span class="line">ID                  NAME                       MODE                REPLICAS            IMAGE                             PORTS</span><br><span class="line">kuuocvu54rd1        getstartedlab_redis        replicated          1/1                 redis:latest                      *:6379-&gt;6379/tcp</span><br><span class="line">oj86dzaracmu        getstartedlab_visualizer   replicated          1/1                 dockersamples/visualizer:stable   *:8080-&gt;8080/tcp</span><br><span class="line">fmh8sn491klz        getstartedlab_web          replicated          5/5                 frosthe/get-started:part2         *:80-&gt;80/tcp</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>现在访问任意节点的 ip:8080，可以看到 <code>redis</code> 服务已经运行在 <code>Swarm Manager</code> 节点上。</p>
 
       
     </div>
+    
+    
+    
 
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/ops/" rel="tag"># ops</a>
+          
+            <a href="/tags/docker/" rel="tag"># docker</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/deployment/note-docker-swarms/" rel="next" title="Docker 初探 (4) - Swarms">
+                <i class="fa fa-chevron-left"></i> Docker 初探 (4) - Swarms
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/deployment/note-docker-machine/" rel="prev" title="Docker 初探 (7) - Docker Machine">
+                Docker 初探 (7) - Docker Machine <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
 
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -320,6 +517,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -340,8 +541,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -401,6 +611,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#添加一个新的-service-并重新部署"><span class="nav-text">添加一个新的 service 并重新部署</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#持久化数据"><span class="nav-text">持久化数据</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -539,6 +765,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
