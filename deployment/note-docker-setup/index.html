@@ -85,7 +85,7 @@
 <meta property="og:site_name" content="Pango.Handbook">
 <meta property="og:description" content="本文基于 Docker GetStarted 官方文档，简要介绍了如何在 Ubuntu 16.04 下搭建 Docker 环境">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-05-09T15:05:39.377Z">
+<meta property="og:updated_time" content="2018-05-11T10:05:39.006Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Docker 初探 (1) - 搭建 Docker 环境">
 <meta name="twitter:description" content="本文基于 Docker GetStarted 官方文档，简要介绍了如何在 Ubuntu 16.04 下搭建 Docker 环境">
@@ -368,7 +368,7 @@
                   <span class="post-meta-item-text">Words count in article&#58;</span>
                 
                 <span title="Words count in article">
-                  1,119
+                  1,176
                 </span>
               
 
@@ -456,6 +456,14 @@
 </li>
 </ol>
 <p>该指令检查包含正在运行和过往运行的 <code>container</code> 实例记录，如果有 <code>container</code> 正在运行，则不需要 <code>--all</code> 选项。</p>
+<h3 id="卸载-Docker-CE"><a href="#卸载-Docker-CE" class="headerlink" title="卸载 Docker CE"></a>卸载 Docker CE</h3><ol>
+<li><p>卸载 Docker CE 包:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get purge docker-ce</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>image, container, volumns 或其他自定义的配置文件将不会自动删除，如果想要完全删除，则执行:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo rm -rf /var/lib/docker</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
 <h1 id="以-non-root-用户管理-Docker"><a href="#以-non-root-用户管理-Docker" class="headerlink" title="以 non-root 用户管理 Docker"></a>以 non-root 用户管理 Docker</h1><p><code>docker</code> 守护进程绑定一个 Unix 套接字而非普通的 TCP 端口，默认情况下，Unix 套接字被 <code>root</code> 用户所有，其他用户只能通过 <code>sudo</code> 进行访问。<code>docker</code> 进程始终以 <code>root</code> 用户运行。</p>
 <p>Docker CE 在安装完成后，会创建一个新的 <code>docker</code> 群组，但不会加入任何现有用户到该群组下，如果不想每次执行 <code>docker</code> 命令时加上 <code>sudo</code>，可以将指定用户加入到群组下。当 <code>docker</code> 进程启动时，<code>docker</code> 群组对 <code>docker</code> 使用的 Unix 套接字具有读写权限。</p>
 <blockquote>
@@ -592,7 +600,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">34</span>
+                  <span class="site-state-item-count">35</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -647,7 +655,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#搭建-Docker-环境"><span class="nav-text">搭建 Docker 环境</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Image-和-Container"><span class="nav-text">Image 和 Container</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Containers-和虚拟机"><span class="nav-text">Containers 和虚拟机</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#在-Ubuntu-Xenial-16-04-LTS-系统上安装-Docker-CE"><span class="nav-text">在 Ubuntu Xenial 16.04(LTS) 系统上安装 Docker CE</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#从-Repository-安装"><span class="nav-text">从 Repository 安装</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#搭建-Repository"><span class="nav-text">搭建 Repository</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-Docker-CE"><span class="nav-text">安装 Docker CE</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#以-non-root-用户管理-Docker"><span class="nav-text">以 non-root 用户管理 Docker</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#将-docker-配置为开启启动"><span class="nav-text">将 docker 配置为开启启动</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#搭建-Docker-环境"><span class="nav-text">搭建 Docker 环境</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Image-和-Container"><span class="nav-text">Image 和 Container</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Containers-和虚拟机"><span class="nav-text">Containers 和虚拟机</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#在-Ubuntu-Xenial-16-04-LTS-系统上安装-Docker-CE"><span class="nav-text">在 Ubuntu Xenial 16.04(LTS) 系统上安装 Docker CE</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#从-Repository-安装"><span class="nav-text">从 Repository 安装</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#搭建-Repository"><span class="nav-text">搭建 Repository</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-Docker-CE"><span class="nav-text">安装 Docker CE</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#卸载-Docker-CE"><span class="nav-text">卸载 Docker CE</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#以-non-root-用户管理-Docker"><span class="nav-text">以 non-root 用户管理 Docker</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#将-docker-配置为开启启动"><span class="nav-text">将 docker 配置为开启启动</span></a></li></ol></div>
             
 
           </div>
