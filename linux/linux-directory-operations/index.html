@@ -85,7 +85,7 @@
 <meta property="og:site_name" content="Pango.Handbook">
 <meta property="og:description" content="本文介绍了 Linux 系统有关目录的常用指令和 $PATH 变量的意义">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-04-18T01:51:55.924Z">
+<meta property="og:updated_time" content="2018-05-15T11:44:04.224Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux 基础 - 目录操作与 $PATH">
 <meta name="twitter:description" content="本文介绍了 Linux 系统有关目录的常用指令和 $PATH 变量的意义">
@@ -368,7 +368,7 @@
                   <span class="post-meta-item-text">Words count in article&#58;</span>
                 
                 <span title="Words count in article">
-                  1,131
+                  1,122
                 </span>
               
 
@@ -433,8 +433,8 @@
 <p>另外，通过 <code>-m</code> 选项可以在新建目录时为该目录指定权限，例如当执行 <code>mkdir -p -m 711 /home/pango/testing</code> 时，在该目录树上的所有新建的目录都会具有 <code>drwx--x--x</code> 权限。如果不指定 <code>-m</code> 选项，其默认权限会与 umask 有关，见后文。</p>
 <h2 id="rmdir-remove-directory-删除目录"><a href="#rmdir-remove-directory-删除目录" class="headerlink" title="rmdir(remove directory, 删除目录)"></a>rmdir(remove directory, 删除目录)</h2><p>与 <code>mkdir</code> 指令类似，默认情况下，目标目录需要一层一层的删除才行，且被删除的目录必须为空，即该目录下不能存在任何目录或文件。</p>
 <p>而 <code>-p</code> 提供了递归删除目录选项，且会删除指定目录下的任何目录和文件，该操作比较危险，使用时需谨慎。</p>
-<h1 id="执行程序的环境变量-PATH"><a href="#执行程序的环境变量-PATH" class="headerlink" title="执行程序的环境变量: $PATH"></a>执行程序的环境变量: $PATH</h1><p>我们知道指令 <code>ls</code> 的二进制可执行程序所在的目录为 <code>/bin/ls</code>，那么为何我们可以在任何目录下执行 <code>ls</code> 这个指令呢？这就是环境变量 <code>$PATH</code> 的作用。</p>
-<p>当我们执行 <code>ls</code> 指令时，系统会根据 <code>PATH</code> 的值去每个 <code>PATH</code> 定义的目录下搜索名称为 ‘ls’ 的可执行文件，如果在 <code>PATH</code> 定义的目录中包含多个名称为 ‘ls’ 的可执行文件，那么先被找到的指令会被执行。</p>
+<h1 id="执行程序的环境变量-PATH"><a href="#执行程序的环境变量-PATH" class="headerlink" title="执行程序的环境变量: $PATH"></a>执行程序的环境变量: $PATH</h1><p>指令 <code>ls</code> 的二进制可执行程序所在的目录为 <code>/bin/ls</code>，可是为何可以在任何目录下执行 <code>ls</code> 这个指令呢？这就是环境变量 <code>$PATH</code> 的作用。</p>
+<p>当执行 <code>ls</code> 指令时，系统会根据 <code>PATH</code> 的值去每个定义的目录下搜索名称为 ‘ls’ 的可执行文件，如果在 <code>PATH</code> 定义的目录中包含多个名称为 ‘ls’ 的可执行文件，那么先被找到的指令会被执行。</p>
 <p>执行 <code>echo $PATH</code> 会在屏幕上打印出所有定义的路径值，<code>$</code> 表示环境变量，<code>PATH</code> 表示环境变量的键，注意 <code>PATH</code> 一定都是大写字母，其定义的多个路径每个之间由 <code>:</code> 分隔。</p>
 <p>现在，如果将 <code>ls</code> 指令从 <code>/bin/ls</code> 通过 <code>mv /bin/ls /root/</code> 移动到 <code>/root/</code> 目录下，</p>
 <ul>
@@ -442,7 +442,7 @@
 <li>可以通过使用绝对路径或相对路径来执行该指令: <code>/root/ls</code> 或 <code>./ls</code>。</li>
 <li>可通过 <code>PATH=&quot;${PATH}:/root&quot;</code> 将 <code>/root</code> 加入到 <code>PATH</code> 变量中。</li>
 </ul>
-<p>此外，关于 PATH 需要注意以下几项: </p>
+<p>此外，关于 <code>PATH</code> 需要注意以下几项: </p>
 <ul>
 <li>不同的用户的环境变量 <code>PATH</code> 的值是不同的。</li>
 <li><code>PATH</code> 是可以修改的</li>
@@ -569,7 +569,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">35</span>
+                  <span class="site-state-item-count">37</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
