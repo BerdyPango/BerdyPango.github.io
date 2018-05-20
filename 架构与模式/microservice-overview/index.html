@@ -1,0 +1,1148 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next mist" lang="default">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="asp.net core,ddd,docker,architecture," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="总结了使用微服务架构应用程序所面临的挑战与解决方案">
+<meta name="keywords" content="asp.net core,ddd,docker,architecture">
+<meta property="og:type" content="article">
+<meta property="og:title" content="微服务架构的挑战与解决方案">
+<meta property="og:url" content="https://berdypango.github.io/架构与模式/microservice-overview/index.html">
+<meta property="og:site_name" content="Pango.Handbook">
+<meta property="og:description" content="总结了使用微服务架构应用程序所面临的挑战与解决方案">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://berdypango.github.io/架构与模式/microservice-overview/image15.png">
+<meta property="og:image" content="https://berdypango.github.io/架构与模式/microservice-overview/image18.png">
+<meta property="og:updated_time" content="2018-05-20T10:10:36.857Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="微服务架构的挑战与解决方案">
+<meta name="twitter:description" content="总结了使用微服务架构应用程序所面临的挑战与解决方案">
+<meta name="twitter:image" content="https://berdypango.github.io/架构与模式/microservice-overview/image15.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"display":"hide"},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://berdypango.github.io/架构与模式/microservice-overview/"/>
+
+
+
+
+
+  <title>微服务架构的挑战与解决方案 | Pango.Handbook</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+
+  <div class="container  page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Pango.Handbook</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            Search
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="Searching..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://berdypango.github.io/架构与模式/microservice-overview/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Frost He">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pango.Handbook">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">微服务架构的挑战与解决方案</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-05-19T11:52:34+08:00">
+                2017-05-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/架构与模式/" itemprop="url" rel="index">
+                    <span itemprop="name">架构与模式</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                  <span class="post-meta-divider">|</span>
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  2,586
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+              <div class="post-description">
+                  总结了使用微服务架构应用程序所面临的挑战与解决方案
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="分布式数据管理的挑战和解决方案"><a href="#分布式数据管理的挑战和解决方案" class="headerlink" title="分布式数据管理的挑战和解决方案"></a>分布式数据管理的挑战和解决方案</h1><h2 id="挑战-1-如何定义每个微服务的边界"><a href="#挑战-1-如何定义每个微服务的边界" class="headerlink" title="挑战 #1: 如何定义每个微服务的边界"></a>挑战 #1: 如何定义每个微服务的边界</h2><p>定义微服务边界可能是每位用户遇到的第一项挑战。每个微服务必须是应用程序的一部分，并且每个微服务应对其带来的优势和挑战具有自治性。但是，如何识别这些边界？</p>
+<p>首先，需要着重关注应用程序的逻辑域模型和相关数据。必须尝试识别同一应用程序中数据和不同上下文的分离岛。每个上下文可能具有不同的业务语言(不同的业务术语)，应独立定义和管理上下文。不同上下文中所用的术语和实体可能听起来很相似，但你可能会发现在特定上下文中，某个业务概念可在另一个上下文中用于不同目的，甚至名称也不同。例如，用户在身份或成员身份上下文中称为用户，在 CRM 上下文中称为客户，在订购上下文中称为购买者等等。</p>
+<p>多个应用程序上下文(各上下文具有不同域)之间的边界识别方法，也可用于识别各业务微服务及其相关域模型和数据的边界。始终尝试最大程度减少这些微服务之间的耦合度。</p>
+<h2 id="挑战-2-如何创建从多个微服务中检索数据的查询"><a href="#挑战-2-如何创建从多个微服务中检索数据的查询" class="headerlink" title="挑战 #2: 如何创建从多个微服务中检索数据的查询"></a>挑战 #2: 如何创建从多个微服务中检索数据的查询</h2><p>第二个挑战是如何实现从多个微服务中检索数据的查询，同时避免从远程客户端应用到微服务的闲时通信。例如，某个移动应用的单个屏幕需要显示属于购物篮、目录和用户标识微服务的用户信息。还例如，某个复杂报告涉及位于多个微服务中的表。正确的解决方案取决于查询的复杂程度。但在任何情况下，如果想要提高系统通信的效率，都需要通过某种方法来聚合信息。最常用的解决方案如下:</p>
+<ul>
+<li>API 网关: 对于来自多个微服务(拥有不同数据库)的简单数据聚合，推荐方法是称为 API 网关的聚合微服务。</li>
+<li>具有查询/读取表的 CQRS: 用于聚合来自多个微服务的数据的另一个解决方案是具体化视图模式。此方法将事先(在发生实际查询之前准备非规范化数据)生成一个包含属于多个微服务的数据的只读表。该表采用满足客户端应用要求的格式。</li>
+<li>中央数据库的「冷数据」: 对于可能不需要实时数据的复杂报告和查询，常用方法是将「冷数据」作为「热数据」(来自微服务的事务数据)导出到仅用于报告的大型数据库。该中央数据库系统可以是基于大数据的系统(如 Hadoop)、基于 Azure SQL 数据仓库的数据仓库，甚至是仅用于报告的单个 SQL 数据库(如果大小没有问题)。</li>
+</ul>
+<p>请注意，此集中式数据库仅用于不需要实时数据的查询和报告。作为事实来源的原始更新和事务必须位于微服务数据中。用于同步数据的方法有两种：使用事件驱动的通信，或使用其他数据库基础结构导入/导出工具。 </p>
+<h2 id="挑战-3-如何跨多个微服务实现一致性"><a href="#挑战-3-如何跨多个微服务实现一致性" class="headerlink" title="挑战 #3: 如何跨多个微服务实现一致性"></a>挑战 #3: 如何跨多个微服务实现一致性</h2><p>每个微服务拥有的数据是该微服务专有的，并且只能通过其本身的微服务 API 访问。因此，面临的挑战是如何在保持多个微服务的一致性的同时实现端到端的业务进程。</p>
+<p>「目录微服务」保存所有产品的相关信息，包括它们的库存。「订购微服务」管理订单，并且必须验证新订单是否超过可用目录产品库存。在该应用程序的单片版本中，订购子系统可简单地使用 ACID 事务来检查可用库存、在订单表中创建订单以及更新产品表中的可用库存。</p>
+<p>但是，在基于微服务的应用程序中，订单和产品表属于其各自的微服务。如图所示，微服务不应包含其他微服务在其事务或查询中所拥有的数据库。</p>
+
+<p>订购微服务不应直接更新产品表，因为产品表属于目录微服务。要更新目录微服务，订购微服务应只使用异步通信，如集成事件（消息和基于事件的通信）。需要在可用性和 ACID 一致性之间做出选择。大多数基于微服务的方案都需要高可用性和高可伸缩性，而非一致性。任务关键型应用程序必须随时保持最新且可运行状态，开发人员可通过使用弱或最终一致性的技术来实现一致性。 这是大多数基于微服务的体系结构采用的方法。</p>
+<p>此外，ACID 式或两阶段提交事务均违背微服务原则；大多数 NoSQL 数据库(如 Azure Cosmos DB、MongoDB 等)不支持两阶段提交事务。但维护服务和数据库的数据一致性至关重要。此挑战还涉及，当某些数据需要冗余时(例如，需要在目录微服务和购物篮微服务中使用产品名称或说明时)，如何在多个微服务之间传播更改。</p>
+<h2 id="挑战-4：如何设计跨微服务边界的通信"><a href="#挑战-4：如何设计跨微服务边界的通信" class="headerlink" title="挑战 #4：如何设计跨微服务边界的通信"></a>挑战 #4：如何设计跨微服务边界的通信</h2><p>假设客户端应用程序对单个微服务（如订购微服务）进行 HTTP API 调用。如果订购微服务在相同的请求/响应周期内转而使用 HTTP 调用其他微服务，这表示正在创建 HTTP 调用链。刚开始时，这可能听起来很合理。但是，如果继续进行，则需要考虑一些重要问题：</p>
+<ul>
+<li>堵塞和低性能: 由于 HTTP 同步性质，直到所有内部 HTTP 调用完成后，原始请求才会收到响应。假设这些调用的数量显著增加，同时某个对微服务的中间 HTTP 调用受到阻塞。这会对性能造成影响，并且随着其他 HTTP 请求的增加，整体可伸缩性将受到的影响将成倍增长。</li>
+<li>微服务将与 HTTP 耦合: 业务微服务不应与其他业务微服务耦合。理想情况下，它们不应「知道」其他微服务的存在。如果应用程序依赖于如例所示的耦合微服务，那么几乎不可能实现每个微服务的自治。</li>
+<li>任一微服务中失败将导致最终失败: 如果实现由 HTTP 调用链接的微服务链，那么任一微服务失败(最终所有微服务都将失败)都将导致整个微服务链的失败。基于微服务的系统应设计为在部分故障期间也尽可能地继续工作。即使实现使用具有指数回退或断路器机制的客户端逻辑，HTTP 调用链越复杂，实现基于 HTTP 的故障策略就越复杂。</li>
+</ul>
+<img src="/架构与模式/microservice-overview/image15.png" title="微服务间通信的反模式与模式">
+<h2 id="异步微服务集成强化了微服务的自治性"><a href="#异步微服务集成强化了微服务的自治性" class="headerlink" title="异步微服务集成强化了微服务的自治性"></a>异步微服务集成强化了微服务的自治性</h2><p>生成基于微服务的应用程序时，重要的是集成微服务的方法。理想情况下，应尝试减少内部微服务之间的通信，微服务间的通信越少越好。但在许多情况下，必须以某种方式集成微服务，当需要执行此操作时，关键的规则是微服务间的通信应为「异步」。这并不代表必须使用特定协议(例如，异步消息传送与同步 HTTP)。 这仅代表微服务之间的通信<strong>「应该只通过异步传播数据来完成，但不要依赖其他内部微服务作为初始服务的 HTTP 请求/响应操作的一部分。」</strong></p>
+<p>微服务通信通常分为两个轴:</p>
+<ol>
+<li>同步还是异步<ul>
+<li>同步协议: HTTP 是同步协议。客户端发送请求并等待服务响应，这与客户端代码执行无关，客户端可能是同步(线程被阻止)或异步的(线程没有被阻止，并且响应最终会到达回调)。重要的是，协议 (HTTP/HTTPS) 是同步的，仅当客户端代码接收到 HTTP 服务器响应时，才可以继续其任务。</li>
+<li>异步协议: AMQP 之类的其他协议（许多操作系统和云环境支持的协议）使用异步消息。客户端代码或消息发件人通常不会等待响应。</li>
+</ul>
+</li>
+<li>单个接收方还是多个接收方<ul>
+<li>单个接收方: 命令模式，具有单个接收者的基于消息的异步通信意味着存在点到点通信，即，仅向正在从该通道读取数据的一个使用者传递消息，并且该消息仅处理一次。但也有一些特殊情况。例如，在试图从故障中自动恢复的云系统中，可以多次发送相同的消息。由于网络或其他故障，客户端必须能够重试发送消息，并且服务器必须实现幂等操作，以便对特定消息仅处理一次。基于消息的单接收者通信特别适用于将异步命令从一个微服务发送到另一个微服务。<img src="/架构与模式/microservice-overview/image18.png" title="接收异步消息的单个微服务"></li>
+<li>多个接收方: 发布/订阅模式，作为一种更灵活的方法，你可能还需要使用发布/订阅机制，以便其他订阅者微服务或外部应用程序能够收到发送者发送的通信。这样一来，以后无需修改发送者服务也可添加额外的订阅者。使用发布/订阅通信时，你可能会使用事件总线接口向任何订阅者发布事件。</li>
+</ul>
+</li>
+</ol>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/asp-net-core/" rel="tag"># asp.net core</a>
+          
+            <a href="/tags/ddd/" rel="tag"># ddd</a>
+          
+            <a href="/tags/docker/" rel="tag"># docker</a>
+          
+            <a href="/tags/architecture/" rel="tag"># architecture</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/架构与模式/DDD/note-ddd-tactical-domain-service/" rel="next" title="《实现领域驱动设计》读书笔记(6) - 战术建模之领域服务">
+                <i class="fa fa-chevron-left"></i> 《实现领域驱动设计》读书笔记(6) - 战术建模之领域服务
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/deployment/note-docker-setup/" rel="prev" title="Docker 初探 (1) - 搭建 Docker 环境">
+                Docker 初探 (1) - 搭建 Docker 环境 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Frost He</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">41</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#分布式数据管理的挑战和解决方案"><span class="nav-text">分布式数据管理的挑战和解决方案</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#挑战-1-如何定义每个微服务的边界"><span class="nav-text">挑战 #1: 如何定义每个微服务的边界</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#挑战-2-如何创建从多个微服务中检索数据的查询"><span class="nav-text">挑战 #2: 如何创建从多个微服务中检索数据的查询</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#挑战-3-如何跨多个微服务实现一致性"><span class="nav-text">挑战 #3: 如何跨多个微服务实现一致性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#挑战-4：如何设计跨微服务边界的通信"><span class="nav-text">挑战 #4：如何设计跨微服务边界的通信</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#异步微服务集成强化了微服务的自治性"><span class="nav-text">异步微服务集成强化了微服务的自治性</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2015 &mdash; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Frost He</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+
+
+
+
+
+        
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//tajs.qq.com/stats?sId=65458438";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === '') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
