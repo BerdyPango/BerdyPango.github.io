@@ -66,7 +66,7 @@
 
 
 
-  <meta name="keywords" content="linux,diy," />
+  <meta name="keywords" content="diy,linux,raspberry pi," />
 
 
 
@@ -78,17 +78,21 @@
 
 
 <meta name="description" content="记录了搭建新购入的树莓派的全部步骤">
-<meta name="keywords" content="linux,diy">
+<meta name="keywords" content="diy,linux,raspberry pi">
 <meta property="og:type" content="article">
 <meta property="og:title" content="DIY - 准备树莓派 3b+">
 <meta property="og:url" content="https://berdypango.github.io/linux/diy-setup-raspberry-pi/index.html">
 <meta property="og:site_name" content="Pango.Handbook">
 <meta property="og:description" content="记录了搭建新购入的树莓派的全部步骤">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-05-20T08:22:52.145Z">
+<meta property="og:image" content="https://berdypango.github.io/linux/diy-setup-raspberry-pi/r-pi-board.jpg">
+<meta property="og:image" content="https://berdypango.github.io/linux/diy-setup-raspberry-pi/raspi-config.jpg">
+<meta property="og:image" content="https://berdypango.github.io/linux/diy-setup-raspberry-pi/r-pi-ip.jpg">
+<meta property="og:updated_time" content="2018-05-21T06:26:15.648Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="DIY - 准备树莓派 3b+">
 <meta name="twitter:description" content="记录了搭建新购入的树莓派的全部步骤">
+<meta name="twitter:image" content="https://berdypango.github.io/linux/diy-setup-raspberry-pi/r-pi-board.jpg">
 
 
 
@@ -368,7 +372,7 @@
                   <span class="post-meta-item-text">Words count in article&#58;</span>
                 
                 <span title="Words count in article">
-                  268
+                  327
                 </span>
               
 
@@ -397,7 +401,9 @@
       
 
       
-        <h2 id="硬件准备"><a href="#硬件准备" class="headerlink" title="硬件准备"></a>硬件准备</h2><ul>
+        <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>新买了个树莓派 3B+，初步设想是准备拿它做 NAS 服务器，HomeAssitant 网关和 KODI 媒体中心。</p>
+<img src="/linux/diy-setup-raspberry-pi/r-pi-board.jpg" title="树莓派 3b+">
+<h2 id="硬件准备"><a href="#硬件准备" class="headerlink" title="硬件准备"></a>硬件准备</h2><ul>
 <li>树莓派 3b+ * 1</li>
 <li>网线 * 1</li>
 <li>Micro SD 卡 * 1，容量大于 8 GB</li>
@@ -408,8 +414,8 @@
 <li>USB 电源线 * 1</li>
 </ul>
 <h2 id="软件准备"><a href="#软件准备" class="headerlink" title="软件准备"></a>软件准备</h2><ul>
-<li>RASPBIAN STRETCH LITE 系统映像</li>
-<li>Etcher 映像烧录软件</li>
+<li>RASPBIAN STRETCH LITE 系统映像 -&gt; <a href="https://www.raspberrypi.org/downloads/raspbian/" target="_blank" rel="noopener">下载地址</a></li>
+<li>Etcher 映像烧录软件 -&gt; <a href="https://etcher.io/" target="_blank" rel="noopener">下载地址</a></li>
 </ul>
 <h2 id="搭建"><a href="#搭建" class="headerlink" title="搭建"></a>搭建</h2><ol>
 <li>使用 Etcher 将 RASPBIAN STRETCH LITE 烧录至 Micro SD 卡中</li>
@@ -417,7 +423,7 @@
 <li>将树莓派接入网线，电源线，HDMI 线和键盘</li>
 <li>树莓派开机，第一次启动会花 1-2 分钟</li>
 <li>使用预设用户 pi/raspberry 登录系统</li>
-<li>键入 <code>sudo raspi-config</code> 进行如下设置:<ol>
+<li>键入 <code>sudo raspi-config</code> 进行如下设置:<img src="/linux/diy-setup-raspberry-pi/raspi-config.jpg" title="配置界面"><ol>
 <li>-&gt; 1 Change User Password，修改 pi 用户登录密码</li>
 <li>-&gt; 2 Network Options -&gt; N1 Hostname，更改 Hostname</li>
 <li>-&gt; 2 Network Options -&gt; N2 Wi-fi，设置 Wifi</li>
@@ -425,7 +431,7 @@
 </ol>
 </li>
 <li>重启树莓派</li>
-<li>通过路由器管理界面查询树莓派的 IP 地址</li>
+<li>通过路由器管理界面查询树莓派的 IP 地址，并将该 IP 地址与 MAC 地址绑定为固定 IP 地址。<img src="/linux/diy-setup-raspberry-pi/r-pi-ip.jpg"></li>
 <li>撤掉除电源线以外的其他所有线缆，在 PC 上使用 SSH 远程管理树莓派</li>
 <li>执行 <code>apt-get update</code> 以及 <code>apt-get upgrade</code> 命令使预装软件获得最新版本</li>
 </ol>
@@ -446,9 +452,11 @@
       
         <div class="post-tags">
           
+            <a href="/tags/diy/" rel="tag"># diy</a>
+          
             <a href="/tags/linux/" rel="tag"># linux</a>
           
-            <a href="/tags/diy/" rel="tag"># diy</a>
+            <a href="/tags/raspberry-pi/" rel="tag"># raspberry pi</a>
           
         </div>
       
@@ -550,7 +558,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">41</span>
+                  <span class="site-state-item-count">42</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -572,7 +580,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-count">17</span>
                   <span class="site-state-item-name">tags</span>
                 </a>
               </div>
@@ -605,7 +613,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#硬件准备"><span class="nav-text">硬件准备</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#软件准备"><span class="nav-text">软件准备</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#搭建"><span class="nav-text">搭建</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#背景"><span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#硬件准备"><span class="nav-text">硬件准备</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#软件准备"><span class="nav-text">软件准备</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#搭建"><span class="nav-text">搭建</span></a></li></ol></div>
             
 
           </div>
