@@ -66,7 +66,7 @@
 
 
 
-  <meta name="keywords" content="ops,docker," />
+  <meta name="keywords" content="docker,ops," />
 
 
 
@@ -77,21 +77,18 @@
 
 
 
-<meta name="description" content="有关 Docker Machine 的用法和场景">
-<meta name="keywords" content="ops,docker">
+<meta name="description" content="本文基于 Docker GetStarted 官方文档，简要介绍了如何在 Ubuntu 16.04 下搭建 Docker 环境">
+<meta name="keywords" content="docker,ops">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Docker 初探 (6) - Docker Machine">
-<meta property="og:url" content="https://berdypango.github.io/deployment/note-docker-machine/index.html">
+<meta property="og:title" content="Docker 初探 (1) - 搭建 Docker 环境">
+<meta property="og:url" content="https://berdypango.github.io/deployment/docker-setup/index.html">
 <meta property="og:site_name" content="Pango.Handbook">
-<meta property="og:description" content="有关 Docker Machine 的用法和场景">
+<meta property="og:description" content="本文基于 Docker GetStarted 官方文档，简要介绍了如何在 Ubuntu 16.04 下搭建 Docker 环境">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="https://berdypango.github.io/deployment/note-docker-machine/engine.png">
-<meta property="og:image" content="https://berdypango.github.io/deployment/note-docker-machine/machine.png">
-<meta property="og:updated_time" content="2018-05-15T12:22:29.002Z">
+<meta property="og:updated_time" content="2018-06-05T11:59:03.496Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Docker 初探 (6) - Docker Machine">
-<meta name="twitter:description" content="有关 Docker Machine 的用法和场景">
-<meta name="twitter:image" content="https://berdypango.github.io/deployment/note-docker-machine/engine.png">
+<meta name="twitter:title" content="Docker 初探 (1) - 搭建 Docker 环境">
+<meta name="twitter:description" content="本文基于 Docker GetStarted 官方文档，简要介绍了如何在 Ubuntu 16.04 下搭建 Docker 环境">
 
 
 
@@ -121,13 +118,13 @@
 
 
 
-  <link rel="canonical" href="https://berdypango.github.io/deployment/note-docker-machine/"/>
+  <link rel="canonical" href="https://berdypango.github.io/deployment/docker-setup/"/>
 
 
 
 
 
-  <title>Docker 初探 (6) - Docker Machine | Pango.Handbook</title>
+  <title>Docker 初探 (1) - 搭建 Docker 环境 | Pango.Handbook</title>
   
 
 
@@ -286,7 +283,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://berdypango.github.io/deployment/note-docker-machine/">
+    <link itemprop="mainEntityOfPage" href="https://berdypango.github.io/deployment/docker-setup/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Frost He">
@@ -303,7 +300,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Docker 初探 (6) - Docker Machine</h1>
+          <h1 class="post-title" itemprop="name headline">Docker 初探 (1) - 搭建 Docker 环境</h1>
         
 
         <div class="post-meta">
@@ -315,8 +312,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-02-04T23:09:17+08:00">
-                2018-02-04
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-01-28T23:09:17+08:00">
+                2018-01-28
               </time>
             
 
@@ -371,7 +368,7 @@
                   <span class="post-meta-item-text">Words count in article&#58;</span>
                 
                 <span title="Words count in article">
-                  1,021
+                  1,176
                 </span>
               
 
@@ -383,7 +380,7 @@
 
           
               <div class="post-description">
-                  有关 Docker Machine 的用法和场景
+                  本文基于 Docker GetStarted 官方文档，简要介绍了如何在 Ubuntu 16.04 下搭建 Docker 环境
               </div>
           
 
@@ -400,38 +397,88 @@
       
 
       
-        <p>参考资料: </p>
+        <p>参考资料:</p>
 <ul>
-<li><a href="https://docs.docker.com/get-started/part4/" target="_blank" rel="noopener">Swarms</a></li>
-<li><a href="https://docs.docker.com/machine/overview/" target="_blank" rel="noopener">Docker Machine</a></li>
+<li><a href="https://docs.docker.com/install/linux/docker-ce/ubuntu/" target="_blank" rel="noopener">Get Docker CE for Ubuntu</a></li>
+<li><a href="https://docs.docker.com/install/linux/linux-postinstall/" target="_blank" rel="noopener">Post-installation steps for Linux</a></li>
 </ul>
-<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p><a href="https://docs.docker.com/get-started/part4/" target="_blank" rel="noopener">Docker GetStarted Swarm</a> 官方文档中，为了在单机上演示如何搭建 <code>Docker Swarm</code> 而引入了 <code>Docker Machine</code>，并在其中穿插了虚拟 shell 环境的内容，个人认为这部分内容干扰了集群搭建的关键信息。</p>
-<h1 id="Docker-Machine"><a href="#Docker-Machine" class="headerlink" title="Docker Machine"></a>Docker Machine</h1><p>通过 <code>Docker Machine</code> 可实现在虚拟主机或远程主机上安装 <code>Docker</code> 引擎，并使用 <code>docker-machine</code> 命令行对其进行管理的工具。<code>Docker Machine</code> 在 <code>Docker for Mac</code> 和 <code>Docker for Windows</code> 上都已经预装，<code>Linux</code> 系统需要手动安装。</p>
-<p><code>Docker Machine</code> 有以下两种常用场景:</p>
+<p>Docker 继承自 Linux 系统的<strong>「容器化(Containerization)」</strong>，是一个为开发人员和系统管理员用于开发，部署和运行应用程序的容器系统，容器化的特点有:</p>
 <ul>
-<li>有些老的桌面系统主机如 <code>Windows</code> 和 <code>Mac</code>，它们不满足预装 <code>Docker for Windows</code> 或 <code>Docker for Mac</code> 的条件，但我想要在这些系统上运行 <code>Docker</code>。</li>
-<li>我想要在远程主机系统上运行统一的 <code>Docker image</code>。</li>
+<li>灵活性: 任何复杂的应用都可以被容器化</li>
+<li>轻量: 容器共享主机的内核</li>
+<li>可互换: 可在运行过程中部署更新</li>
+<li>便携性: 本地编译，云端部署，在任何地方都可以运行</li>
+<li>伸缩性: 增加容器副本相当容易且自动化</li>
+<li>可堆叠: 可在运行过程中纵向扩展</li>
 </ul>
-<p><code>docker</code> 守护进程由服务端和客户端两部分组成，服务端发布 REST API 接口开放给客户端，<code>docker CLI</code> 客户端通过 REST API 接口与服务端通信。</p>
-<img src="/deployment/note-docker-machine/engine.png" title="Docker 引擎">
-<p>无论你的管理主机是 <code>Windows</code>，<code>Mac</code> 还是 <code>Linux</code>，都可以安装 <code>Docker Machine</code> 并使用 <code>docker-machine</code> 命令统一管理大量的 <code>Docker</code> 从机。通常，你会将 <code>Docker Machine</code> 安装到本地主机，<code>Docker Machine</code> 包含 <code>docker-machine</code> 命令行工具和 <code>Docker</code> 引擎的客户端 <code>docker</code> 命令行工具。可通过 <code>docker-machine</code> 命令行工具在本地主机的虚拟环境或云主机上安装 <code>Docker</code> 引擎，它将自动创建虚拟环境，安装 <code>Docker</code> 引擎，配置好 <code>docker</code> 客户端，每一个被管理的从机由 <code>Docker host</code>(运行了 Docker 引擎的主机) 和一个配置好的客户端组成，它们通常又被称为 <strong><em>“machines”</em></strong>。</p>
-<img src="/deployment/note-docker-machine/machine.png" title="Machine">
+<p><code>Docker</code> 官方目前提供两个版本：Community Edition (CE) 和 Enterprise Edition (EE)。企业版是收费的。</p>
+<h1 id="搭建-Docker-环境"><a href="#搭建-Docker-环境" class="headerlink" title="搭建 Docker 环境"></a>搭建 Docker 环境</h1><h2 id="Image-和-Container"><a href="#Image-和-Container" class="headerlink" title="Image 和 Container"></a>Image 和 Container</h2><p><code>Image</code> 是一个包含了运行应用程序所需所有东西的包——源代码，运行时，库，环境变量和配置文件<br><code>Container</code> 是 <code>Image</code> 的运行时实例，是 <code>Image</code> 在内存中的体现。</p>
+<h2 id="Containers-和虚拟机"><a href="#Containers-和虚拟机" class="headerlink" title="Containers 和虚拟机"></a>Containers 和虚拟机</h2><p>Container 运行在 Linux 系统本地并与其他 Container 共享主机内核，它以<strong>「离散的进程」</strong>形式存在，不会占用比一般进程更多的资源。而虚拟机则运行整个客户机操作系统，并以虚拟化的方式访问主机资源，因此虚拟机会占用更多不必要的资源。</p>
+<h1 id="在-Ubuntu-Xenial-16-04-LTS-系统上安装-Docker-CE"><a href="#在-Ubuntu-Xenial-16-04-LTS-系统上安装-Docker-CE" class="headerlink" title="在 Ubuntu Xenial 16.04(LTS) 系统上安装 Docker CE"></a>在 Ubuntu Xenial 16.04(LTS) 系统上安装 Docker CE</h1><p>首先移除任何 Docker 旧版本:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get remove docker docker-engine docker.io</span><br></pre></td></tr></table></figure></p>
+<h2 id="从-Repository-安装"><a href="#从-Repository-安装" class="headerlink" title="从 Repository 安装"></a>从 Repository 安装</h2><h3 id="搭建-Repository"><a href="#搭建-Repository" class="headerlink" title="搭建 Repository"></a>搭建 Repository</h3><ol>
+<li><p>从 <code>apt</code> 更新包:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get update</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>允许 <code>apt</code> 使用 <code>https</code> 来安装包</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get install \</span><br><span class="line">    apt-transport-https \</span><br><span class="line">    ca-certificates \</span><br><span class="line">    curl \</span><br><span class="line">    software-properties-common</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>添加 Docker 官方 GPG key:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>验证 key 的最后 8 位字符:<br><code>9DC8 5822 9FC7 DD38 854A E2D8 8D81 803C 0EBF CD88</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-key fingerprint 0EBFCD88</span><br><span class="line"></span><br><span class="line">pub   4096R/0EBFCD88 2017-02-22</span><br><span class="line">      Key fingerprint = 9DC8 5822 9FC7 DD38 854A  E2D8 8D81 803C 0EBF CD88</span><br><span class="line">uid                  Docker Release (CE deb) &lt;docker@docker.com&gt;</span><br><span class="line">sub   4096R/F273FCD8 2017-02-22</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用以下命令搭建稳定版的 repository:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ sudo add-apt-repository \</span><br><span class="line">   <span class="string">"deb [arch=amd64] https://download.docker.com/linux/ubuntu \</span></span><br><span class="line"><span class="string">   <span class="variable">$(lsb_release -cs)</span> \</span></span><br><span class="line"><span class="string">   stable"</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
 <blockquote>
-<p>意即，如果仅仅安装 <code>Docker Machine</code>，将不会在本机安装 <code>Docker</code> 引擎，仅仅安装其客户端管理工具</p>
+<p><code>lsb_release</code> 返回 Ubuntu 发行版的名称，如 xenial。<code>stable</code> 为每季度发行一次的稳定版，<code>edge</code> 为每月发行一次的尝鲜版。</p>
 </blockquote>
-<h2 id="在-Linux-上安装-Docker-Machine"><a href="#在-Linux-上安装-Docker-Machine" class="headerlink" title="在 Linux 上安装 Docker Machine"></a>在 Linux 上安装 Docker Machine</h2><p>首先在 <a href="https://github.com/docker/machine/releases/" target="_blank" rel="noopener">docker/machine release page</a> 页面上找到最新的发布版本号，并修改以下命令对应的位置<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ base=https://github.com/docker/machine/releases/download/v0.14.0 &amp;&amp;</span><br><span class="line">  curl -L <span class="variable">$base</span>/docker-machine-$(uname -s)-$(uname -m) &gt;/tmp/docker-machine &amp;&amp;</span><br><span class="line">  sudo install /tmp/docker-machine /usr/<span class="built_in">local</span>/bin/docker-machine</span><br></pre></td></tr></table></figure></p>
-<p>打印 <code>docker-machine</code> 的版本以确认安装完成:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ docker-machine --version</span><br><span class="line">docker-machine version 0.14.0, build 89b8332</span><br></pre></td></tr></table></figure></p>
-<h1 id="以非-driver-方式添加主机"><a href="#以非-driver-方式添加主机" class="headerlink" title="以非 driver 方式添加主机"></a>以非 driver 方式添加主机</h1><p><code>Docker Machine</code> 为众多的虚拟机和云服务商提供了 <code>driver</code>，以通过这些驱动在不同的服务商主机上安装 <code>Docker</code> 引擎，但也提供了一种 url 的方式来添加已有 <code>docker</code> 主机:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ docker-machine create --driver none --url=tcp://50.134.234.20:2376 custombox</span><br><span class="line">$ docker-machine ls</span><br><span class="line">NAME        ACTIVE   DRIVER    STATE     URL</span><br><span class="line">custombox   *        none      Running   tcp://50.134.234.20:2376</span><br></pre></td></tr></table></figure></p>
-<p>此后，便可通过 <code>docker-machine</code> 远程管理列表中的所有主机，可通过 <code>docker-machine ssh custombox</code> 向该主机发送指令，例如:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker-machine ssh custombox <span class="string">"docker container ls"</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="安装-Docker-CE"><a href="#安装-Docker-CE" class="headerlink" title="安装 Docker CE"></a>安装 Docker CE</h3><ol>
+<li><p>更新包的索引:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get update</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>安装最新版的 Docker CE:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get install docker-ce</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
 <blockquote>
-<p>如果出于某些原因出现 ssh 连接的问题，那么可以改用系统本地的 ssh 进行通信，加入 <code>--native-ssh</code> 参数即可: <code>docker-machine --native-ssh ssh</code></p>
+<p>安装完成后，<code>Docker</code> 守护进程将自动启动</p>
+<ol start="3">
+<li>通过运行一个 <code>hello world</code> 程序来验证 <code>Docker CE</code> 已经正确安装<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo docker run hello-world</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
 </blockquote>
-<h1 id="配置虚拟-Docker-主机的-shell-环境"><a href="#配置虚拟-Docker-主机的-shell-环境" class="headerlink" title="配置虚拟 Docker 主机的 shell 环境"></a>配置虚拟 Docker 主机的 shell 环境</h1><p>除了通过 <code>docker-machine ssh</code> 向 Docker 主机发送命令之外，还可以使用 <code>docker-machine env &lt;machine&gt;</code> 配置一个虚拟 shell 环境直接与目标主机的 Docker 守护进程通信。这样，便可访问执行 <code>docker-machine</code> 的本地主机的资源，如 <code>docker-compose.yml</code> 文件:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ docker-machine env custombox</span><br><span class="line"></span><br><span class="line"><span class="built_in">export</span> DOCKER_TLS_VERIFY=<span class="string">"1"</span></span><br><span class="line"><span class="built_in">export</span> DOCKER_HOST=<span class="string">"tcp://50.134.234.20:2376"</span></span><br><span class="line"><span class="built_in">export</span> DOCKER_CERT_PATH=<span class="string">"/Users/pango/.docker/machine/machines/custombox"</span></span><br><span class="line"><span class="built_in">export</span> DOCKER_MACHINE_NAME=<span class="string">"custombox"</span></span><br><span class="line"><span class="comment"># Run this command to configure your shell:</span></span><br><span class="line"><span class="comment"># eval $(docker-machine env custombox)</span></span><br></pre></td></tr></table></figure></p>
-<p>执行输出结果返回的最后一行命令:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">eval</span> $(docker-machine env myvm1)</span><br></pre></td></tr></table></figure></p>
-<p>执行 <code>docker-machine ls</code> 验证 <code>custombox</code> 变成了活动主机，Active 一栏的 <code>*</code> 指示了该状态:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ docker-machine ls</span><br><span class="line"></span><br><span class="line">NAME        ACTIVE   DRIVER       STATE     URL                         SWARM     DOCKER        ERRORS</span><br><span class="line">custombox   *        none         Running   tcp://50.134.234.20:2376              v17.06.2-ce</span><br></pre></td></tr></table></figure></p>
-<h1 id="清除-docker-machine-的-shell-变量设置"><a href="#清除-docker-machine-的-shell-变量设置" class="headerlink" title="清除 docker-machine 的 shell 变量设置"></a>清除 docker-machine 的 shell 变量设置</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">eval</span> $(docker-machine env -u)</span><br></pre></td></tr></table></figure>
-<p>该命令退出与目标主机建立的虚拟 shell 环境并回到之前的环境中。</p>
-<p>有关 <code>Docker Machine</code> 更多详情参考 <a href="https://docs.docker.com/machine/overview/" target="_blank" rel="noopener">Docker Machine</a>。</p>
+<p>该命令会从网络下载一个测试 <code>image</code>，并以新的容器实例执行。执行以下命令查看已下载的 <code>image</code>:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo docker image ls</span><br></pre></td></tr></table></figure></p>
+<ol start="4">
+<li>检查正在运行的 container 实例: <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo docker container ls --all</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>该指令检查包含正在运行和过往运行的 <code>container</code> 实例记录，如果有 <code>container</code> 正在运行，则不需要 <code>--all</code> 选项。</p>
+<h3 id="卸载-Docker-CE"><a href="#卸载-Docker-CE" class="headerlink" title="卸载 Docker CE"></a>卸载 Docker CE</h3><ol>
+<li><p>卸载 Docker CE 包:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get purge docker-ce</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>image, container, volumns 或其他自定义的配置文件将不会自动删除，如果想要完全删除，则执行:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo rm -rf /var/lib/docker</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h1 id="以-non-root-用户管理-Docker"><a href="#以-non-root-用户管理-Docker" class="headerlink" title="以 non-root 用户管理 Docker"></a>以 non-root 用户管理 Docker</h1><p><code>docker</code> 守护进程绑定一个 Unix 套接字而非普通的 TCP 端口，默认情况下，Unix 套接字被 <code>root</code> 用户所有，其他用户只能通过 <code>sudo</code> 进行访问。<code>docker</code> 进程始终以 <code>root</code> 用户运行。</p>
+<p>Docker CE 在安装完成后，会创建一个新的 <code>docker</code> 群组，但不会加入任何现有用户到该群组下，如果不想每次执行 <code>docker</code> 命令时加上 <code>sudo</code>，可以将指定用户加入到群组下。当 <code>docker</code> 进程启动时，<code>docker</code> 群组对 <code>docker</code> 使用的 Unix 套接字具有读写权限。</p>
+<blockquote>
+<p>由于 <code>docker</code> 群组与 root 权限一致，有关 <code>docker</code> 的安全问题请参考 <a href="https://docs.docker.com/engine/security/security/" target="_blank" rel="noopener">Docker Security</a></p>
+</blockquote>
+<ol>
+<li><p>将当前用户添加至 <code>docker</code> 群组:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo usermod -aG docker <span class="variable">$USER</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>登出用户再登录以使群组重新评估<br>再次执行 <code>docker run hello-world</code> 不再要求 <code>root</code> 权限，如果在将用户添加到 <code>docker</code> 群组之前已经执行过 <code>docker</code> 的任何命令，那么 <code>~/.docker</code> 文件夹的权限会以 <code>root</code> 创建，为了解决这个问题，要么移除 <code>~/.docker</code>(它将会自行创建)，要么更改其拥有者和权限:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ sudo chown <span class="string">"<span class="variable">$USER</span>"</span>:<span class="string">"<span class="variable">$USER</span>"</span> /home/<span class="string">"<span class="variable">$USER</span>"</span>/.docker -R</span><br><span class="line">$ sudo chmod g+rwx <span class="string">"/home/<span class="variable">$USER</span>/.docker"</span> -R</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h1 id="将-docker-配置为开启启动"><a href="#将-docker-配置为开启启动" class="headerlink" title="将 docker 配置为开启启动"></a>将 docker 配置为开启启动</h1><p>有许多 Linux 发行版使用 <code>systemd</code> 来管理自启动服务，要使 <code>docker</code> 开机启动，执行:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo systemctl <span class="built_in">enable</span> docker</span><br></pre></td></tr></table></figure></p>
+<p>禁用开机启动:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo systemctl <span class="built_in">disable</span> docker</span><br></pre></td></tr></table></figure></p>
 
       
     </div>
@@ -449,9 +496,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/ops/" rel="tag"># ops</a>
-          
             <a href="/tags/docker/" rel="tag"># docker</a>
+          
+            <a href="/tags/ops/" rel="tag"># ops</a>
           
         </div>
       
@@ -464,8 +511,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/deployment/note-docker-stacks/" rel="next" title="Docker 初探 (5) - Stacks">
-                <i class="fa fa-chevron-left"></i> Docker 初探 (5) - Stacks
+              <a href="/架构与模式/microservice-overview/" rel="next" title="微服务架构的挑战与解决方案">
+                <i class="fa fa-chevron-left"></i> 微服务架构的挑战与解决方案
               </a>
             
           </div>
@@ -474,8 +521,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/linux/diy-setup-raspberry-pi/" rel="prev" title="DIY - 准备树莓派 3b+">
-                DIY - 准备树莓派 3b+ <i class="fa fa-chevron-right"></i>
+              <a href="/deployment/docker-containers/" rel="prev" title="Docker 初探 (2) - Containers">
+                Docker 初探 (2) - Containers <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -553,7 +600,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">42</span>
+                  <span class="site-state-item-count">47</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -575,7 +622,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-count">18</span>
                   <span class="site-state-item-name">tags</span>
                 </a>
               </div>
@@ -608,7 +655,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Docker-Machine"><span class="nav-text">Docker Machine</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#在-Linux-上安装-Docker-Machine"><span class="nav-text">在 Linux 上安装 Docker Machine</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#以非-driver-方式添加主机"><span class="nav-text">以非 driver 方式添加主机</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#配置虚拟-Docker-主机的-shell-环境"><span class="nav-text">配置虚拟 Docker 主机的 shell 环境</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#清除-docker-machine-的-shell-变量设置"><span class="nav-text">清除 docker-machine 的 shell 变量设置</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#搭建-Docker-环境"><span class="nav-text">搭建 Docker 环境</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Image-和-Container"><span class="nav-text">Image 和 Container</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Containers-和虚拟机"><span class="nav-text">Containers 和虚拟机</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#在-Ubuntu-Xenial-16-04-LTS-系统上安装-Docker-CE"><span class="nav-text">在 Ubuntu Xenial 16.04(LTS) 系统上安装 Docker CE</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#从-Repository-安装"><span class="nav-text">从 Repository 安装</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#搭建-Repository"><span class="nav-text">搭建 Repository</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-Docker-CE"><span class="nav-text">安装 Docker CE</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#卸载-Docker-CE"><span class="nav-text">卸载 Docker CE</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#以-non-root-用户管理-Docker"><span class="nav-text">以 non-root 用户管理 Docker</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#将-docker-配置为开启启动"><span class="nav-text">将 docker 配置为开启启动</span></a></li></ol></div>
             
 
           </div>

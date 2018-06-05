@@ -66,7 +66,7 @@
 
 
 
-  <meta name="keywords" content="ops,docker," />
+  <meta name="keywords" content="docker,ops," />
 
 
 
@@ -77,20 +77,21 @@
 
 
 
-<meta name="description" content="本文基于 Docker GetStarted 官方文档，去掉了与 Docker Machine 相关的内容，简化了搭建 Docker swarm 的过程">
-<meta name="keywords" content="ops,docker">
+<meta name="description" content="有关 Docker Machine 的用法和场景">
+<meta name="keywords" content="docker,ops">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Docker 初探 (4) - Swarms">
-<meta property="og:url" content="https://berdypango.github.io/deployment/note-docker-swarms/index.html">
+<meta property="og:title" content="Docker 初探 (6) - Docker Machine">
+<meta property="og:url" content="https://berdypango.github.io/deployment/docker-machine/index.html">
 <meta property="og:site_name" content="Pango.Handbook">
-<meta property="og:description" content="本文基于 Docker GetStarted 官方文档，去掉了与 Docker Machine 相关的内容，简化了搭建 Docker swarm 的过程">
+<meta property="og:description" content="有关 Docker Machine 的用法和场景">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="https://berdypango.github.io/deployment/note-docker-swarms/ingress-routing-mesh.png">
-<meta property="og:updated_time" content="2018-05-10T07:59:40.022Z">
+<meta property="og:image" content="https://berdypango.github.io/deployment/docker-machine/engine.png">
+<meta property="og:image" content="https://berdypango.github.io/deployment/docker-machine/machine.png">
+<meta property="og:updated_time" content="2018-06-05T11:58:53.860Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Docker 初探 (4) - Swarms">
-<meta name="twitter:description" content="本文基于 Docker GetStarted 官方文档，去掉了与 Docker Machine 相关的内容，简化了搭建 Docker swarm 的过程">
-<meta name="twitter:image" content="https://berdypango.github.io/deployment/note-docker-swarms/ingress-routing-mesh.png">
+<meta name="twitter:title" content="Docker 初探 (6) - Docker Machine">
+<meta name="twitter:description" content="有关 Docker Machine 的用法和场景">
+<meta name="twitter:image" content="https://berdypango.github.io/deployment/docker-machine/engine.png">
 
 
 
@@ -120,13 +121,13 @@
 
 
 
-  <link rel="canonical" href="https://berdypango.github.io/deployment/note-docker-swarms/"/>
+  <link rel="canonical" href="https://berdypango.github.io/deployment/docker-machine/"/>
 
 
 
 
 
-  <title>Docker 初探 (4) - Swarms | Pango.Handbook</title>
+  <title>Docker 初探 (6) - Docker Machine | Pango.Handbook</title>
   
 
 
@@ -285,7 +286,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://berdypango.github.io/deployment/note-docker-swarms/">
+    <link itemprop="mainEntityOfPage" href="https://berdypango.github.io/deployment/docker-machine/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Frost He">
@@ -302,7 +303,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Docker 初探 (4) - Swarms</h1>
+          <h1 class="post-title" itemprop="name headline">Docker 初探 (6) - Docker Machine</h1>
         
 
         <div class="post-meta">
@@ -314,8 +315,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-01-31T23:09:17+08:00">
-                2018-01-31
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-02-04T23:09:17+08:00">
+                2018-02-04
               </time>
             
 
@@ -370,7 +371,7 @@
                   <span class="post-meta-item-text">Words count in article&#58;</span>
                 
                 <span title="Words count in article">
-                  1,269
+                  1,021
                 </span>
               
 
@@ -382,7 +383,7 @@
 
           
               <div class="post-description">
-                  本文基于 Docker GetStarted 官方文档，去掉了与 Docker Machine 相关的内容，简化了搭建 Docker swarm 的过程
+                  有关 Docker Machine 的用法和场景
               </div>
           
 
@@ -402,54 +403,35 @@
         <p>参考资料: </p>
 <ul>
 <li><a href="https://docs.docker.com/get-started/part4/" target="_blank" rel="noopener">Swarms</a></li>
-<li><a href="https://docs.docker.com/engine/swarm/swarm-tutorial/create-swarm/" target="_blank" rel="noopener">Create a swarm</a></li>
+<li><a href="https://docs.docker.com/machine/overview/" target="_blank" rel="noopener">Docker Machine</a></li>
 </ul>
-<h1 id="Swarm-简介"><a href="#Swarm-简介" class="headerlink" title="Swarm 简介"></a>Swarm 简介</h1><p><code>Swarm</code> 是一组运行了 <code>Docker</code> 的机器并加入到同一个集群，通过使用相同的命令，但这些命令由在该集群上被称作 <strong>「集群管理员(Swarm Manager)」</strong> 的机器执行。集群上的机器可以是物理主机，也可以是虚拟主机，在加入集群之后，它们统一称为<strong>「节点(nodes)」</strong>。</p>
-<p><code>Swarm Manager</code> 是唯一能够执行命令的主机，并且负责授权其他主机以 <code>worker</code> 身份加入到集群中，<code>worker</code> 仅提供集群容量，没有任何指挥其他主机的权限。<code>Swarm Manager</code> 可通过</p>
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p><a href="https://docs.docker.com/get-started/part4/" target="_blank" rel="noopener">Docker GetStarted Swarm</a> 官方文档中，为了在单机上演示如何搭建 <code>Docker Swarm</code> 而引入了 <code>Docker Machine</code>，并在其中穿插了虚拟 shell 环境的内容，个人认为这部分内容干扰了集群搭建的关键信息。</p>
+<h1 id="Docker-Machine"><a href="#Docker-Machine" class="headerlink" title="Docker Machine"></a>Docker Machine</h1><p>通过 <code>Docker Machine</code> 可实现在虚拟主机或远程主机上安装 <code>Docker</code> 引擎，并使用 <code>docker-machine</code> 命令行对其进行管理的工具。<code>Docker Machine</code> 在 <code>Docker for Mac</code> 和 <code>Docker for Windows</code> 上都已经预装，<code>Linux</code> 系统需要手动安装。</p>
+<p><code>Docker Machine</code> 有以下两种常用场景:</p>
 <ul>
-<li>「最小化节点」策略: 提取最为空闲的主机运行 <code>container</code>。</li>
-<li>「全局化」策略: 确保集群中的每一个节点都运行一个指定的 <code>container</code>。</li>
+<li>有些老的桌面系统主机如 <code>Windows</code> 和 <code>Mac</code>，它们不满足预装 <code>Docker for Windows</code> 或 <code>Docker for Mac</code> 的条件，但我想要在这些系统上运行 <code>Docker</code>。</li>
+<li>我想要在远程主机系统上运行统一的 <code>Docker image</code>。</li>
 </ul>
-<p>采用何种策略在 <code>docker-compose.yml</code> 文件中配置。</p>
-<p>之前的案例都是以<strong>「单机模式」</strong>运行应用程序，<code>Docker</code> 可转换为<strong>「集群模式」</strong>，启用集群模式的主机将立即成为 <code>Swarm Manager</code>，自此之后，所有的命令都将作用于整个集群而非仅仅本地主机。</p>
-<h1 id="搭建-Docker-集群"><a href="#搭建-Docker-集群" class="headerlink" title="搭建 Docker 集群"></a>搭建 Docker 集群</h1><p>执行 <code>docker swarm init</code> 便可启用集群模式便将当前主机作为 <code>Swarm Manager</code>。然后在另外一台主机执行 <code>docker swarm join</code> 命令以 <code>worker</code> 身份加入集群。</p>
-<p>接下来以一个可由公网访问的 <code>Linux</code> 主机(<code>Aiur</code>) 作为 <code>Swarm Manager</code>，一台 Windows PC(<code>moby</code>) 作为 <code>Worker</code>:</p>
+<p><code>docker</code> 守护进程由服务端和客户端两部分组成，服务端发布 REST API 接口开放给客户端，<code>docker CLI</code> 客户端通过 REST API 接口与服务端通信。</p>
+<img src="/deployment/docker-machine/engine.png" title="Docker 引擎">
+<p>无论你的管理主机是 <code>Windows</code>，<code>Mac</code> 还是 <code>Linux</code>，都可以安装 <code>Docker Machine</code> 并使用 <code>docker-machine</code> 命令统一管理大量的 <code>Docker</code> 从机。通常，你会将 <code>Docker Machine</code> 安装到本地主机，<code>Docker Machine</code> 包含 <code>docker-machine</code> 命令行工具和 <code>Docker</code> 引擎的客户端 <code>docker</code> 命令行工具。可通过 <code>docker-machine</code> 命令行工具在本地主机的虚拟环境或云主机上安装 <code>Docker</code> 引擎，它将自动创建虚拟环境，安装 <code>Docker</code> 引擎，配置好 <code>docker</code> 客户端，每一个被管理的从机由 <code>Docker host</code>(运行了 Docker 引擎的主机) 和一个配置好的客户端组成，它们通常又被称为 <strong><em>“machines”</em></strong>。</p>
+<img src="/deployment/docker-machine/machine.png" title="Machine">
 <blockquote>
-<p>可借助 <code>Docker Machine</code> 在一台第三方的主机执行 <code>docker-machine ssh &lt;hostname&gt; &quot;&lt;command&gt;&quot;</code> 远程连接到另外一台 <code>docker</code> 主机，并执行相应的命令，简单起见，这里统一采用本机执行命令的方式。有关 Docker Machine 的更多信息参考 <a href="/deployment/note-docker-machine">Docker Machine</a></p>
+<p>意即，如果仅仅安装 <code>Docker Machine</code>，将不会在本机安装 <code>Docker</code> 引擎，仅仅安装其客户端管理工具</p>
 </blockquote>
-<ol>
-<li>首先创建 <code>Swarm</code> 并暴露 <code>Manager</code> 的公网 ip 地址:<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ docker swarm init --advertise-addr 192.168.99.100</span><br><span class="line"></span><br><span class="line">Swarm initialized: current node (bsa93xks81o4ab971nv8ppzza) is now a manager.</span><br><span class="line"></span><br><span class="line">To add a worker to this swarm, run the following <span class="built_in">command</span>:</span><br><span class="line"></span><br><span class="line">    docker swarm join --token SWMTKN-1-40lg4ocglu93sdfyp28nosqvrupjgmb4iv9cnxv46kcwdqvqtw-btzb7tu4ks5stfe0spf0x62ty 192.168.99.100:2377</span><br><span class="line"></span><br><span class="line">To add a manager to this swarm, run <span class="string">'docker swarm join-token manager'</span> and follow the instructions.</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p><code>--advertise-addr</code> 配置 <code>Manager</code> 节点以 <code>192.168.99.100</code> 向外发布，其他主机或集群中的其他节点必须能够访问该地址，输出的内容包含了如何加入新的 <code>worker</code> 节点以及如何加入新的 <code>manager</code> 节点。<code>--token</code> 是加入集群的凭证。</p>
+<h2 id="在-Linux-上安装-Docker-Machine"><a href="#在-Linux-上安装-Docker-Machine" class="headerlink" title="在 Linux 上安装 Docker Machine"></a>在 Linux 上安装 Docker Machine</h2><p>首先在 <a href="https://github.com/docker/machine/releases/" target="_blank" rel="noopener">docker/machine release page</a> 页面上找到最新的发布版本号，并修改以下命令对应的位置<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ base=https://github.com/docker/machine/releases/download/v0.14.0 &amp;&amp;</span><br><span class="line">  curl -L <span class="variable">$base</span>/docker-machine-$(uname -s)-$(uname -m) &gt;/tmp/docker-machine &amp;&amp;</span><br><span class="line">  sudo install /tmp/docker-machine /usr/<span class="built_in">local</span>/bin/docker-machine</span><br></pre></td></tr></table></figure></p>
+<p>打印 <code>docker-machine</code> 的版本以确认安装完成:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ docker-machine --version</span><br><span class="line">docker-machine version 0.14.0, build 89b8332</span><br></pre></td></tr></table></figure></p>
+<h1 id="以非-driver-方式添加主机"><a href="#以非-driver-方式添加主机" class="headerlink" title="以非 driver 方式添加主机"></a>以非 driver 方式添加主机</h1><p><code>Docker Machine</code> 为众多的虚拟机和云服务商提供了 <code>driver</code>，以通过这些驱动在不同的服务商主机上安装 <code>Docker</code> 引擎，但也提供了一种 url 的方式来添加已有 <code>docker</code> 主机:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ docker-machine create --driver none --url=tcp://50.134.234.20:2376 custombox</span><br><span class="line">$ docker-machine ls</span><br><span class="line">NAME        ACTIVE   DRIVER    STATE     URL</span><br><span class="line">custombox   *        none      Running   tcp://50.134.234.20:2376</span><br></pre></td></tr></table></figure></p>
+<p>此后，便可通过 <code>docker-machine</code> 远程管理列表中的所有主机，可通过 <code>docker-machine ssh custombox</code> 向该主机发送指令，例如:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker-machine ssh custombox <span class="string">"docker container ls"</span></span><br></pre></td></tr></table></figure></p>
 <blockquote>
-<p>2377 是 <code>Docker</code> 集群的默认管理端口，2376 是 Docker 守护进程的端口。</p>
+<p>如果出于某些原因出现 ssh 连接的问题，那么可以改用系统本地的 ssh 进行通信，加入 <code>--native-ssh</code> 参数即可: <code>docker-machine --native-ssh ssh</code></p>
 </blockquote>
-<p>查看当前 <code>docker</code> 的状态:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$ docker info</span><br><span class="line"></span><br><span class="line"><span class="comment"># ...snip...</span></span><br><span class="line">Swarm: active</span><br><span class="line"> NodeID: bsa93xks81o4ab971nv8ppzza</span><br><span class="line"> Is Manager: <span class="literal">true</span></span><br><span class="line"> ClusterID: s767fic8a9abaxq6n42d8vhd2</span><br><span class="line"> Managers: 1</span><br><span class="line"> Nodes: 1</span><br><span class="line"><span class="comment"># ...snip...</span></span><br></pre></td></tr></table></figure></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ docker node ls</span><br><span class="line"></span><br><span class="line">ID                            HOSTNAME            STATUS              AVAILABILITY        MANAGER STATUS      ENGINE VERSION</span><br><span class="line">bsa93xks81o4ab971nv8ppzza *   Aiur                Ready               Active              Leader              18.03.1-ce</span><br></pre></td></tr></table></figure>
-<ol start="2">
-<li>将其他主机加入该节点<br>由创建集群提供的命令行代码将其他主机加入到节点:<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker swarm join --token SWMTKN-1-40lg4ocglu93sdfyp28nosqvrupjgmb4iv9cnxv46kcwdqvqtw-btzb7tu4ks5stfe0spf0x62ty 192.168.99.100:2377</span><br><span class="line">This node joined a swarm as a worker.</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>执行 <code>docker node ls</code> 查看节点:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ docker node ls</span><br><span class="line"></span><br><span class="line">ID                            HOSTNAME            STATUS              AVAILABILITY        MANAGER STATUS      ENGINE VERSION</span><br><span class="line">bsa93xks81o4ab971nv8ppzza *   Aiur                Ready               Active              Leader              18.03.1-ce</span><br><span class="line">l1tat89t1ihfi04ad11mccsmi     moby                Ready               Active                                  17.09.1-ce</span><br></pre></td></tr></table></figure></p>
-<p>ID 后面的 <code>*</code> 表示当前连接的节点。</p>
-<h1 id="在集群上部署应用"><a href="#在集群上部署应用" class="headerlink" title="在集群上部署应用"></a>在集群上部署应用</h1><p>现在，在 Swarm Manager 主机环境中执行在<a href="/deployment/note-docker-services">Docker 初探 - Serivces</a> 中相同的命令 <code>docker stack deploy</code> 来部署应用:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ docker stack deploy -c docker-compose.yml getstartedlab</span><br><span class="line"></span><br><span class="line">Creating network getstartedlab_webnet</span><br><span class="line">Creating service getstartedlab_web</span><br></pre></td></tr></table></figure></p>
-<p>执行相同的命令来查看 service 中的 containers，与之前不同的是，5 份 container 的副本被分配到了集群的两个节点上 <code>Aiur</code> 和 <code>moby</code>。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ docker stack ps getstartedlab</span><br><span class="line"></span><br><span class="line">ID                  NAME                  IMAGE                       NODE                DESIRED STATE       CURRENT STATE                ERROR               PORTS</span><br><span class="line">aumkvyzfh3oo        getstartedlab_web.1   frosthe/get-started:part2   moby                Running             Running about a minute ago</span><br><span class="line">y82s9nuonx3p        getstartedlab_web.2   frosthe/get-started:part2   Aiur                Running             Running about a minute ago</span><br><span class="line">yp2zx0bncv55        getstartedlab_web.3   frosthe/get-started:part2   moby                Running             Running about a minute ago</span><br><span class="line">ul7f48j0grzy        getstartedlab_web.4   frosthe/get-started:part2   moby                Running             Running about a minute ago</span><br><span class="line">jzn0fndpf206        getstartedlab_web.5   frosthe/get-started:part2   Aiur                Running             Running about a minute ago</span><br></pre></td></tr></table></figure></p>
-<h1 id="访问集群"><a href="#访问集群" class="headerlink" title="访问集群"></a>访问集群</h1><p>通过访问 <code>Aiur</code> 和 <code>moby</code> 两者的 ip 地址都可以访问应用程序，返回的 <code>Hostname</code> 轮流展示 5 个 container 的 ID。但这些 container 实例分别运行于两个节点上。</p>
-<p>之所以访问任何一个节点的 ip 地址都可以到达应用程序是因为参与集群的节点共用<strong>「入口路由网格」</strong>，这保证了一个 <code>service</code> 在部署到集群的某个端口后，无论哪个节点正在运行或没有运行任何 <code>container</code> 实例，该端口都会保留给该 <code>service</code>。下图表示了一个名为 <code>my-web</code> 的服务在一个三节点的集群中发布 8080 端口:<br><img src="/deployment/note-docker-swarms/ingress-routing-mesh.png"><br><div class="note warning"><p>要使入口路由网格正常运作，请确保集群中各个节点的以下端口是可访问的:</p>
-<ul>
-<li>7946 TCP/UDP 端口用于发现 container 网络</li>
-<li>4789 UDP 端口用于 ingress network</li>
-</ul></div></p>
-<h1 id="清理与重启"><a href="#清理与重启" class="headerlink" title="清理与重启"></a>清理与重启</h1><p>停止 <code>stack</code>:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ docker stack rm getstartedlab</span><br><span class="line"></span><br><span class="line">Removing service getstartedlab_web</span><br><span class="line">Removing network getstartedlab_webnet</span><br></pre></td></tr></table></figure></p>
-<p>将节点主机从集群分离:</p>
-<ul>
-<li><p><code>Worker</code>:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ docker swarm leave</span><br><span class="line">Node left the swarm.</span><br></pre></td></tr></table></figure>
-</li>
-<li><p><code>Manager</code>:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ docker swarm leave --force</span><br><span class="line">Node left the swarm.</span><br></pre></td></tr></table></figure></li>
-</ul>
+<h1 id="配置虚拟-Docker-主机的-shell-环境"><a href="#配置虚拟-Docker-主机的-shell-环境" class="headerlink" title="配置虚拟 Docker 主机的 shell 环境"></a>配置虚拟 Docker 主机的 shell 环境</h1><p>除了通过 <code>docker-machine ssh</code> 向 Docker 主机发送命令之外，还可以使用 <code>docker-machine env &lt;machine&gt;</code> 配置一个虚拟 shell 环境直接与目标主机的 Docker 守护进程通信。这样，便可访问执行 <code>docker-machine</code> 的本地主机的资源，如 <code>docker-compose.yml</code> 文件:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ docker-machine env custombox</span><br><span class="line"></span><br><span class="line"><span class="built_in">export</span> DOCKER_TLS_VERIFY=<span class="string">"1"</span></span><br><span class="line"><span class="built_in">export</span> DOCKER_HOST=<span class="string">"tcp://50.134.234.20:2376"</span></span><br><span class="line"><span class="built_in">export</span> DOCKER_CERT_PATH=<span class="string">"/Users/pango/.docker/machine/machines/custombox"</span></span><br><span class="line"><span class="built_in">export</span> DOCKER_MACHINE_NAME=<span class="string">"custombox"</span></span><br><span class="line"><span class="comment"># Run this command to configure your shell:</span></span><br><span class="line"><span class="comment"># eval $(docker-machine env custombox)</span></span><br></pre></td></tr></table></figure></p>
+<p>执行输出结果返回的最后一行命令:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">eval</span> $(docker-machine env myvm1)</span><br></pre></td></tr></table></figure></p>
+<p>执行 <code>docker-machine ls</code> 验证 <code>custombox</code> 变成了活动主机，Active 一栏的 <code>*</code> 指示了该状态:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ docker-machine ls</span><br><span class="line"></span><br><span class="line">NAME        ACTIVE   DRIVER       STATE     URL                         SWARM     DOCKER        ERRORS</span><br><span class="line">custombox   *        none         Running   tcp://50.134.234.20:2376              v17.06.2-ce</span><br></pre></td></tr></table></figure></p>
+<h1 id="清除-docker-machine-的-shell-变量设置"><a href="#清除-docker-machine-的-shell-变量设置" class="headerlink" title="清除 docker-machine 的 shell 变量设置"></a>清除 docker-machine 的 shell 变量设置</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">eval</span> $(docker-machine env -u)</span><br></pre></td></tr></table></figure>
+<p>该命令退出与目标主机建立的虚拟 shell 环境并回到之前的环境中。</p>
+<p>有关 <code>Docker Machine</code> 更多详情参考 <a href="https://docs.docker.com/machine/overview/" target="_blank" rel="noopener">Docker Machine</a>。</p>
 
       
     </div>
@@ -467,9 +449,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/ops/" rel="tag"># ops</a>
-          
             <a href="/tags/docker/" rel="tag"># docker</a>
+          
+            <a href="/tags/ops/" rel="tag"># ops</a>
           
         </div>
       
@@ -482,8 +464,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/deployment/note-docker-services/" rel="next" title="Docker 初探 (3) - Services">
-                <i class="fa fa-chevron-left"></i> Docker 初探 (3) - Services
+              <a href="/deployment/docker-stacks/" rel="next" title="Docker 初探 (5) - Stacks">
+                <i class="fa fa-chevron-left"></i> Docker 初探 (5) - Stacks
               </a>
             
           </div>
@@ -492,8 +474,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/deployment/note-docker-stacks/" rel="prev" title="Docker 初探 (5) - Stacks">
-                Docker 初探 (5) - Stacks <i class="fa fa-chevron-right"></i>
+              <a href="/deployment/docker-deployment/" rel="prev" title="Docker 初探 (7) - 部署">
+                Docker 初探 (7) - 部署 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -571,7 +553,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">42</span>
+                  <span class="site-state-item-count">47</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -593,7 +575,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-count">18</span>
                   <span class="site-state-item-name">tags</span>
                 </a>
               </div>
@@ -626,7 +608,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Swarm-简介"><span class="nav-text">Swarm 简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#搭建-Docker-集群"><span class="nav-text">搭建 Docker 集群</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#在集群上部署应用"><span class="nav-text">在集群上部署应用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#访问集群"><span class="nav-text">访问集群</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#清理与重启"><span class="nav-text">清理与重启</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Docker-Machine"><span class="nav-text">Docker Machine</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#在-Linux-上安装-Docker-Machine"><span class="nav-text">在 Linux 上安装 Docker Machine</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#以非-driver-方式添加主机"><span class="nav-text">以非 driver 方式添加主机</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#配置虚拟-Docker-主机的-shell-环境"><span class="nav-text">配置虚拟 Docker 主机的 shell 环境</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#清除-docker-machine-的-shell-变量设置"><span class="nav-text">清除 docker-machine 的 shell 变量设置</span></a></li></ol></div>
             
 
           </div>

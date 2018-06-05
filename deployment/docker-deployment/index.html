@@ -66,7 +66,7 @@
 
 
 
-  <meta name="keywords" content="ops,docker," />
+  <meta name="keywords" content="docker,ops," />
 
 
 
@@ -77,18 +77,21 @@
 
 
 
-<meta name="description" content="本文基于 Docker GetStarted 官方文档，介绍了 Docker Compose 和 Docker Service 的概念以及如何使用">
-<meta name="keywords" content="ops,docker">
+<meta name="description" content="本文简要介绍了 Docker 的部署">
+<meta name="keywords" content="docker,ops">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Docker 初探 (3) - Services">
-<meta property="og:url" content="https://berdypango.github.io/deployment/note-docker-services/index.html">
+<meta property="og:title" content="Docker 初探 (7) - 部署">
+<meta property="og:url" content="https://berdypango.github.io/deployment/docker-deployment/index.html">
 <meta property="og:site_name" content="Pango.Handbook">
-<meta property="og:description" content="本文基于 Docker GetStarted 官方文档，介绍了 Docker Compose 和 Docker Service 的概念以及如何使用">
+<meta property="og:description" content="本文简要介绍了 Docker 的部署">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-05-10T06:36:45.300Z">
+<meta property="og:image" content="https://berdypango.github.io/deployment/docker-deployment/node-byoh-wizard-v2.png">
+<meta property="og:image" content="https://berdypango.github.io/deployment/docker-deployment/node_connected.png">
+<meta property="og:updated_time" content="2018-06-05T11:58:48.058Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Docker 初探 (3) - Services">
-<meta name="twitter:description" content="本文基于 Docker GetStarted 官方文档，介绍了 Docker Compose 和 Docker Service 的概念以及如何使用">
+<meta name="twitter:title" content="Docker 初探 (7) - 部署">
+<meta name="twitter:description" content="本文简要介绍了 Docker 的部署">
+<meta name="twitter:image" content="https://berdypango.github.io/deployment/docker-deployment/node-byoh-wizard-v2.png">
 
 
 
@@ -118,13 +121,13 @@
 
 
 
-  <link rel="canonical" href="https://berdypango.github.io/deployment/note-docker-services/"/>
+  <link rel="canonical" href="https://berdypango.github.io/deployment/docker-deployment/"/>
 
 
 
 
 
-  <title>Docker 初探 (3) - Services | Pango.Handbook</title>
+  <title>Docker 初探 (7) - 部署 | Pango.Handbook</title>
   
 
 
@@ -283,7 +286,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://berdypango.github.io/deployment/note-docker-services/">
+    <link itemprop="mainEntityOfPage" href="https://berdypango.github.io/deployment/docker-deployment/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Frost He">
@@ -300,7 +303,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Docker 初探 (3) - Services</h1>
+          <h1 class="post-title" itemprop="name headline">Docker 初探 (7) - 部署</h1>
         
 
         <div class="post-meta">
@@ -312,8 +315,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-01-30T23:09:17+08:00">
-                2018-01-30
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-02-08T23:09:17+08:00">
+                2018-02-08
               </time>
             
 
@@ -368,7 +371,7 @@
                   <span class="post-meta-item-text">Words count in article&#58;</span>
                 
                 <span title="Words count in article">
-                  1,248
+                  1,172
                 </span>
               
 
@@ -380,7 +383,7 @@
 
           
               <div class="post-description">
-                  本文基于 Docker GetStarted 官方文档，介绍了 Docker Compose 和 Docker Service 的概念以及如何使用
+                  本文简要介绍了 Docker 的部署
               </div>
           
 
@@ -397,54 +400,51 @@
       
 
       
-        <p>参考资料: <a href="https://docs.docker.com/get-started/part3/" target="_blank" rel="noopener">Services</a></p>
-<h1 id="Docker-Compose"><a href="#Docker-Compose" class="headerlink" title="Docker Compose"></a>Docker Compose</h1><p><code>Docker Compose</code> 是用以定义与运行多容器 <code>Docker</code> 应用的工具，使用 YAML 文件配置应用的服务，之后，执行一句简单的命令行来创建和启动定义好的应用。<code>Compose</code> 在 <code>Docker for Mac</code> 和 <code>Docker for Windows</code> 上都已经预装了，但 <code>Linux</code> 系统需要手动安装。</p>
-<h2 id="安装-Docker-Compose"><a href="#安装-Docker-Compose" class="headerlink" title="安装 Docker Compose"></a>安装 Docker Compose</h2><ol>
-<li>执行命令下载 Docker Compose 的最新版<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo curl -L https://github.com/docker/compose/releases/download/1.21.0/docker-compose-$(uname -s)-$(uname -m) -o /usr/<span class="built_in">local</span>/bin/docker-compose</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<blockquote>
-<p>将版本号改为 <a href="https://github.com/docker/compose/releases" target="_blank" rel="noopener">Compose repository release page on GitHub</a> 上最新版的版本号。</p>
-</blockquote>
-<ol start="2">
-<li><p>为 <code>docker-compose</code> 可执行程序添加执行权限。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo chmod +x /usr/<span class="built_in">local</span>/bin/docker-compose</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>测试安装是否成功:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ docker-compose --version</span><br><span class="line">docker-compose version 1.21.2, build a133471</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>有关 <code>Docker Compose</code> 的更多详情参考 <a href="https://docs.docker.com/compose/overview/" target="_blank" rel="noopener">Docker Compose</a></p>
-<h1 id="关于-Service"><a href="#关于-Service" class="headerlink" title="关于 Service"></a>关于 Service</h1><p>在分布式系统中，各个部件被称作 <code>Services</code>。例如，一个视频分享网站，它很可能包含一个把应用数据存到数据库中的服务，用户上传一个视频后，在后台转码视频的专有服务以及一个响应前台的服务。一个 <code>service</code> 仅仅运行一个 <code>image</code>，但它指导了改 <code>image</code> 应该如何运行 - 应该使用哪个端口，需要运行多少个 <code>container</code> 实例以支撑服务的容量。<code>container</code> 实例数量的增减用以伸缩该服务。</p>
-<h1 id="docker-compose-yml-文件"><a href="#docker-compose-yml-文件" class="headerlink" title="docker-compose.yml 文件"></a>docker-compose.yml 文件</h1><p><code>docker-compose.yml</code> 文件是一个定义 <code>container</code> 应该如何运作的 <code>YAML</code> 文件。新建该文件放置于任何想要的位置，并为其填充内容:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">$ touch docker-compose.yml</span><br><span class="line"></span><br><span class="line">version: <span class="string">"3"</span></span><br><span class="line">services:</span><br><span class="line">  web:</span><br><span class="line">    <span class="comment"># replace username/repo:tag with your name and image details</span></span><br><span class="line">    image: frosthe/get-started:part2</span><br><span class="line">    deploy:</span><br><span class="line">      replicas: 5</span><br><span class="line">      resources:</span><br><span class="line">        limits:</span><br><span class="line">          cpus: <span class="string">"0.1"</span></span><br><span class="line">          memory: 50M</span><br><span class="line">      restart_policy:</span><br><span class="line">        condition: on-failure</span><br><span class="line">    ports:</span><br><span class="line">      - <span class="string">"80:80"</span></span><br><span class="line">    networks:</span><br><span class="line">      - webnet</span><br><span class="line">networks:</span><br><span class="line">  webnet:</span><br></pre></td></tr></table></figure></p>
-<p>该文件告知 <code>Docker</code> 执行以下事情:</p>
+        <p>参考资料:</p>
 <ul>
-<li>拉取 frosthe/get-started:part2 的 <code>image</code></li>
-<li>定义了一个名为 <code>web</code> 的服务，该服务运行该 <code>image</code> 的 5 份实例，且限制每个实例最多占用 10% 的 CPU 和 50M 的内存</li>
-<li>立即重启 <code>container</code> 如果任何一个启动失败</li>
-<li>映射主机的 80 端口到 <code>web</code> 服务的 80 端口</li>
-<li>告知名为 <code>web</code> 的服务的所有 <code>container</code> 实例通过一个名为 <code>webnet</code> 的负载均衡网络共享 80 端口(其内部机制为 <code>container</code> 轮流将它们自己发布到 <code>web</code> 服务的 80 端口)</li>
-<li>定义 <code>webnet</code> 网络，默认配置为一个叠加的负载均衡网络</li>
+<li><a href="https://docs.docker.com/get-started/part6/" target="_blank" rel="noopener">Deploy your app</a></li>
+<li><a href="https://docs.docker.com/docker-cloud/infrastructure/byoh/" target="_blank" rel="noopener">Use the Docker Cloud Agent</a></li>
+<li><a href="https://docs.docker.com/docker-cloud/installing-cli/" target="_blank" rel="noopener">The Docker Cloud CLI</a></li>
 </ul>
-<h1 id="启动新的负载均衡应用"><a href="#启动新的负载均衡应用" class="headerlink" title="启动新的负载均衡应用"></a>启动新的负载均衡应用</h1><p>首先初始化一个 <code>swarm</code>:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ docker swarm init</span><br><span class="line"></span><br><span class="line">Swarm initialized: current node (iqaw9hws38ctvpghyxaycrj4t) is now a manager.</span><br></pre></td></tr></table></figure></p>
+<h1 id="Docker-Cloud"><a href="#Docker-Cloud" class="headerlink" title="Docker Cloud"></a>Docker Cloud</h1><p><code>Docker Cloud</code> 提供了 <code>image</code> 托管，持续集成和集群部署等服务，之前已经使用 <code>Docker ID</code> 登录过 <code>Docker Cloud</code> 并上传 <code>image</code>。使用 <code>Docker Cloud</code> 在云服务提供商的虚拟主机上部署和运行 app 是官方推荐的做法，要实现这一点，需要:</p>
+<ul>
+<li>将 <code>Docker Cloud</code> 连接至偏好的云服务提供商，并对 <code>Docker Cloud</code> 赋予适当的权限以自动容易化这些虚拟主机</li>
+<li>使用 <code>Docker Cloud</code> 创建计算资源和创建集群</li>
+<li>部署应用</li>
+</ul>
+<p><code>Docker Cloud</code> 提供了与亚马逊 AWS 和 微软 Azure 的自动集群部署服务，但其他云服务商需要自行在 Docker Cloud UI 上手动操作，文本介绍手动进行部署的路径。</p>
+<h1 id="Docker-Cloud-Agent"><a href="#Docker-Cloud-Agent" class="headerlink" title="Docker Cloud Agent"></a>Docker Cloud Agent</h1><p><code>Docker Cloud</code> 允许使用任何 Linux 发行版的系统来部署 <code>container</code>，但要在这些 <code>Linux</code> 主机上安装 <code>Docker Cloud Agent</code> 才能对它们进行远程管理。</p>
 <blockquote>
-<p>有关 <code>swarm</code> 的介绍，参考 <a href="/deployment/note-docker-swarms">Docker 初探 (4) - Swarms</a>，如果不运行该指令，将会报 “this node is not a swarm manager” 的错误信息</p>
+<p><code>Docker Cloud Agent</code> 目前仅支持 x64 架构。</p>
 </blockquote>
-<p>现在，运行该程序，给它一个名称:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ docker stack deploy -c docker-compose.yml getstartedlab</span><br><span class="line"></span><br><span class="line">Creating network getstartedlab_webnet</span><br><span class="line">Creating service getstartedlab_web</span><br></pre></td></tr></table></figure></p>
-<p>执行 <code>docker service ls</code> 查看是否成功运行:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ docker service ls</span><br><span class="line"></span><br><span class="line">ID                  NAME                MODE                REPLICAS            IMAGE                       PORTS</span><br><span class="line">o3jo325ds62i        getstartedlab_web   replicated          5/5                 frosthe/get-started:part2   *:80-&gt;80/tcp</span><br></pre></td></tr></table></figure></p>
-<p>可以看到名为 <code>web</code> 的服务已经运行，在一个服务中单独运行的 <code>container</code> 称为一个 <code>task</code>，<code>task</code> 会被分配递增的数字 ID，直到定义的副本数量的最大值，列出该服务的所有 <code>task</code>:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ docker service ps ls</span><br><span class="line"></span><br><span class="line">ID                  NAME                  IMAGE                       NODE                DESIRED STATE       CURRENT STATE           ERROR               PORTS</span><br><span class="line">g7dr8ecu5a6d        getstartedlab_web.1   frosthe/get-started:part2   Aiur                Running             Running 2 minutes ago</span><br><span class="line">1gu635hjck46        getstartedlab_web.2   frosthe/get-started:part2   Aiur                Running             Running 2 minutes ago</span><br><span class="line">rny0soxz5rh6        getstartedlab_web.3   frosthe/get-started:part2   Aiur                Running             Running 2 minutes ago</span><br><span class="line">zfvdxi8e6jpt        getstartedlab_web.4   frosthe/get-started:part2   Aiur                Running             Running 2 minutes ago</span><br><span class="line">qudnod8hs9xw        getstartedlab_web.5   frosthe/get-started:part2   Aiur                Running             Running 2 minutes ago</span><br></pre></td></tr></table></figure></p>
-<p>如果使用命令列出当前系统中的 container，这些 task 也会被包含其中，但不会由其从属的 service 作筛选:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ docker container ls</span><br><span class="line"></span><br><span class="line">CONTAINER ID        IMAGE                       COMMAND             CREATED             STATUS              PORTS               NAMES</span><br><span class="line">6642f46afaa4        frosthe/get-started:part2   &quot;python app.py&quot;     4 minutes ago       Up 4 minutes        80/tcp              getstartedlab_web.4.zfvdxi8e6jpte0qcobidxvuq6</span><br><span class="line">00ffa6c89b09        frosthe/get-started:part2   &quot;python app.py&quot;     4 minutes ago       Up 4 minutes        80/tcp              getstartedlab_web.5.qudnod8hs9xwyhe07o2xomm25</span><br><span class="line">bc1563fa67f8        frosthe/get-started:part2   &quot;python app.py&quot;     4 minutes ago       Up 4 minutes        80/tcp              getstartedlab_web.3.rny0soxz5rh641082ybs1h6vj</span><br><span class="line">526e37ad6994        frosthe/get-started:part2   &quot;python app.py&quot;     4 minutes ago       Up 4 minutes        80/tcp              getstartedlab_web.1.g7dr8ecu5a6dh5ua5lqo0cbjw</span><br><span class="line">ee599ab17416        frosthe/get-started:part2   &quot;python app.py&quot;     4 minutes ago       Up 4 minutes        80/tcp              getstartedlab_web.2.1gu635hjck46xt8leib3md9nb</span><br></pre></td></tr></table></figure></p>
-<p>现在，通过 ip 地址访问该应用，连续刷新浏览器，会看到每次刷新后 <code>Hostname</code> 一项都改变。之前提到过，<code>Hostname</code> 返回的是 <code>container</code> 的 ID，所以这里会看到 <code>Hostname</code> 的值为 5 个副本 ID 值轮流变化。</p>
-<h1 id="扩展该应用"><a href="#扩展该应用" class="headerlink" title="扩展该应用"></a>扩展该应用</h1><p>可以在 <code>docker-compose.yml</code> 文件中修改 <code>replicas</code> 的值来扩展计算量，然后再次执行 <code>docker stack deploy</code> 命令:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker stack deploy -c docker-compose.yml getstartedlab</span><br></pre></td></tr></table></figure></p>
-<p><code>Docker</code> 支持实时更新，不需要关闭 <code>stack</code> 或停止任何 <code>container</code>。</p>
-<h1 id="停止应用及-swarm"><a href="#停止应用及-swarm" class="headerlink" title="停止应用及 swarm"></a>停止应用及 swarm</h1><ul>
-<li><p>停止 app:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ docker stack rm getstartedlab</span><br><span class="line"></span><br><span class="line">Removing service getstartedlab_web</span><br><span class="line">Removing network getstartedlab_webnet</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>停止 swarm:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ docker swarm leave --force</span><br><span class="line"></span><br><span class="line">Node left the swarm.</span><br></pre></td></tr></table></figure></li>
+<p><code>Docker Cloud Agent</code> 会将所有需要的包都安装好，并自动移除任何现有的 <code>Docker</code> 引擎。之后仍然可以在这些主机上执行 <code>docker</code> 命令，但会多出一些以 <code>dockercloud/</code> 开头的运行的系统 <code>container</code>。</p>
+<h2 id="通过-Docker-Cloud-网页界面安装-Docker-Cloud-Agent"><a href="#通过-Docker-Cloud-网页界面安装-Docker-Cloud-Agent" class="headerlink" title="通过 Docker Cloud 网页界面安装 Docker Cloud Agent"></a>通过 Docker Cloud 网页界面安装 Docker Cloud Agent</h2><ol>
+<li>开始安装之前，请确保目标主机上的</li>
+</ol>
+<ul>
+<li>TCP/UDP 6783 端口: 允许该节点加入 <code>Docker Cloud</code> 账号下所有节点组成的叠加网络以支持服务发现</li>
+<li>TCP 2375 端口: 允许 <code>Docker CLoud</code> 与目标主机的 <code>Docker</code> 守护进程直接通过 TSL 认证进行通信，如果该端口未开启，<code>Docker Cloud</code> 会让目标主机建立一个反向隧道以访问该端口。</li>
 </ul>
-
+<ol start="2">
+<li>登录 <code>Docker Cloud</code>，导航至节点仪表盘(<code>Nodes</code>)。</li>
+<li>点击 <code>Bring your own node</code>。弹出窗口会展示目前支持的所有 Linux 发行版本并生成一行包含 token 的命令以使主机上的 <code>Docker Cloud Agent</code> 与 <code>Docker Cloud</code> 通信。<img src="/deployment/docker-deployment/node-byoh-wizard-v2.png" title="弹出窗口示例"></li>
+<li><p>在目标 Linux 主机上执行该命令，该命令会下载一个脚本，安装并配置好 <code>Docker Cloud Agent</code>，最后将其注册到 <code>Docker Cloud</code>。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">*******************************************************************************</span><br><span class="line">Docker Cloud Agent installed successfully</span><br><span class="line">*******************************************************************************</span><br><span class="line"></span><br><span class="line">You can now deploy containers to this node using Docker Cloud</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>当出现以上提示之后，关闭弹出框，刷新节点仪表盘，发现该主机已经与 <code>Docker Cloud</code> 关联:</p>
+<img src="/deployment/docker-deployment/node_connected.png" title="目标主机与 Docker Cloud 关联">
+</li>
+</ol>
+<p>该主机现在已经准备好部署了。</p>
+<h2 id="通过-CLI-安装-Docker-Cloud-Agent"><a href="#通过-CLI-安装-Docker-Cloud-Agent" class="headerlink" title="通过 CLI 安装 Docker Cloud Agent"></a>通过 CLI 安装 Docker Cloud Agent</h2><p>也可以借助 <code>docker-cloud</code> 命令来安装 <code>Docker Cloud Agent</code>，这种方式对熟悉命令行工具的同学来说更明白发生了什么，首先，需要在目标主机上安装 <code>docker-cloud</code> CLI，参考<a href="https://docs.docker.com/docker-cloud/installing-cli/" target="_blank" rel="noopener">The Docker Cloud CLI</a>可以不同的方式安装。</p>
+<p>使用 <code>python pip</code> 安装 <code>docker-cloud</code> CLI:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ pip install docker-cloud</span><br></pre></td></tr></table></figure></p>
+<p>使用以下命令取得一个节点的 <code>token</code>:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ docker-cloud node byo</span><br><span class="line"></span><br><span class="line">Docker Cloud lets you use your own servers as nodes to run containers. For</span><br><span class="line">this you have to install our agent.</span><br><span class="line"></span><br><span class="line">Run the following <span class="built_in">command</span> on your server:</span><br><span class="line"></span><br><span class="line">curl -Ls https://get.cloud.docker.com/ | sudo -H sh -s 63ad1c63ec5d431a9b31133e37e8a614</span><br></pre></td></tr></table></figure></p>
+<p>执行上述代码将下载一段脚本，安装并运行 <code>dockercloud-agent</code> 服务，然后在配置文件中设置 token，该 <code>token</code> 有一定的时限，服务向 <code>Docker Cloud</code> 进行注册，并开始下载 <code>docker</code> 引擎:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">2018/05/11 20:18:34 Registering <span class="keyword">in</span> Docker Cloud via PATCH: https://cloud.docker.com/api/agent/v1/node/d4289a2e-4a98-4767-b9c8-8c67b24a2ca3</span><br><span class="line">2018/05/11 20:18:34 Downloading docker binary...</span><br><span class="line">2018/05/11 20:18:34 Downloading docker definition from https://cloud.docker.com/api/tutum/v1/agent/docker/1.11.2-cs5/1.1.0.json</span><br><span class="line">2018/05/11 20:18:34 Downloading docker from https://files.cloud.docker.com/packages/docker/docker-1.11.2-cs5.tgz</span><br></pre></td></tr></table></figure></p>
+<p>该过程由网络带宽决定耗时长短，下载过程中 <code>Docker Cloud</code> 会一直打印 docker 端口未开启:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Waiting <span class="keyword">for</span> docker port to be open...</span><br><span class="line">Waiting <span class="keyword">for</span> docker port to be open...</span><br></pre></td></tr></table></figure></p>
+<p>这是因为 <code>docker</code> 引擎还未在目标主机上就绪，无法找到端口 2375，由于笔者的云服务器只有 1Mbps 的带宽，下载该包的时间超过了 <code>Docker Cloud</code> 的超时时间，于是造成 <code>Docker Cloud</code> 等待超时，在 <code>docker</code> 包下载完成后，尝试重新启动 <code>dockercloud-agent</code> 服务，而由于 token 又过期了，所以只能重新申请 token 并设置配置文件:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Cannot register node <span class="keyword">in</span> Docker Cloud: unauthorized. Please try again with a new token.</span><br><span class="line"></span><br><span class="line">$ docker-cloud node byo</span><br></pre></td></tr></table></figure></p>
+<p>取得新的 token 后，需要修改配置文件中的 token 值，重新启动服务。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ dockercloud-agent <span class="built_in">set</span> Token=xxx</span><br><span class="line">$ sudo service dockercloud-agent restart</span><br></pre></td></tr></table></figure></p>
+<h2 id="卸载-Docker-Cloud-Agent"><a href="#卸载-Docker-Cloud-Agent" class="headerlink" title="卸载 Docker Cloud Agent"></a>卸载 Docker Cloud Agent</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ apt-get remove dockercloud-agent</span><br><span class="line">$ rm -rf /etc/dockercloud</span><br></pre></td></tr></table></figure>
+<h2 id="升级-Docker-Cloud-Agent"><a href="#升级-Docker-Cloud-Agent" class="headerlink" title="升级 Docker Cloud Agent"></a>升级 Docker Cloud Agent</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ apt-get update &amp;&amp; apt-get install -y dockercloud-agent</span><br></pre></td></tr></table></figure>
       
     </div>
     
@@ -461,9 +461,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/ops/" rel="tag"># ops</a>
-          
             <a href="/tags/docker/" rel="tag"># docker</a>
+          
+            <a href="/tags/ops/" rel="tag"># ops</a>
           
         </div>
       
@@ -476,8 +476,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/deployment/note-docker-containers/" rel="next" title="Docker 初探 (2) - Containers">
-                <i class="fa fa-chevron-left"></i> Docker 初探 (2) - Containers
+              <a href="/deployment/docker-machine/" rel="next" title="Docker 初探 (6) - Docker Machine">
+                <i class="fa fa-chevron-left"></i> Docker 初探 (6) - Docker Machine
               </a>
             
           </div>
@@ -486,8 +486,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/deployment/note-docker-swarms/" rel="prev" title="Docker 初探 (4) - Swarms">
-                Docker 初探 (4) - Swarms <i class="fa fa-chevron-right"></i>
+              <a href="/deployment/docker-dockerfile-best-practices/" rel="prev" title="Dockerfile 编写注意事项">
+                Dockerfile 编写注意事项 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -565,7 +565,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">42</span>
+                  <span class="site-state-item-count">47</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -587,7 +587,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">17</span>
+                  <span class="site-state-item-count">18</span>
                   <span class="site-state-item-name">tags</span>
                 </a>
               </div>
@@ -620,7 +620,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Docker-Compose"><span class="nav-text">Docker Compose</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装-Docker-Compose"><span class="nav-text">安装 Docker Compose</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#关于-Service"><span class="nav-text">关于 Service</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#docker-compose-yml-文件"><span class="nav-text">docker-compose.yml 文件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#启动新的负载均衡应用"><span class="nav-text">启动新的负载均衡应用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#扩展该应用"><span class="nav-text">扩展该应用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#停止应用及-swarm"><span class="nav-text">停止应用及 swarm</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Docker-Cloud"><span class="nav-text">Docker Cloud</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Docker-Cloud-Agent"><span class="nav-text">Docker Cloud Agent</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#通过-Docker-Cloud-网页界面安装-Docker-Cloud-Agent"><span class="nav-text">通过 Docker Cloud 网页界面安装 Docker Cloud Agent</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#通过-CLI-安装-Docker-Cloud-Agent"><span class="nav-text">通过 CLI 安装 Docker Cloud Agent</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#卸载-Docker-Cloud-Agent"><span class="nav-text">卸载 Docker Cloud Agent</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#升级-Docker-Cloud-Agent"><span class="nav-text">升级 Docker Cloud Agent</span></a></li></ol></li></ol></div>
             
 
           </div>
