@@ -1,0 +1,1209 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next mist" lang="default">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="asp.net core," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="ASP.NET Core 过滤器的最佳实践，阅读微软官网文档的摘抄和心得">
+<meta name="keywords" content="asp.net core">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ASP.NET Core 应用 - 过滤器">
+<meta property="og:url" content="https://berdypango.github.io/Web/ASP-NET-Core/aspnetcore-filters/index.html">
+<meta property="og:site_name" content="Pango.Handbook">
+<meta property="og:description" content="ASP.NET Core 过滤器的最佳实践，阅读微软官网文档的摘抄和心得">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-07-02T15:20:11.125Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ASP.NET Core 应用 - 过滤器">
+<meta name="twitter:description" content="ASP.NET Core 过滤器的最佳实践，阅读微软官网文档的摘抄和心得">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"display":"hide"},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://berdypango.github.io/Web/ASP-NET-Core/aspnetcore-filters/"/>
+
+
+
+
+
+  <title>ASP.NET Core 应用 - 过滤器 | Pango.Handbook</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+
+  <div class="container  page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Pango.Handbook</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            Search
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="Searching..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://berdypango.github.io/Web/ASP-NET-Core/aspnetcore-filters/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Frost He">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pango.Handbook">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">ASP.NET Core 应用 - 过滤器</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-07-02T19:32:00+08:00">
+                2016-07-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Web/" itemprop="url" rel="index">
+                    <span itemprop="name">Web</span>
+                  </a>
+                </span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Web/ASP-NET-Core/" itemprop="url" rel="index">
+                    <span itemprop="name">ASP.NET Core</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                  <span class="post-meta-divider">|</span>
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  2,183
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+              <div class="post-description">
+                  ASP.NET Core 过滤器的最佳实践，阅读微软官网文档的摘抄和心得
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>参考资料:</p>
+<ul>
+<li><a href="https://docs.microsoft.com/en-us/aspnet/core/mvc/controllers/filters?view=aspnetcore-2.1" target="_blank" rel="noopener">Filters in ASP.NET Core</a></li>
+</ul>
+<h2 id="过滤器类型"><a href="#过滤器类型" class="headerlink" title="过滤器类型"></a>过滤器类型</h2><p>每个过滤器类型都将在管道的不同阶段被执行:</p>
+<ul>
+<li>Authorization 过滤器: <strong>第一个</strong>运行的过滤器，决定执行请求的当前用户是否被授权。</li>
+<li>Resource 过滤器: 紧随 Authorization 过滤器之后处理请求的过滤器，其代码在管道的其余部分之前或之后被执行，它们是实现缓存或因性能原因阻塞请求的最佳位置，它们在「模型绑定」之前运行，所以其代码可以影响模型绑定。</li>
+<li>Action 过滤器: 在特定的 Action 之前或之后运行的过滤器，它们被用于操作传入 Action 的参数以及被其返回的结果。</li>
+<li>Exception 过滤器: 用于将全局策略应用于在返回响应之前未被捕获的异常。</li>
+<li>Result 过滤器: 在 Action 返回结果之前或之后执行代码，仅当 Action 方法成功之后才会运行，它们被用于处理必须围绕视图的逻辑。</li>
+</ul>
+<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><p><strong>过滤器通过定义不同的接口</strong>支持同步及异步实现。同步实现以 On<em>Stage</em>Executing 和 On<em>Stage</em>Executed 方法为模板，例如 <code>OnActionExecuting</code> 在方法执行之前运行，<code>OnActionExecuted</code> 在方法执行之后运行。<br><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> FiltersSample.Helper;</span><br><span class="line"><span class="keyword">using</span> Microsoft.AspNetCore.Mvc.Filters;</span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">FiltersSample.Filters</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">class</span> <span class="title">SampleActionFilter</span> : <span class="title">IActionFilter</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">OnActionExecuting</span>(<span class="params">ActionExecutingContext context</span>)</span></span><br><span class="line"><span class="function">        </span>&#123;</span><br><span class="line">            <span class="comment">// do something before the action executes</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">OnActionExecuted</span>(<span class="params">ActionExecutedContext context</span>)</span></span><br><span class="line"><span class="function">        </span>&#123;</span><br><span class="line">            <span class="comment">// do something after the action executes</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br>异步过滤器定义一个 On<em>Stage</em>ExecutionAsync 方法，该方法接收一个 <code>FilterTypeExecutionDelegate</code> 委托参数 <code>next</code>，该方法代表 Action 本身，可在其之前或之后添加之定义逻辑:<br><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> System.Threading.Tasks;</span><br><span class="line"><span class="keyword">using</span> Microsoft.AspNetCore.Mvc.Filters;</span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">FiltersSample.Filters</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">class</span> <span class="title">SampleAsyncActionFilter</span> : <span class="title">IAsyncActionFilter</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">async</span> Task <span class="title">OnActionExecutionAsync</span>(<span class="params"></span></span></span><br><span class="line"><span class="function"><span class="params">            ActionExecutingContext context,</span></span></span><br><span class="line"><span class="function"><span class="params">            ActionExecutionDelegate next</span>)</span></span><br><span class="line"><span class="function">        </span>&#123;</span><br><span class="line">            <span class="comment">// do something before the action executes</span></span><br><span class="line">            <span class="keyword">var</span> resultContext = <span class="keyword">await</span> next();</span><br><span class="line">            <span class="comment">// do something after the action executes; resultContext.Result will be set</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>过滤器的同步和异步接口版本只要实现一个就够了，框架会首先检查过滤器类型是否实现了异步接口，如果是，则执行异步版本。否则，才会执行同步版本。如果同时实现了两个接口，则同步接口会被忽略。</p>
+</blockquote>
+<h2 id="过滤器应用级别和执行顺序"><a href="#过滤器应用级别和执行顺序" class="headerlink" title="过滤器应用级别和执行顺序"></a>过滤器应用级别和执行顺序</h2><p>过滤器可以以三种级别应用 - 以 Attribute 的形式应用在特定的 Action 或 Controller 类上。或者在 <code>ConfigureServices</code> 方法中配置 <code>MvcOptions.Filters</code> 以全局方式应用到所有 Action 和 Controller 上。<br><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">ConfigureServices</span>(<span class="params">IServiceCollection services</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    services.AddMvc(options =&gt;</span><br><span class="line">    &#123;</span><br><span class="line">        options.Filters.Add(<span class="keyword">new</span> AddHeaderAttribute(<span class="string">"GlobalAddHeader"</span>, </span><br><span class="line">            <span class="string">"Result filter added to MvcOptions.Filters"</span>)); <span class="comment">// an instance</span></span><br><span class="line">        options.Filters.Add(<span class="keyword">typeof</span>(SampleActionFilter)); <span class="comment">// by type</span></span><br><span class="line">        options.Filters.Add(<span class="keyword">new</span> SampleGlobalActionFilter()); <span class="comment">// an instance</span></span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    services.AddScoped&lt;AddHeaderFilterWithDi&gt;();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="过滤器的默认执行顺序"><a href="#过滤器的默认执行顺序" class="headerlink" title="过滤器的默认执行顺序"></a>过滤器的默认执行顺序</h3><p>当管道中多处都应用了过滤器，scope 决定了过滤器的默认执行顺序。该序列看来如下:</p>
+<ul>
+<li>全局过滤器的 before 部分<ul>
+<li>Controller 级别过滤器的 before 部分<ul>
+<li>Action 方法级别过滤器的 before 部分</li>
+<li>Action 方法级别过滤器的 after 部分</li>
+</ul>
+</li>
+<li>Controller 级别过滤器的 after 部分</li>
+</ul>
+</li>
+<li>全局过滤器的 after 部分</li>
+</ul>
+<blockquote>
+<p>所有继承自 <code>Controller</code> 类型的控制器都包含 <code>OnActionExecuting</code> 和 <code>OnActionExecuted</code> 方法。这些方法先于任何应用其上的过滤器的 <code>OnActionExecuting</code> 方法并且后于 <code>OnActionExecuted</code> 方法。</p>
+</blockquote>
+<h3 id="重写默认顺序"><a href="#重写默认顺序" class="headerlink" title="重写默认顺序"></a>重写默认顺序</h3><p>可以通过实现 <code>IOrderedFilter</code> 接口来重写过滤器的默认执行顺序。该接口暴露一个 <code>Order</code> 属性先与过滤器的应用级别来影响执行顺序。<code>Order</code> 的属性值越低，其 before 部分代码先执行，after 部分后执行。</p>
+<h2 id="取消和短路"><a href="#取消和短路" class="headerlink" title="取消和短路"></a>取消和短路</h2><p>通过在 <code>context</code> 上设置 <code>Result</code> 属性可以在任何点上短路管道。</p>
+<h2 id="依赖注入"><a href="#依赖注入" class="headerlink" title="依赖注入"></a>依赖注入</h2><p>过滤器以服务的形式注册到 IoC，但实现为 Attribute 的过滤器无法通过依赖注入的方式获取构造器参数，这是因为 Attribute 类型的构造器参数必须在使用时指定，这是 Attribute 的一个限制。</p>
+<p>如果过滤器在其创建过程种依赖 DI，可以通过以下方式之一解决该问题:</p>
+<ul>
+<li>ServiceFilterAttribute</li>
+<li>TypeFilterAttribute</li>
+<li>IFilterFactory</li>
+</ul>
+<blockquote>
+<p>你可能想要在过滤器中从 DI 获取 logger。应该避免将过滤器仅用作日志目的，因为框架内置的<a href="/Web/ASP.NET Core/aspnetcore-fundamentals-logging">日志系统</a>介绍了更科学的记录日志的方法，如果一定要将日志功能加入过滤器逻辑中，那么该日志应该侧重于记录该过滤器与业务领域逻辑相关的内容，而不是 MVC Action 或其他框架事件。</p>
+</blockquote>
+<h3 id="ServiceFilterAttribute"><a href="#ServiceFilterAttribute" class="headerlink" title="ServiceFilterAttribute"></a>ServiceFilterAttribute</h3><p><code>ServiceFilterAttribute</code> 从 DI 中请求一个特定过滤器的实例，你应该在 <code>ConfigureServices</code> 方法中注册该过滤器类型，并在 <code>ServiceFilter</code> 引用它。<br><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">ConfigureServices</span>(<span class="params">IServiceCollection services</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    services.AddScoped&lt;AddHeaderFilterWithDi&gt;();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">[<span class="meta">ServiceFilter(typeof(AddHeaderFilterWithDi))</span>]</span><br><span class="line"><span class="function"><span class="keyword">public</span> IActionResult <span class="title">Index</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> View();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="TypeFilterAttribute"><a href="#TypeFilterAttribute" class="headerlink" title="TypeFilterAttribute"></a>TypeFilterAttribute</h3><p><code>TypeFilterAttribute</code> 与 <code>ServiceFilterAttribute</code> 非常相似，但它并不是从 DI 中解析过滤器类型的实例，而是通过 <code>Microsoft.Extensions.DependencyInjection.ObjectFactory</code> 创建过滤器类型的实例。因此:</p>
+<ul>
+<li>被 <code>TypeFilterAttribute</code> 类型引用的过滤器类型无需在 IoC 中注册。</li>
+<li><code>TypeFilterAttribute</code> 可以有选择地传递过滤器类型的构造函数参数。</li>
+</ul>
+<p>以下示例演示了如何将构造函数参数传递给 <code>TypeFilterAttribute</code>:<br><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[<span class="meta">TypeFilter(typeof(AddHeaderAttribute),</span></span><br><span class="line"><span class="meta">    Arguments = new object[</span>] &#123; <span class="string">"Author"</span>, <span class="string">"Steve Smith (@ardalis)"</span> &#125;)]</span><br><span class="line"><span class="function"><span class="keyword">public</span> IActionResult <span class="title">Hi</span>(<span class="params"><span class="keyword">string</span> name</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> Content(<span class="string">$"Hi <span class="subst">&#123;name&#125;</span>"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="Authorization-过滤器"><a href="#Authorization-过滤器" class="headerlink" title="Authorization 过滤器"></a>Authorization 过滤器</h2><ul>
+<li>管道中第一批被执行的过滤器</li>
+<li>有 before 方法，没有 after 方法</li>
+<li>不要在该过滤器中的抛出异常</li>
+</ul>
+<h2 id="Resource-过滤器"><a href="#Resource-过滤器" class="headerlink" title="Resource 过滤器"></a>Resource 过滤器</h2><ul>
+<li>实现 <code>IResourceFilter</code> 或 <code>IAsyncResourceFilter</code> 之一</li>
+<li>包围大多数管理过滤器</li>
+<li>只有 Authorization 过滤器先于它执行</li>
+</ul>
+<p>Resource 过滤器用于短路请求的大多数工作，例如，缓存过滤器如果检查到响应位于缓存中，则跳过管道中的其余逻辑</p>
+<h2 id="Action-过滤器"><a href="#Action-过滤器" class="headerlink" title="Action 过滤器"></a>Action 过滤器</h2><p>实现 <code>IActionFilter</code> 或 <code>IAsyncActionFilter</code> 接口之一，以下是一个示例 Action 过滤器:<br><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">SampleActionFilter</span> : <span class="title">IActionFilter</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">OnActionExecuting</span>(<span class="params">ActionExecutingContext context</span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="comment">// do something before the action executes</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">OnActionExecuted</span>(<span class="params">ActionExecutedContext context</span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="comment">// do something after the action executes</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><code>ActionExecutingContext</code> 提供了以下属性:</p>
+<ul>
+<li><code>ActionArguments</code>: 操作提供给方法的输入参数</li>
+<li><code>Controller</code>: 操作控制器实例</li>
+<li><code>Result</code>: 设置该值以短路该 Action 方法及其后的过滤器，抛出异常亦然，但会被认为是一个失败请求。</li>
+</ul>
+<p><code>ActionExecutedContext</code> 提供了以下属性:</p>
+<ul>
+<li><code>Canceled</code>: 当 Action 执行短路时为 true</li>
+<li><code>Exception</code>: 抛出异常时该值不为空，将该值显式设置为 <code>null</code> 则被认为异常已经过处理，之后 <code>Result</code> 属性将被处理。</li>
+</ul>
+<p>对于 <code>IAsyncActionFilter</code>，执行 <code>ActionExecutionDelegate</code> 将:</p>
+<ul>
+<li>同时执行所有后续的过滤器和 Action 方法本身</li>
+<li>返回 <code>ActionExecutedContext</code></li>
+</ul>
+<p>要短路，则设置 <code>ActionExecutingContext.Result</code> 并且不要调用 <code>ActionExecutionDelegate</code>。</p>
+<h2 id="Exception-过滤器"><a href="#Exception-过滤器" class="headerlink" title="Exception 过滤器"></a>Exception 过滤器</h2><p>Exception 实现 <code>IExceptionFilter</code> 或 <code>IAsyncExceptionFilter</code> 接口之一。其用于实现通用错误处理策略。Exception 过滤器:</p>
+<ul>
+<li>没有 before 和 after 事件</li>
+<li>实现 <code>OnException</code> 或 <code>OnExceptionAsync</code></li>
+<li>处理发生在创建控制器，模型绑定，Action 过滤器或 Action 方法中未捕获的异常</li>
+<li>不要在 Resource 过滤器，Result 过滤器或 MVC Result 执行过程中捕获异常</li>
+</ul>
+<p>设置 <code>ExceptionContext.ExceptionHandled</code> 为 true 并返回一个请求响应以指示异常被处理。Exception 过滤器:</p>
+<ul>
+<li>对于处理 MVC Action 中抛出的异常是最佳位置</li>
+<li>不如错误处理中间件来得灵活</li>
+</ul>
+<p>仅当需要针对性对某个 MVC Action 进行特殊处理时采用 Exception 过滤器。</p>
+<h2 id="在管道中使用过滤器中间件"><a href="#在管道中使用过滤器中间件" class="headerlink" title="在管道中使用过滤器中间件"></a>在管道中使用过滤器中间件</h2><p>Resource 过滤器由于其包围了管道其后的所有执行过程，所以其职责非常类似于一个过滤器中间件。然而其与中间件最大的区别在于，Resource 过滤器是 MVC 的一部分，这意味着它们可以访问 MVC 的 context 和构造。</p>
+<p>当使用中间件时同时也希望能够访问 MVC 的路由数据或仅仅为某个特定的 Controller 或 Action 服务。定义一个包含 <code>Configure</code> 方法的类型，以下示例展示了一个使用本地化中间件为请求建立当前文化:<br><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">LocalizationPipeline</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Configure</span>(<span class="params">IApplicationBuilder applicationBuilder</span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">var</span> supportedCultures = <span class="keyword">new</span>[]</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">new</span> CultureInfo(<span class="string">"en-US"</span>),</span><br><span class="line">            <span class="keyword">new</span> CultureInfo(<span class="string">"fr"</span>)</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">var</span> options = <span class="keyword">new</span> RequestLocalizationOptions</span><br><span class="line">        &#123;</span><br><span class="line"></span><br><span class="line">            DefaultRequestCulture = <span class="keyword">new</span> RequestCulture(culture: <span class="string">"en-US"</span>, uiCulture: <span class="string">"en-US"</span>),</span><br><span class="line">            SupportedCultures = supportedCultures,</span><br><span class="line">            SupportedUICultures = supportedCultures</span><br><span class="line">        &#125;;</span><br><span class="line">        options.RequestCultureProviders = <span class="keyword">new</span>[] </span><br><span class="line">            &#123; <span class="keyword">new</span> RouteDataRequestCultureProvider() &#123; Options = options &#125; &#125;;</span><br><span class="line"></span><br><span class="line">        applicationBuilder.UseRequestLocalization(options);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br>之后，可以在 Controller 上或 Action 上或全局地通过 <code>MiddlewareFilterAttribute</code> 应用该中间件:<br><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[<span class="meta">Route(<span class="meta-string">"&#123;culture&#125;/[controller]/[action]"</span>)</span>]</span><br><span class="line">[<span class="meta">MiddlewareFilter(typeof(LocalizationPipeline))</span>]</span><br><span class="line"><span class="function"><span class="keyword">public</span> IActionResult <span class="title">CultureFromRouteData</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> Content(<span class="string">$"CurrentCulture:<span class="subst">&#123;CultureInfo.CurrentCulture.Name&#125;</span>,"</span></span><br><span class="line">        + <span class="string">$"CurrentUICulture:<span class="subst">&#123;CultureInfo.CurrentUICulture.Name&#125;</span>"</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br>中间件过滤器与 Resource 过滤器运行在同一阶段。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/asp-net-core/" rel="tag"># asp.net core</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/Web/ASP-NET-Core/aspnetcore-fundamentals-pipelines/" rel="next" title="ASP.NET Core 框架基础 - 管道与中间件">
+                <i class="fa fa-chevron-left"></i> ASP.NET Core 框架基础 - 管道与中间件
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/Web/ASP-NET-Core/aspnetcore-localization/" rel="prev" title="ASP.NET Core 应用 - 国际化与本土化">
+                ASP.NET Core 应用 - 国际化与本土化 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Frost He</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">48</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#过滤器类型"><span class="nav-text">过滤器类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实现"><span class="nav-text">实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#过滤器应用级别和执行顺序"><span class="nav-text">过滤器应用级别和执行顺序</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#过滤器的默认执行顺序"><span class="nav-text">过滤器的默认执行顺序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#重写默认顺序"><span class="nav-text">重写默认顺序</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#取消和短路"><span class="nav-text">取消和短路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#依赖注入"><span class="nav-text">依赖注入</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ServiceFilterAttribute"><span class="nav-text">ServiceFilterAttribute</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TypeFilterAttribute"><span class="nav-text">TypeFilterAttribute</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Authorization-过滤器"><span class="nav-text">Authorization 过滤器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Resource-过滤器"><span class="nav-text">Resource 过滤器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Action-过滤器"><span class="nav-text">Action 过滤器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Exception-过滤器"><span class="nav-text">Exception 过滤器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在管道中使用过滤器中间件"><span class="nav-text">在管道中使用过滤器中间件</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2015 &mdash; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Frost He</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+
+
+
+
+
+        
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//tajs.qq.com/stats?sId=65458438";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === '') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
