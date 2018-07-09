@@ -77,20 +77,20 @@
 
 
 
-<meta name="description" content="本文记录了在树莓派上通过 Docker 安装 HomeAssistant 的全过程">
+<meta name="description" content="HomeAssistant 是一个开源的智能家居网关项目，以树莓派做 HomeAssistant 的服务器再适合不过">
 <meta name="keywords" content="diy,linux,raspberry pi">
 <meta property="og:type" content="article">
-<meta property="og:title" content="DIY - 在树莓派上通过 Docker 安装 HomeAssistant">
-<meta property="og:url" content="https://berdypango.github.io/linux/diy-make-raspberry-pi-a-smart-home-command-center/index.html">
+<meta property="og:title" content="DIY - 搭建树莓派智能家居网关 - HomeAssistant">
+<meta property="og:url" content="https://berdypango.github.io/linux/diy-make-raspberry-pi-a-smart-home-gateway/index.html">
 <meta property="og:site_name" content="Pango.Handbook">
-<meta property="og:description" content="本文记录了在树莓派上通过 Docker 安装 HomeAssistant 的全过程">
+<meta property="og:description" content="HomeAssistant 是一个开源的智能家居网关项目，以树莓派做 HomeAssistant 的服务器再适合不过">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="https://berdypango.github.io/linux/diy-make-raspberry-pi-a-smart-home-command-center/web-ui-home.jpg">
-<meta property="og:updated_time" content="2018-05-21T04:26:28.443Z">
+<meta property="og:image" content="https://berdypango.github.io/linux/diy-make-raspberry-pi-a-smart-home-gateway/web-ui-home.jpg">
+<meta property="og:updated_time" content="2018-07-08T09:36:08.077Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="DIY - 在树莓派上通过 Docker 安装 HomeAssistant">
-<meta name="twitter:description" content="本文记录了在树莓派上通过 Docker 安装 HomeAssistant 的全过程">
-<meta name="twitter:image" content="https://berdypango.github.io/linux/diy-make-raspberry-pi-a-smart-home-command-center/web-ui-home.jpg">
+<meta name="twitter:title" content="DIY - 搭建树莓派智能家居网关 - HomeAssistant">
+<meta name="twitter:description" content="HomeAssistant 是一个开源的智能家居网关项目，以树莓派做 HomeAssistant 的服务器再适合不过">
+<meta name="twitter:image" content="https://berdypango.github.io/linux/diy-make-raspberry-pi-a-smart-home-gateway/web-ui-home.jpg">
 
 
 
@@ -120,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="https://berdypango.github.io/linux/diy-make-raspberry-pi-a-smart-home-command-center/"/>
+  <link rel="canonical" href="https://berdypango.github.io/linux/diy-make-raspberry-pi-a-smart-home-gateway/"/>
 
 
 
 
 
-  <title>DIY - 在树莓派上通过 Docker 安装 HomeAssistant | Pango.Handbook</title>
+  <title>DIY - 搭建树莓派智能家居网关 - HomeAssistant | Pango.Handbook</title>
   
 
 
@@ -285,7 +285,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://berdypango.github.io/linux/diy-make-raspberry-pi-a-smart-home-command-center/">
+    <link itemprop="mainEntityOfPage" href="https://berdypango.github.io/linux/diy-make-raspberry-pi-a-smart-home-gateway/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Frost He">
@@ -302,7 +302,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">DIY - 在树莓派上通过 Docker 安装 HomeAssistant</h1>
+          <h1 class="post-title" itemprop="name headline">DIY - 搭建树莓派智能家居网关 - HomeAssistant</h1>
         
 
         <div class="post-meta">
@@ -370,7 +370,7 @@
                   <span class="post-meta-item-text">Words count in article&#58;</span>
                 
                 <span title="Words count in article">
-                  1,043
+                  1,336
                 </span>
               
 
@@ -382,7 +382,7 @@
 
           
               <div class="post-description">
-                  本文记录了在树莓派上通过 Docker 安装 HomeAssistant 的全过程
+                  HomeAssistant 是一个开源的智能家居网关项目，以树莓派做 HomeAssistant 的服务器再适合不过
               </div>
           
 
@@ -403,8 +403,9 @@
 <ul>
 <li><a href="https://www.raspberrypi.org/blog/docker-comes-to-raspberry-pi/" target="_blank" rel="noopener">Docker Comes to Raspberry Pi</a></li>
 <li><a href="https://www.home-assistant.io/docs/installation/docker/" target="_blank" rel="noopener">HA Installation on Docker</a></li>
+<li><a href="https://www.home-assistant.io/components/http/" target="_blank" rel="noopener">HA Http</a></li>
 </ul>
-<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>通过 <a href="https://www.home-assistant.io/" target="_blank" rel="noopener">HomeAssistant</a>(以下简称 HA) 实现智能家居总控台有多种实现方式，各家也都制作了预定义的系统映像来免去复杂的操作，鉴于自己有树莓派，所以系统为 Raspbian 的安装方式为准</p>
+<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>通过 <a href="https://www.home-assistant.io/" target="_blank" rel="noopener">HomeAssistant</a>(以下简称 HA) 实现智能家居总控台有多种实现方式，各家也都制作了预定义的系统映像来免去复杂的操作，树莓派非常适合跑过程服务，而 HomeAssistant 也推出了其官方 Docker Image。所以本文主要介绍在 Rasbian 系统上通过 Docker 安装 HomeAssistant。</p>
 <h2 id="在树莓派上安装-Docker-引擎"><a href="#在树莓派上安装-Docker-引擎" class="headerlink" title="在树莓派上安装 Docker 引擎"></a>在树莓派上安装 Docker 引擎</h2><p>下载安装脚本并执行:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">$ curl -sSL https://get.docker.com | sh</span><br><span class="line"></span><br><span class="line">Client:</span><br><span class="line"> Version:      18.05.0-ce</span><br><span class="line"> API version:  1.37</span><br><span class="line"> Go version:   go1.9.5</span><br><span class="line"> Git commit:   f150324</span><br><span class="line"> Built:        Wed May  9 22:24:36 2018</span><br><span class="line"> OS/Arch:      linux/arm</span><br><span class="line"> Experimental: <span class="literal">false</span></span><br><span class="line"> Orchestrator: swarm</span><br><span class="line"></span><br><span class="line">Server:</span><br><span class="line"> Engine:</span><br><span class="line">  Version:      18.05.0-ce</span><br><span class="line">  API version:  1.37 (minimum version 1.12)</span><br><span class="line">  Go version:   go1.9.5</span><br><span class="line">  Git commit:   f150324</span><br><span class="line">  Built:        Wed May  9 22:20:37 2018</span><br><span class="line">  OS/Arch:      linux/arm</span><br><span class="line">  Experimental: <span class="literal">false</span></span><br><span class="line">If you would like to use Docker as a non-root user, you should now consider</span><br><span class="line">adding your user to the <span class="string">"docker"</span> group with something like:</span><br><span class="line"></span><br><span class="line">  sudo usermod -aG docker pi</span><br><span class="line"></span><br><span class="line">Remember that you will have to <span class="built_in">log</span> out and back <span class="keyword">in</span> <span class="keyword">for</span> this to take effect!</span><br><span class="line"></span><br><span class="line">WARNING: Adding a user to the <span class="string">"docker"</span> group will grant the ability to run</span><br><span class="line">         containers <span class="built_in">which</span> can be used to obtain root privileges on the</span><br><span class="line">         docker host.</span><br><span class="line">         Refer to https://docs.docker.com/engine/security/security/<span class="comment">#docker-daemon-attack-surface</span></span><br><span class="line">         <span class="keyword">for</span> more information.</span><br></pre></td></tr></table></figure></p>
 <p>将 <code>pi</code> 用户加入 <code>docker</code> 群组<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo usermod -aG docker pi</span><br></pre></td></tr></table></figure></p>
 <blockquote>
@@ -415,8 +416,15 @@
 <p>安装完成后，HomeAssistant 的 container 已经开始运行:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ docker ps</span><br><span class="line"></span><br><span class="line">CONTAINER ID        IMAGE                                             COMMAND                  CREATED             STATUS              PORTS               NAMES</span><br><span class="line">c360dbc77bed        homeassistant/raspberrypi3-homeassistant:0.69.1   <span class="string">"/usr/bin/entry.sh p…"</span>   5 minutes ago       Up 5 minutes                            home-assistant</span><br></pre></td></tr></table></figure></p>
 <p>查看刚刚指定的配置文件目录，其下出现了这些文件及目录:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">-rw-r--r-- 1 root root      2 May 21 03:42 automations.yaml</span><br><span class="line">-rw-r--r-- 1 root root   1800 May 21 03:42 configuration.yaml</span><br><span class="line">-rw-r--r-- 1 root root      0 May 21 03:42 customize.yaml</span><br><span class="line">drwxr-xr-x 2 root root   4096 May 21 03:42 deps</span><br><span class="line">-rw-r--r-- 1 root root      0 May 21 03:42 groups.yaml</span><br><span class="line">-rw-r--r-- 1 root root    106 May 21 03:43 home-assistant.log</span><br><span class="line">-rw-r--r-- 1 root root 126976 May 21 04:11 home-assistant_v2.db</span><br><span class="line">-rw-r--r-- 1 root root      0 May 21 03:42 scripts.yaml</span><br><span class="line">-rw-r--r-- 1 root root    157 May 21 03:42 secrets.yaml</span><br><span class="line">drwxr-xr-x 2 root root   4096 May 21 03:43 tts</span><br></pre></td></tr></table></figure></p>
 <p>根据官网文档，config 目录(此处为 <code>/etc/home-assistant/config/</code>)下的 <code>configuration.yaml</code> 文件为其主要的配置文件，其他由 <code>yaml</code> 为扩展名的配置文件均是为了实现独立管理而单独分离出的文件，可在 <code>configuration.yaml</code> 文档中找到如下入口载入这些配置文件:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">customize: !include customize.yaml</span><br><span class="line">group: !include groups.yaml</span><br><span class="line">automation: !include automations.yaml</span><br><span class="line">script: !include scripts.yaml</span><br></pre></td></tr></table></figure></p>
-<p>8123 为 Web UI 的默认端口，尝试在浏览器中输入 http://{ip-address-to-raspberry}:8123 访问，得到如下结果:<br><img src="/linux/diy-make-raspberry-pi-a-smart-home-command-center/web-ui-home.jpg" title="Home Assistant Web UI"><br>简单试用之后，家里唯一一盏 YeeLight 灯立即就可以由 Web UI 进行控制，且在通过 Echo Dot 进行开关之后，Web 界面上的状态也得到了同步。</p>
-
+<p>8123 为 Web UI 的默认端口，尝试在浏览器中输入 http://{ip-address-to-raspberry}:8123 访问，得到如下结果:<br><img src="/linux/diy-make-raspberry-pi-a-smart-home-gateway/web-ui-home.jpg" title="Home Assistant Web UI"></p>
+<p>简单试用之后，家里唯一一盏 YeeLight 灯立即就可以由 Web UI 进行控制，且在通过 Echo Dot 进行开关之后，Web 界面上的状态也得到了同步。</p>
+<h2 id="开机启动-HA-Container"><a href="#开机启动-HA-Container" class="headerlink" title="开机启动 HA Container"></a>开机启动 HA Container</h2><p>一切正常之后，每次重启树莓派必须手动执行 <code>docker container start [Container ID]/NAME</code> 的方式来启动 HA 服务，我们需要将其做成服务或加入开机启动项脚本。</p>
+<h3 id="编辑-etc-rc-local"><a href="#编辑-etc-rc-local" class="headerlink" title="编辑 /etc/rc.local"></a>编辑 /etc/rc.local</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ sudo nano /etc/rc.local</span><br><span class="line"></span><br><span class="line">docker container start home-assistant</span><br></pre></td></tr></table></figure>
+<p>重启树莓派，HA 便开机启动了，参考 <a href="https://www.raspberrypi.org/documentation/linux/usage/rc-local.md" target="_blank" rel="noopener">RC.LOCAL</a></p>
+<h2 id="为-HA-网页-UI-设置密码"><a href="#为-HA-网页-UI-设置密码" class="headerlink" title="为 HA 网页 UI 设置密码"></a>为 HA 网页 UI 设置密码</h2><p>安装好 HA 之后，在其 config 文件夹下，包含了针对不同配置的文件，数据密码一项与 <code>secrets.yaml</code> 有关，首先编辑 <code>secrets.yaml</code>:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ sudo nano /etc/home-assistant/config/secrets.yaml</span><br><span class="line"></span><br><span class="line"><span class="comment"># Use this file to store secrets like usernames and passwords.</span></span><br><span class="line"><span class="comment"># Learn more at https://home-assistant.io/docs/configuration/secrets/</span></span><br><span class="line">http_password: your_password_here</span><br></pre></td></tr></table></figure></p>
+<p>同时需要在 <code>configuration.yaml</code> 中的 <code>http</code> 节点下指定该项的引用:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ sudo nano /etc/home-assistant/config/configuration.yaml</span><br><span class="line"></span><br><span class="line">http:</span><br><span class="line">  <span class="comment"># Secrets are defined in the file secrets.yaml</span></span><br><span class="line">  api_password: !secret http_password</span><br><span class="line">  ip_ban_enabled: <span class="literal">true</span></span><br><span class="line">  login_attempts_threshold: 5</span><br></pre></td></tr></table></figure></p>
+<p><code>ip_ban_enabled</code> 和 <code>login_attempts_threshold</code> 分别表示启用密码试错机制。然后重启 HA 服务:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker container restart home-assistant</span><br></pre></td></tr></table></figure></p>
+<h2 id="使用-Let’s-Encrypt-以-HTTPS-暴露-HA-TBD"><a href="#使用-Let’s-Encrypt-以-HTTPS-暴露-HA-TBD" class="headerlink" title="使用 Let’s Encrypt 以 HTTPS 暴露 HA(TBD)"></a>使用 Let’s Encrypt 以 HTTPS 暴露 HA(TBD)</h2>
       
     </div>
     
@@ -450,8 +458,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/linux/diy-make-raspberry-pi-samba-server/" rel="next" title="DIY - 为树莓派安装 Samba 服务器">
-                <i class="fa fa-chevron-left"></i> DIY - 为树莓派安装 Samba 服务器
+              <a href="/linux/diy-make-raspberry-pi-nas/" rel="next" title="DIY - 搭建树莓派 NAS 服务器">
+                <i class="fa fa-chevron-left"></i> DIY - 搭建树莓派 NAS 服务器
               </a>
             
           </div>
@@ -561,7 +569,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-count">19</span>
                   <span class="site-state-item-name">tags</span>
                 </a>
               </div>
@@ -594,7 +602,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#背景"><span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在树莓派上安装-Docker-引擎"><span class="nav-text">在树莓派上安装 Docker 引擎</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装-HomeAssistan"><span class="nav-text">安装 HomeAssistan</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#背景"><span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在树莓派上安装-Docker-引擎"><span class="nav-text">在树莓派上安装 Docker 引擎</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装-HomeAssistan"><span class="nav-text">安装 HomeAssistan</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#开机启动-HA-Container"><span class="nav-text">开机启动 HA Container</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#编辑-etc-rc-local"><span class="nav-text">编辑 /etc/rc.local</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#为-HA-网页-UI-设置密码"><span class="nav-text">为 HA 网页 UI 设置密码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用-Let’s-Encrypt-以-HTTPS-暴露-HA-TBD"><span class="nav-text">使用 Let’s Encrypt 以 HTTPS 暴露 HA(TBD)</span></a></li></ol></div>
             
 
           </div>
