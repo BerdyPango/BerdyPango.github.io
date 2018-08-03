@@ -1,0 +1,1166 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next mist" lang="default">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="security," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="本文介绍了 OAuth2.0 的诞生背景，工作原理。">
+<meta name="keywords" content="security">
+<meta property="og:type" content="article">
+<meta property="og:title" content="OAuth 2.0 简介">
+<meta property="og:url" content="https://berdypango.github.io/Security/Web/security-oauth2/index.html">
+<meta property="og:site_name" content="FrostHe.Handbook">
+<meta property="og:description" content="本文介绍了 OAuth2.0 的诞生背景，工作原理。">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-08-03T15:24:59.631Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="OAuth 2.0 简介">
+<meta name="twitter:description" content="本文介绍了 OAuth2.0 的诞生背景，工作原理。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"display":"hide"},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://berdypango.github.io/Security/Web/security-oauth2/"/>
+
+
+
+
+
+  <title>OAuth 2.0 简介 | FrostHe.Handbook</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+
+  <div class="container  page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">FrostHe.Handbook</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            Search
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="Searching..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://berdypango.github.io/Security/Web/security-oauth2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Frost He">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FrostHe.Handbook">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">OAuth 2.0 简介</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-07-28T20:35:31+08:00">
+                2018-07-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Security/" itemprop="url" rel="index">
+                    <span itemprop="name">Security</span>
+                  </a>
+                </span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Security/Web/" itemprop="url" rel="index">
+                    <span itemprop="name">Web</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                  <span class="post-meta-divider">|</span>
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  1,436
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+              <div class="post-description">
+                  本文介绍了 OAuth2.0 的诞生背景，工作原理。
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>参考资料:</p>
+<ul>
+<li><a href="https://oauthdebugger.com/" target="_blank" rel="noopener">OAuth 2.0 Debugger</a></li>
+<li><a href="https://oidcdebugger.com/" target="_blank" rel="noopener">OpenID Connect Debugger</a></li>
+<li><a href="https://www.youtube.com/watch?v=996OiexHze0" target="_blank" rel="noopener">Youtube Video - OAuth 2.0 and OpenID Connect</a></li>
+</ul>
+<h2 id="OAuth-2-0-简介"><a href="#OAuth-2-0-简介" class="headerlink" title="OAuth 2.0 简介"></a>OAuth 2.0 简介</h2><p>在 2010 年以前，大多数的身份认证场景都在想办法解决一个问题，如何让用户在不输入密码的前提下授权第三方访问用户的数据？例如使用 Google，Facebook，微信帐号授权登录操作，这就是 OAuth 诞生的背景。</p>
+<p>2010 年以前的 Identity 案例</p>
+<ul>
+<li>Simple Login: 表单和 <code>cookies</code></li>
+<li>SAML 协议: 一个帐号，可在多个系统中登录</li>
+<li>Mobile app login: ???</li>
+<li>Delegated Authorization: ???</li>
+</ul>
+<h2 id="OAuth-2-0-用于委托授权的案例"><a href="#OAuth-2-0-用于委托授权的案例" class="headerlink" title="OAuth 2.0 用于委托授权的案例"></a>OAuth 2.0 用于委托授权的案例</h2><p>假设用户 A 有一个 Google 帐号，A 信任 Google。现在 A 想要访问 Yelp 网站，Yelp 网站支持使用 Google 帐号进行授权登录，当 A 点击某个 <code>Connect to Google</code> 按钮开始，OAuth Flow 便开始了:</p>
+<ol>
+<li>用户 A 点击 <code>Connect to Google</code> 按钮</li>
+<li>重定向至 <code>Google Authorization Service</code>，该服务让用户 A 首先验证其在 Google 的身份，体现为帐号密码输入框，用户 A 输入用户密码是向提供 Google 提供了机密信息而不是 Yelp。</li>
+<li>成功登录后，<code>Google Authorization Service</code> 将询问用户 A: Yelp 想要访问他的 Google 个人资料(Profile)和联系清单(Contacts)，是否同意授权？</li>
+<li>若用户 A 选择否，授权中止；若用户 A 选择同意，Google 会将用户重定向至之前的登录页面并携带一个提供给 Yelp 用于向 Google 索取用户 A 相关信息的令牌，Yelp 随后使用该令牌向 Google 服务器发送请求，得到用户 A 的个人信息。</li>
+</ol>
+<h2 id="OAuth-2-0-术语对照"><a href="#OAuth-2-0-术语对照" class="headerlink" title="OAuth 2.0 术语对照"></a>OAuth 2.0 术语对照</h2><ul>
+<li><code>Resource Owner</code>(用户 A，数据的主人)</li>
+<li><code>Client</code>(Yelp，想要获得访问用户 A 数据授权的机构)</li>
+<li><code>Authorization Server</code>(授权服务器，形如 accounts.google.com)</li>
+<li><code>Resource Server</code>(资源服务器，用于取得用户 A 资料的 Google Profile API 或 Google Contacts API)</li>
+<li><code>Authorization Grant</code>(授权行为，用户 A 的授权处理过程)</li>
+<li><code>Redirect URI</code>(Authorization Server 需要知道用户同意授权后的回调地址)</li>
+<li><code>Access Token</code>(Client 最终用来向 Resource Server 获取用户数据的凭证)</li>
+</ul>
+<h2 id="委托授权的实现流程"><a href="#委托授权的实现流程" class="headerlink" title="委托授权的实现流程"></a>委托授权的实现流程</h2><h3 id="Authorization-Code-模式"><a href="#Authorization-Code-模式" class="headerlink" title="Authorization Code 模式"></a>Authorization Code 模式</h3><ol>
+<li>首先，Google 支持用户在访问 Yelp 时可以使用 Google 账号进行授权登录，同时谷歌向 Yelp 发放 <strong><em>API Secret</em></strong>。</li>
+<li>Yelp 将 <code>Connect to Google</code> 按钮指向的 <code>url</code> 按照 Google 规定的格式填写，并在该 <code>url</code> 中以查询字符串参数带上回调的 <code>url</code>，<code>scope</code>，<code>response type</code> 及其他配置信息，形如 <blockquote>
+<p><code>\https://www.google.com/auth?url=www.yelp.com/authorize&amp;scope=profile&amp;response_type=code</code></p>
+</blockquote>
+</li>
+<li>用户 A 在 <code>Google Authorization Service</code> 返回的页面输入帐号密码成功登录并同意授权</li>
+<li><code>Google Authorization Service</code> 向浏览器返回一个重定向响应，该重定向 <code>url</code> 即 Yelp 指定的 <code>url</code> 并以查询字符串参数带上 <code>code</code> 参数。</li>
+<li>该 <code>url</code> 由 Yelp 指定并指向 Yelp 的某个服务端 Api，该 Api 使用该 <code>code</code> 并结合从 Google 获取的 <strong><em>API Secret</em></strong> 再次访问 <code>Google Authorization Service</code> 换取一个 <code>access token</code>。</li>
+<li>在得到 <code>access token</code> 之后，Yelp 服务端使用该 token 向 <code>Google Resource Server</code>(Profile API) 请求用户 A 的数据。</li>
+</ol>
+<p>此处 Yelp 仅仅想要读取 Profile 信息，但它不能删除 Contacts 信息，所以读取和修改 Profile 就是不同的 Scope。Yelp 作为客户端请求授权时需要提供它想要获得授权的 Scope，以让 <code>Google Authorization Service</code> 在询问用户时向其展示 Yelp 想要访问<strong>哪些数据</strong>。用户同意授权之后 <code>Google Authorization Service</code> 返回给 Yelp 的 <code>code</code> 最终换取的 <code>access token</code> 也就被限制在这些 Scope 中。</p>
+<h3 id="Q-amp-A-为何不直接返回-access-token-而是首先返回-code，再去交换-access-token？"><a href="#Q-amp-A-为何不直接返回-access-token-而是首先返回-code，再去交换-access-token？" class="headerlink" title="Q&amp;A: 为何不直接返回 access token 而是首先返回 code，再去交换 access token？"></a>Q&amp;A: 为何不直接返回 access token 而是首先返回 code，再去交换 access token？</h3><h3 id="Back-Channel-和-Front-Channel"><a href="#Back-Channel-和-Front-Channel" class="headerlink" title="Back Channel 和 Front Channel"></a>Back Channel 和 Front Channel</h3><ul>
+<li><code>Back Channel</code>: 由系统的后台服务向另一个系统的 API 发起的请求，被认为是 <code>Back Channel</code>，由于开发人员对后台程序代码具有完全的控制权，且外部人员无法轻易取得访问服务器的权限，所以这种方式具有更高的安全性。</li>
+<li><code>Front Channel</code>: 浏览器，由于浏览器是一个开放的代码执行平台，任何人都可以通过 View Source 查看源代码，其主要数据和信息都用于展示，所以比起 <code>Back Channel</code>，敏感数据不应该走 <code>Front Channel</code>。</li>
+</ul>
+<p>浏览器向 Google 发起的授权请求的所有查询参数和 url 都是公开透明的，而 <code>Google Authorization Service</code> 返回的也是一个包含 <code>code</code> 查询参数的 <code>url</code>，它最终由浏览器执行重定向操作。如果此时有人拦截了该 <code>code</code>，并试图先于 Yelp 换取 <code>access token</code> 就会发生数据泄漏。但实际情况是，浏览器在获取到包含 <code>code</code> 的 <code>url</code> 后，该 <code>url</code> 指向了 Yelp 的后台 Api，该 Api 再使用该 <code>code</code> 并结合存储在服务端后台的 <strong><em>API Secret</em></strong> 一起去换取 <code>access token</code>。即便有人拦截了 <code>code</code> 的值，在不知道这个 <code>Secret</code> 的前提下，是无法换取 <code>access token</code> 的，所以换取 <code>token</code> 这一步操作走 <code>Back Channel</code> 提高了安全性。</p>
+<h2 id="OAuth-2-0-Grant-Type"><a href="#OAuth-2-0-Grant-Type" class="headerlink" title="OAuth 2.0 Grant Type"></a>OAuth 2.0 Grant Type</h2><ul>
+<li><code>Authorization Code</code>(front channel + back channel): 上述讨论的场景，首先返回 <code>code</code>，再以 <code>code</code> 去后台交换 <code>access token</code></li>
+<li><code>Implicit</code>(front channel only): 单页应用的场景，无后台服务端，与 <code>Authorization Code</code> 模式的区别在于，直接返回 <code>token</code>，不走 <code>Back Channel</code>，这种方式有 <code>token</code> 被盗的风险，客户端 app 要确保 <code>token</code> 的安全。</li>
+<li><code>Resource owner password credentials</code>(back channel only): 使用用户凭证直接访问资源服务器，不推荐</li>
+<li><code>Client credentials</code>(back channel only): 常见于 <code>machine to machine</code> 或 <code>service to service</code> 的场景，即服务端保存了用户的认证凭证。</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/security/" rel="tag"># security</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/Security/security-encryption/" rel="next" title="加解密笔记 - .NET Standard">
+                <i class="fa fa-chevron-left"></i> 加解密笔记 - .NET Standard
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/Security/Web/security-openid-connect/" rel="prev" title="OAuth2.0 和 Openid Connect">
+                OAuth2.0 和 Openid Connect <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Frost He</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">52</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#OAuth-2-0-简介"><span class="nav-text">OAuth 2.0 简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OAuth-2-0-用于委托授权的案例"><span class="nav-text">OAuth 2.0 用于委托授权的案例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OAuth-2-0-术语对照"><span class="nav-text">OAuth 2.0 术语对照</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#委托授权的实现流程"><span class="nav-text">委托授权的实现流程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Authorization-Code-模式"><span class="nav-text">Authorization Code 模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Q-amp-A-为何不直接返回-access-token-而是首先返回-code，再去交换-access-token？"><span class="nav-text">Q&amp;A: 为何不直接返回 access token 而是首先返回 code，再去交换 access token？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Back-Channel-和-Front-Channel"><span class="nav-text">Back Channel 和 Front Channel</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OAuth-2-0-Grant-Type"><span class="nav-text">OAuth 2.0 Grant Type</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2015 &mdash; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Frost He</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+
+
+
+
+
+        
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//tajs.qq.com/stats?sId=65458438";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === '') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -80,14 +80,14 @@
 <meta name="description" content="本文介绍了定义 Dockerfile 的注意事项">
 <meta name="keywords" content="docker,ops">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Dockerfile 编写注意事项">
-<meta property="og:url" content="https://berdypango.github.io/deployment/docker-dockerfile-best-practices/index.html">
-<meta property="og:site_name" content="Pango.Handbook">
+<meta property="og:title" content="Dockerfile 最佳实践">
+<meta property="og:url" content="https://berdypango.github.io/Deployment/docker-dockerfile-best-practices/index.html">
+<meta property="og:site_name" content="FrostHe.Handbook">
 <meta property="og:description" content="本文介绍了定义 Dockerfile 的注意事项">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-06-05T13:37:17.729Z">
+<meta property="og:updated_time" content="2018-08-02T13:31:35.121Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Dockerfile 编写注意事项">
+<meta name="twitter:title" content="Dockerfile 最佳实践">
 <meta name="twitter:description" content="本文介绍了定义 Dockerfile 的注意事项">
 
 
@@ -118,13 +118,13 @@
 
 
 
-  <link rel="canonical" href="https://berdypango.github.io/deployment/docker-dockerfile-best-practices/"/>
+  <link rel="canonical" href="https://berdypango.github.io/Deployment/docker-dockerfile-best-practices/"/>
 
 
 
 
 
-  <title>Dockerfile 编写注意事项 | Pango.Handbook</title>
+  <title>Dockerfile 最佳实践 | FrostHe.Handbook</title>
   
 
 
@@ -152,7 +152,7 @@
     <div class="custom-logo-site-title">
       <a href="/"  class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">Pango.Handbook</span>
+        <span class="site-title">FrostHe.Handbook</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
@@ -283,7 +283,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://berdypango.github.io/deployment/docker-dockerfile-best-practices/">
+    <link itemprop="mainEntityOfPage" href="https://berdypango.github.io/Deployment/docker-dockerfile-best-practices/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Frost He">
@@ -292,7 +292,7 @@
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Pango.Handbook">
+      <meta itemprop="name" content="FrostHe.Handbook">
     </span>
 
     
@@ -300,7 +300,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Dockerfile 编写注意事项</h1>
+          <h1 class="post-title" itemprop="name headline">Dockerfile 最佳实践</h1>
         
 
         <div class="post-meta">
@@ -335,8 +335,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/deployment/" itemprop="url" rel="index">
-                    <span itemprop="name">deployment</span>
+                  <a href="/categories/Deployment/" itemprop="url" rel="index">
+                    <span itemprop="name">Deployment</span>
                   </a>
                 </span>
 
@@ -368,7 +368,7 @@
                   <span class="post-meta-item-text">Words count in article&#58;</span>
                 
                 <span title="Words count in article">
-                  807
+                  1,025
                 </span>
               
 
@@ -400,8 +400,9 @@
         <p>参考资料:</p>
 <ul>
 <li><a href="https://docs.docker.com/develop/develop-images/dockerfile_best-practices/#dockerfile-instructions" target="_blank" rel="noopener">Dockerfile Instructions</a></li>
+<li><a href="http://goinbigdata.com/docker-run-vs-cmd-vs-entrypoint/" target="_blank" rel="noopener">Docker RUN vs CMD vs ENTRYPOINT</a></li>
 </ul>
-<p>一个 Dockerfile 由一系列只读的「层」组成，每一「层」代表一个 Dockerfile 指令。这些层堆叠起来，并且每一层都参考前一层针对上下文进行修改，首先考虑以下 Dockerfile:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">FROM ubuntu:15.04</span><br><span class="line">COPY . /app</span><br><span class="line">RUN make /app</span><br><span class="line">CMD python /app/app.py</span><br></pre></td></tr></table></figure></p>
+<h2 id="Docker-Image-和-层"><a href="#Docker-Image-和-层" class="headerlink" title="Docker Image 和 层"></a>Docker Image 和 层</h2><p>创建一个 Image 由 Dockerfile 中的一系列指令组成，这些指令从现有 Image 或 OS 之上添加「层」，OS 是每个 Image 的起始点，于其上添加「层」来创建新的 Image。每一「层」参考前一层针对上下文进行修改，就像一个洋葱，OS 位于最内层。考虑以下 Dockerfile:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">FROM ubuntu:15.04</span><br><span class="line">COPY . /app</span><br><span class="line">RUN make /app</span><br><span class="line">CMD python /app/app.py</span><br></pre></td></tr></table></figure></p>
 <p>每一行指令都创建一层:</p>
 <ul>
 <li><code>FROM</code>: 创建一层从 <code>ubuntu:15.04</code> 的 Docker Image</li>
@@ -410,22 +411,32 @@
 <li><code>CMD</code>: 指示 Container 应该执行什么命令</li>
 </ul>
 <p>当运行 Container 时，实际上是在所有「层」之上添加了一个可写「层」，针对运行 Container 的所有改变，如写入新文件，修改现有文件或删除文件，都在该「层」中进行</p>
-<h2 id="通用指南"><a href="#通用指南" class="headerlink" title="通用指南"></a>通用指南</h2><h3 id="创建尽可能短小的-Container"><a href="#创建尽可能短小的-Container" class="headerlink" title="创建尽可能短小的 Container"></a>创建尽可能短小的 Container</h3><p>这意味着 Dockerfile 定义的 Image 应该尽可能的轻量，能够随时停止和销毁，并能够以最小配置信息被重建出来。</p>
-<h3 id="理解生成-Context"><a href="#理解生成-Context" class="headerlink" title="理解生成 Context"></a>理解生成 Context</h3><p>当执行 <code>docker build</code> 命令时，当前的工作目录被称为 <em>build context</em>。命令行工具默认情况下会假设 Dockerfile 位于此目录下，但也可通过 <code>-f</code> 选项来指定文件路径。</p>
-<h3 id="排除-dockerignore"><a href="#排除-dockerignore" class="headerlink" title="排除 .dockerignore"></a>排除 .dockerignore</h3><p>使用 <code>.dockerignore</code> 文件来排除与生成不相关的文件，该文件支持与 <code>.gitignore</code> 文件相同的模式匹配。详情可参考 <a href="https://docs.docker.com/engine/reference/builder/#dockerignore-file" target="_blank" rel="noopener">.dockerignore 文件</a>。</p>
-<h3 id="使用-multi-stage-builds"><a href="#使用-multi-stage-builds" class="headerlink" title="使用 multi-stage builds"></a>使用 multi-stage builds</h3><p>Docker 17.05 以上版本支持 <a href="https://docs.docker.com/develop/develop-images/multistage-build/" target="_blank" rel="noopener">Multi-stage builds</a>，该功能使得最终生成的 Image 大小可显著降低，无需再手动删除所有的中间层和多余文件，由于 Image 是由生成流程的最后阶段生成的，可以利用<a href="https://docs.docker.com/develop/develop-images/dockerfile_best-practices/#leverage-build-cache" target="_blank" rel="noopener">生成缓存</a>来最小化 Image 的大小。</p>
-<p>例如，如果 Dockerfile 定义了很多「层」，可按照拟修改频率调整它们的顺序，修改频率可能性最低的「层」应排在前面，而修改频率可能性较大的「层」放在后面:</p>
+<h2 id="理解生成-Context"><a href="#理解生成-Context" class="headerlink" title="理解生成 Context"></a>理解生成 Context</h2><p>当执行 <code>docker build</code> 命令时，当前的工作目录被称为 <em>build context</em>。命令行工具默认情况下会假设 Dockerfile 位于此目录下，但也可通过 <code>-f</code> 选项来指定文件路径。</p>
+<h2 id="RUN，CMD-和-ENTRYPOINT-的区别"><a href="#RUN，CMD-和-ENTRYPOINT-的区别" class="headerlink" title="RUN，CMD 和 ENTRYPOINT 的区别"></a>RUN，CMD 和 ENTRYPOINT 的区别</h2><h3 id="Shell-形式"><a href="#Shell-形式" class="headerlink" title="Shell 形式"></a>Shell 形式</h3><p>Shell 形式通常为 <code>&lt;instruction&gt; &lt;command&gt;</code>，例如:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">RUN apt-get install python3</span><br><span class="line">CMD <span class="built_in">echo</span> <span class="string">"Hello world"</span></span><br><span class="line">ENTRYPOINT <span class="built_in">echo</span> <span class="string">"Hello world"</span></span><br></pre></td></tr></table></figure></p>
+<p>三个指令都可以写为 Shell 形式，当指令以 Shell 形式执行时，实际上指令是以 <code>/bin.sh -c &lt;command&gt;</code> 进行调用的，如果 Dockerfile 中存在如下指令:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ENV name John Dow</span><br><span class="line">ENTRYPOINT <span class="built_in">echo</span> <span class="string">"Hello, <span class="variable">$name</span>"</span></span><br></pre></td></tr></table></figure></p>
+<p>那么执行 <code>docker run -it &lt;image&gt;</code> 将得到:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Hello, John Dow</span><br></pre></td></tr></table></figure></p>
+<p>可以看到，变量在执行时得到了解析</p>
+<h3 id="EXEC-形式"><a href="#EXEC-形式" class="headerlink" title="EXEC 形式"></a>EXEC 形式</h3><p>EXEC 形式是 <code>CMD</code> 和 <code>ENTRYPOINT</code> 指令推荐的形式，该形式以字符串数组的来传递命令行的每一个 Arg，其形如:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;instruction&gt; [<span class="string">"executable"</span>, <span class="string">"param1"</span>, <span class="string">"param2"</span>]</span><br><span class="line"></span><br><span class="line">RUN [<span class="string">"apt-get"</span>, <span class="string">"install"</span>, <span class="string">"python3"</span>]</span><br><span class="line">CMD [<span class="string">"/bin/echo"</span>, <span class="string">"Hello world"</span>]</span><br><span class="line">ENTRYPOINT [<span class="string">"/bin/echo"</span>, <span class="string">"Hello world"</span>]</span><br></pre></td></tr></table></figure></p>
+<p>指令以这种方式执行时，将绕过 shell 环境直接调用可执行程序，如果在 Dockerfile 中定义如下指令:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ENV name John Dow</span><br><span class="line">ENTRYPOINT [<span class="string">"/bin/echo"</span>, <span class="string">"Hello, <span class="variable">$name</span>"</span>]</span><br></pre></td></tr></table></figure></p>
+<p>那么执行 <code>docker run -it &lt;image&gt;</code> 将得到:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Hello, <span class="variable">$name</span></span><br></pre></td></tr></table></figure></p>
+<p>此处变量没有被解析，如果希望得到跟前一个例子相同的结果，那么需要在 ENTRYPOINT 中制定 shell 环境的可执行程序:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ENV name John Dow</span><br><span class="line">ENTRYPOINT [<span class="string">"/bin/bash"</span>, <span class="string">"-c"</span>, <span class="string">"echo Hello, <span class="variable">$name</span>"</span>]</span><br><span class="line"></span><br><span class="line">Hello John Dow</span><br></pre></td></tr></table></figure></p>
+<h3 id="RUN"><a href="#RUN" class="headerlink" title="RUN"></a>RUN</h3><p><code>RUN</code> 指令在当前 Image 之上执行命令并创建一个新的「层」，创建新的 Image，并加入 <code>RUN</code> 指令的执行结果。<code>RUN</code> 指令可用 Shell 或 EXEC 形式书写，通常用来安装依赖库，如:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">RUN apt-get update &amp;&amp; apt-get install -y \</span><br><span class="line">  bzr \</span><br><span class="line">  cvs \</span><br><span class="line">  git \</span><br><span class="line">  mercurial \</span><br><span class="line">  subversion</span><br></pre></td></tr></table></figure></p>
+<h3 id="CMD"><a href="#CMD" class="headerlink" title="CMD"></a>CMD</h3><p>CMD 指令用来指定一个缺省指令，仅当 Docker Container 未指定任何命令时起作用。如:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">CMD <span class="built_in">echo</span> <span class="string">"Hello world"</span> </span><br><span class="line">$ docker run -it &lt;image&gt;</span><br><span class="line">Hello world</span><br></pre></td></tr></table></figure></p>
+<p>如果执行 <code>docker run -it &lt;image&gt; /bin/bash</code>，那么 CMD 将被忽略，并得到:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@7de4bed89922:/<span class="comment">#</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="ENTRYPOINT"><a href="#ENTRYPOINT" class="headerlink" title="ENTRYPOINT"></a>ENTRYPOINT</h3><p><code>ENTRYPOINT</code> 用于配置将 Container 以可执行程序的方式执行，该指令与 <code>CMD</code> 很相似，区别在于 <code>ENTRYPOINT</code> 指令不会被忽略。<code>ENTRYPOINT</code> 有两种形式: Shell 和 EXEC 形式。选择不同的形式将导致不一样的结果。</p>
+<h4 id="EXEC-形式-1"><a href="#EXEC-形式-1" class="headerlink" title="EXEC 形式"></a>EXEC 形式</h4><p>该形式允许 <code>ENTRYPOINT</code> 指令通过 <code>CMD</code> 指令接收候补参数，例如:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">ENTRYPOINT [<span class="string">"/bin/echo"</span>, <span class="string">"Hello"</span>]</span><br><span class="line">CMD [<span class="string">"world"</span>]</span><br><span class="line"><span class="comment"># 当 docker run -it &lt;image&gt; 时得到</span></span><br><span class="line">Hello world</span><br><span class="line"><span class="comment"># 但当 docker run -it &lt;image&gt; John 时得到</span></span><br><span class="line">Hello John</span><br></pre></td></tr></table></figure></p>
+<h4 id="Shell-形式-1"><a href="#Shell-形式-1" class="headerlink" title="Shell 形式"></a>Shell 形式</h4><p>以此形式书写时，<code>ENTRYPOINT</code> 将忽略来自 <code>CMD</code> 和 <code>docker run</code> 命令行的命令。</p>
+<h3 id="通用指南"><a href="#通用指南" class="headerlink" title="通用指南"></a>通用指南</h3><ul>
+<li>使用 <code>RUN</code> 指令在初始 Image 上添加新的「层」来生成最终的 Image。</li>
+<li>通过 <code>CMD</code> 指令来指定缺省命令</li>
+<li>通过 <code>ENTRYPOINT</code> 和 <code>CMD</code> 来创建可执行程序的 Image 并提供一个可被覆盖的初始命令。</li>
+</ul>
+<p>如果 Dockerfile 定义了多个 CMD 指令，只有最后一个会生效。CMD 有三种形式:</p>
 <ul>
-<li>安装必须的工具</li>
-<li>安装或更新依赖库</li>
-<li>生成应用程序</li>
+<li><code>CMD [&quot;executable&quot;, &quot;param1&quot;, &quot;param2&quot;]</code>: EXEC 形式，推荐</li>
+<li><code>CMD [&quot;param1&quot;, &quot;param2&quot;]</code>: 作为 ENTRYPOINT 的候补命令参数</li>
+<li><code>CMD command param1 param2</code>: Shell 形式</li>
 </ul>
-<p>一个 Go 程序的 Dockerfile 可能看上去如下:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">FROM golang:1.9.2-alpine3.6 AS build</span><br><span class="line"></span><br><span class="line"><span class="comment"># Install tools required for project</span></span><br><span class="line"><span class="comment"># Run `docker build --no-cache .` to update dependencies</span></span><br><span class="line">RUN apk add --no-cache git</span><br><span class="line">RUN go get github.com/golang/dep/cmd/dep</span><br><span class="line"></span><br><span class="line"><span class="comment"># List project dependencies with Gopkg.toml and Gopkg.lock</span></span><br><span class="line"><span class="comment"># These layers are only re-built when Gopkg files are updated</span></span><br><span class="line">COPY Gopkg.lock Gopkg.toml /go/src/project/</span><br><span class="line">WORKDIR /go/src/project/</span><br><span class="line"><span class="comment"># Install library dependencies</span></span><br><span class="line">RUN dep ensure -vendor-only</span><br><span class="line"></span><br><span class="line"><span class="comment"># Copy the entire project and build it</span></span><br><span class="line"><span class="comment"># This layer is rebuilt when a file changes in the project directory</span></span><br><span class="line">COPY . /go/src/project/</span><br><span class="line">RUN go build -o /bin/project</span><br><span class="line"></span><br><span class="line"><span class="comment"># This results in a single layer image</span></span><br><span class="line">FROM scratch</span><br><span class="line">COPY --from=build /bin/project /bin/project</span><br><span class="line">ENTRYPOINT [<span class="string">"/bin/project"</span>]</span><br><span class="line">CMD [<span class="string">"--help"</span>]</span><br></pre></td></tr></table></figure></p>
-<h3 id="最小化「层」的数量"><a href="#最小化「层」的数量" class="headerlink" title="最小化「层」的数量"></a>最小化「层」的数量</h3><ul>
-<li>在 Docker 1.10 及更高版本中，只有 <code>RUN</code>，<code>COPY</code>，<code>ADD</code> 指令会创建「层」，其他指令只会创建临时 Image 且不会直接增加生成的大小。</li>
-<li>在 Docker 17.05 及更高版本中，可使用 multi-stage-builds 并仅将生成最终 Image 所需的内容取出。这样，调试和编译的工具仅作为中间生成环节存在而不会增大最终 Image 的大小。</li>
-</ul>
-<p>Dockerfile 指令可参考: <a href="https://docs.docker.com/develop/develop-images/dockerfile_best-practices/#dockerfile-instructions" target="_blank" rel="noopener">Dockerfile Instructions</a></p>
 
       
     </div>
@@ -458,7 +469,7 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/deployment/docker-deployment/" rel="next" title="Docker 初探 (7) - 部署">
+              <a href="/Deployment/docker-deployment/" rel="next" title="Docker 初探 (7) - 部署">
                 <i class="fa fa-chevron-left"></i> Docker 初探 (7) - 部署
               </a>
             
@@ -468,7 +479,7 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/deployment/docker-multi-stage-build/" rel="prev" title="在 Dockerfile 中使用多阶段生成(Multi-Stage Builds)">
+              <a href="/Deployment/docker-multi-stage-build/" rel="prev" title="在 Dockerfile 中使用多阶段生成(Multi-Stage Builds)">
                 在 Dockerfile 中使用多阶段生成(Multi-Stage Builds) <i class="fa fa-chevron-right"></i>
               </a>
             
@@ -547,7 +558,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">48</span>
+                  <span class="site-state-item-count">52</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -558,7 +569,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-count">16</span>
                   <span class="site-state-item-name">categories</span>
                 </a>
               </div>
@@ -602,7 +613,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#通用指南"><span class="nav-text">通用指南</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#创建尽可能短小的-Container"><span class="nav-text">创建尽可能短小的 Container</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#理解生成-Context"><span class="nav-text">理解生成 Context</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#排除-dockerignore"><span class="nav-text">排除 .dockerignore</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用-multi-stage-builds"><span class="nav-text">使用 multi-stage builds</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#最小化「层」的数量"><span class="nav-text">最小化「层」的数量</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Docker-Image-和-层"><span class="nav-text">Docker Image 和 层</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#理解生成-Context"><span class="nav-text">理解生成 Context</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RUN，CMD-和-ENTRYPOINT-的区别"><span class="nav-text">RUN，CMD 和 ENTRYPOINT 的区别</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Shell-形式"><span class="nav-text">Shell 形式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#EXEC-形式"><span class="nav-text">EXEC 形式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RUN"><span class="nav-text">RUN</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CMD"><span class="nav-text">CMD</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ENTRYPOINT"><span class="nav-text">ENTRYPOINT</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#EXEC-形式-1"><span class="nav-text">EXEC 形式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Shell-形式-1"><span class="nav-text">Shell 形式</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#通用指南"><span class="nav-text">通用指南</span></a></li></ol></li></ol></div>
             
 
           </div>

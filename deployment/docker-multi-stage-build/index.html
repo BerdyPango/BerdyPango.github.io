@@ -81,11 +81,11 @@
 <meta name="keywords" content="docker,ops">
 <meta property="og:type" content="article">
 <meta property="og:title" content="在 Dockerfile 中使用多阶段生成(Multi-Stage Builds)">
-<meta property="og:url" content="https://berdypango.github.io/deployment/docker-multi-stage-build/index.html">
-<meta property="og:site_name" content="Pango.Handbook">
+<meta property="og:url" content="https://berdypango.github.io/Deployment/docker-multi-stage-build/index.html">
+<meta property="og:site_name" content="FrostHe.Handbook">
 <meta property="og:description" content="本文介绍了如何在 Dockerfile 中使用多阶段生成">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-06-05T13:36:11.229Z">
+<meta property="og:updated_time" content="2018-08-02T13:31:15.185Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="在 Dockerfile 中使用多阶段生成(Multi-Stage Builds)">
 <meta name="twitter:description" content="本文介绍了如何在 Dockerfile 中使用多阶段生成">
@@ -118,13 +118,13 @@
 
 
 
-  <link rel="canonical" href="https://berdypango.github.io/deployment/docker-multi-stage-build/"/>
+  <link rel="canonical" href="https://berdypango.github.io/Deployment/docker-multi-stage-build/"/>
 
 
 
 
 
-  <title>在 Dockerfile 中使用多阶段生成(Multi-Stage Builds) | Pango.Handbook</title>
+  <title>在 Dockerfile 中使用多阶段生成(Multi-Stage Builds) | FrostHe.Handbook</title>
   
 
 
@@ -152,7 +152,7 @@
     <div class="custom-logo-site-title">
       <a href="/"  class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">Pango.Handbook</span>
+        <span class="site-title">FrostHe.Handbook</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
@@ -283,7 +283,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://berdypango.github.io/deployment/docker-multi-stage-build/">
+    <link itemprop="mainEntityOfPage" href="https://berdypango.github.io/Deployment/docker-multi-stage-build/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Frost He">
@@ -292,7 +292,7 @@
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Pango.Handbook">
+      <meta itemprop="name" content="FrostHe.Handbook">
     </span>
 
     
@@ -335,8 +335,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/deployment/" itemprop="url" rel="index">
-                    <span itemprop="name">deployment</span>
+                  <a href="/categories/Deployment/" itemprop="url" rel="index">
+                    <span itemprop="name">Deployment</span>
                   </a>
                 </span>
 
@@ -368,7 +368,7 @@
                   <span class="post-meta-item-text">Words count in article&#58;</span>
                 
                 <span title="Words count in article">
-                  1,246
+                  1,795
                 </span>
               
 
@@ -417,6 +417,21 @@
 <li>定义了一个包含测试数据的测试阶段，而生产环境阶段使用真实数据</li>
 </ul>
 <h2 id="将外部-Image-用作生成阶段"><a href="#将外部-Image-用作生成阶段" class="headerlink" title="将外部 Image 用作生成阶段"></a>将外部 Image 用作生成阶段</h2><p>当使用 multi-stage builds 时，将不会将复制内容局限在定义在 Dockerfile 中的前序生成阶段，也可以用 <code>COPY --from</code> 复制来自一个外部 Image 的内容，Docker 客户端将拉取该 Image 并赋值其内容:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">COPY --from=nginx:latest /etc/nginx/nginx.conf /nginx.conf</span><br></pre></td></tr></table></figure></p>
+<h2 id="最佳实践"><a href="#最佳实践" class="headerlink" title="最佳实践"></a>最佳实践</h2><h3 id="创建尽可能小的-Container"><a href="#创建尽可能小的-Container" class="headerlink" title="创建尽可能小的 Container"></a>创建尽可能小的 Container</h3><p>这意味着 Dockerfile 定义的 Image 应该尽可能的轻量，能够随时停止和销毁，并能够以最小配置信息被重建出来。</p>
+<h3 id="排除-dockerignore"><a href="#排除-dockerignore" class="headerlink" title="排除 .dockerignore"></a>排除 .dockerignore</h3><p>使用 <code>.dockerignore</code> 文件来排除与生成不相关的文件，该文件支持与 <code>.gitignore</code> 文件相同的模式匹配。详情可参考 <a href="https://docs.docker.com/engine/reference/builder/#dockerignore-file" target="_blank" rel="noopener">.dockerignore 文件</a>。</p>
+<h3 id="使用-multi-stage-builds"><a href="#使用-multi-stage-builds" class="headerlink" title="使用 multi-stage builds"></a>使用 multi-stage builds</h3><p>Docker 17.05 以上版本支持 <a href="https://docs.docker.com/develop/develop-images/multistage-build/" target="_blank" rel="noopener">Multi-stage builds</a>，该功能使得最终生成的 Image 大小可显著降低，无需再手动删除所有的中间层和多余文件，由于 Image 是由生成流程的最后阶段生成的，可以利用<a href="https://docs.docker.com/develop/develop-images/dockerfile_best-practices/#leverage-build-cache" target="_blank" rel="noopener">生成缓存</a>来最小化 Image 的大小。</p>
+<p>例如，如果 Dockerfile 定义了很多「层」，可按照拟修改频率调整它们的顺序，修改频率可能性最低的「层」应排在前面，而修改频率可能性较大的「层」放在后面:</p>
+<ul>
+<li>安装必须的工具</li>
+<li>安装或更新依赖库</li>
+<li>生成应用程序</li>
+</ul>
+<p>一个 Go 程序的 Dockerfile 可能看上去如下:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">FROM golang:1.9.2-alpine3.6 AS build</span><br><span class="line"></span><br><span class="line"><span class="comment"># Install tools required for project</span></span><br><span class="line"><span class="comment"># Run `docker build --no-cache .` to update dependencies</span></span><br><span class="line">RUN apk add --no-cache git</span><br><span class="line">RUN go get github.com/golang/dep/cmd/dep</span><br><span class="line"></span><br><span class="line"><span class="comment"># List project dependencies with Gopkg.toml and Gopkg.lock</span></span><br><span class="line"><span class="comment"># These layers are only re-built when Gopkg files are updated</span></span><br><span class="line">COPY Gopkg.lock Gopkg.toml /go/src/project/</span><br><span class="line">WORKDIR /go/src/project/</span><br><span class="line"><span class="comment"># Install library dependencies</span></span><br><span class="line">RUN dep ensure -vendor-only</span><br><span class="line"></span><br><span class="line"><span class="comment"># Copy the entire project and build it</span></span><br><span class="line"><span class="comment"># This layer is rebuilt when a file changes in the project directory</span></span><br><span class="line">COPY . /go/src/project/</span><br><span class="line">RUN go build -o /bin/project</span><br><span class="line"></span><br><span class="line"><span class="comment"># This results in a single layer image</span></span><br><span class="line">FROM scratch</span><br><span class="line">COPY --from=build /bin/project /bin/project</span><br><span class="line">ENTRYPOINT [<span class="string">"/bin/project"</span>]</span><br><span class="line">CMD [<span class="string">"--help"</span>]</span><br></pre></td></tr></table></figure></p>
+<h3 id="最小化「层」的数量"><a href="#最小化「层」的数量" class="headerlink" title="最小化「层」的数量"></a>最小化「层」的数量</h3><ul>
+<li>在 Docker 1.10 及更高版本中，只有 <code>RUN</code>，<code>COPY</code>，<code>ADD</code> 指令会创建「层」，其他指令只会创建临时 Image 且不会直接增加生成的大小。</li>
+<li>在 Docker 17.05 及更高版本中，可使用 multi-stage-builds 并仅将生成最终 Image 所需的内容取出。这样，调试和编译的工具仅作为中间生成环节存在而不会增大最终 Image 的大小。</li>
+</ul>
+<p>Dockerfile 指令可参考: <a href="https://docs.docker.com/develop/develop-images/dockerfile_best-practices/#dockerfile-instructions" target="_blank" rel="noopener">Dockerfile Instructions</a></p>
 
       
     </div>
@@ -449,8 +464,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/deployment/docker-dockerfile-best-practices/" rel="next" title="Dockerfile 编写注意事项">
-                <i class="fa fa-chevron-left"></i> Dockerfile 编写注意事项
+              <a href="/Deployment/docker-dockerfile-best-practices/" rel="next" title="Dockerfile 最佳实践">
+                <i class="fa fa-chevron-left"></i> Dockerfile 最佳实践
               </a>
             
           </div>
@@ -538,7 +553,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">48</span>
+                  <span class="site-state-item-count">52</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -549,7 +564,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-count">16</span>
                   <span class="site-state-item-name">categories</span>
                 </a>
               </div>
@@ -593,7 +608,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#在-Multi-Stage-Builds-之前"><span class="nav-text">在 Multi-Stage Builds 之前</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用-Multi-Stage-Builds"><span class="nav-text">使用 Multi-Stage Builds</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#给生成阶段命名"><span class="nav-text">给生成阶段命名</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在特定的生成阶段中止"><span class="nav-text">在特定的生成阶段中止</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#将外部-Image-用作生成阶段"><span class="nav-text">将外部 Image 用作生成阶段</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#在-Multi-Stage-Builds-之前"><span class="nav-text">在 Multi-Stage Builds 之前</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用-Multi-Stage-Builds"><span class="nav-text">使用 Multi-Stage Builds</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#给生成阶段命名"><span class="nav-text">给生成阶段命名</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在特定的生成阶段中止"><span class="nav-text">在特定的生成阶段中止</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#将外部-Image-用作生成阶段"><span class="nav-text">将外部 Image 用作生成阶段</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最佳实践"><span class="nav-text">最佳实践</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#创建尽可能小的-Container"><span class="nav-text">创建尽可能小的 Container</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#排除-dockerignore"><span class="nav-text">排除 .dockerignore</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用-multi-stage-builds"><span class="nav-text">使用 multi-stage builds</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#最小化「层」的数量"><span class="nav-text">最小化「层」的数量</span></a></li></ol></li></ol></div>
             
 
           </div>

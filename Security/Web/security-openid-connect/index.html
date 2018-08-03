@@ -66,7 +66,7 @@
 
 
 
-  <meta name="keywords" content="asp.net core," />
+  <meta name="keywords" content="security," />
 
 
 
@@ -77,18 +77,18 @@
 
 
 
-<meta name="description" content="本文介绍了 OAuth 诞生背景，工作原理及最佳使用场景以及 OpenID Connect 对认证机制的扩展和使用场景">
-<meta name="keywords" content="asp.net core">
+<meta name="description" content="本文介绍了 OAuth2.0 和 OpenID Connect 的关系，以及 OpenID Connect 对认证机制的扩展和使用场景">
+<meta name="keywords" content="security">
 <meta property="og:type" content="article">
-<meta property="og:title" content="OAuth 2.0 和 OpenID Connect">
-<meta property="og:url" content="https://berdypango.github.io/Web/ASP-NET-Core/oauth2-and-openid-connect/index.html">
-<meta property="og:site_name" content="Pango.Handbook">
-<meta property="og:description" content="本文介绍了 OAuth 诞生背景，工作原理及最佳使用场景以及 OpenID Connect 对认证机制的扩展和使用场景">
+<meta property="og:title" content="OAuth2.0 和 Openid Connect">
+<meta property="og:url" content="https://berdypango.github.io/Security/Web/security-openid-connect/index.html">
+<meta property="og:site_name" content="FrostHe.Handbook">
+<meta property="og:description" content="本文介绍了 OAuth2.0 和 OpenID Connect 的关系，以及 OpenID Connect 对认证机制的扩展和使用场景">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-05-22T09:14:56.263Z">
+<meta property="og:updated_time" content="2018-08-03T15:24:59.634Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="OAuth 2.0 和 OpenID Connect">
-<meta name="twitter:description" content="本文介绍了 OAuth 诞生背景，工作原理及最佳使用场景以及 OpenID Connect 对认证机制的扩展和使用场景">
+<meta name="twitter:title" content="OAuth2.0 和 Openid Connect">
+<meta name="twitter:description" content="本文介绍了 OAuth2.0 和 OpenID Connect 的关系，以及 OpenID Connect 对认证机制的扩展和使用场景">
 
 
 
@@ -118,13 +118,13 @@
 
 
 
-  <link rel="canonical" href="https://berdypango.github.io/Web/ASP-NET-Core/oauth2-and-openid-connect/"/>
+  <link rel="canonical" href="https://berdypango.github.io/Security/Web/security-openid-connect/"/>
 
 
 
 
 
-  <title>OAuth 2.0 和 OpenID Connect | Pango.Handbook</title>
+  <title>OAuth2.0 和 Openid Connect | FrostHe.Handbook</title>
   
 
 
@@ -152,7 +152,7 @@
     <div class="custom-logo-site-title">
       <a href="/"  class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">Pango.Handbook</span>
+        <span class="site-title">FrostHe.Handbook</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
@@ -283,7 +283,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://berdypango.github.io/Web/ASP-NET-Core/oauth2-and-openid-connect/">
+    <link itemprop="mainEntityOfPage" href="https://berdypango.github.io/Security/Web/security-openid-connect/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Frost He">
@@ -292,7 +292,7 @@
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Pango.Handbook">
+      <meta itemprop="name" content="FrostHe.Handbook">
     </span>
 
     
@@ -300,7 +300,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">OAuth 2.0 和 OpenID Connect</h1>
+          <h1 class="post-title" itemprop="name headline">OAuth2.0 和 Openid Connect</h1>
         
 
         <div class="post-meta">
@@ -312,8 +312,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-08-07T20:35:31+08:00">
-                2016-08-07
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-08-03T10:58:04+08:00">
+                2018-08-03
               </time>
             
 
@@ -335,8 +335,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Web/" itemprop="url" rel="index">
-                    <span itemprop="name">Web</span>
+                  <a href="/categories/Security/" itemprop="url" rel="index">
+                    <span itemprop="name">Security</span>
                   </a>
                 </span>
 
@@ -346,8 +346,8 @@
                 
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Web/ASP-NET-Core/" itemprop="url" rel="index">
-                    <span itemprop="name">ASP.NET Core</span>
+                  <a href="/categories/Security/Web/" itemprop="url" rel="index">
+                    <span itemprop="name">Web</span>
                   </a>
                 </span>
 
@@ -379,7 +379,7 @@
                   <span class="post-meta-item-text">Words count in article&#58;</span>
                 
                 <span title="Words count in article">
-                  3,735
+                  2,431
                 </span>
               
 
@@ -391,7 +391,7 @@
 
           
               <div class="post-description">
-                  本文介绍了 OAuth 诞生背景，工作原理及最佳使用场景以及 OpenID Connect 对认证机制的扩展和使用场景
+                  本文介绍了 OAuth2.0 和 OpenID Connect 的关系，以及 OpenID Connect 对认证机制的扩展和使用场景
               </div>
           
 
@@ -410,76 +410,29 @@
       
         <p>参考资料:</p>
 <ul>
-<li><a href="https://oauthdebugger.com/" target="_blank" rel="noopener">OAuth 2.0 Debugger</a></li>
-<li><a href="https://oidcdebugger.com/" target="_blank" rel="noopener">OpenID Connect Debugger</a></li>
-<li><a href="https://www.youtube.com/watch?v=996OiexHze0" target="_blank" rel="noopener">Youtube Video - OAuth 2.0 and OpenID Connect</a></li>
 <li><a href="https://developer.okta.com/blog/2017/07/25/oidc-primer-part-1" target="_blank" rel="noopener">Identity, Claims, &amp; Tokens – An OpenID Connect Primer</a></li>
 </ul>
-<h1 id="OAuth-2-0-简介"><a href="#OAuth-2-0-简介" class="headerlink" title="OAuth 2.0 简介"></a>OAuth 2.0 简介</h1><p>在 2010 年以前，大多数的身份认证场景都在想办法解决一个问题，如何让用户在不输入密码的前提下授权第三方访问用户的数据？例如使用 Google，Facebook，微信帐号授权登录操作，这就是 OAuth 诞生的背景。</p>
-<p>2010 年以前的 Identity 案例</p>
-<ul>
-<li>Simple Login: 表单和 <code>cookies</code></li>
-<li>SAML 协议: 一个帐号，可在多个系统中登录</li>
-<li>Mobile app login: ???</li>
-<li>Delegated Authorization: ???</li>
-</ul>
-<h1 id="OAuth-2-0-用于委托授权"><a href="#OAuth-2-0-用于委托授权" class="headerlink" title="OAuth 2.0 用于委托授权"></a>OAuth 2.0 用于委托授权</h1><p>假设用户 A 有一个 Google 帐号，A 信任 Google。现在 A 想要访问 Yelp 网站，Yelp 网站支持使用 Google 帐号进行授权登录，当 A 点击某个 <code>Connect to Google</code> 按钮开始，OAuth Flow 便开始了:</p>
-<ol>
-<li>用户 A 点击 <code>Connect to Google</code> 按钮</li>
-<li>重定向至 Google Authorization Service，该服务让用户 A 首先验证其在 Google 的身份，或体现为帐号密码输入框，用户 A 将用户密码给了 Google 而不是 Yelp，这令用户 A 觉得安全一些。</li>
-<li>成功登录后，Google Authorization Service 询问用户 A 说 Yelp 想要访问他的 Google 个人资料(Profile)和联系清单(Contacts)，是否同意授权？</li>
-<li>用户 A 选择否，授权中止；用户 A 选择是，Google 将用户重定向至之前的登录页面，并成功获取到用户 A 在 Google 的个人资料。</li>
-</ol>
-<p>OAuth 2.0 术语对照</p>
-<ul>
-<li>Resource Owner(用户 A，数据的主人)</li>
-<li>Client(Yelp，想要获得访问用户 A 数据授权的机构)</li>
-<li>Authorization Server(授权服务器，形如 accounts.google.com)</li>
-<li>Resource Server(用于取得用户 A 资料的 Google Profile API 或 Google Contacts API)</li>
-<li>Authorization Grant(用户 A 的授权处理过程)</li>
-<li>Redirect URI(Authorization Server 需要知道用户同意授权后的回调地址)</li>
-<li>Access Token(Client 最终用来向 Resource Server 获取用户数据的凭证)</li>
-</ul>
-<h2 id="Authorization-Code-模式"><a href="#Authorization-Code-模式" class="headerlink" title="Authorization Code 模式"></a>Authorization Code 模式</h2><ol>
-<li>Yelp 在 <code>Connect to Google</code> 按钮的链接上填写 Google Authorization Service 定义的格式，并在链接中携带回调 Uri，Scope，Grant Type 及其他配置信息</li>
-<li>用户 A 在 Google Authorization Service 返回的页面输入帐号密码成功登录并同意授权</li>
-<li>Google Authorization Service 向浏览器返回一个带有 <code>code</code> 查询参数的 <code>uri</code> 并执行重定向。</li>
-<li>该 <code>uri</code> 指向 Yelp 的服务端，服务端使用该 <code>code</code> 并结合从 Google 获取的 <strong><em>API Secret</em></strong> 再次访问 Google Authorization Service 换取一个 <code>access token</code>，<code>code</code>。</li>
-<li>在得到 <code>access token</code> 之后，Yelp 服务端利用该 token 并结合 API Secret 向 Google Profile API 请求用户 A 的数据。</li>
-</ol>
-<p>此处 Yelp 仅仅想要读取 Profile 信息，但它不能删除 Contacts 信息，所以读取和修改 Profile 就是不同的 Scope。Yelp 作为客户端请求授权时需要提供它想要获得授权的 Scope，以让 Google Authorization Service 在询问用户时向其展示 Yelp 想要访问<strong>哪些数据</strong>。用户同意授权之后 Google Authorization Service 返回给 Yelp 的 <code>code</code> 最终换取的 <code>access token</code> 也就被限制在这些 Scope 中。</p>
-<h2 id="Q-amp-A-为何不直接返回-access-token-而是首先返回-code，再去交换-access-token？"><a href="#Q-amp-A-为何不直接返回-access-token-而是首先返回-code，再去交换-access-token？" class="headerlink" title="Q&amp;A: 为何不直接返回 access token 而是首先返回 code，再去交换 access token？"></a>Q&amp;A: 为何不直接返回 access token 而是首先返回 code，再去交换 access token？</h2><h1 id="Back-Channel-和-Front-Channel"><a href="#Back-Channel-和-Front-Channel" class="headerlink" title="Back Channel 和 Front Channel"></a>Back Channel 和 Front Channel</h1><ul>
-<li>Back Channel: 由系统的后台服务向另一个系统的 API 发起的请求，被认为是 Back Channel，由于开发人员对后台程序代码具有完全的控制权，且外部人员无法轻易取得访问服务器的权限，所以这种方式具有更高的安全性。</li>
-<li>Front Channel: 浏览器，由于浏览器是一个开放的代码执行平台，任何人都可以通过 View Source 查看源代码，其主要数据和信息都用于展示，所以比起 Back Channel，敏感数据不应该走 Front Channel。</li>
-</ul>
-<p>浏览器向 Google 发起的授权请求的所有查询参数和 url 都是公开透明的，而 Google Authorization Service 返回的也是一个包含 <code>code</code> 查询参数的 <code>url</code>，它最终由浏览器执行重定向操作。如果此时有人拦截了该 <code>code</code>，并试图先于 Yelp 换取 <code>access token</code> 就会发生数据泄漏。但实际情况是，浏览器在获取到包含 <code>code</code> 的 <code>uri</code> 后，该 <code>uri</code> 指向了 Yelp 的某个后台服务，该后台服务再使用该 <code>code</code> 并结合存储在服务端后台的 API Secret 一起去换取 <code>access token</code>。即便有人拦截了 <code>code</code> 的值，在不知道这个 <code>Secret</code> 的前提下，是无法换取 <code>access token</code> 的，所以换取 <code>token</code> 这一步操作走 Back Channel。由 Access Token 请求用户数据也必须由服务端走 Back Channel，且请求类型为 POST。</p>
-<h1 id="OAuth-2-0-Grant-Type"><a href="#OAuth-2-0-Grant-Type" class="headerlink" title="OAuth 2.0 Grant Type"></a>OAuth 2.0 Grant Type</h1><ul>
-<li>Authorization Code(front channel + back channel): 上述讨论的场景，首先返回 <code>code</code>，再以 <code>code</code> 去后台交换 <code>token</code></li>
-<li>Implicit(front channel only): 单页应用的场景，无后台服务端，与 Code 模式的区别在于，直接返回 <code>token</code>，不走 Back Channel，这种方式有 <code>token</code> 被盗的风险，app 要确保 <code>token</code> 的安全。</li>
-<li>Resource owner password credentials(back channel only): 不推荐</li>
-<li>Client credentials(back channel only): 常见于 <code>machine to machine</code> 或 <code>service to service</code> 的场景，即服务端保存了用户的认证凭证。</li>
-</ul>
-<h1 id="OpenID-Connect-和-OAuth-2-0-结合用于认证"><a href="#OpenID-Connect-和-OAuth-2-0-结合用于认证" class="headerlink" title="OpenID Connect 和 OAuth 2.0 结合用于认证"></a>OpenID Connect 和 OAuth 2.0 结合用于认证</h1><p>OAuth 在设计之初并不是为了做认证，因为 OAuth 没有提供获取用户信息的标准方式，OAuth 被用于用户认证是业界对其滥用的结果。而 OpenID Connect 则是基于 OAuth 2.0 的扩展认证协议，OpenID Connect 对 OAuth 2.0 做了以下扩展:</p>
+<h2 id="OpenID-Connect-和-OAuth-2-0-结合用于认证"><a href="#OpenID-Connect-和-OAuth-2-0-结合用于认证" class="headerlink" title="OpenID Connect 和 OAuth 2.0 结合用于认证"></a>OpenID Connect 和 OAuth 2.0 结合用于认证</h2><p>OAuth 在设计之初并不是为了做认证，因为 OAuth 没有提供获取用户信息的标准方式，OAuth 被用于用户认证是业界对其滥用的结果。而 OpenID Connect 则是基于 OAuth 2.0 的扩展认证协议，OpenID Connect 对 OAuth 2.0 做了以下扩展:</p>
 <ul>
 <li><code>ID Token</code>: 包含了用户的 ID 或其他代表该用户信息的 <code>token</code></li>
 <li>用户信息接口用于获取详细的用户信息</li>
 <li>标准化的 Scope 集合</li>
 <li>标准化实现</li>
 </ul>
-<p>OpenID Connect 的流程中 Authorization Server 在返回中增加了 ID Token，而 ID Token 以 JWT(JSON Web Token) Token 被熟知，它以标准化的方式将一系列信息加密，并在网络中传输。JWT 由三部分组成:</p>
+<p><code>OpenID Connect</code> 的流程中 <code>Authorization Server</code> 在返回中增加了 <code>ID Token</code>，而 <code>ID Token</code> 以 <strong>JWT(JSON Web Token)</strong> 被熟知，它以标准化的方式将一系列信息加密，并在网络中传输。JWT 由三部分组成:</p>
 <ul>
-<li>Header: 包含用户身份的基本信息，如 Username，Email 等。</li>
-<li>Payload: 有时又称作 Claims，该值可由应用程序解码得到类似，哪个用户登录了，何时登录的，过期时间是什么时候等</li>
-<li>Signature: 用于验证 JWT 没有被修改。</li>
+<li><code>Header</code>: 包含如 Token 类型，加密算法等信息。</li>
+<li><code>Payload</code>: 有时又称作 Claims，该值可由应用程序解码得到。</li>
+<li><code>Signature</code>: 用于验证 JWT 数据完整性。</li>
 </ul>
 <h2 id="OpenID-Connect-原理及过程"><a href="#OpenID-Connect-原理及过程" class="headerlink" title="OpenID Connect 原理及过程"></a>OpenID Connect 原理及过程</h2><p>与 OpenID Connect(OIDC) 相关的有两个角色，分别是</p>
 <ul>
-<li>OpenID Provider(OP): 一个用于认证用户并提供认证结果的 OAuth 2.0 服务</li>
-<li>Relying Party(RP): 依赖于 OP 处理认证请求的应用程序</li>
+<li><code>OpenID Provider(OP)</code>: 一个用于认证用户并提供认证结果的 OAuth 2.0 服务</li>
+<li><code>Relying Party(RP)</code>: 依赖于 OP 处理认证请求的应用程序</li>
 </ul>
 <p>通常情况下，OIDC 开始于一个指向形如 <code>/authorization</code> 入口点的 HTTP GET 请求，该请求携带一系列参数指示了该请求期望得到的认证结果和拥有哪些资源的访问权限。接下来，另一个指向 <code>/token</code> 入口点的 HTTP POST 请求用于获取访问其他资源服务的 Token 凭证。同时，OIDC 还提供了形如 <code>/introspect</code> 的入口点用于检查 Token 以及 <code>/userinfo</code> 的入口点用于获取用户的身份信息。</p>
 <p>以上所有入口点的名称都是行业惯例，也可以由 OP 定义为其他名称，OIDC 一项显著的改进是 OP 端加入了元数据机制来发现资源入口点。例如，当访问 <a href="https://micah.okta.com/oauth2/aus2yrcz7aMrmDAKZ1t7/.well-known/openid-configuration" target="_blank" rel="noopener">https://micah.okta.com/oauth2/aus2yrcz7aMrmDAKZ1t7/.well-known/openid-configuration</a> 链接会得到一个包含了所有入口点的元数据 JSON 格式的文档:<br><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">   <span class="attr">"issuer"</span>:<span class="string">"https://micah.okta.com/oauth2/aus2yrcz7aMrmDAKZ1t7"</span>,</span><br><span class="line">   <span class="attr">"authorization_endpoint"</span>:<span class="string">"https://micah.okta.com/oauth2/aus2yrcz7aMrmDAKZ1t7/v1/authorize"</span>,</span><br><span class="line">   <span class="attr">"token_endpoint"</span>:<span class="string">"https://micah.okta.com/oauth2/aus2yrcz7aMrmDAKZ1t7/v1/token"</span>,</span><br><span class="line">   <span class="attr">"userinfo_endpoint"</span>:<span class="string">"https://micah.okta.com/oauth2/aus2yrcz7aMrmDAKZ1t7/v1/userinfo"</span>,</span><br><span class="line">   <span class="attr">"registration_endpoint"</span>:<span class="string">"https://micah.okta.com/oauth2/v1/clients"</span>,</span><br><span class="line">   <span class="attr">"jwks_uri"</span>:<span class="string">"https://micah.okta.com/oauth2/aus2yrcz7aMrmDAKZ1t7/v1/keys"</span>,</span><br><span class="line">   <span class="attr">"response_types_supported"</span>:[</span><br><span class="line">      <span class="string">"code"</span>,</span><br><span class="line">      <span class="string">"id_token"</span>,</span><br><span class="line">      <span class="string">"code id_token"</span>,</span><br><span class="line">      <span class="string">"code token"</span>,</span><br><span class="line">      <span class="string">"id_token token"</span>,</span><br><span class="line">      <span class="string">"code id_token token"</span></span><br><span class="line">   ],</span><br><span class="line">   <span class="attr">"response_modes_supported"</span>:[</span><br><span class="line">      <span class="string">"query"</span>,</span><br><span class="line">      <span class="string">"fragment"</span>,</span><br><span class="line">      <span class="string">"form_post"</span>,</span><br><span class="line">      <span class="string">"okta_post_message"</span></span><br><span class="line">   ],</span><br><span class="line">   <span class="attr">"grant_types_supported"</span>:[</span><br><span class="line">      <span class="string">"authorization_code"</span>,</span><br><span class="line">      <span class="string">"implicit"</span>,</span><br><span class="line">      <span class="string">"refresh_token"</span>,</span><br><span class="line">      <span class="string">"password"</span></span><br><span class="line">   ],</span><br><span class="line">   <span class="attr">"subject_types_supported"</span>:[</span><br><span class="line">      <span class="string">"public"</span></span><br><span class="line">   ],</span><br><span class="line">   <span class="attr">"id_token_signing_alg_values_supported"</span>:[</span><br><span class="line">      <span class="string">"RS256"</span></span><br><span class="line">   ],</span><br><span class="line">   <span class="attr">"scopes_supported"</span>:[</span><br><span class="line">      <span class="string">"openid"</span>,</span><br><span class="line">      <span class="string">"profile"</span>,</span><br><span class="line">      <span class="string">"email"</span>,</span><br><span class="line">      <span class="string">"address"</span>,</span><br><span class="line">      <span class="string">"phone"</span>,</span><br><span class="line">      <span class="string">"offline_access"</span></span><br><span class="line">   ],</span><br><span class="line">   <span class="attr">"token_endpoint_auth_methods_supported"</span>:[</span><br><span class="line">      <span class="string">"client_secret_basic"</span>,</span><br><span class="line">      <span class="string">"client_secret_post"</span>,</span><br><span class="line">      <span class="string">"client_secret_jwt"</span>,</span><br><span class="line">      <span class="string">"none"</span></span><br><span class="line">   ],</span><br><span class="line">   <span class="attr">"claims_supported"</span>:[</span><br><span class="line">      <span class="string">"iss"</span>,</span><br><span class="line">      <span class="string">"ver"</span>,</span><br><span class="line">      <span class="string">"sub"</span>,</span><br><span class="line">      <span class="string">"aud"</span>,</span><br><span class="line">      <span class="string">"iat"</span>,</span><br><span class="line">      <span class="string">"exp"</span>,</span><br><span class="line">      <span class="string">"jti"</span>,</span><br><span class="line">      <span class="string">"auth_time"</span>,</span><br><span class="line">      <span class="string">"amr"</span>,</span><br><span class="line">      <span class="string">"idp"</span>,</span><br><span class="line">      <span class="string">"nonce"</span>,</span><br><span class="line">      <span class="string">"name"</span>,</span><br><span class="line">      <span class="string">"nickname"</span>,</span><br><span class="line">      <span class="string">"preferred_username"</span>,</span><br><span class="line">      <span class="string">"given_name"</span>,</span><br><span class="line">      <span class="string">"middle_name"</span>,</span><br><span class="line">      <span class="string">"family_name"</span>,</span><br><span class="line">      <span class="string">"email"</span>,</span><br><span class="line">      <span class="string">"email_verified"</span>,</span><br><span class="line">      <span class="string">"profile"</span>,</span><br><span class="line">      <span class="string">"zoneinfo"</span>,</span><br><span class="line">      <span class="string">"locale"</span>,</span><br><span class="line">      <span class="string">"address"</span>,</span><br><span class="line">      <span class="string">"phone_number"</span>,</span><br><span class="line">      <span class="string">"picture"</span>,</span><br><span class="line">      <span class="string">"website"</span>,</span><br><span class="line">      <span class="string">"gender"</span>,</span><br><span class="line">      <span class="string">"birthdate"</span>,</span><br><span class="line">      <span class="string">"updated_at"</span>,</span><br><span class="line">      <span class="string">"at_hash"</span>,</span><br><span class="line">      <span class="string">"c_hash"</span></span><br><span class="line">   ],</span><br><span class="line">   <span class="attr">"code_challenge_methods_supported"</span>:[</span><br><span class="line">      <span class="string">"S256"</span></span><br><span class="line">   ],</span><br><span class="line">   <span class="attr">"introspection_endpoint"</span>:<span class="string">"https://micah.okta.com/oauth2/aus2yrcz7aMrmDAKZ1t7/v1/introspect"</span>,</span><br><span class="line">   <span class="attr">"introspection_endpoint_auth_methods_supported"</span>:[</span><br><span class="line">      <span class="string">"client_secret_basic"</span>,</span><br><span class="line">      <span class="string">"client_secret_post"</span>,</span><br><span class="line">      <span class="string">"client_secret_jwt"</span>,</span><br><span class="line">      <span class="string">"none"</span></span><br><span class="line">   ],</span><br><span class="line">   <span class="attr">"revocation_endpoint"</span>:<span class="string">"https://micah.okta.com/oauth2/aus2yrcz7aMrmDAKZ1t7/v1/revoke"</span>,</span><br><span class="line">   <span class="attr">"revocation_endpoint_auth_methods_supported"</span>:[</span><br><span class="line">      <span class="string">"client_secret_basic"</span>,</span><br><span class="line">      <span class="string">"client_secret_post"</span>,</span><br><span class="line">      <span class="string">"client_secret_jwt"</span>,</span><br><span class="line">      <span class="string">"none"</span></span><br><span class="line">   ],</span><br><span class="line">   <span class="attr">"end_session_endpoint"</span>:<span class="string">"https://micah.okta.com/oauth2/aus2yrcz7aMrmDAKZ1t7/v1/logout"</span>,</span><br><span class="line">   <span class="attr">"request_parameter_supported"</span>:<span class="literal">true</span>,</span><br><span class="line">   <span class="attr">"request_object_signing_alg_values_supported"</span>:[</span><br><span class="line">      <span class="string">"HS256"</span>,</span><br><span class="line">      <span class="string">"HS384"</span>,</span><br><span class="line">      <span class="string">"HS512"</span></span><br><span class="line">   ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h2 id="Scope"><a href="#Scope" class="headerlink" title="Scope"></a>Scope</h2><p><code>/authorization</code> 请求中的 <code>scope</code> 查询参数将决定返回的 Token 中具有何种资源的访问权限。Scope 是 Authorization Server 系统中预定义的细粒度权限等级，以空白字符进行分隔，详细的 Scope 标识在 <a href="https://tools.ietf.org/html/rfc6749" target="_blank" rel="noopener">RFC 6749</a> 中定义，OIDC 中也指定了一些内置的 Scope，<code>openid</code> 是必须指定的 scope 值，其他都是可选的(包括自定义的)，内置的 scope 有:</p>
+<h2 id="Scope"><a href="#Scope" class="headerlink" title="Scope"></a>Scope</h2><p><code>/authorization</code> 请求中的 <code>scope</code> 查询参数将决定返回的 Token 中具有何种资源的访问权限。Scope 是 <code>Authorization Server</code> 系统中预定义的细粒度权限等级，以空白字符进行分隔，详细的 Scope 标识在 <a href="https://tools.ietf.org/html/rfc6749" target="_blank" rel="noopener">RFC 6749</a> 中定义，OIDC 中也指定了一些内置的 Scope，<code>openid</code> 是必须指定的 scope 值，其他都是可选的(包括自定义的)，内置的 scope 有:</p>
 <table>
 <thead>
 <tr>
@@ -506,7 +459,7 @@
 </tr>
 </tbody>
 </table>
-<p>默认的 profile claim 有:</p>
+<p><code>profile</code> scope 默认包含的 <code>claim</code> 有:</p>
 <ul>
 <li>name</li>
 <li>family_name</li>
@@ -524,15 +477,15 @@
 <li>updated_at</li>
 </ul>
 <blockquote>
-<p>注意 Scope 是如何 Claim 进行关联的，那么 Claim 又是啥？</p>
+<p>注意 Scope 是如何与 Claim 进行关联的，Claim 详见下文。</p>
 </blockquote>
 <h2 id="Claim"><a href="#Claim" class="headerlink" title="Claim"></a>Claim</h2><p>简单来说，Claim 就是有关用户身份信息和 OIDC 服务的以键值对存储的元数据。以下是一个典型的 Claims 集合:<br><figure class="highlight bash"><figcaption><span>JSON</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="string">"family_name"</span>: <span class="string">"Silverman"</span>,</span><br><span class="line">    <span class="string">"given_name"</span>: <span class="string">"Micah"</span>,</span><br><span class="line">    <span class="string">"locale"</span>: <span class="string">"en-US"</span>,</span><br><span class="line">    <span class="string">"name"</span>: <span class="string">"Micah Silverman"</span>,</span><br><span class="line">    <span class="string">"preferred_username"</span>: <span class="string">"micah.silverman@okta.com"</span>,</span><br><span class="line">    <span class="string">"sub"</span>: <span class="string">"00u9vme99nxudvxZA0h7"</span>,</span><br><span class="line">    <span class="string">"updated_at"</span>: 1490198843,</span><br><span class="line">    <span class="string">"zoneinfo"</span>: <span class="string">"America/Los_Angeles"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>以上代码列出了 <code>profile</code> Scope 的部分 <code>claim</code>，这是由于想要获取用户信息的请求指定了 <code>profile</code> 的 scope 值，于是返回的 Token 中包含了这些信息。</p>
-<h2 id="Response-Type"><a href="#Response-Type" class="headerlink" title="Response Type"></a>Response Type</h2><p><code>/authorization</code> 请求中的 <code>response_type</code> 查询参数不同的值控制着不同的流程，采用哪种类型需要考虑将以何种方式验证 Token(在 app 端还是后端)以及如何获取额外的身份信息(直接包含在 Token 中还是发起另一个请求)。主要的有以下三种:</p>
+<h2 id="Response-Type"><a href="#Response-Type" class="headerlink" title="Response Type"></a>Response Type</h2><p><code>/authorization</code> 请求中的 <code>response_type</code> 查询参数不同的值控制着不同的流程，采用哪种类型需要考虑将以何种方式确保 Token(走 <code>Front Channel</code> 还是 <code>Back Channel</code>)的安全性以及如何获取额外的身份信息(直接包含在 Token 中还是发起另一个请求)。主要的有以下三种:</p>
 <ul>
-<li>Authorization Code: 由后台服务向 OP 请求 Token，走 Back Channel，其查询字符串为 <code>response_type=code</code>，该方式在 OP 认证成功会返回一个 Code 值，后续 RP 用该 Code 向 OP 请求 Token 交换，即 <code>access_token</code> 和 <code>id_token</code>。这种方式适用于后台服务端存储一个由 OP 分配的 <code>client_id</code> 和 <code>client_secret</code>，并通过 <code>/token</code> 入口点交换 Token，服务端在得到 Token 后可在隐藏 <code>client_id</code> 和 <code>client_secret</code> 的前提下将 Token 返回给客户端(浏览器或 app)，之后客户端使用该 Token 与其他资源服务进行交互。同时还可以通过 <code>refresh_token</code> 获取新的 <code>access_token</code> 以支持长时会话。</li>
-<li>Implict: 直接由用户代理端(浏览器或 App) 向 OP 请求 Token，其查询字符串为 <code>response_type=id_token token</code> 或 <code>response_type=id_token</code>，OP 认证成功后将直接返回 <code>id_token</code> 加 <code>token</code> 或仅返回 <code>id_token</code>。这种方式不支持长时会话。</li>
-<li>Hybrid: 这种方式结合了以上两种，情况，可指定 <code>response_type=code id_token</code> 的值，OP 在认证成功后立即返回 <code>id_token</code> 和 <code>Code</code> 值用于交换访问资源的 <code>access_token</code> 和 <code>refresh_token</code>。</li>
+<li><code>Authorization Code</code>: 由后台服务向 OP 请求 Token，走 <code>Back Channel</code>，其查询字符串为 <code>response_type=code</code>，该方式在 OP 认证成功会返回一个 <code>code</code> 值，后续 RP 用该 <code>code</code> 向 OP 请求 Token 交换，即 <code>access_token</code> 和 <code>id_token</code>。这种方式适用于后台服务端存储一个由 OP 分配的 <code>client_id</code> 和 <code>client_secret</code>，并通过 <code>/token</code> 入口点交换 Token，服务端在得到 Token 后可在隐藏 <code>client_id</code> 和 <code>client_secret</code> 的前提下将 Token 返回给客户端(浏览器或 app)，之后客户端使用该 Token 与其他资源服务器进行交互。同时还可以通过 <code>refresh_token</code> 获取新的 <code>access_token</code> 以支持长时会话，这也是<a href="/Security/Web/security-oauth2">OAuth2.0 简介</a>中举例所使用的方式。</li>
+<li><code>Implict</code>: 直接由用户代理端(浏览器或 App) 向 OP 请求 Token，其查询字符串为 <code>response_type=id_token token</code> 或 <code>response_type=id_token</code>，OP 认证成功后将直接返回 <code>id_token</code> + <code>access_token</code> 或仅返回 <code>id_token</code>。这种方式不支持长时会话。</li>
+<li><code>Hybrid</code>: 这种方式结合了以上两种，情况，可指定 <code>response_type=code id_token</code> 的值，OP 在认证成功后立即返回 <code>id_token</code> 和 <code>code</code> 值用于交换访问资源的 <code>access_token</code> 和 <code>refresh_token</code>。</li>
 </ul>
 <h2 id="Tokens"><a href="#Tokens" class="headerlink" title="Tokens"></a>Tokens</h2><p>在了解了 Scopes，Claims 和 Response Type 之后，Tokens 就易于理解了，一共有三种类型的 Token</p>
 <h3 id="ID-Token"><a href="#ID-Token" class="headerlink" title="ID Token"></a>ID Token</h3><p>一个 <code>id_token</code> 就是一个 JWT(JSON Web Token)，这意味着:</p>
@@ -540,21 +493,21 @@
 <li>用户信息直接被包含在 Token 中</li>
 <li>Token 同时包含了足够的信息以校验内容是否被篡改</li>
 </ul>
-<p>官方声明中定义了一组用于校验 <code>id_token</code> 的规则，<code>id_token</code> 中的 <code>exp</code> Claim 必须作为参与校验程序的一部分，同时，JWT 使用一个用于签名的 key 来校验其有效性。</p>
-<h3 id="Access-Tokens"><a href="#Access-Tokens" class="headerlink" title="Access Tokens"></a>Access Tokens</h3><p>Access Tokens 用作 Bearer Tokens，Bearer Token 意味着来访者可以直接访问授权的资源而无需额外的身份认证。因此，确保 Bearer Token 的安全性非常重要，如果其他人得到了这些 Token，那么就可以假装受信任的来访者而盗取用户信息。</p>
-<p>Access Tokens 通常只有很短的有效期(由其 <code>exp</code> Claim 指定)，当该 Token 过期，用户必须重新认证以得到新的 Bearer Token。OIDC 没有强制规定，于是许多授权服务也将 JWTs 用作 Access Token。</p>
-<p>OIDC 将 <code>/userinfo</code> 定义为返回身份信息的入口点，使用 access_token 即可访问该入口点获取资源:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">http https://micah.oktapreview.com/oauth2/.../v1/userinfo</span><br><span class="line"></span><br><span class="line">HTTP/1.1 400 Bad Request</span><br><span class="line">...</span><br><span class="line">WWW-Authenticate: Bearer error=<span class="string">"invalid_request"</span>, error_description=<span class="string">"The access token is missing."</span></span><br><span class="line">...</span><br></pre></td></tr></table></figure></p>
+<p>官方声明中定义了一组用于校验 <code>id_token</code> 的规则，<code>id_token</code> 中的 <code>exp</code> Claim 必须作为参与校验程序的一部分，同时，JWT 使用一个用于签名的 key 来验证数据完整性。</p>
+<h3 id="Access-Tokens"><a href="#Access-Tokens" class="headerlink" title="Access Tokens"></a>Access Tokens</h3><p><code>Access Token</code>s 用作 Bearer Tokens，Bearer Token 意味着来访者可以直接访问授权的资源而无需额外的身份认证。因此，确保 Bearer Token 的安全性非常重要，如果其他人得到了这些 Token，那么就可以冒充受信任的来访者而盗取用户信息。</p>
+<p><code>Access Token</code>s 通常只有很短的有效期(由其 <code>exp</code> Claim 指定)，当该 Token 过期，用户必须重新认证以得到新的 Bearer Token。OIDC 没有强制规定，于是许多授权服务也将 JWTs 用作 <code>Access Token</code>。</p>
+<p>OIDC 将 <code>/userinfo</code> 定义为返回身份信息的入口点，使用 <code>access_token</code> 即可访问该入口点获取资源:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">http https://micah.oktapreview.com/oauth2/.../v1/userinfo</span><br><span class="line"></span><br><span class="line">HTTP/1.1 400 Bad Request</span><br><span class="line">...</span><br><span class="line">WWW-Authenticate: Bearer error=<span class="string">"invalid_request"</span>, error_description=<span class="string">"The access token is missing."</span></span><br><span class="line">...</span><br></pre></td></tr></table></figure></p>
 <p>携带 <code>access_token</code> 以访问该资源，但该 Token 已过期:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">http https://micah.oktapreview.com/oauth2/.../v1/userinfo \</span><br><span class="line">Authorization:<span class="string">"Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6Ik93bFNJS3p3Mmt1Wk8zSmpnMW5Dc2RNelJhOEV1elY5emgyREl6X3RVRUkifQ..."</span></span><br><span class="line"></span><br><span class="line">HTTP/1.1 401 Unauthorized</span><br><span class="line">...</span><br><span class="line">WWW-Authenticate: Bearer error=<span class="string">"invalid_token"</span>, error_description=<span class="string">"The token has expired."</span></span><br><span class="line">...</span><br></pre></td></tr></table></figure></p>
 <p>使用一个有效的 <code>access_token</code> 进行访问:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">http https://micah.oktapreview.com/oauth2/.../v1/userinfo \</span><br><span class="line">Authorization:&quot;Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6Ik93bFNJS3p3Mmt1Wk8zSmpnMW5Dc2RNelJhOEV1elY5emgyREl6X3RVRUkifQ...&quot;</span><br><span class="line"></span><br><span class="line">HTTP/1.1 200 OK</span><br><span class="line">...</span><br><span class="line">&#123;</span><br><span class="line">    &quot;family_name&quot;: &quot;Silverman&quot;,</span><br><span class="line">    &quot;given_name&quot;: &quot;Micah&quot;,</span><br><span class="line">    &quot;groups&quot;: [</span><br><span class="line">        &quot;ABC123&quot;,</span><br><span class="line">        &quot;Everyone&quot;</span><br><span class="line">    ],</span><br><span class="line">    &quot;locale&quot;: &quot;en-US&quot;,</span><br><span class="line">    &quot;name&quot;: &quot;Micah Silverman&quot;,</span><br><span class="line">    &quot;preferred_username&quot;: &quot;micah+okta@afitnerd.com&quot;,</span><br><span class="line">    &quot;sub&quot;: &quot;...&quot;,</span><br><span class="line">    &quot;updated_at&quot;: 1490198843,</span><br><span class="line">    &quot;zoneinfo&quot;: &quot;America/Los_Angeles&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h3 id="Refresh-Tokens"><a href="#Refresh-Tokens" class="headerlink" title="Refresh Tokens"></a>Refresh Tokens</h3><p>Refresh Token 用于获取新的 Access Token。通常，Refresh Token 有效期会长于 Access Token。以下是一种典型的案例:</p>
+<h3 id="Refresh-Tokens"><a href="#Refresh-Tokens" class="headerlink" title="Refresh Tokens"></a>Refresh Tokens</h3><p><code>Refresh Token</code> 用于获取新的 <code>Access Token</code>。通常，<code>Refresh Token</code> 有效期会长于 <code>Access Token</code>。以下是一种典型的案例:</p>
 <ol>
-<li>用户登录并取得了一个 Access Token 和 Refresh Token。</li>
-<li>应用程序检测到 Access Token 过期了</li>
-<li>应用程序使用 Refresh Token 来取得一个新的 Access Token</li>
-<li>重复步骤 2 和 3 直至 Refresh Token 过期</li>
-<li>Refresh Token 过期之后，用户必须重新认证</li>
+<li>用户登录并取得了一个 <code>Access Token</code> 和 <code>Refresh Token</code>。</li>
+<li>应用程序检测到 <code>Access Token</code> 过期了</li>
+<li>应用程序使用 <code>Refresh Token</code> 来取得一个新的 <code>Access Token</code></li>
+<li>重复步骤 2 和 3 直至 <code>Refresh Token</code> 过期</li>
+<li><code>Refresh Token</code> 过期之后，用户必须重新认证</li>
 </ol>
-<p>这种做的意义是要在用户体验和安全之间取得平衡，假设用户账号被盗，或用户订阅的服务过期了。管理员可以在任何时候撤销用户的 Refresh Token，步骤 3 以上就将失效并强制用户重新认证，如果用户账号此时被挂起或锁定，那么用户也无法再进行认证了。</p>
+<p>这种做的意义是要在用户体验和安全之间取得平衡，假设用户账号被盗，或用户订阅的服务过期了。管理员可以在任何时候撤销用户的 <code>Refresh Token</code>，步骤 3 以上就将失效并强制用户重新认证，如果用户账号此时被挂起或锁定，那么用户也无法再进行认证了。</p>
 <h2 id="快速识别-Token"><a href="#快速识别-Token" class="headerlink" title="快速识别 Token"></a>快速识别 Token</h2><ul>
 <li>ID Token 直接携带了用户身份信息，必须是 JWT Token</li>
 <li>Access Token 以 Bearer Token 的形式匿名访问特定资源</li>
@@ -593,7 +546,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/asp-net-core/" rel="tag"># asp.net core</a>
+            <a href="/tags/security/" rel="tag"># security</a>
           
         </div>
       
@@ -606,8 +559,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/Web/ASP-NET-Core/aspnetcore-viewcomponent/" rel="next" title="ASP.NET Core 应用 - 视图组件">
-                <i class="fa fa-chevron-left"></i> ASP.NET Core 应用 - 视图组件
+              <a href="/Security/Web/security-oauth2/" rel="next" title="OAuth 2.0 简介">
+                <i class="fa fa-chevron-left"></i> OAuth 2.0 简介
               </a>
             
           </div>
@@ -615,10 +568,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/linux/diy-router-openwrt/" rel="prev" title="DIY - 网件 WNDR 4300 路由器配置全局科学上网总结">
-                DIY - 网件 WNDR 4300 路由器配置全局科学上网总结 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -695,7 +644,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">48</span>
+                  <span class="site-state-item-count">52</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -706,7 +655,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-count">16</span>
                   <span class="site-state-item-name">categories</span>
                 </a>
               </div>
@@ -750,7 +699,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#OAuth-2-0-简介"><span class="nav-text">OAuth 2.0 简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#OAuth-2-0-用于委托授权"><span class="nav-text">OAuth 2.0 用于委托授权</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Authorization-Code-模式"><span class="nav-text">Authorization Code 模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Q-amp-A-为何不直接返回-access-token-而是首先返回-code，再去交换-access-token？"><span class="nav-text">Q&amp;A: 为何不直接返回 access token 而是首先返回 code，再去交换 access token？</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Back-Channel-和-Front-Channel"><span class="nav-text">Back Channel 和 Front Channel</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#OAuth-2-0-Grant-Type"><span class="nav-text">OAuth 2.0 Grant Type</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#OpenID-Connect-和-OAuth-2-0-结合用于认证"><span class="nav-text">OpenID Connect 和 OAuth 2.0 结合用于认证</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#OpenID-Connect-原理及过程"><span class="nav-text">OpenID Connect 原理及过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Scope"><span class="nav-text">Scope</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Claim"><span class="nav-text">Claim</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Response-Type"><span class="nav-text">Response Type</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Tokens"><span class="nav-text">Tokens</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ID-Token"><span class="nav-text">ID Token</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Access-Tokens"><span class="nav-text">Access Tokens</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Refresh-Tokens"><span class="nav-text">Refresh Tokens</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#快速识别-Token"><span class="nav-text">快速识别 Token</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-text">总结</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#OpenID-Connect-和-OAuth-2-0-结合用于认证"><span class="nav-text">OpenID Connect 和 OAuth 2.0 结合用于认证</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OpenID-Connect-原理及过程"><span class="nav-text">OpenID Connect 原理及过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Scope"><span class="nav-text">Scope</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Claim"><span class="nav-text">Claim</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Response-Type"><span class="nav-text">Response Type</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Tokens"><span class="nav-text">Tokens</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ID-Token"><span class="nav-text">ID Token</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Access-Tokens"><span class="nav-text">Access Tokens</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Refresh-Tokens"><span class="nav-text">Refresh Tokens</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#快速识别-Token"><span class="nav-text">快速识别 Token</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-text">总结</span></a></div>
             
 
           </div>

@@ -66,7 +66,7 @@
 
 
 
-  <meta name="keywords" content="make-the-best-of-my-macmini,diy,git," />
+  <meta name="keywords" content="diy,make-the-best-of-my-macmini,git," />
 
 
 
@@ -78,14 +78,14 @@
 
 
 <meta name="description" content="MacOS 没有自带 git，需要通过 XCode Command Line Tools 进行安装，当通过 ssh 客户端远程登录到 MacOS 并执行 git --version，MacOS 会自动弹出确认框以进行安装，这里需要手动在 MacOS 系统界面下点击确认按钮才能继续。完成安装后再次执行 git --version，已能够看到版本号。新建或导航到一个目录，将其作为新 repositor">
-<meta name="keywords" content="make-the-best-of-my-macmini,diy,git">
+<meta name="keywords" content="diy,make-the-best-of-my-macmini,git">
 <meta property="og:type" content="article">
 <meta property="og:title" content="DIY - Git push 到 MacOS">
 <meta property="og:url" content="https://berdypango.github.io/MacOS/diy-macos-git-push-to-repository/index.html">
-<meta property="og:site_name" content="Pango.Handbook">
+<meta property="og:site_name" content="FrostHe.Handbook">
 <meta property="og:description" content="MacOS 没有自带 git，需要通过 XCode Command Line Tools 进行安装，当通过 ssh 客户端远程登录到 MacOS 并执行 git --version，MacOS 会自动弹出确认框以进行安装，这里需要手动在 MacOS 系统界面下点击确认按钮才能继续。完成安装后再次执行 git --version，已能够看到版本号。新建或导航到一个目录，将其作为新 repositor">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-05-21T03:01:37.640Z">
+<meta property="og:updated_time" content="2018-08-02T13:31:15.161Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="DIY - Git push 到 MacOS">
 <meta name="twitter:description" content="MacOS 没有自带 git，需要通过 XCode Command Line Tools 进行安装，当通过 ssh 客户端远程登录到 MacOS 并执行 git --version，MacOS 会自动弹出确认框以进行安装，这里需要手动在 MacOS 系统界面下点击确认按钮才能继续。完成安装后再次执行 git --version，已能够看到版本号。新建或导航到一个目录，将其作为新 repositor">
@@ -124,7 +124,7 @@
 
 
 
-  <title>DIY - Git push 到 MacOS | Pango.Handbook</title>
+  <title>DIY - Git push 到 MacOS | FrostHe.Handbook</title>
   
 
 
@@ -152,7 +152,7 @@
     <div class="custom-logo-site-title">
       <a href="/"  class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">Pango.Handbook</span>
+        <span class="site-title">FrostHe.Handbook</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
@@ -292,7 +292,7 @@
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Pango.Handbook">
+      <meta itemprop="name" content="FrostHe.Handbook">
     </span>
 
     
@@ -396,9 +396,13 @@
         <p>MacOS 没有自带 <code>git</code>，需要通过 XCode Command Line Tools 进行安装，当通过 <code>ssh</code> 客户端远程登录到 MacOS 并执行 <code>git --version</code>，MacOS 会自动弹出确认框以进行安装，这里需要手动在 MacOS 系统界面下点击确认按钮才能继续。完成安装后再次执行 <code>git --version</code>，已能够看到版本号。新建或导航到一个目录，将其作为新 <code>repository</code> 的根目录。</p>
 <a id="more"></a>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p development/hobby-project/my-first-git-repository</span><br><span class="line"><span class="built_in">cd</span> development/hobby-project/my-first-git-repository</span><br></pre></td></tr></table></figure>
-<div class="note info"><p>因为这里有 3 层目录结构，不带任何参数的 <code>mkdir</code> 命令将不会递归创建目录，<code>-p</code> 选项表示，如果任何层级的目录不存在，将递归创建目录，如果所有层次的目录都已存在，则不会进行任何操作。同时，要确保登录到远程机器的用户拥有针对创建目录的所有层级的读写权限，否则 <code>git pull</code> 和 <code>git push</code> 将会报错。如果权限不正确，使用 <code>$sudo chown -R</code> 命令更改文件夹或文件权限。</p></div>
+<blockquote>
+<p>因为这里有 3 层目录结构，不带任何参数的 <code>mkdir</code> 命令将不会递归创建目录，<code>-p</code> 选项表示，如果任何层级的目录不存在，将递归创建目录，如果所有层次的目录都已存在，则不会进行任何操作。同时，要确保登录到远程机器的用户拥有针对创建目录的所有层级的读写权限，否则 <code>git pull</code> 和 <code>git push</code> 将会报错。如果权限不正确，使用 <code>$sudo chown -R</code> 命令更改文件夹或文件权限。</p>
+</blockquote>
 <p>现在，<code>development/hobby-project/my-first-git-repository</code> 将作为远程 <code>repository</code> 根目录，执行：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$sudo</span> git init --bare</span><br><span class="line">Initialized empty Git repository <span class="keyword">in</span> /Users/XXX/development/hobby-project/my-first-git-repository/</span><br></pre></td></tr></table></figure></p>
-<div class="note info"><p><code>git init --bare</code> 参数指明该 <code>repository</code> 用于分布式版本控制的中心仓库，<code>git</code> 将仅保存历史记录，一般来说服务器上的仓库多使用 <code>--bare</code> 创建，其目的在于分发而非修改，参考 <a href="http://www.saintsjd.com/2011/01/what-is-a-bare-git-repository/" target="_blank" rel="noopener">what is a git bare repository</a>。</p></div>
+<blockquote>
+<p><code>git init --bare</code> 参数指明该 <code>repository</code> 用于分布式版本控制的中心仓库，<code>git</code> 将仅保存历史记录，一般来说服务器上的仓库多使用 <code>--bare</code> 创建，其目的在于分发而非修改，参考 <a href="http://www.saintsjd.com/2011/01/what-is-a-bare-git-repository/" target="_blank" rel="noopener">what is a git bare repository</a>。</p>
+</blockquote>
 <p>远程仓库创建完成后，回到客户端主机，这里采用 <code>ssh</code> 协议进行通信，如果没有现成的 <code>key</code>，需要先生成 <code>key pair</code>。<code>ssh</code> 默认配置存放在用户 <code>home</code> 目录下的 <code>.ssh</code> 文件夹下，如果没有指定 <code>config</code> 文件，则 <code>id_rsa</code> 作为默认的 <code>key</code> 文件名，具体参考 <a href="https://www.digitalocean.com/community/tutorials/how-to-configure-custom-connection-options-for-your-ssh-client" target="_blank" rel="noopener">How To Configure Custom Connection Options for your SSH Client</a>。</p>
 
       
@@ -417,9 +421,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/make-the-best-of-my-macmini/" rel="tag"># make-the-best-of-my-macmini</a>
-          
             <a href="/tags/diy/" rel="tag"># diy</a>
+          
+            <a href="/tags/make-the-best-of-my-macmini/" rel="tag"># make-the-best-of-my-macmini</a>
           
             <a href="/tags/git/" rel="tag"># git</a>
           
@@ -514,7 +518,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">48</span>
+                  <span class="site-state-item-count">52</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -525,7 +529,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-count">16</span>
                   <span class="site-state-item-name">categories</span>
                 </a>
               </div>

@@ -81,16 +81,16 @@
 <meta name="keywords" content="docker,ops">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Docker 初探 (4) - Swarms">
-<meta property="og:url" content="https://berdypango.github.io/deployment/docker-swarms/index.html">
-<meta property="og:site_name" content="Pango.Handbook">
+<meta property="og:url" content="https://berdypango.github.io/Deployment/docker-swarms/index.html">
+<meta property="og:site_name" content="FrostHe.Handbook">
 <meta property="og:description" content="本文基于 Docker GetStarted 官方文档，去掉了与 Docker Machine 相关的内容，简化了搭建 Docker swarm 的过程">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="https://berdypango.github.io/deployment/docker-swarms/ingress-routing-mesh.png">
-<meta property="og:updated_time" content="2018-06-05T11:59:12.082Z">
+<meta property="og:image" content="https://berdypango.github.io/Deployment/docker-swarms/ingress-routing-mesh.png">
+<meta property="og:updated_time" content="2018-08-02T13:31:15.229Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Docker 初探 (4) - Swarms">
 <meta name="twitter:description" content="本文基于 Docker GetStarted 官方文档，去掉了与 Docker Machine 相关的内容，简化了搭建 Docker swarm 的过程">
-<meta name="twitter:image" content="https://berdypango.github.io/deployment/docker-swarms/ingress-routing-mesh.png">
+<meta name="twitter:image" content="https://berdypango.github.io/Deployment/docker-swarms/ingress-routing-mesh.png">
 
 
 
@@ -120,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="https://berdypango.github.io/deployment/docker-swarms/"/>
+  <link rel="canonical" href="https://berdypango.github.io/Deployment/docker-swarms/"/>
 
 
 
 
 
-  <title>Docker 初探 (4) - Swarms | Pango.Handbook</title>
+  <title>Docker 初探 (4) - Swarms | FrostHe.Handbook</title>
   
 
 
@@ -154,7 +154,7 @@
     <div class="custom-logo-site-title">
       <a href="/"  class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">Pango.Handbook</span>
+        <span class="site-title">FrostHe.Handbook</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
@@ -285,7 +285,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://berdypango.github.io/deployment/docker-swarms/">
+    <link itemprop="mainEntityOfPage" href="https://berdypango.github.io/Deployment/docker-swarms/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Frost He">
@@ -294,7 +294,7 @@
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Pango.Handbook">
+      <meta itemprop="name" content="FrostHe.Handbook">
     </span>
 
     
@@ -337,8 +337,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/deployment/" itemprop="url" rel="index">
-                    <span itemprop="name">deployment</span>
+                  <a href="/categories/Deployment/" itemprop="url" rel="index">
+                    <span itemprop="name">Deployment</span>
                   </a>
                 </span>
 
@@ -436,11 +436,14 @@
 <h1 id="在集群上部署应用"><a href="#在集群上部署应用" class="headerlink" title="在集群上部署应用"></a>在集群上部署应用</h1><p>现在，在 Swarm Manager 主机环境中执行在<a href="/deployment/note-docker-services">Docker 初探 - Serivces</a> 中相同的命令 <code>docker stack deploy</code> 来部署应用:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ docker stack deploy -c docker-compose.yml getstartedlab</span><br><span class="line"></span><br><span class="line">Creating network getstartedlab_webnet</span><br><span class="line">Creating service getstartedlab_web</span><br></pre></td></tr></table></figure></p>
 <p>执行相同的命令来查看 service 中的 containers，与之前不同的是，5 份 container 的副本被分配到了集群的两个节点上 <code>Aiur</code> 和 <code>moby</code>。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ docker stack ps getstartedlab</span><br><span class="line"></span><br><span class="line">ID                  NAME                  IMAGE                       NODE                DESIRED STATE       CURRENT STATE                ERROR               PORTS</span><br><span class="line">aumkvyzfh3oo        getstartedlab_web.1   frosthe/get-started:part2   moby                Running             Running about a minute ago</span><br><span class="line">y82s9nuonx3p        getstartedlab_web.2   frosthe/get-started:part2   Aiur                Running             Running about a minute ago</span><br><span class="line">yp2zx0bncv55        getstartedlab_web.3   frosthe/get-started:part2   moby                Running             Running about a minute ago</span><br><span class="line">ul7f48j0grzy        getstartedlab_web.4   frosthe/get-started:part2   moby                Running             Running about a minute ago</span><br><span class="line">jzn0fndpf206        getstartedlab_web.5   frosthe/get-started:part2   Aiur                Running             Running about a minute ago</span><br></pre></td></tr></table></figure></p>
 <h1 id="访问集群"><a href="#访问集群" class="headerlink" title="访问集群"></a>访问集群</h1><p>通过访问 <code>Aiur</code> 和 <code>moby</code> 两者的 ip 地址都可以访问应用程序，返回的 <code>Hostname</code> 轮流展示 5 个 container 的 ID。但这些 container 实例分别运行于两个节点上。</p>
-<p>之所以访问任何一个节点的 ip 地址都可以到达应用程序是因为参与集群的节点共用<strong>「入口路由网格」</strong>，这保证了一个 <code>service</code> 在部署到集群的某个端口后，无论哪个节点正在运行或没有运行任何 <code>container</code> 实例，该端口都会保留给该 <code>service</code>。下图表示了一个名为 <code>my-web</code> 的服务在一个三节点的集群中发布 8080 端口:<br><img src="/deployment/docker-swarms/ingress-routing-mesh.png"><br><div class="note warning"><p>要使入口路由网格正常运作，请确保集群中各个节点的以下端口是可访问的:</p>
+<p>之所以访问任何一个节点的 ip 地址都可以到达应用程序是因为参与集群的节点共用<strong>「入口路由网格」</strong>，这保证了一个 <code>service</code> 在部署到集群的某个端口后，无论哪个节点正在运行或没有运行任何 <code>container</code> 实例，该端口都会保留给该 <code>service</code>。下图表示了一个名为 <code>my-web</code> 的服务在一个三节点的集群中发布 8080 端口:<br><img src="/Deployment/docker-swarms/ingress-routing-mesh.png"></p>
+<blockquote>
+<p>要使入口路由网格正常运作，请确保集群中各个节点的以下端口是可访问的:</p>
 <ul>
 <li>7946 TCP/UDP 端口用于发现 container 网络</li>
 <li>4789 UDP 端口用于 ingress network</li>
-</ul></div></p>
+</ul>
+</blockquote>
 <h1 id="清理与重启"><a href="#清理与重启" class="headerlink" title="清理与重启"></a>清理与重启</h1><p>停止 <code>stack</code>:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ docker stack rm getstartedlab</span><br><span class="line"></span><br><span class="line">Removing service getstartedlab_web</span><br><span class="line">Removing network getstartedlab_webnet</span><br></pre></td></tr></table></figure></p>
 <p>将节点主机从集群分离:</p>
 <ul>
@@ -482,7 +485,7 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/deployment/docker-services/" rel="next" title="Docker 初探 (3) - Services">
+              <a href="/Deployment/docker-services/" rel="next" title="Docker 初探 (3) - Services">
                 <i class="fa fa-chevron-left"></i> Docker 初探 (3) - Services
               </a>
             
@@ -492,7 +495,7 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/deployment/docker-stacks/" rel="prev" title="Docker 初探 (5) - Stacks">
+              <a href="/Deployment/docker-stacks/" rel="prev" title="Docker 初探 (5) - Stacks">
                 Docker 初探 (5) - Stacks <i class="fa fa-chevron-right"></i>
               </a>
             
@@ -571,7 +574,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">48</span>
+                  <span class="site-state-item-count">52</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -582,7 +585,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-count">16</span>
                   <span class="site-state-item-name">categories</span>
                 </a>
               </div>

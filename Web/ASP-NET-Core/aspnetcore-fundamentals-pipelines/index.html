@@ -82,7 +82,7 @@
 <meta property="og:type" content="article">
 <meta property="og:title" content="ASP.NET Core 框架基础 - 管道与中间件">
 <meta property="og:url" content="https://berdypango.github.io/Web/ASP-NET-Core/aspnetcore-fundamentals-pipelines/index.html">
-<meta property="og:site_name" content="Pango.Handbook">
+<meta property="og:site_name" content="FrostHe.Handbook">
 <meta property="og:description" content="管道由一个服务器和一个 HttpApplication 构成，服务器负责监听请求并将接收到的请求传递给给 HttpApplication 对象处理，HttpApplication 则将请求处理任务委托给注册的中间件来完成。">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://berdypango.github.io/Web/ASP-NET-Core/aspnetcore-fundamentals-pipelines/pipes_01.png">
@@ -93,7 +93,7 @@
 <meta property="og:image" content="https://berdypango.github.io/Web/ASP-NET-Core/aspnetcore-fundamentals-pipelines/pipes_06.png">
 <meta property="og:image" content="https://berdypango.github.io/Web/ASP-NET-Core/aspnetcore-fundamentals-pipelines/pipes_07.png">
 <meta property="og:image" content="https://berdypango.github.io/Web/ASP-NET-Core/aspnetcore-fundamentals-pipelines/pipes_09.png">
-<meta property="og:updated_time" content="2018-05-06T15:06:27.255Z">
+<meta property="og:updated_time" content="2018-08-03T15:24:59.587Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ASP.NET Core 框架基础 - 管道与中间件">
 <meta name="twitter:description" content="管道由一个服务器和一个 HttpApplication 构成，服务器负责监听请求并将接收到的请求传递给给 HttpApplication 对象处理，HttpApplication 则将请求处理任务委托给注册的中间件来完成。">
@@ -133,7 +133,7 @@
 
 
 
-  <title>ASP.NET Core 框架基础 - 管道与中间件 | Pango.Handbook</title>
+  <title>ASP.NET Core 框架基础 - 管道与中间件 | FrostHe.Handbook</title>
   
 
 
@@ -161,7 +161,7 @@
     <div class="custom-logo-site-title">
       <a href="/"  class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">Pango.Handbook</span>
+        <span class="site-title">FrostHe.Handbook</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
@@ -301,7 +301,7 @@
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Pango.Handbook">
+      <meta itemprop="name" content="FrostHe.Handbook">
     </span>
 
     
@@ -321,8 +321,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-06-05T23:15:04+08:00">
-                2016-06-05
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-06-05T23:15:04+08:00">
+                2017-06-05
               </time>
             
 
@@ -426,13 +426,13 @@
 </ul>
 <p>本文大纲:<br><!-- TOC --></p>
 <ul>
-<li><a href="#概述">概述</a><ul>
-<li><a href="#一个简单的-hello-world-应用">一个简单的 Hello World 应用</a></li>
-<li><a href="#管道的构成">管道的构成</a></li>
-<li><a href="#定制管道">定制管道</a></li>
+<li><a href="#%E6%A6%82%E8%BF%B0">概述</a><ul>
+<li><a href="#%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84-hello-world-%E5%BA%94%E7%94%A8">一个简单的 Hello World 应用</a></li>
+<li><a href="#%E7%AE%A1%E9%81%93%E7%9A%84%E6%9E%84%E6%88%90">管道的构成</a></li>
+<li><a href="#%E5%AE%9A%E5%88%B6%E7%AE%A1%E9%81%93">定制管道</a></li>
 </ul>
 </li>
-<li><a href="#服务器">服务器</a><ul>
+<li><a href="#%E6%9C%8D%E5%8A%A1%E5%99%A8">服务器</a><ul>
 <li><a href="#httpapplication">HttpApplication</a></li>
 <li><a href="#hostingapplication">HostingApplication</a></li>
 <li><a href="#kestrelserver">KestrelServer</a></li>
@@ -441,11 +441,11 @@
 </li>
 <li><a href="#webhost">WebHost</a><ul>
 <li><a href="#webhostoptions">WebHostOptions</a></li>
-<li><a href="#构建管道">构建管道</a></li>
+<li><a href="#%E6%9E%84%E5%BB%BA%E7%AE%A1%E9%81%93">构建管道</a></li>
 </ul>
 </li>
 <li><a href="#webhostbuilder">WebHostBuilder</a><ul>
-<li><a href="#几个常用的扩展方法">几个常用的扩展方法</a></li>
+<li><a href="#%E5%87%A0%E4%B8%AA%E5%B8%B8%E7%94%A8%E7%9A%84%E6%89%A9%E5%B1%95%E6%96%B9%E6%B3%95">几个常用的扩展方法</a></li>
 </ul>
 </li>
 <li><a href="#httpcontext">HttpContext</a><ul>
@@ -458,8 +458,8 @@
 <li><a href="#applicationbuilderfactory">ApplicationBuilderFactory</a></li>
 </ul>
 </li>
-<li><a href="#中间件类型">中间件类型</a><ul>
-<li><a href="#中间件类型注册">中间件类型注册</a></li>
+<li><a href="#%E4%B8%AD%E9%97%B4%E4%BB%B6%E7%B1%BB%E5%9E%8B">中间件类型</a><ul>
+<li><a href="#%E4%B8%AD%E9%97%B4%E4%BB%B6%E7%B1%BB%E5%9E%8B%E6%B3%A8%E5%86%8C">中间件类型注册</a></li>
 </ul>
 </li>
 </ul>
@@ -780,7 +780,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">48</span>
+                  <span class="site-state-item-count">52</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -791,7 +791,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-count">16</span>
                   <span class="site-state-item-name">categories</span>
                 </a>
               </div>

@@ -81,17 +81,17 @@
 <meta name="keywords" content="docker,ops">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Docker 初探 (7) - 部署">
-<meta property="og:url" content="https://berdypango.github.io/deployment/docker-deployment/index.html">
-<meta property="og:site_name" content="Pango.Handbook">
+<meta property="og:url" content="https://berdypango.github.io/Deployment/docker-deployment/index.html">
+<meta property="og:site_name" content="FrostHe.Handbook">
 <meta property="og:description" content="本文简要介绍了 Docker 的部署">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="https://berdypango.github.io/deployment/docker-deployment/node-byoh-wizard-v2.png">
-<meta property="og:image" content="https://berdypango.github.io/deployment/docker-deployment/node_connected.png">
-<meta property="og:updated_time" content="2018-06-05T11:58:48.058Z">
+<meta property="og:image" content="https://berdypango.github.io/Deployment/docker-deployment/node-byoh-wizard-v2.png">
+<meta property="og:image" content="https://berdypango.github.io/Deployment/docker-deployment/node_connected.png">
+<meta property="og:updated_time" content="2018-08-02T13:31:15.173Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Docker 初探 (7) - 部署">
 <meta name="twitter:description" content="本文简要介绍了 Docker 的部署">
-<meta name="twitter:image" content="https://berdypango.github.io/deployment/docker-deployment/node-byoh-wizard-v2.png">
+<meta name="twitter:image" content="https://berdypango.github.io/Deployment/docker-deployment/node-byoh-wizard-v2.png">
 
 
 
@@ -121,13 +121,13 @@
 
 
 
-  <link rel="canonical" href="https://berdypango.github.io/deployment/docker-deployment/"/>
+  <link rel="canonical" href="https://berdypango.github.io/Deployment/docker-deployment/"/>
 
 
 
 
 
-  <title>Docker 初探 (7) - 部署 | Pango.Handbook</title>
+  <title>Docker 初探 (7) - 部署 | FrostHe.Handbook</title>
   
 
 
@@ -155,7 +155,7 @@
     <div class="custom-logo-site-title">
       <a href="/"  class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">Pango.Handbook</span>
+        <span class="site-title">FrostHe.Handbook</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
@@ -286,7 +286,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://berdypango.github.io/deployment/docker-deployment/">
+    <link itemprop="mainEntityOfPage" href="https://berdypango.github.io/Deployment/docker-deployment/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Frost He">
@@ -295,7 +295,7 @@
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Pango.Handbook">
+      <meta itemprop="name" content="FrostHe.Handbook">
     </span>
 
     
@@ -338,8 +338,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/deployment/" itemprop="url" rel="index">
-                    <span itemprop="name">deployment</span>
+                  <a href="/categories/Deployment/" itemprop="url" rel="index">
+                    <span itemprop="name">Deployment</span>
                   </a>
                 </span>
 
@@ -427,12 +427,12 @@
 </ul>
 <ol start="2">
 <li>登录 <code>Docker Cloud</code>，导航至节点仪表盘(<code>Nodes</code>)。</li>
-<li>点击 <code>Bring your own node</code>。弹出窗口会展示目前支持的所有 Linux 发行版本并生成一行包含 token 的命令以使主机上的 <code>Docker Cloud Agent</code> 与 <code>Docker Cloud</code> 通信。<img src="/deployment/docker-deployment/node-byoh-wizard-v2.png" title="弹出窗口示例"></li>
+<li>点击 <code>Bring your own node</code>。弹出窗口会展示目前支持的所有 Linux 发行版本并生成一行包含 token 的命令以使主机上的 <code>Docker Cloud Agent</code> 与 <code>Docker Cloud</code> 通信。<img src="/Deployment/docker-deployment/node-byoh-wizard-v2.png" title="弹出窗口示例"></li>
 <li><p>在目标 Linux 主机上执行该命令，该命令会下载一个脚本，安装并配置好 <code>Docker Cloud Agent</code>，最后将其注册到 <code>Docker Cloud</code>。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">*******************************************************************************</span><br><span class="line">Docker Cloud Agent installed successfully</span><br><span class="line">*******************************************************************************</span><br><span class="line"></span><br><span class="line">You can now deploy containers to this node using Docker Cloud</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>当出现以上提示之后，关闭弹出框，刷新节点仪表盘，发现该主机已经与 <code>Docker Cloud</code> 关联:</p>
-<img src="/deployment/docker-deployment/node_connected.png" title="目标主机与 Docker Cloud 关联">
+<img src="/Deployment/docker-deployment/node_connected.png" title="目标主机与 Docker Cloud 关联">
 </li>
 </ol>
 <p>该主机现在已经准备好部署了。</p>
@@ -476,7 +476,7 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/deployment/docker-machine/" rel="next" title="Docker 初探 (6) - Docker Machine">
+              <a href="/Deployment/docker-machine/" rel="next" title="Docker 初探 (6) - Docker Machine">
                 <i class="fa fa-chevron-left"></i> Docker 初探 (6) - Docker Machine
               </a>
             
@@ -486,8 +486,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/deployment/docker-dockerfile-best-practices/" rel="prev" title="Dockerfile 编写注意事项">
-                Dockerfile 编写注意事项 <i class="fa fa-chevron-right"></i>
+              <a href="/Deployment/docker-dockerfile-best-practices/" rel="prev" title="Dockerfile 最佳实践">
+                Dockerfile 最佳实践 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -565,7 +565,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">48</span>
+                  <span class="site-state-item-count">52</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -576,7 +576,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-count">16</span>
                   <span class="site-state-item-name">categories</span>
                 </a>
               </div>
