@@ -81,16 +81,16 @@
 <meta name="keywords" content="docker,ops">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Docker 初探 (5) - Stacks">
-<meta property="og:url" content="https://berdypango.github.io/Deployment/docker-stacks/index.html">
+<meta property="og:url" content="https://berdypango.github.io/deployment/docker-stacks/index.html">
 <meta property="og:site_name" content="FrostHe.Handbook">
 <meta property="og:description" content="本文介绍了 Docker Stacks 的概念以及如何为 Stack 添加多个服务">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="https://berdypango.github.io/Deployment/docker-stacks/visualizer.png">
-<meta property="og:updated_time" content="2018-08-02T13:31:15.222Z">
+<meta property="og:image" content="https://berdypango.github.io/deployment/docker-stacks/visualizer.png">
+<meta property="og:updated_time" content="2018-08-06T17:09:09.732Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Docker 初探 (5) - Stacks">
 <meta name="twitter:description" content="本文介绍了 Docker Stacks 的概念以及如何为 Stack 添加多个服务">
-<meta name="twitter:image" content="https://berdypango.github.io/Deployment/docker-stacks/visualizer.png">
+<meta name="twitter:image" content="https://berdypango.github.io/deployment/docker-stacks/visualizer.png">
 
 
 
@@ -120,7 +120,7 @@
 
 
 
-  <link rel="canonical" href="https://berdypango.github.io/Deployment/docker-stacks/"/>
+  <link rel="canonical" href="https://berdypango.github.io/deployment/docker-stacks/"/>
 
 
 
@@ -285,7 +285,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://berdypango.github.io/Deployment/docker-stacks/">
+    <link itemprop="mainEntityOfPage" href="https://berdypango.github.io/deployment/docker-stacks/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Frost He">
@@ -337,8 +337,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Deployment/" itemprop="url" rel="index">
-                    <span itemprop="name">Deployment</span>
+                  <a href="/categories/deployment/" itemprop="url" rel="index">
+                    <span itemprop="name">deployment</span>
                   </a>
                 </span>
 
@@ -418,7 +418,7 @@
 <li>重新部署 stack<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ docker stack deploy -c docker-compose.yml getstartedlab</span><br><span class="line"></span><br><span class="line">Updating service getstartedlab_web (id: fmh8sn491klzx4vnz6uft0wc9)</span><br><span class="line">Creating service getstartedlab_visualizer</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
-<img src="/Deployment/docker-stacks/visualizer.png" title="Visualizer">
+<img src="/deployment/docker-stacks/visualizer.png" title="Visualizer">
 <p>从图上可以看出，<code>visualizer</code> 的单副本服务运行在了作为 <code>Swarm Manager</code> 的 <code>Aiur</code> 主机上。<code>Visualizer</code> 是一个可以包含在任何 <code>stack</code> 中单独运行的服务，它没有任何依赖。</p>
 <h1 id="持久化数据"><a href="#持久化数据" class="headerlink" title="持久化数据"></a>持久化数据</h1><p>现在，为 Stack 添加 Redis 数据库服务。</p>
 <ol>
@@ -477,7 +477,7 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/Deployment/docker-swarms/" rel="next" title="Docker 初探 (4) - Swarms">
+              <a href="/deployment/docker-swarms/" rel="next" title="Docker 初探 (4) - Swarms">
                 <i class="fa fa-chevron-left"></i> Docker 初探 (4) - Swarms
               </a>
             
@@ -487,7 +487,7 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/Deployment/docker-machine/" rel="prev" title="Docker 初探 (6) - Docker Machine">
+              <a href="/deployment/docker-machine/" rel="prev" title="Docker 初探 (6) - Docker Machine">
                 Docker 初探 (6) - Docker Machine <i class="fa fa-chevron-right"></i>
               </a>
             
@@ -577,7 +577,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-count">15</span>
                   <span class="site-state-item-name">categories</span>
                 </a>
               </div>

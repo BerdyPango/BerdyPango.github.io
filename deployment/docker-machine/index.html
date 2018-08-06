@@ -81,17 +81,17 @@
 <meta name="keywords" content="docker,ops">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Docker 初探 (6) - Docker Machine">
-<meta property="og:url" content="https://berdypango.github.io/Deployment/docker-machine/index.html">
+<meta property="og:url" content="https://berdypango.github.io/deployment/docker-machine/index.html">
 <meta property="og:site_name" content="FrostHe.Handbook">
 <meta property="og:description" content="有关 Docker Machine 的用法和场景">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="https://berdypango.github.io/Deployment/docker-machine/engine.png">
-<meta property="og:image" content="https://berdypango.github.io/Deployment/docker-machine/machine.png">
-<meta property="og:updated_time" content="2018-08-02T13:31:15.182Z">
+<meta property="og:image" content="https://berdypango.github.io/deployment/docker-machine/engine.png">
+<meta property="og:image" content="https://berdypango.github.io/deployment/docker-machine/machine.png">
+<meta property="og:updated_time" content="2018-08-06T17:08:54.309Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Docker 初探 (6) - Docker Machine">
 <meta name="twitter:description" content="有关 Docker Machine 的用法和场景">
-<meta name="twitter:image" content="https://berdypango.github.io/Deployment/docker-machine/engine.png">
+<meta name="twitter:image" content="https://berdypango.github.io/deployment/docker-machine/engine.png">
 
 
 
@@ -121,7 +121,7 @@
 
 
 
-  <link rel="canonical" href="https://berdypango.github.io/Deployment/docker-machine/"/>
+  <link rel="canonical" href="https://berdypango.github.io/deployment/docker-machine/"/>
 
 
 
@@ -286,7 +286,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://berdypango.github.io/Deployment/docker-machine/">
+    <link itemprop="mainEntityOfPage" href="https://berdypango.github.io/deployment/docker-machine/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Frost He">
@@ -338,8 +338,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Deployment/" itemprop="url" rel="index">
-                    <span itemprop="name">Deployment</span>
+                  <a href="/categories/deployment/" itemprop="url" rel="index">
+                    <span itemprop="name">deployment</span>
                   </a>
                 </span>
 
@@ -413,9 +413,9 @@
 <li>我想要在远程主机系统上运行统一的 <code>Docker image</code>。</li>
 </ul>
 <p><code>docker</code> 守护进程由服务端和客户端两部分组成，服务端发布 REST API 接口开放给客户端，<code>docker CLI</code> 客户端通过 REST API 接口与服务端通信。</p>
-<img src="/Deployment/docker-machine/engine.png" title="Docker 引擎">
+<img src="/deployment/docker-machine/engine.png" title="Docker 引擎">
 <p>无论你的管理主机是 <code>Windows</code>，<code>Mac</code> 还是 <code>Linux</code>，都可以安装 <code>Docker Machine</code> 并使用 <code>docker-machine</code> 命令统一管理大量的 <code>Docker</code> 从机。通常，你会将 <code>Docker Machine</code> 安装到本地主机，<code>Docker Machine</code> 包含 <code>docker-machine</code> 命令行工具和 <code>Docker</code> 引擎的客户端 <code>docker</code> 命令行工具。可通过 <code>docker-machine</code> 命令行工具在本地主机的虚拟环境或云主机上安装 <code>Docker</code> 引擎，它将自动创建虚拟环境，安装 <code>Docker</code> 引擎，配置好 <code>docker</code> 客户端，每一个被管理的从机由 <code>Docker host</code>(运行了 Docker 引擎的主机) 和一个配置好的客户端组成，它们通常又被称为 <strong><em>“machines”</em></strong>。</p>
-<img src="/Deployment/docker-machine/machine.png" title="Machine">
+<img src="/deployment/docker-machine/machine.png" title="Machine">
 <blockquote>
 <p>意即，如果仅仅安装 <code>Docker Machine</code>，将不会在本机安装 <code>Docker</code> 引擎，仅仅安装其客户端管理工具</p>
 </blockquote>
@@ -464,7 +464,7 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/Deployment/docker-stacks/" rel="next" title="Docker 初探 (5) - Stacks">
+              <a href="/deployment/docker-stacks/" rel="next" title="Docker 初探 (5) - Stacks">
                 <i class="fa fa-chevron-left"></i> Docker 初探 (5) - Stacks
               </a>
             
@@ -474,7 +474,7 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/Deployment/docker-deployment/" rel="prev" title="Docker 初探 (7) - 部署">
+              <a href="/deployment/docker-deployment/" rel="prev" title="Docker 初探 (7) - 部署">
                 Docker 初探 (7) - 部署 <i class="fa fa-chevron-right"></i>
               </a>
             
@@ -564,7 +564,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-count">15</span>
                   <span class="site-state-item-name">categories</span>
                 </a>
               </div>
