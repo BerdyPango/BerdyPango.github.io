@@ -66,7 +66,7 @@
 
 
 
-  <meta name="keywords" content="diy,linux,raspberry pi," />
+  <meta name="keywords" content="diy,linux,smart-home,raspberry pi," />
 
 
 
@@ -78,7 +78,7 @@
 
 
 <meta name="description" content="HomeAssistant 是一个开源的智能家居网关项目，以树莓派做 HomeAssistant 的服务器再适合不过">
-<meta name="keywords" content="diy,linux,raspberry pi">
+<meta name="keywords" content="diy,linux,smart-home,raspberry pi">
 <meta property="og:type" content="article">
 <meta property="og:title" content="DIY - 搭建树莓派智能家居网关 - HomeAssistant">
 <meta property="og:url" content="https://berdypango.github.io/linux/diy-make-raspberry-pi-a-smart-home-gateway/index.html">
@@ -86,7 +86,7 @@
 <meta property="og:description" content="HomeAssistant 是一个开源的智能家居网关项目，以树莓派做 HomeAssistant 的服务器再适合不过">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://berdypango.github.io/linux/diy-make-raspberry-pi-a-smart-home-gateway/web-ui-home.jpg">
-<meta property="og:updated_time" content="2018-07-08T09:36:08.077Z">
+<meta property="og:updated_time" content="2018-08-19T01:10:12.030Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="DIY - 搭建树莓派智能家居网关 - HomeAssistant">
 <meta name="twitter:description" content="HomeAssistant 是一个开源的智能家居网关项目，以树莓派做 HomeAssistant 的服务器再适合不过">
@@ -370,7 +370,7 @@
                   <span class="post-meta-item-text">Words count in article&#58;</span>
                 
                 <span title="Words count in article">
-                  1,336
+                  1,437
                 </span>
               
 
@@ -404,6 +404,7 @@
 <li><a href="https://www.raspberrypi.org/blog/docker-comes-to-raspberry-pi/" target="_blank" rel="noopener">Docker Comes to Raspberry Pi</a></li>
 <li><a href="https://www.home-assistant.io/docs/installation/docker/" target="_blank" rel="noopener">HA Installation on Docker</a></li>
 <li><a href="https://www.home-assistant.io/components/http/" target="_blank" rel="noopener">HA Http</a></li>
+<li><a href="https://www.home-assistant.io/docs/ecosystem/nginx/" target="_blank" rel="noopener">HA Nginx</a></li>
 </ul>
 <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>通过 <a href="https://www.home-assistant.io/" target="_blank" rel="noopener">HomeAssistant</a>(以下简称 HA) 实现智能家居总控台有多种实现方式，各家也都制作了预定义的系统映像来免去复杂的操作，树莓派非常适合跑过程服务，而 HomeAssistant 也推出了其官方 Docker Image。所以本文主要介绍在 Rasbian 系统上通过 Docker 安装 HomeAssistant。</p>
 <h2 id="在树莓派上安装-Docker-引擎"><a href="#在树莓派上安装-Docker-引擎" class="headerlink" title="在树莓派上安装 Docker 引擎"></a>在树莓派上安装 Docker 引擎</h2><p>下载安装脚本并执行:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">$ curl -sSL https://get.docker.com | sh</span><br><span class="line"></span><br><span class="line">Client:</span><br><span class="line"> Version:      18.05.0-ce</span><br><span class="line"> API version:  1.37</span><br><span class="line"> Go version:   go1.9.5</span><br><span class="line"> Git commit:   f150324</span><br><span class="line"> Built:        Wed May  9 22:24:36 2018</span><br><span class="line"> OS/Arch:      linux/arm</span><br><span class="line"> Experimental: <span class="literal">false</span></span><br><span class="line"> Orchestrator: swarm</span><br><span class="line"></span><br><span class="line">Server:</span><br><span class="line"> Engine:</span><br><span class="line">  Version:      18.05.0-ce</span><br><span class="line">  API version:  1.37 (minimum version 1.12)</span><br><span class="line">  Go version:   go1.9.5</span><br><span class="line">  Git commit:   f150324</span><br><span class="line">  Built:        Wed May  9 22:20:37 2018</span><br><span class="line">  OS/Arch:      linux/arm</span><br><span class="line">  Experimental: <span class="literal">false</span></span><br><span class="line">If you would like to use Docker as a non-root user, you should now consider</span><br><span class="line">adding your user to the <span class="string">"docker"</span> group with something like:</span><br><span class="line"></span><br><span class="line">  sudo usermod -aG docker pi</span><br><span class="line"></span><br><span class="line">Remember that you will have to <span class="built_in">log</span> out and back <span class="keyword">in</span> <span class="keyword">for</span> this to take effect!</span><br><span class="line"></span><br><span class="line">WARNING: Adding a user to the <span class="string">"docker"</span> group will grant the ability to run</span><br><span class="line">         containers <span class="built_in">which</span> can be used to obtain root privileges on the</span><br><span class="line">         docker host.</span><br><span class="line">         Refer to https://docs.docker.com/engine/security/security/<span class="comment">#docker-daemon-attack-surface</span></span><br><span class="line">         <span class="keyword">for</span> more information.</span><br></pre></td></tr></table></figure></p>
@@ -424,6 +425,7 @@
 <h2 id="为-HA-网页-UI-设置密码"><a href="#为-HA-网页-UI-设置密码" class="headerlink" title="为 HA 网页 UI 设置密码"></a>为 HA 网页 UI 设置密码</h2><p>安装好 HA 之后，在其 config 文件夹下，包含了针对不同配置的文件，数据密码一项与 <code>secrets.yaml</code> 有关，首先编辑 <code>secrets.yaml</code>:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ sudo nano /etc/home-assistant/config/secrets.yaml</span><br><span class="line"></span><br><span class="line"><span class="comment"># Use this file to store secrets like usernames and passwords.</span></span><br><span class="line"><span class="comment"># Learn more at https://home-assistant.io/docs/configuration/secrets/</span></span><br><span class="line">http_password: your_password_here</span><br></pre></td></tr></table></figure></p>
 <p>同时需要在 <code>configuration.yaml</code> 中的 <code>http</code> 节点下指定该项的引用:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ sudo nano /etc/home-assistant/config/configuration.yaml</span><br><span class="line"></span><br><span class="line">http:</span><br><span class="line">  <span class="comment"># Secrets are defined in the file secrets.yaml</span></span><br><span class="line">  api_password: !secret http_password</span><br><span class="line">  ip_ban_enabled: <span class="literal">true</span></span><br><span class="line">  login_attempts_threshold: 5</span><br></pre></td></tr></table></figure></p>
 <p><code>ip_ban_enabled</code> 和 <code>login_attempts_threshold</code> 分别表示启用密码试错机制。然后重启 HA 服务:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker container restart home-assistant</span><br></pre></td></tr></table></figure></p>
+<h2 id="为-Home-Assistant-配置-Nginx-代理"><a href="#为-Home-Assistant-配置-Nginx-代理" class="headerlink" title="为 Home Assistant 配置 Nginx 代理"></a>为 Home Assistant 配置 Nginx 代理</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">$ sudo nano /etc/nginx/sites-available/ha.berdypango.cn</span><br><span class="line"></span><br><span class="line">map $http_upgrade $connection_upgrade &#123;</span><br><span class="line">    default upgrade;</span><br><span class="line">    &apos;&apos;      close;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">server &#123;</span><br><span class="line">        listen 8123;</span><br><span class="line">        listen [::]:8123;</span><br><span class="line">        server_name ha.berdypango.cn;</span><br><span class="line"></span><br><span class="line">        location / &#123;</span><br><span class="line">                proxy_set_header Host $host;</span><br><span class="line">                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;</span><br><span class="line">                proxy_http_version 1.1;</span><br><span class="line">                proxy_set_header Upgrade $http_upgrade;</span><br><span class="line">                proxy_set_header Connection $connection_upgrade;</span><br><span class="line">                proxy_pass http://localhost:8123;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$ sudo cp -s /etc/nginx/sites-available/ha.berdypango.cn /etc/nginx/sites-enabled/ha.berdypango.cn</span><br><span class="line">$ sudo systemctl reload nginx</span><br></pre></td></tr></table></figure>
 <h2 id="使用-Let’s-Encrypt-以-HTTPS-暴露-HA-TBD"><a href="#使用-Let’s-Encrypt-以-HTTPS-暴露-HA-TBD" class="headerlink" title="使用 Let’s Encrypt 以 HTTPS 暴露 HA(TBD)"></a>使用 Let’s Encrypt 以 HTTPS 暴露 HA(TBD)</h2>
       
     </div>
@@ -444,6 +446,8 @@
             <a href="/tags/diy/" rel="tag"># diy</a>
           
             <a href="/tags/linux/" rel="tag"># linux</a>
+          
+            <a href="/tags/smart-home/" rel="tag"># smart-home</a>
           
             <a href="/tags/raspberry-pi/" rel="tag"># raspberry pi</a>
           
@@ -468,8 +472,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/Web/ASP-NET-Core/aspnetcore-host-in-docker-containers/" rel="prev" title="为 ASP.NET Core 应用程序添加 Docker 支持">
-                为 ASP.NET Core 应用程序添加 Docker 支持 <i class="fa fa-chevron-right"></i>
+              <a href="/linux/diy-control-smarthome-via-alexa/" rel="prev" title="DIY - 通过 Amazon Alexa 控制 HomeAssistant">
+                DIY - 通过 Amazon Alexa 控制 HomeAssistant <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -547,7 +551,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">51</span>
+                  <span class="site-state-item-count">52</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -569,7 +573,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-count">20</span>
                   <span class="site-state-item-name">tags</span>
                 </a>
               </div>
@@ -602,7 +606,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#背景"><span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在树莓派上安装-Docker-引擎"><span class="nav-text">在树莓派上安装 Docker 引擎</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装-HomeAssistan"><span class="nav-text">安装 HomeAssistan</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#开机启动-HA-Container"><span class="nav-text">开机启动 HA Container</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#编辑-etc-rc-local"><span class="nav-text">编辑 /etc/rc.local</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#为-HA-网页-UI-设置密码"><span class="nav-text">为 HA 网页 UI 设置密码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用-Let’s-Encrypt-以-HTTPS-暴露-HA-TBD"><span class="nav-text">使用 Let’s Encrypt 以 HTTPS 暴露 HA(TBD)</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#背景"><span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在树莓派上安装-Docker-引擎"><span class="nav-text">在树莓派上安装 Docker 引擎</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装-HomeAssistan"><span class="nav-text">安装 HomeAssistan</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#开机启动-HA-Container"><span class="nav-text">开机启动 HA Container</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#编辑-etc-rc-local"><span class="nav-text">编辑 /etc/rc.local</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#为-HA-网页-UI-设置密码"><span class="nav-text">为 HA 网页 UI 设置密码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#为-Home-Assistant-配置-Nginx-代理"><span class="nav-text">为 Home Assistant 配置 Nginx 代理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用-Let’s-Encrypt-以-HTTPS-暴露-HA-TBD"><span class="nav-text">使用 Let’s Encrypt 以 HTTPS 暴露 HA(TBD)</span></a></li></ol></div>
             
 
           </div>
