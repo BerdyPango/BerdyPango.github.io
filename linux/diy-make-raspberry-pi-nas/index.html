@@ -85,7 +85,7 @@
 <meta property="og:site_name" content="FrostHe.Handbook">
 <meta property="og:description" content="树莓派做 SAMBA 服务器是一个常见的应用场景，需要使用 Samba 服务和自动挂载分区">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-08-04T10:53:56.706Z">
+<meta property="og:updated_time" content="2018-08-29T11:54:57.729Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="DIY - 搭建树莓派 SAMBA 服务器">
 <meta name="twitter:description" content="树莓派做 SAMBA 服务器是一个常见的应用场景，需要使用 Samba 服务和自动挂载分区">
@@ -368,7 +368,7 @@
                   <span class="post-meta-item-text">Words count in article&#58;</span>
                 
                 <span title="Words count in article">
-                  817
+                  818
                 </span>
               
 
@@ -404,12 +404,12 @@
 <li><a href="https://www.raspberrypi.org/forums/viewtopic.php?p=1105501" target="_blank" rel="noopener">Emergency Mode due to fstab</a></li>
 <li><a href="https://elinux.org/R-Pi_NAS" target="_blank" rel="noopener">R-Pi NAS</a></li>
 </ul>
-<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>家里的 NAS 外置硬盘之前一直连接 Mac Mini，因为近期出掉 Mac Mini 购入了树莓派 3B+，所以想以更低的成本对 NAS 硬盘里的内容进行局域网家庭共享。</p>
+<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>家里的 <code>NAS</code> 外置硬盘之前一直连接 <code>Mac Mini</code>，因为近期出掉 <code>Mac Mini</code> 购入了树莓派 3B+，所以想以更低的成本对 NAS 硬盘里的内容进行局域网家庭共享。</p>
 <blockquote>
 <p>外置硬盘的文件系统为 XFS 文件系统。</p>
 </blockquote>
 <h2 id="安装-Samba-服务"><a href="#安装-Samba-服务" class="headerlink" title="安装 Samba 服务"></a>安装 Samba 服务</h2><ol>
-<li><p>树莓派 Raspbian 系统的 package 仓库中已经包含了 Samba 的包，首先升级包:</p>
+<li><p>树莓派 <code>Raspbian</code> 系统的 package 仓库中已经包含了 Samba 的包，首先升级包:</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt update</span><br><span class="line">$ sudo apt upgrade</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>创建要分享的目录:</p>
@@ -417,7 +417,7 @@
 </li>
 </ol>
 <blockquote>
-<p>因为 pi 用户默认从属于 users 用户，所以其对该目录有完全权限</p>
+<p>因为 pi 用户默认从属于 users 用户组，所以其对该目录有完全权限</p>
 </blockquote>
 <ol start="3">
 <li><p>安装 samba 服务端</p>
@@ -447,7 +447,7 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ cat /etc/fstab</span><br><span class="line"></span><br><span class="line">proc                            /proc           proc            defaults                0       0</span><br><span class="line">PARTUUID=358ecf74-01            /boot           vfat            defaults                0       2</span><br><span class="line">PARTUUID=358ecf74-02            /               ext4            defaults,noatime        0       1</span><br><span class="line"></span><br><span class="line"><span class="comment"># 六个栏位分别表示:</span></span><br><span class="line"><span class="comment"># [装置/UUID等] [挂载点] [档案系统] [档案系统参数] [dump] [fsck]</span></span><br></pre></td></tr></table></figure>
 </li>
 <li><p>编辑 /etc/fstab 配置以添加自动挂载点</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ sudo nano /etc/fstab</span><br><span class="line"></span><br><span class="line">proc                                            /proc           proc            defaults                0       0</span><br><span class="line">PARTUUID=358ecf74-01                            /boot           vfat            defaults                0       2</span><br><span class="line">PARTUUID=358ecf74-02                            /               ext4            defaults,noatime        0       1</span><br><span class="line">UUID=<span class="string">"fef3c944-4e1e-4aeb-9b79-6f567c50ea6c"</span>   /mnt/shared     xfs             defaults                0       0</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ sudo nano /etc/fstab</span><br><span class="line"></span><br><span class="line">proc                                            /proc           proc            defaults                0       0</span><br><span class="line">PARTUUID=358ecf74-01                            /boot           vfat            defaults                0       2</span><br><span class="line">PARTUUID=358ecf74-02                            /               ext4            defaults,noatime        0       1</span><br><span class="line">UUID=<span class="string">"fef3c944-4e1e-4aeb-9b79-6f567c50ea6c"</span>     /mnt/shared     xfs             defaults                0       0</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>测试自动挂载(特别重要)，<strong>如果 /etc/fstab 中有语法错误，Linux 系统将无法正常启动</strong>，必须进入紧急模式进行恢复，参考<a href="https://www.raspberrypi.org/forums/viewtopic.php?p=1105501" target="_blank" rel="noopener">Emergency Mode due to fstab</a></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">$ sudo mount -a</span><br><span class="line"></span><br><span class="line">$ df</span><br><span class="line"></span><br><span class="line">Filesystem      1K-blocks      Used  Available Use% Mounted on</span><br><span class="line">/dev/root        15149360   2521740   11979528  18% /</span><br><span class="line">devtmpfs           470116         0     470116   0% /dev</span><br><span class="line">tmpfs              474724         0     474724   0% /dev/shm</span><br><span class="line">tmpfs              474724     12616     462108   3% /run</span><br><span class="line">tmpfs                5120         4       5116   1% /run/lock</span><br><span class="line">tmpfs              474724         0     474724   0% /sys/fs/cgroup</span><br><span class="line">/dev/mmcblk0p1      43436     22142      21295  51% /boot</span><br><span class="line">tmpfs               94944         0      94944   0% /run/user/1000</span><br><span class="line">/dev/sda1      3905085428 577802476 3327282952  15% /mnt/shared</span><br></pre></td></tr></table></figure>

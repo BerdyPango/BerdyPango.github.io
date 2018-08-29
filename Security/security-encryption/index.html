@@ -86,7 +86,7 @@
 <meta property="og:description" content="关于密码信息的概念及工作原理笔记，不间断更新">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://berdypango.github.io/Security/security-encryption/ssl.png">
-<meta property="og:updated_time" content="2018-08-03T15:24:59.622Z">
+<meta property="og:updated_time" content="2018-08-29T11:54:57.748Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="加解密笔记 - .NET Standard">
 <meta name="twitter:description" content="关于密码信息的概念及工作原理笔记，不间断更新">
@@ -370,7 +370,7 @@
                   <span class="post-meta-item-text">Words count in article&#58;</span>
                 
                 <span title="Words count in article">
-                  1,883
+                  2,087
                 </span>
               
 
@@ -423,7 +423,9 @@
 </ul>
 <h2 id="消息认证码-MAC-Message-Authentication-Code"><a href="#消息认证码-MAC-Message-Authentication-Code" class="headerlink" title="消息认证码(MAC, Message Authentication Code)"></a>消息认证码(MAC, Message Authentication Code)</h2><p>对称加密本身并不能验证加密数据的完整性，第三方可能拦截加密的密文然后替换掉其中某些字节发送给接收方，消息认证码则是确保数据一致性的手段。数据加密完成之后，基于密文使用 MAC 算法得到一个 MAC 值，然后将该值追加值密文末尾。常用的 MAC 算法有 HMAC(Hash-based Message Authentication Code)。</p>
 <p>MAC 的作用与数字签名类似，唯一的区别在于加密方和解密方使用相同的 Key，虽然确保了数据完整性，但也意味着消息将被处理两次，同样的，接收方在收到数据后也将处理两次。</p>
-<h2 id="非对称加密-Public-key-Encryption"><a href="#非对称加密-Public-key-Encryption" class="headerlink" title="非对称加密(Public-key Encryption)"></a>非对称加密(Public-key Encryption)</h2><p>Public/Private 密钥对<br>加密双方使用一个非对称密钥对，如果 A 负责生成密钥对，那么 A 将其公钥发送给 B，B 使用公钥对通信信息加密，并将密文发送给 A，A 用其私钥对密文解密。在此情景中，公钥是公开的，A 必须确保其私钥的安全性，信息流向始终是 B 流向 A，如果 A 想要向 B 发送消息，必须使用相同的方法得到 B 的公钥。所以，通常使用非对称加密传输对称加密的密钥和 IV，通信的双方使用对称加密对信息加密。</p>
+<h2 id="公钥加密-Public-key-Encryption"><a href="#公钥加密-Public-key-Encryption" class="headerlink" title="公钥加密(Public-key Encryption)"></a>公钥加密(Public-key Encryption)</h2><p>Public/Private 密钥对<br>加密双方使用一个非对称密钥对 - 公钥和私钥，数据由公钥加密后只能由私钥解密，而数据由私钥签名的则只能由公钥验证，公钥可以是公开的，但私钥必须保密。</p>
+<p>现假设 A 和 B 想要通信，A 负责生成密钥对，那么 A 将其公钥发送给 B，B 使用公钥对通信信息加密，后将密文发送给 A，A 用其私钥解密密文。在此情景中，如果 A 将公钥发送给 B 时被攻击者拦截，同时攻击者将后续的密文一并拦截，但持有公钥和密文是无法解密信息的。另外，B 在收到公钥后，如何验证收到的的确是 A 的私钥？A 将一段消息使用某种哈希算法得到签名，再将签名使用私钥加密，B 接到签名信息和消息后，使用公钥解密密文得到签名信息，再使用相同的哈希算法处理收到的消息，B 通过对比两个签名的哈希值来判断消息是否被篡改。</p>
+<p>信息流向始终是 B 流向 A，如果 A 想要向 B 发送消息，必须使用相同的方法得到 B 的公钥。所以，通常使用非对称加密传输对称加密的密钥和 IV，通信的双方使用对称加密对信息加密。</p>
 <p>.NET 提供了以下类型实现公钥加密算法:</p>
 <ul>
 <li>DSACryptoServiceProvider</li>
@@ -517,8 +519,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/linux/diy-control-smarthome-via-alexa/" rel="next" title="DIY - 通过 Amazon Alexa 控制 HomeAssistant">
-                <i class="fa fa-chevron-left"></i> DIY - 通过 Amazon Alexa 控制 HomeAssistant
+              <a href="/uncategorized/diy-control-smarthome-via-siri/" rel="next" title="DIY - 通过 Siri 控制 HomeAssistant">
+                <i class="fa fa-chevron-left"></i> DIY - 通过 Siri 控制 HomeAssistant
               </a>
             
           </div>
@@ -661,7 +663,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#加密的意义"><span class="nav-text">加密的意义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#密码学基础技术"><span class="nav-text">密码学基础技术</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AES-Advanced-Encryption-Standard-CBC"><span class="nav-text">AES(Advanced Encryption Standard) CBC</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#消息认证码-MAC-Message-Authentication-Code"><span class="nav-text">消息认证码(MAC, Message Authentication Code)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#非对称加密-Public-key-Encryption"><span class="nav-text">非对称加密(Public-key Encryption)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数字签名"><span class="nav-text">数字签名</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#哈希值"><span class="nav-text">哈希值</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数字证书"><span class="nav-text">数字证书</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#数字证书申领过程"><span class="nav-text">数字证书申领过程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#生成随机数"><span class="nav-text">生成随机数</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#加密的意义"><span class="nav-text">加密的意义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#密码学基础技术"><span class="nav-text">密码学基础技术</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AES-Advanced-Encryption-Standard-CBC"><span class="nav-text">AES(Advanced Encryption Standard) CBC</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#消息认证码-MAC-Message-Authentication-Code"><span class="nav-text">消息认证码(MAC, Message Authentication Code)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#公钥加密-Public-key-Encryption"><span class="nav-text">公钥加密(Public-key Encryption)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数字签名"><span class="nav-text">数字签名</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#哈希值"><span class="nav-text">哈希值</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数字证书"><span class="nav-text">数字证书</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#数字证书申领过程"><span class="nav-text">数字证书申领过程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#生成随机数"><span class="nav-text">生成随机数</span></a></li></ol></div>
             
 
           </div>

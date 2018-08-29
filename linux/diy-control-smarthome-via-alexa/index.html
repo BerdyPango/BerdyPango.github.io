@@ -89,7 +89,7 @@
 <meta property="og:image" content="https://berdypango.github.io/linux/diy-control-smarthome-via-alexa/02.png">
 <meta property="og:image" content="https://berdypango.github.io/linux/diy-control-smarthome-via-alexa/03.png">
 <meta property="og:image" content="https://berdypango.github.io/linux/diy-control-smarthome-via-alexa/04.png">
-<meta property="og:updated_time" content="2018-08-21T13:51:58.239Z">
+<meta property="og:updated_time" content="2018-08-29T11:54:57.710Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="DIY - 通过 Amazon Alexa 控制 HomeAssistant">
 <meta name="twitter:description" content="本文介绍两种实现 Alexa 控制 HA 的方法">
@@ -407,9 +407,9 @@
 <li><a href="https://www.home-assistant.io/cloud/" target="_blank" rel="noopener">Home Assistant Cloud</a></li>
 <li><a href="https://www.home-assistant.io/components/alexa/" target="_blank" rel="noopener">HA - Alexa/Amazon Echo</a></li>
 </ul>
-<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>通过 Alexa 控制 HA 有两种办法:</p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>通过 <code>Alexa</code> 控制 HA 有两种办法:</p>
 <ul>
-<li>官方推荐的方式 - HA 提供了相应 Alexa Skill，同时提供了 HomeAssistant Cloud 用于转发来自 Amazon Alexa Service 的 Https 请求到家中的 HA，利用双方的支持可以实现通过 Alexa 控制家里连入 HA 的智能设备</li>
+<li>官方推荐的方式 - HA 提供了相应 Alexa Skill，同时提供了 <a href="https://www.home-assistant.io/cloud/" target="_blank" rel="noopener">HomeAssistant Cloud</a> 用于转发来自 Amazon Alexa Service 的 Https 请求到家中的 HA，利用双方的支持可以实现通过 <code>Alexa</code> 控制家里连入 HA 的智能设备</li>
 <li>Emulated Hue Bridge: 纯本地方式，将 Echo 等设备作为 <a href="https://www.home-assistant.io/components/emulated_hue/" target="_blank" rel="noopener">Emulated Hue Bridge</a> 网关接入 HA，通过 Hue API 来与 HA 中的设备进行交互。</li>
 </ul>
 <h2 id="1-通过官方推荐方式实现"><a href="#1-通过官方推荐方式实现" class="headerlink" title="1.通过官方推荐方式实现"></a>1.通过官方推荐方式实现</h2><h3 id="配置-Home-Assistant-Cloud"><a href="#配置-Home-Assistant-Cloud" class="headerlink" title="配置 Home Assistant Cloud"></a>配置 Home Assistant Cloud</h3><p>Home Assistant Cloud 是由 HA 社区免费提供的仅仅用于消息转发的云服务，其目的在于提供一条用 Alexa 服务至家庭网络的 Https 通道。</p>
@@ -461,8 +461,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/uncategorized/diy-control-smarthome-via-siri/" rel="next" title="DIY - 通过 Siri 控制 HomeAssistant">
-                <i class="fa fa-chevron-left"></i> DIY - 通过 Siri 控制 HomeAssistant
+              <a href="/linux/diy-make-raspberry-pi-a-smart-home-gateway/" rel="next" title="DIY - 搭建树莓派智能家居网关 - HomeAssistant">
+                <i class="fa fa-chevron-left"></i> DIY - 搭建树莓派智能家居网关 - HomeAssistant
               </a>
             
           </div>
@@ -471,8 +471,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/Security/security-encryption/" rel="prev" title="加解密笔记 - .NET Standard">
-                加解密笔记 - .NET Standard <i class="fa fa-chevron-right"></i>
+              <a href="/uncategorized/diy-control-smarthome-via-siri/" rel="prev" title="DIY - 通过 Siri 控制 HomeAssistant">
+                DIY - 通过 Siri 控制 HomeAssistant <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
