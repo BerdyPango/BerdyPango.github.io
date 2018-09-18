@@ -1,0 +1,1150 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next mist" lang="default">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="K2S73UudyU-JTh9S0U_KnOKgOvE7aW7EpO560okLyUU" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="docker,ops," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="本文介绍了如何在 Dockerfile 中使用多阶段生成">
+<meta name="keywords" content="docker,ops">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在 Dockerfile 中使用多阶段生成(Multi-Stage Builds)">
+<meta property="og:url" content="https://berdypango.github.io/docker-multi-stage-build/index.html">
+<meta property="og:site_name" content="FrostHe.Handbook">
+<meta property="og:description" content="本文介绍了如何在 Dockerfile 中使用多阶段生成">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-09-18T11:07:17.473Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="在 Dockerfile 中使用多阶段生成(Multi-Stage Builds)">
+<meta name="twitter:description" content="本文介绍了如何在 Dockerfile 中使用多阶段生成">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"display":"hide"},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: 'ZL78UP9TUE',
+      apiKey: '',
+      indexName: 'FrostHe.Handbook',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://berdypango.github.io/docker-multi-stage-build/"/>
+
+
+
+
+
+  <title>在 Dockerfile 中使用多阶段生成(Multi-Stage Builds) | FrostHe.Handbook</title>
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-125853342-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+
+  <div class="container  page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">FrostHe.Handbook</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            Search
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="Searching..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://berdypango.github.io/docker-multi-stage-build/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Frost He">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FrostHe.Handbook">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">在 Dockerfile 中使用多阶段生成(Multi-Stage Builds)</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-02-15T20:57:58+08:00">
+                2018-02-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/operation/" itemprop="url" rel="index">
+                    <span itemprop="name">operation</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                  <span class="post-meta-divider">|</span>
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  1,795
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+              <div class="post-description">
+                  本文介绍了如何在 Dockerfile 中使用多阶段生成
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Docker 17.05 以上版本开始支持 multi-stage builds，该功能帮助试图优化 Dockerfile 的开发人员将这些文件保持得易读且干净。</p>
+<h2 id="在-Multi-Stage-Builds-之前"><a href="#在-Multi-Stage-Builds-之前" class="headerlink" title="在 Multi-Stage Builds 之前"></a>在 Multi-Stage Builds 之前</h2><p>生成 Image 的最大的挑战之一便是将其保持在一个合理的大小。Dockerfile 中的每一条指令都向 Image 添加一「层」，在继续下一条指令之前，开发人员需要首先清除掉那些不必要的内容。为了编写一个高效的 Dockerfile，传统的办法是加入 shell 脚本及其他逻辑来确保每一「层」都仅包含其所需的内容。</p>
+<p>过去，维护两个 Dockerfile 非常常见，一个用于开发和调试，另一个用于生产环境，但这种方案并不完美，以下是一个例子，分别以 <code>Dockerfile.build</code> 和 <code>Dockerfile</code> 命名:<br><figure class="highlight bash"><figcaption><span>Dockerfile.build</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">FROM golang:1.7.3</span><br><span class="line">WORKDIR /go/src/github.com/alexellis/href-counter/</span><br><span class="line">COPY app.go .</span><br><span class="line">RUN go get -d -v golang.org/x/net/html \</span><br><span class="line">  &amp;&amp; CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o app .</span><br></pre></td></tr></table></figure></p>
+<p><code>RUN</code> 指令中有意将两个命令通过 <code>&amp;&amp;</code> 合并在同一行，这是为了防止在 Image 中创建额外的「层」，但这非常不易维护，很容易忘记在插入新行时指定 <code>\</code> 字符。<br><figure class="highlight bash"><figcaption><span>Dockerfile</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">FROM alpine:latest  </span><br><span class="line">RUN apk --no-cache add ca-certificates</span><br><span class="line">WORKDIR /root/</span><br><span class="line">COPY app .</span><br><span class="line">CMD [<span class="string">"./app"</span>]</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight bash"><figcaption><span>build.sh</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/sh</span></span><br><span class="line"><span class="built_in">echo</span> Building alexellis2/href-counter:build</span><br><span class="line"></span><br><span class="line">docker build --build-arg https_proxy=<span class="variable">$https_proxy</span> --build-arg http_proxy=<span class="variable">$http_proxy</span> \  </span><br><span class="line">    -t alexellis2/href-counter:build . -f Dockerfile.build</span><br><span class="line"></span><br><span class="line">docker container create --name extract alexellis2/href-counter:build  </span><br><span class="line">docker container cp extract:/go/src/github.com/alexellis/href-counter/app ./app  </span><br><span class="line">docker container rm -f extract</span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> Building alexellis2/href-counter:latest</span><br><span class="line"></span><br><span class="line">docker build --no-cache -t alexellis2/href-counter:latest .</span><br><span class="line">rm ./app</span><br></pre></td></tr></table></figure>
+<p>当执行 <code>build.sh</code> 时，首先需要生成第一个 Image，从该 Image 创建一个 Container，然后将所需内容拷贝出来，再创建第二个 Image。两个 Image 都会占用系统空间。</p>
+<p>Multi-stage builds 极大简化了该解决方案</p>
+<h2 id="使用-Multi-Stage-Builds"><a href="#使用-Multi-Stage-Builds" class="headerlink" title="使用 Multi-Stage Builds"></a>使用 Multi-Stage Builds</h2><p>通过 multi-stage builds，可在 Dockerfile 中多次使用 <code>FROM</code> 指令，每个 <code>FROM</code> 都可基于不同的 Image，且每个都会开启生成流程中的新阶段(Stage)。可以在各个阶段之间拷贝内容，或是在生成最终 Image 时将所有不需要的内容丢弃，现在将上述例子改造:<br><figure class="highlight bash"><figcaption><span>Dockerfile</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">FROM golang:1.7.3</span><br><span class="line">WORKDIR /go/src/github.com/alexellis/href-counter/</span><br><span class="line">RUN go get -d -v golang.org/x/net/html  </span><br><span class="line">COPY app.go .</span><br><span class="line">RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o app .</span><br><span class="line"></span><br><span class="line">FROM alpine:latest  </span><br><span class="line">RUN apk --no-cache add ca-certificates</span><br><span class="line">WORKDIR /root/</span><br><span class="line">COPY --from=0 /go/src/github.com/alexellis/href-counter/app .</span><br><span class="line">CMD [<span class="string">"./app"</span>]</span><br></pre></td></tr></table></figure></p>
+<p>仅仅需要一个 Dockerfile，也不需要额外的生成脚本，直接执行 <code>docker build</code>。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker build -t alexellis2/href-counter:latest .</span><br></pre></td></tr></table></figure>
+<p>结果与之前一样，省去了大量的中间环节。第二个 <code>FROM</code> 指令开启新的生成阶段并将 <code>alpine:latest</code> 作为其基础 Image，<code>COPY --from=0</code> 将前一阶段的生成内容拷贝到新的阶段，而 Go SDK 和其他所有中间内容都被丢弃。</p>
+<h2 id="给生成阶段命名"><a href="#给生成阶段命名" class="headerlink" title="给生成阶段命名"></a>给生成阶段命名</h2><p>默认情况下，生成阶段不会被命名，仅使用整数值来引用它们，生成阶段从 <code>0</code> 开始计数。第一个 <code>FROM</code> 指令为 0，以后递增。更好的办法是对不同的生成阶段进行命名，通过为 <code>FROM</code> 指令添加 <code>as &lt;NAME&gt;</code> 为阶段命名，以下例子在前一个例子的基础上使用阶段命名和在 <code>COPY</code> 指令中对阶段以命名进行引用优化了可读性，这意味着即使未来 Dockerfile 调整了各个阶段的顺序，那么 <code>COPY</code> 也不会失效。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">FROM golang:1.7.3 as builder</span><br><span class="line">WORKDIR /go/src/github.com/alexellis/href-counter/</span><br><span class="line">RUN go get -d -v golang.org/x/net/html  </span><br><span class="line">COPY app.go    .</span><br><span class="line">RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o app .</span><br><span class="line"></span><br><span class="line">FROM alpine:latest  </span><br><span class="line">RUN apk --no-cache add ca-certificates</span><br><span class="line">WORKDIR /root/</span><br><span class="line">COPY --from=builder /go/src/github.com/alexellis/href-counter/app .</span><br><span class="line">CMD [<span class="string">"./app"</span>]</span><br></pre></td></tr></table></figure></p>
+<h2 id="在特定的生成阶段中止"><a href="#在特定的生成阶段中止" class="headerlink" title="在特定的生成阶段中止"></a>在特定的生成阶段中止</h2><p>当生成 Image 时，不需要对 Dockerfile 定义的每个阶段都进行生成，可以指定一个目标生成阶段以中止后续阶段的生成。以下命令展示了如何在名为 <code>builder</code> 的生成阶段中止生成:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker build --target builder -t alexellis2/href-counter:latest .</span><br></pre></td></tr></table></figure></p>
+<p>该功能在一些特定场景下非常有用:</p>
+<ul>
+<li>调试一个特定的生成阶段</li>
+<li>定义了一个包含所有调试工具的调试阶段和一个干净的生产环境阶段</li>
+<li>定义了一个包含测试数据的测试阶段，而生产环境阶段使用真实数据</li>
+</ul>
+<h2 id="将外部-Image-用作生成阶段"><a href="#将外部-Image-用作生成阶段" class="headerlink" title="将外部 Image 用作生成阶段"></a>将外部 Image 用作生成阶段</h2><p>当使用 multi-stage builds 时，将不会将复制内容局限在定义在 Dockerfile 中的前序生成阶段，也可以用 <code>COPY --from</code> 复制来自一个外部 Image 的内容，Docker 客户端将拉取该 Image 并赋值其内容:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">COPY --from=nginx:latest /etc/nginx/nginx.conf /nginx.conf</span><br></pre></td></tr></table></figure></p>
+<h2 id="最佳实践"><a href="#最佳实践" class="headerlink" title="最佳实践"></a>最佳实践</h2><h3 id="创建尽可能小的-Container"><a href="#创建尽可能小的-Container" class="headerlink" title="创建尽可能小的 Container"></a>创建尽可能小的 Container</h3><p>这意味着 Dockerfile 定义的 Image 应该尽可能的轻量，能够随时停止和销毁，并能够以最小配置信息被重建出来。</p>
+<h3 id="排除-dockerignore"><a href="#排除-dockerignore" class="headerlink" title="排除 .dockerignore"></a>排除 .dockerignore</h3><p>使用 <code>.dockerignore</code> 文件来排除与生成不相关的文件，该文件支持与 <code>.gitignore</code> 文件相同的模式匹配。详情可参考 <a href="https://docs.docker.com/engine/reference/builder/#dockerignore-file" target="_blank" rel="noopener">.dockerignore 文件</a>。</p>
+<h3 id="使用-multi-stage-builds"><a href="#使用-multi-stage-builds" class="headerlink" title="使用 multi-stage builds"></a>使用 multi-stage builds</h3><p>Docker 17.05 以上版本支持 <a href="https://docs.docker.com/develop/develop-images/multistage-build/" target="_blank" rel="noopener">Multi-stage builds</a>，该功能使得最终生成的 Image 大小可显著降低，无需再手动删除所有的中间层和多余文件，由于 Image 是由生成流程的最后阶段生成的，可以利用<a href="https://docs.docker.com/develop/develop-images/dockerfile_best-practices/#leverage-build-cache" target="_blank" rel="noopener">生成缓存</a>来最小化 Image 的大小。</p>
+<p>例如，如果 Dockerfile 定义了很多「层」，可按照拟修改频率调整它们的顺序，修改频率可能性最低的「层」应排在前面，而修改频率可能性较大的「层」放在后面:</p>
+<ul>
+<li>安装必须的工具</li>
+<li>安装或更新依赖库</li>
+<li>生成应用程序</li>
+</ul>
+<p>一个 Go 程序的 Dockerfile 可能看上去如下:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">FROM golang:1.9.2-alpine3.6 AS build</span><br><span class="line"></span><br><span class="line"><span class="comment"># Install tools required for project</span></span><br><span class="line"><span class="comment"># Run `docker build --no-cache .` to update dependencies</span></span><br><span class="line">RUN apk add --no-cache git</span><br><span class="line">RUN go get github.com/golang/dep/cmd/dep</span><br><span class="line"></span><br><span class="line"><span class="comment"># List project dependencies with Gopkg.toml and Gopkg.lock</span></span><br><span class="line"><span class="comment"># These layers are only re-built when Gopkg files are updated</span></span><br><span class="line">COPY Gopkg.lock Gopkg.toml /go/src/project/</span><br><span class="line">WORKDIR /go/src/project/</span><br><span class="line"><span class="comment"># Install library dependencies</span></span><br><span class="line">RUN dep ensure -vendor-only</span><br><span class="line"></span><br><span class="line"><span class="comment"># Copy the entire project and build it</span></span><br><span class="line"><span class="comment"># This layer is rebuilt when a file changes in the project directory</span></span><br><span class="line">COPY . /go/src/project/</span><br><span class="line">RUN go build -o /bin/project</span><br><span class="line"></span><br><span class="line"><span class="comment"># This results in a single layer image</span></span><br><span class="line">FROM scratch</span><br><span class="line">COPY --from=build /bin/project /bin/project</span><br><span class="line">ENTRYPOINT [<span class="string">"/bin/project"</span>]</span><br><span class="line">CMD [<span class="string">"--help"</span>]</span><br></pre></td></tr></table></figure></p>
+<h3 id="最小化「层」的数量"><a href="#最小化「层」的数量" class="headerlink" title="最小化「层」的数量"></a>最小化「层」的数量</h3><ul>
+<li>在 Docker 1.10 及更高版本中，只有 <code>RUN</code>，<code>COPY</code>，<code>ADD</code> 指令会创建「层」，其他指令只会创建临时 Image 且不会直接增加生成的大小。</li>
+<li>在 Docker 17.05 及更高版本中，可使用 multi-stage-builds 并仅将生成最终 Image 所需的内容取出。这样，调试和编译的工具仅作为中间生成环节存在而不会增大最终 Image 的大小。</li>
+</ul>
+<p>Dockerfile 指令可参考: <a href="https://docs.docker.com/develop/develop-images/dockerfile_best-practices/#dockerfile-instructions" target="_blank" rel="noopener">Dockerfile Instructions</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/docker/" rel="tag"># docker</a>
+          
+            <a href="/tags/ops/" rel="tag"># ops</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/docker-dockerfile-best-practices/" rel="next" title="Dockerfile 最佳实践">
+                <i class="fa fa-chevron-left"></i> Dockerfile 最佳实践
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/aspnetcore-host-in-docker-containers/" rel="prev" title="为 ASP.NET Core 应用程序添加 Docker 支持">
+                为 ASP.NET Core 应用程序添加 Docker 支持 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Frost He</p>
+              <p class="site-description motion-element" itemprop="description">Stay hungry, stay foolish</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">55</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#在-Multi-Stage-Builds-之前"><span class="nav-text">在 Multi-Stage Builds 之前</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用-Multi-Stage-Builds"><span class="nav-text">使用 Multi-Stage Builds</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#给生成阶段命名"><span class="nav-text">给生成阶段命名</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在特定的生成阶段中止"><span class="nav-text">在特定的生成阶段中止</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#将外部-Image-用作生成阶段"><span class="nav-text">将外部 Image 用作生成阶段</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最佳实践"><span class="nav-text">最佳实践</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#创建尽可能小的-Container"><span class="nav-text">创建尽可能小的 Container</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#排除-dockerignore"><span class="nav-text">排除 .dockerignore</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用-multi-stage-builds"><span class="nav-text">使用 multi-stage builds</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#最小化「层」的数量"><span class="nav-text">最小化「层」的数量</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2015 &mdash; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Frost He</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+
+
+
+
+
+        
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//tajs.qq.com/stats?sId=65458438";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === '') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

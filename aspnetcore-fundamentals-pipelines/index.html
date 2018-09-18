@@ -1,0 +1,1377 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next mist" lang="default">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="K2S73UudyU-JTh9S0U_KnOKgOvE7aW7EpO560okLyUU" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="asp.net core," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="管道由一个服务器和一个 HttpApplication 构成，服务器负责监听请求并将接收到的请求传递给给 HttpApplication 对象处理，HttpApplication 则将请求处理任务委托给注册的中间件来完成。">
+<meta name="keywords" content="asp.net core">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ASP.NET Core 框架基础 - 管道与中间件">
+<meta property="og:url" content="https://berdypango.github.io/aspnetcore-fundamentals-pipelines/index.html">
+<meta property="og:site_name" content="FrostHe.Handbook">
+<meta property="og:description" content="管道由一个服务器和一个 HttpApplication 构成，服务器负责监听请求并将接收到的请求传递给给 HttpApplication 对象处理，HttpApplication 则将请求处理任务委托给注册的中间件来完成。">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://berdypango.github.io/aspnetcore-fundamentals-pipelines/pipes_01.png">
+<meta property="og:image" content="https://berdypango.github.io/aspnetcore-fundamentals-pipelines/pipes_02.png">
+<meta property="og:image" content="https://berdypango.github.io/aspnetcore-fundamentals-pipelines/pipes_03.png">
+<meta property="og:image" content="https://berdypango.github.io/aspnetcore-fundamentals-pipelines/pipes_04.png">
+<meta property="og:image" content="https://berdypango.github.io/aspnetcore-fundamentals-pipelines/pipes_10.png">
+<meta property="og:image" content="https://berdypango.github.io/aspnetcore-fundamentals-pipelines/pipes_06.png">
+<meta property="og:image" content="https://berdypango.github.io/aspnetcore-fundamentals-pipelines/pipes_07.png">
+<meta property="og:image" content="https://berdypango.github.io/aspnetcore-fundamentals-pipelines/pipes_09.png">
+<meta property="og:updated_time" content="2018-08-03T15:24:59.587Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ASP.NET Core 框架基础 - 管道与中间件">
+<meta name="twitter:description" content="管道由一个服务器和一个 HttpApplication 构成，服务器负责监听请求并将接收到的请求传递给给 HttpApplication 对象处理，HttpApplication 则将请求处理任务委托给注册的中间件来完成。">
+<meta name="twitter:image" content="https://berdypango.github.io/aspnetcore-fundamentals-pipelines/pipes_01.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"display":"hide"},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: 'ZL78UP9TUE',
+      apiKey: '',
+      indexName: 'FrostHe.Handbook',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://berdypango.github.io/aspnetcore-fundamentals-pipelines/"/>
+
+
+
+
+
+  <title>ASP.NET Core 框架基础 - 管道与中间件 | FrostHe.Handbook</title>
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-125853342-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+
+  <div class="container  page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">FrostHe.Handbook</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            Search
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="Searching..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://berdypango.github.io/aspnetcore-fundamentals-pipelines/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Frost He">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FrostHe.Handbook">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">ASP.NET Core 框架基础 - 管道与中间件</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-06-05T23:15:04+08:00">
+                2017-06-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Web/" itemprop="url" rel="index">
+                    <span itemprop="name">Web</span>
+                  </a>
+                </span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Web/ASP-NET-Core/" itemprop="url" rel="index">
+                    <span itemprop="name">ASP.NET Core</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                  <span class="post-meta-divider">|</span>
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  9,847
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+              <div class="post-description">
+                  管道由一个服务器和一个 HttpApplication 构成，服务器负责监听请求并将接收到的请求传递给给 HttpApplication 对象处理，HttpApplication 则将请求处理任务委托给注册的中间件来完成。
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>参考资料: </p>
+<ul>
+<li><a href="http://www.cnblogs.com/artech/p/rebuild-pipeline-01.html" target="_blank" rel="noopener">采用管道处理请求</a></li>
+<li><a href="http://www.cnblogs.com/artech/p/rebuild-pipeline-02.html" target="_blank" rel="noopener">管道如何处理请求</a></li>
+<li><a href="http://www.cnblogs.com/artech/p/rebuild-pipeline-03.html" target="_blank" rel="noopener">管道如何创建</a></li>
+<li><a href="http://www.cnblogs.com/artech/p/asp-net-core-real-pipeline-01.html" target="_blank" rel="noopener">中间件究竟是什么</a></li>
+</ul>
+<p>本文大纲:<br><!-- TOC --></p>
+<ul>
+<li><a href="#%E6%A6%82%E8%BF%B0">概述</a><ul>
+<li><a href="#%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84-hello-world-%E5%BA%94%E7%94%A8">一个简单的 Hello World 应用</a></li>
+<li><a href="#%E7%AE%A1%E9%81%93%E7%9A%84%E6%9E%84%E6%88%90">管道的构成</a></li>
+<li><a href="#%E5%AE%9A%E5%88%B6%E7%AE%A1%E9%81%93">定制管道</a></li>
+</ul>
+</li>
+<li><a href="#%E6%9C%8D%E5%8A%A1%E5%99%A8">服务器</a><ul>
+<li><a href="#httpapplication">HttpApplication</a></li>
+<li><a href="#hostingapplication">HostingApplication</a></li>
+<li><a href="#kestrelserver">KestrelServer</a></li>
+<li><a href="#serveraddressesfeature">ServerAddressesFeature</a></li>
+</ul>
+</li>
+<li><a href="#webhost">WebHost</a><ul>
+<li><a href="#webhostoptions">WebHostOptions</a></li>
+<li><a href="#%E6%9E%84%E5%BB%BA%E7%AE%A1%E9%81%93">构建管道</a></li>
+</ul>
+</li>
+<li><a href="#webhostbuilder">WebHostBuilder</a><ul>
+<li><a href="#%E5%87%A0%E4%B8%AA%E5%B8%B8%E7%94%A8%E7%9A%84%E6%89%A9%E5%B1%95%E6%96%B9%E6%B3%95">几个常用的扩展方法</a></li>
+</ul>
+</li>
+<li><a href="#httpcontext">HttpContext</a><ul>
+<li><a href="#featurecollection">FeatureCollection</a></li>
+<li><a href="#defaulthttpcontext">DefaultHttpContext</a></li>
+<li><a href="#httpcontextfactory">HttpContextFactory</a></li>
+</ul>
+</li>
+<li><a href="#applicationbulder">ApplicationBulder</a><ul>
+<li><a href="#applicationbuilderfactory">ApplicationBuilderFactory</a></li>
+</ul>
+</li>
+<li><a href="#%E4%B8%AD%E9%97%B4%E4%BB%B6%E7%B1%BB%E5%9E%8B">中间件类型</a><ul>
+<li><a href="#%E4%B8%AD%E9%97%B4%E4%BB%B6%E7%B1%BB%E5%9E%8B%E6%B3%A8%E5%86%8C">中间件类型注册</a></li>
+</ul>
+</li>
+</ul>
+<!-- /TOC -->
+<h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><p>HTTP 协议自身的特性决定了任何一个 Web 应用的工作方式都是监听、接收并处理 HTTP 请求，并最终对请求予以响应。HTTP 请求处理是管道式设计典型的应用场景，ASP.NET Core 根据一个具体的 HTTP 请求构建一个管道，接收到的 HTTP 请求消息像水一样流入这个管道，组成这个管道的各个环节依次对它作相应的处理。整个请求处理完成后的结果同样转变成消息逆向流入这个管道进行处理，并最终变成回复给客户端的 HTTP 响应。</p>
+<h2 id="一个简单的-Hello-World-应用"><a href="#一个简单的-Hello-World-应用" class="headerlink" title="一个简单的 Hello World 应用"></a>一个简单的 Hello World 应用</h2><p>首先来看一个简单的 .NET Core 应用程序:</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Program</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Main</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">new</span> WebHostBuilder()</span><br><span class="line">            .UseKestrel()</span><br><span class="line">            .Configure(app =&gt; app.Run(<span class="keyword">async</span> context=&gt; <span class="keyword">await</span> context.Response.WriteAsync(<span class="string">"Hello World"</span>)))            </span><br><span class="line">            .Build()</span><br><span class="line">            .Run();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>WebHost</code> 对象可以看成是 Web 应用的宿主，启动 Web 应用本质上就是启动 <code>WebHost</code> 宿主对象。<code>WebHostBuilder</code> 负责创建 <code>WebHost</code> 对象，它的 <code>Build</code> 方法创建并返回相应的 <code>WebHost</code>。</p>
+<p><code>Configure</code> 方法注册到 <code>WebHostBuilder</code> 上的委托对象(委托类型为 <code>Action&lt;IApplicationBuilder&gt;</code>)用于定制管道的逻辑。调用 <code>WebHost</code> 的扩展方法 <code>Run</code> 启动应用程序时，用于监听，接收，处理和响应 HTTP 请求的管道也随之被建立。<br><img src="/aspnetcore-fundamentals-pipelines/pipes_01.png" title="对象关系示意图"></p>
+<h2 id="管道的构成"><a href="#管道的构成" class="headerlink" title="管道的构成"></a>管道的构成</h2><p>HTTP 请求处理流程始于对请求的监听，终于对请求的响应，这两项工作均由同一个对象来完成，我们称之为 <strong>「服务器(Server)」</strong> 。尽管 ASP.NET Core 的请求处理管道可以任意定制，但是该管道必须有一个 Server，Server 是整个管道的<strong>「水龙头」</strong>。在上述的 Hello World 应用中，在 <code>Build</code> 一个 <code>WebHost</code> 之前，首先调用了扩展方法 <code>UseKestrel</code>，该方法就是为后续构建的管道注册一个名为 <code>KestrelServer</code> 的<strong>「服务器」</strong>。</p>
+<p>调用 <code>WebHost</code> 的 <code>Start</code> 方法(调用 <code>WebHost</code> 的扩展方法 <code>Run</code> 时，它的 <code>Start</code> 方法会被自动调用)之后，定制的管道会被构建出来，管道的服务器将绑定到一个预设的端口(<code>KestrelServer</code> 默认采用 5000 作为监听端口)开始监听请求。HTTP 请求一旦抵达，服务器将其标准化并分发给管道后续的节点。管道中位于服务器之后的节点称为<strong>「中间件(Middleware)」</strong>。每个中间件都具有各自独立的功能，例如有专门实现路由功能的中间件，有专门实施用户认证的中间件。<strong>所谓的管道定制体现在根据具体的需求选择对应的中间件组成最终的请求处理管道</strong>。下图揭示了由一个服务器和一组中间件构成的请求处理管道:<br><img src="/aspnetcore-fundamentals-pipelines/pipes_02.png" title="管道示意图"><br>一个基于 ASP.NET Core 的应用程序通常是根据某个框架开发的，而框架本身就是通过某个或多个<strong>「中间件」</strong>构建出来的。ASP.NET Core MVC 就是典型的基于 ASP.NET Core 的开发框架，它定义了一个叫做<strong>「路由」</strong>的中间件实现了请求地址与 <code>Controller/Action</code> 之间的映射，并在此基础实现了激活 <code>Controller</code>，执行 <code>Action</code> 以及呈现 <code>View</code> 等一系列的功能。所以应用程序可以视为某个中间件的一部分，如果一定要将它独立出来，整个请求处理管道将呈现出如下图所示的结构:<br><img src="/aspnetcore-fundamentals-pipelines/pipes_03.png" title="应用程序位于框架中的位置"></p>
+<h2 id="定制管道"><a href="#定制管道" class="headerlink" title="定制管道"></a>定制管道</h2><p>在上述的 Hello World 程序中，调用扩展方法 <code>UseKestrel</code> 注册 <code>KestrelServer</code> 服务器之后，还调用 <code>WebHostBuilder</code> 的 <code>Configure</code> 的扩展方法注册了一个类型为 <code>Action&lt;IApplicationBuilder&gt;</code> 的委托对象。注册这个委托对象的目的在于对构建的管道定制请求处理逻辑，即为管道注册中间件。这个委托对象调用 <code>ApplicationBuilder</code> 的 <code>Run</code> 扩展方法注册了一个中间件来为每个请求响应一个「Hello World」字符串。<br><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> IWebHostBuilder <span class="title">Configure</span>(<span class="params"><span class="keyword">this</span> IWebHostBuilder hostBuilder, Action&lt;IApplicationBuilder&gt; configureApp</span>) </span></span><br></pre></td></tr></table></figure><br>除了调用 <code>WebHostBuilder</code> 的 <code>Configure</code> 方法来注册一个 <code>Action&lt;IApplicationBuilder&gt;</code> 类型的委托，注册中间件定义管道的逻辑更多地还是定义在一个单独的类型中。由于管道的定制总是在应用程序启动(<strong>Startup</strong>)的时候进行，一般称这个用于定制管道的类型为<strong>「启动类型」</strong>，并在大部分情况下会直接命名为 <code>Startup</code>。<strong>按照约定，通过注册中间件定制管道的操作会实现在名为 <code>Configure</code> 的方法中，方法的第一个参数必须是一个 <code>IApplicationBuilder</code> 接口的实例</strong>，后续可定义任意数量和类型的参数，当 ASP.NET Core 框架调用该方法的时候，会以依赖注入的方式提供这些参数的值。启动类型可以通过调用 <code>WebHostBuilder</code> 的扩展方法 <code>UseStartup&lt;T&gt;</code> 来指定，如下面的代码与前面演示的示例是完全等效的。<br><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Startup</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Configure</span>(<span class="params">IApplicationBuilder app</span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        app.Run(<span class="keyword">async</span> context =&gt; <span class="keyword">await</span> context.Response.WriteAsync(<span class="string">"Hello World"</span>));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Program</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Main</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">new</span> WebHostBuilder()</span><br><span class="line">            .UseKestrel()</span><br><span class="line">            .UseStartup&lt;Startup&gt;()         </span><br><span class="line">            .Build()</span><br><span class="line">            .Run();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br>在真正的项目开发中，我们会利用 <code>ApplicationBuilder</code> 注册相应的中间件进而构建一个符合需求的请求处理管道。如下所示，我们除了按照上面的方式调用扩展方法 <code>UseMvc</code> 注册了支撑 MVC 框架的中间件(实际上是一个实现路由的中间件)之外，还调用了其它的扩展方法注册了相应的中间件实现了对静态文件的访问(<code>UseStaticFiles</code>)，错误页面的呈现(<code>UseExceptionHandler</code>)以及基于 ASP.NET Identity Framework 的认证(<code>UseIdentity</code>):<br><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Startup</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Configure</span>(<span class="params">IApplicationBuilder app</span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        app.UseExceptionHandler(<span class="string">"/Home/Error"</span>);</span><br><span class="line">        app.UseStaticFiles();</span><br><span class="line">        app.UseIdentity();           </span><br><span class="line"> </span><br><span class="line">        app.UseMvc();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h1 id="服务器"><a href="#服务器" class="headerlink" title="服务器"></a>服务器</h1><p>服务器是 ASP.NET Core 管道的第一个节点，它负责请求的监听和接收，并最终完成对请求的响应。服务器是所有实现了 <code>IServer</code> 接口的类型及其对象的统称。<code>IServer</code> 接口定义了一个只读属性 <code>Features</code> 返回描述自身特性集合的 <code>IFeatureCollection</code> 对象，<code>Start</code> 方法用于启动服务器。<br><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">IServer</span></span><br><span class="line">&#123;</span><br><span class="line">    IFeatureCollection Features &#123; <span class="keyword">get</span>; &#125;</span><br><span class="line">    <span class="keyword">void</span> Start&lt;TContext&gt;(IHttpApplication&lt;TContext&gt; application);    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><code>Start</code> 方法一旦执行，服务会马上开始监听工作。任何 HTTP 请求抵达，该方法接收一个 <code>HttpApplication</code> 对象创建一个上下文，并在此上下文中完成对请求的所有处理操作。当完成了对请求的处理任务之后，<code>HttpApplication</code> 对象会自行负责回收释放由它创建的上下文。</p>
+<h2 id="HttpApplication"><a href="#HttpApplication" class="headerlink" title="HttpApplication"></a>HttpApplication</h2><p>ASP.NET Core 请求处理管道由一个服务器和一组有序排列的中间件组合而成。如果在此之上作进一步抽象，将后者抽象成一个 <code>HttpApplication</code> 对象，该管道就成了一个 <code>Server</code> 和 <code>HttpApplication</code> 的组合。<code>Server</code> 将接收到的 HTTP 请求转发给 <code>HttpApplication</code> 对象，后续的请求完全由它来负责。<br><code>HttpApplication</code> 从服务器获得请求之后，会使用注册的中间件对请求进行处理，并最终将请求递交给应用程序。<code>HttpApplication</code> 针对请求的处理在一个执行上下文中完成，这个上下文为对单一请求的整个处理过程定义了一个边界。描述 HTTP 请求的 <code>HttpContext</code> 是这个执行上下文中最核心的部分，除此之外，我们还可以根据需要将其他相关的信息定义其中，所以 <code>IHttpApplication&lt;TContext&gt;</code> 接口采用泛型来表示定义这个上下文的类型。<br><img src="/aspnetcore-fundamentals-pipelines/pipes_04.png" title="HttpApplication"><br>一个 <code>HttpApplication</code> 对象在接收到 <code>Server</code> 转发的请求之后完成三项基本的操作，即<strong>「创建上下文」</strong>，<strong>「在上下文中处理请求」</strong>以及<strong>「请求处理完成之后释放上下文」</strong>，这些操作通过三个方法来完成。<br><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public interface IHttpApplication&lt;TContext&gt;</span><br><span class="line">&#123;</span><br><span class="line">    <span class="function">TContext <span class="title">CreateContext</span>(<span class="params">IFeatureCollection contextFeatures</span>)</span>; </span><br><span class="line">    <span class="function">Task <span class="title">ProcessRequestAsync</span>(<span class="params">TContext context</span>)</span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">DisposeContext</span>(<span class="params">TContext context, Exception exception</span>)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><code>CreateContext</code> 和 <code>DisposeContext</code> 方法分别体现了执行上下文的创建和释放，<code>CreateContext</code> 方法的参数 <code>contextFeatures</code> 表示描述原始上下文的特性集合。在此上下文中针对请求的处理实现在另一个方法 <code>ProcessRequestAsync</code> 中。</p>
+<h2 id="HostingApplication"><a href="#HostingApplication" class="headerlink" title="HostingApplication"></a>HostingApplication</h2><p>在 ASP.NET Core 中，<code>HostingApplication</code> 类型是 <code>IHttpApplication&lt;Context&gt;</code> 默认实现类，它创建的执行上下文有如下定义:<br><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">struct</span> Context</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> HttpContext HttpContext &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">    <span class="keyword">public</span> IDisposable Scope &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">long</span> StartTimestamp &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>该类型封装了一个 <code>HttpContext</code> 对象，后者是真正描述当前 HTTP 请求的上下文，承载着核心的上下文信息。除此之外，<code>Context</code> 还定义了 <code>Scope</code> 和 <code>StartTimestamp</code> 两个属性，两者与日志记录和事件追踪有关，前者用来将针对同一请求的多次日志记录关联到同一个上下文区限(见<a href="/Web/ASP-NET-Core/aspnetcore-fundamentals-logging/#日志类别Category">日志区限</a>；后者表示请求开始处理的时间戳，如果在完成请求处理的时候记录下当时的时间戳，就可以计算出整个请求处理所花费的时间。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">public class HostingApplication : IHttpApplication&lt;HostingApplication.Context&gt;</span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">HostingApplication</span>(<span class="params">RequestDelegate application, ILogger logger, DiagnosticSource diagnosticSource, IHttpContextFactory httpContextFactory</span>)</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Context <span class="title">CreateContext</span>(<span class="params">IFeatureCollection contextFeatures</span>)</span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">DisposeContext</span>(<span class="params">Context context, Exception exception</span>)</span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Task <span class="title">ProcessRequestAsync</span>(<span class="params">Context context</span>)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>HostingApplication</code> 的构造函数依赖一个 <code>RequestDelegate</code> 的委托对象，该对象由 <code>IApplicationBuilder</code> 注册的中间件生成，<code>HttpContextFactory</code> 用以创建 <code>HttpContext</code> 对象:<br><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">public class HostingApplication : IHttpApplication&lt;HostingApplication.Context&gt;</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">readonly</span> RequestDelegate         _application;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">readonly</span> DiagnosticSource        _diagnosticSource;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">readonly</span> IHttpContextFactory     _httpContextFactory;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">readonly</span> ILogger                 _logger;</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">HostingApplication</span>(<span class="params">RequestDelegate application, ILogger logger, DiagnosticSource diagnosticSource, IHttpContextFactory httpContextFactory</span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        _application          = application;</span><br><span class="line">        _logger               = logger;</span><br><span class="line">        _diagnosticSource     = diagnosticSource;</span><br><span class="line">        _httpContextFactory   = httpContextFactory;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br><code>logger</code> 和 <code>diagnosticSource</code> 是与日志记录有关的参数。<code>HostingApplication</code> 对 <code>CreateContext</code>，<code>ProcessRequestAsync</code> 和 <code>DisposeContext</code> 有如下实现:<br><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> Context <span class="title">CreateContext</span>(<span class="params">IFeatureCollection contextFeatures</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">//省略其他实现代码</span></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> Context</span><br><span class="line">    &#123;</span><br><span class="line">           HttpContext      = _httpContextFactory.Create(contextFeatures),</span><br><span class="line">           Scope            = ...,</span><br><span class="line">           StartTimestamp   = ...</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">public</span> Task <span class="title">ProcessRequestAsync</span>(<span class="params">Context context</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    Return _application(context.HttpContext);</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">DisposeContext</span>(<span class="params">Context context, Exception exception</span>)</span></span><br><span class="line"><span class="function"></span>&#123;        </span><br><span class="line">    <span class="comment">//省略其他实现代码</span></span><br><span class="line">    context.Scope.Dispose();</span><br><span class="line">    _httpContextFactory.Dispose(context.HttpContext);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li><code>CreateContext</code> 直接利用私有字段 <code>_httpContextFactory</code> 创建一个 <code>HttpContext</code> 对象并将其赋值给 <code>Context</code> 的同名属性。</li>
+<li><code>ProcessRequestAsync</code> 方法则使用 <code>HttpContext</code> 传入 <code>RequestDelegate</code> 委托。</li>
+<li><code>DisposeContext</code> 方法执行时 <code>Context</code> 属性的 <code>Scope</code> 会率先被释放，此后 调用 <code>IHttpContextFactory.Dispose</code> 方法释放 <code>HttpContext</code> 对象。</li>
+</ul>
+<h2 id="KestrelServer"><a href="#KestrelServer" class="headerlink" title="KestrelServer"></a>KestrelServer</h2><p>跨平台是 ASP.NET Core 一个显著的特性，而 <code>KestrelServer</code> 是目前微软推出的唯一一个能够真正跨平台的服务器。<code>KestrelServer</code> 基于 <code>KestrelEngine</code> 的网络引擎实现对请求的监听，接收和响应。<code>KetrelServer</code> 之所以可以跨平台，在于 <code>KestrelEngine</code> 是在 <code>libuv</code> 跨平台网络库上开发的。</p>
+<blockquote>
+<p><code>libuv</code> 是基于 Unix 系统针对事件循环和事件模型的网络库 <code>libev</code> 开发的。<code>libev</code> 不支持 Windows，有人在 <code>libev</code> 之上创建了一个抽象层以屏蔽平台之间的差异，这个抽象层就是 <code>libuv</code>。<code>libuv</code> 在 Windows 平台上使用 IOCP 的形式实现，到目前为止，<code>libuv</code> 已经支持更多除 Unix 和 Windows 以外的平台了，如 Linux(2.6)、MacOS 和 Solaris (121以及之后的版本)。下图揭示了 <code>libuv</code> 针对 Unix 和 Windows 的跨平台实现原理。<br><img src="/aspnetcore-fundamentals-pipelines/pipes_10.png"></p>
+</blockquote>
+<p>以下是 <code>KestrelServer</code> 类型的定义:<br><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">KestrelServer</span> : <span class="title">IServer</span></span><br><span class="line">&#123;   </span><br><span class="line">    <span class="keyword">public</span> IFeatureCollection     Features &#123; <span class="keyword">get</span>; &#125;</span><br><span class="line">    <span class="keyword">public</span> KestrelServerOptions   Options &#123; <span class="keyword">get</span>; &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">KestrelServer</span>(<span class="params">IOptions&lt;KestrelServerOptions&gt; options, IApplicationLifetime applicationLifetime, ILoggerFactory loggerFactory</span>)</span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Dispose</span>(<span class="params"></span>)</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> Start&lt;TContext&gt;(IHttpApplication&lt;TContext&gt; application);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>除了实现接口 <code>IServer</code> 定义的 <code>Features</code> 属性之外，<code>KestrelServer</code> 还包含一个类型为 <code>KestrelServerOptions</code> 的只读属性 Options。这个属性表示 <code>KestrelServer</code> 的配置信息，构造函数通过输入参数 <code>IOptions&lt;KestrelServerOptions&gt;</code> 对其进行初始化，这里同样采用 <a href="/Web/ASP-NET-Core/aspnetcore-fundamentals-configuration/#options-模式">Options 模式</a>。例如可以通过一个 JSON 文件来配置 <code>KestrelServer</code>:<br><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"noDelay"</span>            : <span class="literal">false</span>,</span><br><span class="line">  <span class="attr">"shutdownTimeout"</span>    : <span class="string">"00:00:10"</span>,</span><br><span class="line">  <span class="attr">"threadCount"</span>        :  <span class="number">10</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>构造函数的另外两个参数 - <code>IApplicationLifetime</code> 与与应用的生命周期管理有关， <code>ILoggerFactory</code> 则用于创建记录日志的 <code>Logger</code>。</p>
+<p>通常，通过调用 <code>WebHostBuilder</code> 的 <code>UseKestrel</code> 扩展方法来注册 <code>KestrelServer</code>。<code>UseKestrel</code> 方法有两个重载，其中一个接收一个类型为 <code>Action&lt;KestrelServerOptions&gt;</code> 的参数，通过赋值该参数直接完成对 <code>KestrelServer</code> 的配置。代码如下:<br><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">class</span> <span class="title">WebHostBuilderKestrelExtensions</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> IWebHostBuilder <span class="title">UseKestrel</span>(<span class="params"><span class="keyword">this</span> IWebHostBuilder hostBuilder</span>)</span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> IWebHostBuilder <span class="title">UseKestrel</span>(<span class="params"><span class="keyword">this</span> IWebHostBuilder hostBuilder, Action&lt;KestrelServerOptions&gt; options</span>)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br>由于服务器负责监听，接收和响应请求，它是影响整个 Web 应用响应能力和吞吐量最大的因素之一，为了更加有效地使用服务器，可以根据具体的网络负载状况对其作针对性的设置。现在来看看 <code>KestrelServerOptions</code> 类型的定义:<br><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">KestrelServerOptions</span></span><br><span class="line">&#123;   </span><br><span class="line">    <span class="comment">//省略其他成员</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span>          MaxPooledHeaders &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span>          MaxPooledStreams &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">bool</span>         NoDelay &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">    <span class="keyword">public</span> TimeSpan     ShutdownTimeout &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span>          ThreadCount &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="ServerAddressesFeature"><a href="#ServerAddressesFeature" class="headerlink" title="ServerAddressesFeature"></a>ServerAddressesFeature</h2><p><code>KestrelServer</code> 默认采用 <code>http://localhost:5000</code> 作为监听地址，服务器的监听地址可以显式指定，其通过 <code>IServerAddressesFeature</code> 提供支持。服务器接口 <code>IServer</code> 中定义了一个类型为 <code>IFeatureCollection</code> 的只读属性 <code>Features</code>，它表示当前服务器的特性集合，<code>ServerAddressesFeature</code> 作为一个重要的特性，就包含在这个集合中。该接口只有一个唯一的只读属性返回服务器的监听地址列表。ASP.NET Core 默认使用 <code>ServerAddressesFeature</code> 类型实现 <code>IServerAddressesFeature</code> 接口，定义如下:<br><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">IServerAddressesFeature</span></span><br><span class="line">&#123;</span><br><span class="line">    ICollection&lt;<span class="keyword">string</span>&gt; Addresses &#123; <span class="keyword">get</span>; &#125;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">ServerAddressesFeature</span> : <span class="title">IServerAddressesFeature</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> ICollection&lt;<span class="keyword">string</span>&gt; Addresses &#123; <span class="keyword">get</span>; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br><code>WebHost</code> 通过依赖注入创建的服务器的 <code>Features</code> 属性中会默认包含一个 <code>ServerAddressesFeature</code> 对象。<code>WebHost</code> 会将显式指定的地址(一个或者多个)添加到该对象的监听地址列表中。地址列表其作为配置项保存在一个 <code>Configuration</code> 对象上，配置项对应的 Key 为 <code>urls</code>，可以通过 <code>WebHostDefaults</code> 的静态只读属性 <code>ServerUrlsKey</code> 返回这个 Key。<br><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> WebHostBuilder()</span><br><span class="line">    .UseSetting(WebHostDefaults.ServerUrlsKey, <span class="string">"http://localhost:3721/"</span>)</span><br><span class="line">    .UseKestrel()</span><br><span class="line">    .UseStartup&lt;Startup&gt;()</span><br><span class="line">    .Build()</span><br><span class="line">    .Run();</span><br></pre></td></tr></table></figure></p>
+<p>WebHost 的配置最初来源于创建它的 <code>WebHostBuilder</code>，<code>WebHostBuilder</code> 提供了一个 <code>UseSettings</code> 方法来设置某个配置项的值。对监听地址的显式设置，最直接的编程方式是调用 <code>WebHostBuilder</code> 的扩展方法 <code>UseUrls</code>，该方法的实现逻辑与上面完全一致:<br><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">class</span> <span class="title">WebHostBuilderExtensions</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> IWebHostBuilder <span class="title">UseUrls</span>(<span class="params"><span class="keyword">this</span> IWebHostBuilder hostBuilder, <span class="keyword">params</span> <span class="keyword">string</span>[] urls</span>) </span></span><br><span class="line"><span class="function">    </span>=&gt;hostBuilder.UseSetting(WebHostDefaults.ServerUrlsKey, <span class="keyword">string</span>.Join(ServerUrlsSeparator, urls)) ;    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h1 id="WebHost"><a href="#WebHost" class="headerlink" title="WebHost"></a>WebHost</h1><p>ASP.NET Core 管道是由作为应用程序宿主的 <code>WebHost</code> 对象创建出来的。应用的启动和关闭是通过启动或者关闭对应 <code>WebHost</code> 的方式实现的。<code>IWebHost</code> 接口定义了如下三个基本成员:<br><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">IWebHost</span> : <span class="title">IDisposable</span></span><br><span class="line">&#123;    </span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">Start</span>(<span class="params"></span>)</span>;</span><br><span class="line">    IFeatureCollection     ServerFeatures &#123; <span class="keyword">get</span>; &#125;</span><br><span class="line">    IServiceProvider       Services &#123; <span class="keyword">get</span>; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br><code>Start</code> 方法用于启动宿主程序。编程中通常会调用它的一个扩展方法 <code>Run</code> 来启动 <code>WebHost</code>，<code>Run</code> 方法会在内部调用 <code>Start</code> 方法。当 WebHost 启动后，服务器立即开始监听请求。<code>IWebHost</code> 接口的默认实现类是 <code>WebHost</code>，它总是由一个 <code>WebHostBuilder</code> 对象创建，<code>WebHost</code> 的构造函数依赖 4 个参数:<br><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">WebHost</span> : <span class="title">IWebHost</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">private</span> IServiceCollection   _appServices;</span><br><span class="line">    <span class="keyword">private</span> IServiceProvider     _hostingServiceProvider;</span><br><span class="line">    <span class="keyword">private</span> WebHostOptions       _options;</span><br><span class="line">    <span class="keyword">private</span> IConfiguration       _config;</span><br><span class="line">    <span class="keyword">private</span> ApplicationLifetime  _applicationLifetime;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> IServiceProvider       Services &#123; <span class="keyword">get</span>; <span class="keyword">private</span> <span class="keyword">set</span>; &#125;</span><br><span class="line">    <span class="keyword">public</span> IFeatureCollection     ServerFeatures </span><br><span class="line">    &#123;</span><br><span class="line">         <span class="keyword">get</span> &#123; <span class="keyword">return</span> <span class="keyword">this</span>.Services.GetRequiredService&lt;IServer&gt;()?.Features; &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">WebHost</span>(<span class="params">IServiceCollection appServices, IServiceProvider hostingServiceProvider, WebHostOptions options, IConfiguration config</span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        _appServices                 = appServices;</span><br><span class="line">        _hostingServiceProvider      = hostingServiceProvider;</span><br><span class="line">        _options                     = options;</span><br><span class="line">        _config                      = config;</span><br><span class="line">        </span><br><span class="line">        _applicationLifetime         = <span class="keyword">new</span> ApplicationLifetime();</span><br><span class="line">        appServices.AddSingleton&lt;IApplicationLifetime&gt;(_applicationLifetime);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Dispose</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        _applicationLifetime.StopApplication();</span><br><span class="line">        (<span class="keyword">this</span>.Services <span class="keyword">as</span> IDisposable)?.Dispose();</span><br><span class="line">        _applicationLifetime.NotifyStopped();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Start</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>appServices 从直接注册到 <code>WebHostBuilder</code> 上的服务而来</li>
+<li>hostingServiceProvider 是由 appServices 创建的<code>IServiceProvider</code>。</li>
+<li>只读属性 <code>Services</code> 返回一个 <code>ServiceProvider</code> 对象，其利用构造函数传入的 <code>ServiceCollection</code> 对象创建。</li>
+<li>只读属性 <code>ServerFeatures</code> 返回服务器的特性集合，而服务器本身使用 <code>ServiceProvider</code> 获得</li>
+<li><code>Dispose</code> 方法释放服务器对象，并利用 <code>ApplicationLifetime</code> 发送相应的信号。</li>
+</ul>
+<h2 id="WebHostOptions"><a href="#WebHostOptions" class="headerlink" title="WebHostOptions"></a>WebHostOptions</h2><p>一个 <code>WebHostOptions</code> 对象为构建的 <code>WebHost</code> 对象提供一些预定义的选项，这些选项很重要，它们决定了由 <code>WebHost</code> 构建的管道进行内容加载以及异常处理等方面的行为。以下是其类型定义:<br><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">WebHostOptions</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">string</span>     ApplicationName &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">bool</span>       DetailedErrors &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">bool</span>       CaptureStartupErrors &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">string</span>     Environment &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;        </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">string</span>     StartupAssembly &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">string</span>     WebRoot &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">string</span>     ContentRootPath &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">WebHostOptions</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">    <span class="keyword">public</span> <span class="title">WebHostOptions</span>(<span class="params">IConfiguration configuration</span>) </span></span><br><span class="line"><span class="function">&#125;</span></span><br></pre></td></tr></table></figure><br>可以将这些选项定义在配置中，并利用 Options 模式创建一个 <code>WebHostOptions</code> 对象。 </p>
+<h2 id="构建管道"><a href="#构建管道" class="headerlink" title="构建管道"></a>构建管道</h2><p><code>Start</code> 方法真正启动 <code>WebHost</code>:<br><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Start</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">//注册服务</span></span><br><span class="line">    IStartup startup = _hostingServiceProvider.GetRequiredService&lt;IStartup&gt;();</span><br><span class="line">    <span class="keyword">this</span>.Services = startup.ConfigureServices(_appServices);</span><br><span class="line">       </span><br><span class="line">    <span class="comment">//注册中间件</span></span><br><span class="line">    Action&lt;IApplicationBuilder&gt; configure = startup.Configure;</span><br><span class="line">    configure = <span class="keyword">this</span>.Services.GetServices&lt;IStartupFilter&gt;().Reverse().Aggregate(configure, (next, current) =&gt; current.Configure(next));</span><br><span class="line">    IApplicationBuilder appBuilder = <span class="keyword">this</span>.Services.GetRequiredService&lt;IApplicationBuilder&gt;();</span><br><span class="line">    configure(appBuilder);</span><br><span class="line"> </span><br><span class="line">    <span class="comment">//为服务器设置监听地址</span></span><br><span class="line">    IServer server = <span class="keyword">this</span>.Services.GetRequiredService&lt;IServer&gt;();</span><br><span class="line">    IServerAddressesFeature addressesFeature = server.Features.Get&lt;IServerAddressesFeature&gt;();</span><br><span class="line">    <span class="keyword">if</span> (<span class="literal">null</span> != addressesFeature &amp;&amp; !addressesFeature.Addresses.Any())</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">string</span> addresses = _config[<span class="string">"urls"</span>] ?? <span class="string">"http://localhost:5000"</span>;</span><br><span class="line">        <span class="keyword">foreach</span> (<span class="keyword">string</span> address <span class="keyword">in</span> addresses.Split(<span class="string">';'</span>))</span><br><span class="line">        &#123;</span><br><span class="line">            addressesFeature.Addresses.Add(address);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//启动服务器</span></span><br><span class="line">    RequestDelegate application = appBuilder.Build();</span><br><span class="line">    ILogger logger = <span class="keyword">this</span>.Services.GetRequiredService &lt;ILogger&lt;MyWebHost&gt;&gt;();</span><br><span class="line">    DiagnosticSource diagnosticSource = <span class="keyword">this</span>.Services.GetRequiredService&lt;DiagnosticSource&gt;();</span><br><span class="line">    IHttpContextFactory httpContextFactory = <span class="keyword">this</span>.Services.GetRequiredService&lt;IHttpContextFactory&gt;();</span><br><span class="line">    server.Start(<span class="keyword">new</span> HostingApplication(application, logger, diagnosticSource, httpContextFactory));</span><br><span class="line"> </span><br><span class="line">    <span class="comment">//对外发送通知</span></span><br><span class="line">    _applicationLifetime.NotifyStarted();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<ol>
+<li>注册服务: <code>Start</code> 方法首先通过 <code>ServiceProvider</code> 获取 <code>Startup</code> 的实例，并调用 ConfigureServices 注册所有服务。</li>
+<li>注册中间件: 使用 <code>ServiceProvider</code> 获取所有注册的 <code>StartupFilter</code>，并结合之前提取的 <code>Startup</code> 对象创建一个注册中间件的委托(<code>Action&lt;IApplicationBuilder&gt;</code>)。从 <code>ServiceProvider</code> 获取 <code>ApplicationBuilder</code> 对象作为参数传入该委托，完成中间件的注册。</li>
+<li>设置服务器监听地址: 使用 <code>ServiceProvider</code> 提取注册在 <code>WebHostBuilder</code> 上的服务器对象，从该对象的 <code>Features</code> 属性中提取 <code>IServerAddressesFeature</code> 对象，从配置中提取显式指定的监听地址，将其逐个加入到 <code>IServerAddressesFeature</code> 的 <code>Addresses</code> 集合中。如果没有任何显式指定的监听地址，那么默认值为 <code>http://localhost:5000</code>。</li>
+<li>启动服务器: 准备就绪的服务器由 <code>IServer.Start</code> 方法启动，该方法接收一个 <code>HttpApplication&lt;TContext&gt;</code> 作为参数，创建该接口的默认实现者 <code>HostingApplication</code> 需要 4 个参数: <ol>
+<li><code>RequestDelegate</code>: 中间件链表，通过 <code>IApplicationBuilder.Build</code> 获取。</li>
+<li><code>Logger</code>: 日志记录器，通过 <code>ServiceProvider</code> 获取。</li>
+<li><code>DiagnosticSource</code>: 通过 <code>ServiceProvider</code> 获取。</li>
+<li><code>HttpContextFactory</code>: Http 上下文工厂，通过 <code>ServiceProvider</code> 获取。</li>
+</ol>
+</li>
+<li>发布通知: 服务器成功启动之后，向外发送通知</li>
+</ol>
+<h1 id="WebHostBuilder"><a href="#WebHostBuilder" class="headerlink" title="WebHostBuilder"></a>WebHostBuilder</h1><p><code>WebHostBuilder</code> 是 <code>WebHost</code> 的创建者，<code>IWebHostBuilder</code> 接口除了定义用来创建 <code>WebHost</code> 的核心方法 <code>Build</code> 之外，还定义了其他一些方法:<br><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">IWebHostBuilder</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function">IWebHost <span class="title">Build</span>(<span class="params"></span>)</span>;</span><br><span class="line">    <span class="function">IWebHostBuilder <span class="title">ConfigureServices</span>(<span class="params">Action&lt;IServiceCollection&gt; configureServices</span>)</span>;</span><br><span class="line">    <span class="function">IWebHostBuilder <span class="title">UseLoggerFactory</span>(<span class="params">ILoggerFactory loggerFactory</span>)</span>;</span><br><span class="line">    <span class="function">IWebHostBuilder <span class="title">ConfigureLogging</span>(<span class="params">Action&lt;ILoggerFactory&gt; configureLogging</span>)</span>;</span><br><span class="line">    <span class="function"><span class="keyword">string</span> <span class="title">GetSetting</span>(<span class="params"><span class="keyword">string</span> key</span>)</span>;    </span><br><span class="line">    <span class="function">IWebHostBuilder <span class="title">UseSetting</span>(<span class="params"><span class="keyword">string</span> key, <span class="keyword">string</span> <span class="keyword">value</span></span>)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br>ASP.NET Core 有两种注册服务的途径，一种是将服务注册实现在启动类的 <code>ConfigureServices</code> 方法中，另一种就是调用 <code>IWebHostBuilder</code> 的 <code>ConfigureServices</code> 方法。前者实际上是在 <code>WebHost</code> 启动时提取 <code>Startup</code> 对象调用其 <code>ConfigureServices</code> 进行注册，而 <code>IWebHostBuilder.ConfigureServices</code> 直接将服务提供给创建的 <code>WebHost</code>。</p>
+<p><code>UseLoggerFactory</code> 设置一个默认的 <code>ILoggerFactory</code> 对象，<code>ConfigureLogging</code> 则对 <code>ILoggerFactory</code> 进行配置，具体参见<a href="/Web/ASP-NET-Core/aspnetcore-fundamentals-logging/">日志系统</a>。</p>
+<p><code>IWebHostBuilder</code> 的默认实现类型时 <code>WebHostBuilder</code>，以下代码展示了除 Build 方法以外的其他成员的实现:<br><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">IWebHostBuilder</span></span><br><span class="line"><span class="title">public</span> <span class="title">class</span> <span class="title">WebHostBuilder</span> : <span class="title">IWebHostBuilder</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">private</span> List&lt;Action&lt;ILoggerFactory&gt;&gt; _configureLoggingDelegates = <span class="keyword">new</span> List&lt;Action&lt;ILoggerFactory&gt;&gt;();</span><br><span class="line">    <span class="keyword">private</span> List&lt;Action&lt;IServiceCollection&gt;&gt; _configureServicesDelegates = <span class="keyword">new</span> List&lt;Action&lt;IServiceCollection&gt;&gt;();</span><br><span class="line">    <span class="keyword">private</span> ILoggerFactory _loggerFactory = <span class="keyword">new</span> LoggerFactory();</span><br><span class="line">    <span class="keyword">private</span> IConfiguration _config = <span class="keyword">new</span> ConfigurationBuilder().AddEnvironmentVariables(<span class="string">"ASPNETCORE_"</span>).Build();</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">public</span> IWebHostBuilder <span class="title">ConfigureLogging</span>(<span class="params">Action&lt;ILoggerFactory&gt; configureLogging</span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        _configureLoggingDelegates.Add(configureLogging);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">public</span> IWebHostBuilder <span class="title">ConfigureServices</span>(<span class="params">Action&lt;IServiceCollection&gt; configureServices</span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        _configureServicesDelegates.Add(configureServices);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">string</span> <span class="title">GetSetting</span>(<span class="params"><span class="keyword">string</span> key</span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> _config[key];</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">public</span> IWebHostBuilder <span class="title">UseLoggerFactory</span>(<span class="params">ILoggerFactory loggerFactory</span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        _loggerFactory = loggerFactory;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">public</span> IWebHostBuilder <span class="title">UseSetting</span>(<span class="params"><span class="keyword">string</span> key, <span class="keyword">string</span> <span class="keyword">value</span></span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        _config[key] = <span class="keyword">value</span>;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br>默认创建了一个 <code>Configuration</code> 类型的字段 <code>_config</code> 表示应用使用的配置，它默认采用环境变量(用于筛选环境变量的前缀为<code>ASPNETCORE_</code>)作为配置源，<code>GetSetting</code> 和 <code>UseSetting</code> 方法都在内部操作这个字段。另一个字段 <code>_loggerFactory</code> 表示默认使用的 <code>ILoggerFactory</code>，<code>UseLoggerFactory</code> 方法指定的 <code>LoggerFactory</code> 用来对这个字段进行赋值。<code>ConfigureLogging</code> 和 <code>ConfigureServices</code> 仅仅将传入的委托对象保存在一个集合中。</p>
+<p><code>Build</code> 方法实现创建 <code>WebHost</code> 对象并注册必要的服务，以下列出这些服务的不完全列表:</p>
+<ul>
+<li>用于注册服务和中间件的 <code>Startup</code> 对象。</li>
+<li>用来创建 <code>Logger</code> 的 <code>LoggerFactory</code> 对象</li>
+<li>构建中间件链表的 <code>ApplicationBuilder</code> 对象</li>
+<li>创建 HTTP 上下文的 <code>HttpContextFactory</code> 对象</li>
+<li>用户实现诊断功能的 <code>DiagnosticSource</code> 对象</li>
+<li>用来保存承载环境的 <code>HostingEnvironment</code> 对象</li>
+</ul>
+<p>以下代码展示了 <code>Build</code> 方法的实现:<br><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">WebHostBuilder</span> : <span class="title">IWebHostBuilder</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">private</span> List&lt;Action&lt;ILoggerFactory&gt;&gt; _configureLoggingDelegates = <span class="keyword">new</span> List&lt;Action&lt;ILoggerFactory&gt;&gt;();</span><br><span class="line">    <span class="keyword">private</span> List&lt;Action&lt;IServiceCollection&gt;&gt; _configureServicesDelegates = <span class="keyword">new</span> List&lt;Action&lt;IServiceCollection&gt;&gt;();</span><br><span class="line">    <span class="keyword">private</span> ILoggerFactory _loggerFactory = <span class="keyword">new</span> LoggerFactory();</span><br><span class="line">    <span class="keyword">private</span> IConfiguration _config = <span class="keyword">new</span> ConfigurationBuilder().AddInMemoryCollection().Build();</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">public</span> IWebHost <span class="title">Build</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="comment">//根据配置创建WebHostOptions</span></span><br><span class="line">        WebHostOptions options = <span class="keyword">new</span> WebHostOptions(_config);</span><br><span class="line"> </span><br><span class="line">        <span class="comment">//注册服务IStartup</span></span><br><span class="line">        IServiceCollection services = <span class="keyword">new</span> ServiceCollection();</span><br><span class="line">        <span class="keyword">if</span> (!<span class="keyword">string</span>.IsNullOrEmpty(options.StartupAssembly))</span><br><span class="line">        &#123;</span><br><span class="line">            Type startupType = StartupLoader.FindStartupType(options.StartupAssembly, options.Environment);</span><br><span class="line">            <span class="keyword">if</span> (<span class="keyword">typeof</span>(IStartup).GetTypeInfo().IsAssignableFrom(startupType))</span><br><span class="line">            &#123;</span><br><span class="line">               services.AddSingleton(<span class="keyword">typeof</span>(IStartup), startupType);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">            &#123;</span><br><span class="line">                services.AddSingleton&lt;IStartup&gt;(_ =&gt; <span class="keyword">new</span> ConventionBasedStartup(StartupLoader.LoadMethods(_, startupType, options.Environment)));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"> </span><br><span class="line">        <span class="comment">//注册ILoggerFactory</span></span><br><span class="line">        <span class="keyword">foreach</span> (<span class="keyword">var</span> configureLogging <span class="keyword">in</span> _configureLoggingDelegates)</span><br><span class="line">        &#123;</span><br><span class="line">            configureLogging(_loggerFactory);</span><br><span class="line">        &#125;</span><br><span class="line">        services.AddSingleton&lt;ILoggerFactory&gt;(_loggerFactory);</span><br><span class="line"> </span><br><span class="line">        <span class="comment">//注册服务IApplicationBuilder，DiagnosticSource和IHttpContextFactory</span></span><br><span class="line">        services</span><br><span class="line">            .AddSingleton&lt;IApplicationBuilder&gt;(_ =&gt; <span class="keyword">new</span> ApplicationBuilder(_))</span><br><span class="line">            .AddSingleton&lt;DiagnosticSource&gt;(<span class="keyword">new</span> DiagnosticListener(<span class="string">"Microsoft.AspNetCore"</span>))</span><br><span class="line">            .AddSingleton&lt;IHttpContextFactory, HttpContextFactory&gt;()</span><br><span class="line">            .AddOptions()</span><br><span class="line">            .AddLogging()</span><br><span class="line">            .AddSingleton&lt;IHostingEnvironment, HostingEnvironment&gt;()</span><br><span class="line">            .AddSingleton&lt;ObjectPoolProvider, DefaultObjectPoolProvider&gt;();          </span><br><span class="line">                      </span><br><span class="line">        <span class="comment">//注册用户调用ConfigureServices方法设置的服务</span></span><br><span class="line">        <span class="keyword">foreach</span> (<span class="keyword">var</span> configureServices <span class="keyword">in</span> _configureServicesDelegates)</span><br><span class="line">        &#123;</span><br><span class="line">            configureServices(services);</span><br><span class="line">        &#125;</span><br><span class="line"> </span><br><span class="line">        <span class="comment">//创建MyWebHost</span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> WebHost(services, services.BuildServiceProvider(), options, _config);</span><br><span class="line">    &#125;  </span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure></p>
+<h2 id="几个常用的扩展方法"><a href="#几个常用的扩展方法" class="headerlink" title="几个常用的扩展方法"></a>几个常用的扩展方法</h2><p>除了使用 <code>GetSetting</code> 和 <code>UseSetting</code> 方法来以键值对的形式来获取和设置配置项，还可以通过 <code>UseConfiguration</code> 扩展方法直接指定一个 <code>IConfiguration</code> 对象作为参数，该对象会原封不动的拷贝至内部的配置项中，其内部依旧是调用了 <code>UseSettings</code> 方法来实现的。<br><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">class</span> <span class="title">HostingAbstractionsWebHostBuilderExtensions</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> IWebHostBuilder <span class="title">UseConfiguration</span>(<span class="params"><span class="keyword">this</span> IWebHostBuilder hostBuilder, IConfiguration configuration</span>)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br><code>WebHostBuilder</code> 在创建 <code>WebHost</code> 的时候需要一个 <code>WebHostOptions</code> 对象，为了方便设置 <code>WebHostOptions</code> 的配置项，ASP.NET Core 定义了一系列扩展方法，这些方法最终也是通过 <code>UseSettings</code> 方法。<br><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">class</span> <span class="title">HostingAbstractionsWebHostBuilderExtensions</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> IWebHostBuilder <span class="title">CaptureStartupErrors</span>(<span class="params"><span class="keyword">this</span> IWebHostBuilder hostBuilder, <span class="keyword">bool</span> captureStartupErrors</span>)</span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> IWebHostBuilder <span class="title">UseContentRoot</span>(<span class="params"><span class="keyword">this</span> IWebHostBuilder hostBuilder, <span class="keyword">string</span> contentRoot</span>)</span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> IWebHostBuilder <span class="title">UseEnvironment</span>(<span class="params"><span class="keyword">this</span> IWebHostBuilder hostBuilder, <span class="keyword">string</span> environment</span>)</span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> IWebHostBuilder <span class="title">UseStartup</span>(<span class="params"><span class="keyword">this</span> IWebHostBuilder hostBuilder, <span class="keyword">string</span> startupAssemblyName</span>)</span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> IWebHostBuilder <span class="title">UseWebRoot</span>(<span class="params"><span class="keyword">this</span> IWebHostBuilder hostBuilder, <span class="keyword">string</span> webRoot</span>)</span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> IWebHostBuilder <span class="title">UseUrls</span>(<span class="params"><span class="keyword">this</span> IWebHostBuilder hostBuilder, <span class="keyword">params</span> <span class="keyword">string</span>[] urls</span>)</span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> IWebHostBuilder <span class="title">UseServer</span>(<span class="params"><span class="keyword">this</span> IWebHostBuilder hostBuilder, IServer server</span>)</span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> IWebHostBuilder <span class="title">UseUrls</span>(<span class="params"><span class="keyword">this</span> IWebHostBuilder hostBuilder, <span class="keyword">params</span> <span class="keyword">string</span>[] urls</span>)</span>;    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h1 id="HttpContext"><a href="#HttpContext" class="headerlink" title="HttpContext"></a>HttpContext</h1><p>对于管道来说，<strong>请求的接收者和最终响应者都是服务器，服务器接收到请求之后会创建与之对应的「原始上下文」，请求的响应也通过这个「原始上下文」来完成。</strong></p>
+<p>但对于建立在管道上的应用程序来说，它们不需要关注管道究竟采用了何种类型的服务器，更不会关注由这个服务器创建的<strong>「原始上下文」</strong>。ASP.NET Core 定义了 <code>HttpContext</code> 抽象类来描述当前请求的上下文，<strong>对当前上下文的抽象解除了管道对具体服务器类型的依赖</strong>，这使得可以为 ASP.NET Core 应用程序自由地选择寄宿(<code>Hosting</code>)方式，而不是像传统的 ASP.NET 应用一样只能寄宿在 IIS 中。抽象的 <code>HttpContext</code> 为请求处理提供了标准化的方式，这使得位于管道中的中间件与具体的服务器类型进行了解耦，中间件只要遵循标准来实现其自身的逻辑即可。<code>HttpContext</code> 包含了当前请求的所有细节，可以直接利用它完成对请求的响应:<br><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">class</span> <span class="title">HttpContext</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">abstract</span> IFeatureCollection Features &#123; <span class="keyword">get</span>; &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">abstract</span> HttpRequest Request &#123; <span class="keyword">get</span>; &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">abstract</span> HttpResponse Response &#123; <span class="keyword">get</span>; &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">abstract</span> ConnectionInfo Connection &#123; <span class="keyword">get</span>; &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">abstract</span> WebSocketManager WebSockets &#123; <span class="keyword">get</span>; &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">abstract</span> AuthenticationManager Authentication &#123; <span class="keyword">get</span>; &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">abstract</span> ClaimsPrincipal User &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">abstract</span> IDictionary&lt;<span class="keyword">object</span>, <span class="keyword">object</span>&gt; Items &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">abstract</span> IServiceProvider RequestServices &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">abstract</span> CancellationToken RequestAborted &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">string</span> TraceIdentifier &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">abstract</span> ISession Session &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">Abort</span>(<span class="params"></span>)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>当需要中止对请求的处理时，可通过为 <code>RequestAborted</code> 属性设置一个 <code>CancellationToken</code> 对象将终止通知发送给管道。如果需要对整个管道共享一些与当前上下文相关的数据，可以将它保存在 <code>Items</code> 属性表示的字典中。<code>RequestServices</code> 属性返回一个 <code>IServiceProvider</code> 对象，该对象为中间件提供注册的服务实例，只要相应的服务事先注册到指定的服务接口上，就可以利用这个 <code>IServiceProvider</code> 来获取对应的服务对象。</p>
+<p>表示请求和响应的 <code>HttpRequest</code> 和 <code>HttpResponse</code> 同样是抽象类:<br><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">class</span> <span class="title">HttpRequest</span></span><br><span class="line">&#123;</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">abstract</span> QueryString QueryString &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">abstract</span> Stream Body &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">string</span> ContentType &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">long</span>? ContentLength &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">abstract</span> IRequestCookieCollection Cookies &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">abstract</span> IHeaderDictionary Headers &#123; <span class="keyword">get</span>; &#125;</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">string</span> Protocol &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">abstract</span> IQueryCollection Query &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">abstract</span> IFormCollection Form &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">abstract</span> PathString Path &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">abstract</span> PathString PathBase &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">abstract</span> HostString Host &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">bool</span> IsHttps &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">string</span> Scheme &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">string</span> Method &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">abstract</span> HttpContext HttpContext &#123; <span class="keyword">get</span>; &#125;</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">bool</span> HasFormContentType &#123; <span class="keyword">get</span>; &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> Task&lt;IFormCollection&gt; <span class="title">ReadFormAsync</span>(<span class="params">CancellationToken cancellationToken = <span class="keyword">default</span>(CancellationToken</span>))</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">class</span> <span class="title">HttpResponse</span></span><br><span class="line">&#123;</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">abstract</span> HttpContext HttpContext &#123; <span class="keyword">get</span>; &#125;</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">int</span> StatusCode &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">abstract</span> IHeaderDictionary Headers &#123; <span class="keyword">get</span>; &#125;</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">abstract</span> Stream Body &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">long</span>? ContentLength &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">string</span> ContentType &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">abstract</span> IResponseCookies Cookies &#123; <span class="keyword">get</span>; &#125;</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">bool</span> HasStarted &#123; <span class="keyword">get</span>; &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">OnCompleted</span>(<span class="params">Func&lt;<span class="keyword">object</span>, Task&gt; callback, <span class="keyword">object</span> state</span>)</span>;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">OnCompleted</span>(<span class="params">Func&lt;Task&gt; callback</span>)</span>;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">OnStarting</span>(<span class="params">Func&lt;<span class="keyword">object</span>, Task&gt; callback, <span class="keyword">object</span> state</span>)</span>;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">OnStarting</span>(<span class="params">Func&lt;Task&gt; callback</span>)</span>;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">Redirect</span>(<span class="params"><span class="keyword">string</span> location</span>)</span>;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">Redirect</span>(<span class="params"><span class="keyword">string</span> location, <span class="keyword">bool</span> permanent</span>)</span>;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">RegisterForDispose</span>(<span class="params">IDisposable disposable</span>)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="FeatureCollection"><a href="#FeatureCollection" class="headerlink" title="FeatureCollection"></a>FeatureCollection</h2><p>在 ASP.NET Core 管道式处理设计中，特性是一个非常重要的概念，它是实现抽象化的 <code>HttpContext</code> 的途径，不同类型的服务器在接收到请求时会创建一个<strong>「原始上下文」</strong>，接下来服务器将<strong>「原始上下文」</strong>的操作封装成一系列标准的特性对象(<code>IFeature</code>)，进而封装成一个 <code>FeatureCollection</code> 对象，当调用 <code>DefaultHttpContext</code> 相应的属性和方法时，其内部又借助封装的特性对象去操作<strong>「原始上下文」</strong>。</p>
+<p>当原始上下文被创建出来之后，服务器会将它封装成一系列标准的特性对象，<code>HttpContext</code> 正是对这些特性对象的封装。这些特性对象对应的类型均实现了某个预定义的标准接口，接口定义了相应的属性来读写原始上下文中描述的信息，还定义了相应的方法来操作原始上下文。<code>HttpContext</code> 的 <code>Features</code> 属性返回这组特性对象的集合，类型为 <code>IFeatureCollection</code>，该接口用于描述某个对象所具有的一组特性，我们可以将其视为一个 <code>Dictionary&lt;Type, object&gt;</code> 对象，字典的 Value 代表特性对象，Key 则表示该对象的注册类型(特性描述对象的具体类型，具体类型的基类或者接口)。调用 <code>Set</code> 方法来注册特性对象，而 <code>Get</code> 方法则根据指定的注册类型得到对应的特性对象。<br><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">public interface IFeatureCollection : IEnumerable&lt;KeyValuePair&lt;Type, object&gt;&gt;, IEnumerable</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">object</span> <span class="keyword">this</span>[Type key] &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">    <span class="keyword">bool</span> IsReadOnly &#123; <span class="keyword">get</span>; &#125;</span><br><span class="line">    <span class="keyword">int</span> Revision &#123; <span class="keyword">get</span>; &#125;</span><br><span class="line">    TFeature Get&lt;TFeature&gt;();</span><br><span class="line">    <span class="keyword">void</span> Set&lt;TFeature&gt;(TFeature instance);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>特性对象的注册和获取也可以通过的索引器来完成。如果 <code>IsReadOnly</code> 属性返回 True，便不能注册新的特性或修改已经注册的特性。只读属性 <code>Revision</code> 可视为 <code>IFeatureCollection</code> 对象的版本，注册新特性或修改现有的特性都将改变这个属性的值。</p>
+<p><code>IFeatureCollection</code> 的默认实现类型是 <code>FeatureCollection</code>:<br><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">FeatureCollection</span> : <span class="title">IFeatureCollection</span></span><br><span class="line">&#123;   </span><br><span class="line">    <span class="comment">//其他成员</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">FeatureCollection</span>(<span class="params"></span>)</span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">FeatureCollection</span>(<span class="params">IFeatureCollection defaults</span>)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br><code>FeatureCollection</code> 类型的 <code>IsReadOnly</code> 总是返回 False，如果调用无参构造函数，它的 <code>Revision</code> 默认返回 0。如果调用第二个构造函数，其 <code>Revision</code> 属性将延续传入参数的 <code>IFeatureCollection.Revision</code> 的值，并采用递增来修改其值。</p>
+<h2 id="DefaultHttpContext"><a href="#DefaultHttpContext" class="headerlink" title="DefaultHttpContext"></a>DefaultHttpContext</h2><p>ASP.NET Core 使用 <code>DefaultHttpContext</code> 类型作为 <code>HttpContext</code> 的默认实现，原始上下文由「特性集合」来创建 <code>HttpContext</code> 的策略就体现在该类型上。<br><img src="/aspnetcore-fundamentals-pipelines/pipes_06.png" title="原始上下文与 DefaultHttpContext 的关系"><br><code>DefaultHttpContext</code> 的构造函数如下:<br><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">DefaultHttpContext</span> : <span class="title">HttpContext</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">DefaultHttpContext</span>(<span class="params">IFeatureCollection features</span>)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br>无论是组成管道的中间件还是建立在管道上的应用程序，都统一采用 <code>DefaultHttpContext</code> 对象来获取请求信息，并利用它完成对请求的响应。针对 <code>DefaultHttpContext</code> 的调用(属性或方法)最终都转发给具体服务器创建的<strong>「原始上下文」</strong>，构造函数接收的 <code>FeatureCollection</code> 对象所代表的特性集合是这两个上下文对象进行沟通的唯一渠道。定义在 <code>DefaultHttpContext</code> 中的所有属性几乎都具有一个对应的特性，这些特性又都对应一个接口。下表列出了部分特性接口以及 <code>DefaultHttpContext</code> 对应的属性:</p>
+<table>
+<thead>
+<tr>
+<th>接口</th>
+<th>属性</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>IHttpRequestFeature</td>
+<td>Request</td>
+<td>获取描述请求的基本信息</td>
+</tr>
+<tr>
+<td>IHttpResponsetFeature</td>
+<td>Response</td>
+<td>控制对请求的响应</td>
+</tr>
+<tr>
+<td>IHttpAuthenticationFeature</td>
+<td>AuthenticationManger/User</td>
+<td>提供用户认证的 AuthenticationHandler 对象和表示当前用户的 ClaimsPrincipal 对象</td>
+</tr>
+<tr>
+<td>IHttpConnectionFeature</td>
+<td>Connection</td>
+<td>提供描述当前 HTTP 连接的基本信息。</td>
+</tr>
+<tr>
+<td>IItemsFeature</td>
+<td>Items</td>
+<td>提供客户代码存放关于当前请求的对象容器。</td>
+</tr>
+<tr>
+<td>IHttpRequestLifetimeFeature</td>
+<td>RequestAborted</td>
+<td>传递请求处理取消通知和中止当前请求处理。</td>
+</tr>
+<tr>
+<td>IServiceProvidersFeature</td>
+<td>RequestServices</td>
+<td>提供根据服务注册创建的 ServiceProvider。</td>
+</tr>
+<tr>
+<td>ISessionFeature</td>
+<td>Session</td>
+<td>提供描述当前会话的 Session 对象。</td>
+</tr>
+<tr>
+<td>IHttpRequestIdentifierFeature</td>
+<td>TraceIdentifier</td>
+<td>为追踪日志(Trace)提供针对当前请求的唯一标识。</td>
+</tr>
+<tr>
+<td>IHttpWebSocketFeature</td>
+<td>WebSockets</td>
+<td>管理 WebSocket</td>
+</tr>
+</tbody>
+</table>
+<p>其中最重要的两个接口为表示请求和响应的 <code>IHttpRequestFeature</code> 和 <code>IHttpResponseFeature</code>。这两个接口分别与抽象类 <code>HttpRequest</code> 和 <code>HttpResponse</code> 具有一致的定义。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">IHttpRequestFeature</span></span><br><span class="line">&#123;</span><br><span class="line">        <span class="keyword">string</span> Protocol &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">        <span class="keyword">string</span> Scheme &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">        <span class="keyword">string</span> Method &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">        <span class="keyword">string</span> PathBase &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">        <span class="keyword">string</span> Path &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">        <span class="keyword">string</span> QueryString &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">        <span class="keyword">string</span> RawTarget &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">        IHeaderDictionary Headers &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">        Stream Body &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">IHttpResponseFeature</span></span><br><span class="line">&#123;</span><br><span class="line">        <span class="keyword">int</span> StatusCode &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">        <span class="keyword">string</span> ReasonPhrase &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">        IHeaderDictionary Headers &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">        Stream Body &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">        <span class="keyword">bool</span> HasStarted &#123; <span class="keyword">get</span>; &#125;</span><br><span class="line">        <span class="function"><span class="keyword">void</span> <span class="title">OnCompleted</span>(<span class="params">Func&lt;<span class="keyword">object</span>, Task&gt; callback, <span class="keyword">object</span> state</span>)</span>;</span><br><span class="line">        <span class="function"><span class="keyword">void</span> <span class="title">OnStarting</span>(<span class="params">Func&lt;<span class="keyword">object</span>, Task&gt; callback, <span class="keyword">object</span> state</span>)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>DefaultHttpContext</code> 对象中表示请求和响应的 <code>Request</code> 和 <code>Response</code> 属性就是分别提取 <code>HttpRequestFeature</code> 和 <code>HttpResponseFeature</code> 特性创建出 <code>DefaultHttpRequest</code> 和 <code>DefaultHttpResponse</code> 对象，它们分别继承自 <code>HttpRequest</code> 和 <code>HttpResponse</code>。以下是伪代码的实现:<br><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">DefaultHttpRequest</span> : <span class="title">HttpRequest</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> IHttpRequestFeature RequestFeature &#123; <span class="keyword">get</span>; &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">DefaultHttpRequest</span>(<span class="params">DefaultHttpContext context</span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.RequestFeature = context.HttpContextFeatures.Get&lt;IHttpRequestFeature&gt;();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">override</span> Uri Url</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">get</span> &#123; <span class="keyword">return</span> <span class="keyword">this</span>.RequestFeature.Url; &#125;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">override</span> <span class="keyword">string</span> PathBase</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">get</span> &#123; <span class="keyword">return</span> <span class="keyword">this</span>.RequestFeature.PathBase; &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">DefaultHttpResponse</span> : <span class="title">HttpResponse</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> IHttpResponseFeature ResponseFeature &#123; <span class="keyword">get</span>; &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">override</span> Stream OutputStream</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">get</span> &#123; <span class="keyword">return</span> <span class="keyword">this</span>.ResponseFeature.OutputStream; &#125;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">override</span> <span class="keyword">string</span> ContentType</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">get</span> &#123; <span class="keyword">return</span> <span class="keyword">this</span>.ResponseFeature.ContentType; &#125;</span><br><span class="line">        <span class="keyword">set</span> &#123; <span class="keyword">this</span>.ResponseFeature.ContentType = <span class="keyword">value</span>; &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">override</span> <span class="keyword">int</span> StatusCode</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">get</span> &#123; <span class="keyword">return</span> <span class="keyword">this</span>.ResponseFeature.StatusCode; &#125;</span><br><span class="line">        <span class="keyword">set</span> &#123; <span class="keyword">this</span>.ResponseFeature.StatusCode = <span class="keyword">value</span>; &#125;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">DefaultHttpResponse</span>(<span class="params">DefaultHttpContext context</span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.ResponseFeature = context.HttpContextFeatures.Get&lt;IHttpResponseFeature&gt;();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="HttpContextFactory"><a href="#HttpContextFactory" class="headerlink" title="HttpContextFactory"></a>HttpContextFactory</h2><p>在服务器接收到请求时，它并不是直接利用原始上下文来创建 <code>HttpContext</code> 对象，而是通过 <code>HttpContextFactory</code> 来创建。<code>IHttpContextFactory</code> 接口除了定义创建 <code>HttpContext</code> 对象的 <code>Create</code> 方法之外，还定义了一个 <code>Dispose</code> 方法来释放指定的 <code>HttpContext</code> 对象。 <code>HttpContextFactory</code> 类是该接口的默认实现者，由它的 <code>Create</code> 方法创建并返回的是一个 <code>DefaultHttpContext</code> 对象:<br><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">IHttpContextFactory</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function">HttpContext <span class="title">Create</span>(<span class="params">IFeatureCollection featureCollection</span>)</span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">Dispose</span>(<span class="params">HttpContext httpContext</span>)</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">HttpContextFactory</span> : <span class="title">IHttpContextFactory</span></span><br><span class="line">&#123;    </span><br><span class="line">    <span class="comment">//省略其他成员</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> HttpContext <span class="title">Create</span>(<span class="params">IFeatureCollection featureCollection</span>)</span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Dispose</span>(<span class="params">HttpContext httpContext</span>)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>以上涉及的类型和接口和所在的命名空间：</p>
+<table>
+<thead>
+<tr>
+<th>类型或接口</th>
+<th>命名空间</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>HttpContext</td>
+<td>Microsoft.AspNetCore.Http</td>
+</tr>
+<tr>
+<td>HttpRequest</td>
+<td>Microsoft.AspNetCore.Http</td>
+</tr>
+<tr>
+<td>HttpResponse</td>
+<td>Microsoft.AspNetCore.Http</td>
+</tr>
+<tr>
+<td>DefaultHttpRequest</td>
+<td>Microsoft.AspNetCore.Http.Internal</td>
+</tr>
+<tr>
+<td>DefaultHttpResponse</td>
+<td>Microsoft.AspNetCore.Http.Internal</td>
+</tr>
+<tr>
+<td>IHttpRequestFeature</td>
+<td>Microsoft.AspNetCore.Http.Features</td>
+</tr>
+<tr>
+<td>IHttpResponseFeature</td>
+<td>Microsoft.AspNetCore.Http.Features</td>
+</tr>
+</tbody>
+</table>
+<p>以及它们之间的 UML 关系图:<br><img src="/aspnetcore-fundamentals-pipelines/pipes_07.png" title="对象关系图"></p>
+<h1 id="ApplicationBulder"><a href="#ApplicationBulder" class="headerlink" title="ApplicationBulder"></a>ApplicationBulder</h1><p>创建 <code>WebHost</code> 的 <code>WebHostBuilder</code> 提供了一个用于管道定制的 <code>Configure</code> 方法，它利用 <code>ApplicationBuilder</code> 参数进行中间件的注册。中间件在请求处理流程中体现为一个类型为 <code>Func&lt;RequestDelegate，RequestDelegate&gt;</code> 的委托对象，<code>RequestDelegate</code> 相当于一个 <code>Func&lt;HttpContext, Task&gt;</code> 对象，它体现了针对 <code>HttpContext</code> 所进行的某项操作，进而代表某个中间件针对请求的处理过程。那为何我们不直接用一个 <code>RequestDelegate</code> 对象来表示一个中间件，而将它表示成一个 <code>Func&lt;RequestDelegate，RequestDelegate&gt;</code> 对象呢？</p>
+<p>在多数情况下，具体的请求处理需要注册多个不同的中间件，这些中间件按照注册时间的顺序进行排列构成了管道。对于单个中间件来说，在它完成了自身的请求处理任务之后，需要将请求传递给下一个中间件作后续的处理。<code>Func&lt;RequestDelegate，RequestDelegate&gt;</code> 中作为输入参数的 <code>RequestDelegate</code> 对象代表一个委托链，体现了后续中间件对请求的处理。当某个中间件将自身实现的请求处理任务添加到这个委托链中，新的委托链将作为这个 <code>Func&lt;RequestDelegate，RequestDelegate&gt;</code> 对象的返回值。<br><img src="/aspnetcore-fundamentals-pipelines/pipes_09.png" title="中间件的委托链"><br>以上图为例，如果用一个 <code>Func&lt;RequestDelegate，RequestDelegate&gt;</code> 来表示中间件 B，那么作为输入参数的 <code>RequestDelegate</code> 对象代表的是中间件 C 对请求的处理操作，而返回值则代表 B 和 C 先后对请求的处理操作。如果一个 <code>Func&lt;RequestDelegate，RequestDelegate&gt;</code> 代表第一个从服务器接收请求的中间件(比如 A)，那么执行该委托对象返回的 <code>RequestDelegate</code> 实际上体现了整个管道对请求的处理。</p>
+<p>现在，来看看 <code>IApplicationBuilder</code> 接口的定义:<br><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">IApplicationBuilder</span></span><br><span class="line">&#123;</span><br><span class="line">    IServiceProvider             ApplicationServices &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">    IFeatureCollection           ServerFeatures &#123; <span class="keyword">get</span>; &#125;</span><br><span class="line">    IDictionary&lt;<span class="keyword">string</span>, <span class="keyword">object</span>&gt;  Properties &#123; <span class="keyword">get</span>; &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function">RequestDelegate         <span class="title">Build</span>(<span class="params"></span>)</span>;</span><br><span class="line">    <span class="function">IApplicationBuilder     <span class="title">New</span>(<span class="params"></span>)</span>;</span><br><span class="line">    <span class="function">IApplicationBuilder     <span class="title">Use</span>(<span class="params">Func&lt;RequestDelegate, RequestDelegate&gt; middleware</span>)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><code>Use</code> 方法实现对中间件的注册，而 <code>Build</code> 方法则将所有注册的中间件转换成一个 <code>RequestDelegate</code> 对象。除了这两个核心方法，<code>IApplicationBuilder</code> 接口还定义了三个属性，其中 <code>ApplicationServices</code> 返回根据最初服务注册生成的 <code>ServiceProvider</code> 对象，而 <code>ServerFeatures</code> 属性返回的 <code>FeatureCollection</code> 对象是描述 <code>Server</code> 的特性集合。字典类型的 <code>Properties</code> 属性供用户存储任意自定义的属性，而 <code>New</code> 方法会根据自己「克隆」出一个新的 <code>ApplicationBuilder</code> 对象，这两个 <code>ApplicationBuilder</code> 对象应用具有相同的属性集合。</p>
+<p>从编程便利性考虑，很多预定义的中间件类型都具有对应的用来注册的扩展方法，比如 <code>UseStaticFiles</code> 注册处理静态文件请求的中间件。</p>
+<p><code>ApplicationBuilder</code> 类型是 <code>IApplicationBuilder</code> 的默认实现者，其定义了一个 <code>List&lt;Func&lt;RequestDelegate, RequestDelegate&gt;&gt;</code> 属性来存放所有注册的中间件，<code>Use</code> 方法只需要将指定的中间件添加到这个列表即可，而 <code>Build</code> 方法只需要逆序调用这些中间件对应的 <code>Func&lt;RequestDelegate, RequestDelegate&gt;</code> 对象就能得需要的 <code>RequestDelegate</code> 对象。值得一提的是，<code>Build</code> 方法在中间件链条的尾部添加了一个额外的中间件，该中间件会负责将响应状态码设置为 404，如果没有注册任何对请求作最终响应的中间件(这样的中间件将不会试图调用后续中间件)，整个管道会回复一个状态码为 404 的响应。<br><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">ApplicationBuilder</span> : <span class="title">IApplicationBuilder</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">private</span> IList&lt;Func&lt;RequestDelegate, RequestDelegate&gt;&gt; middlewares = <span class="keyword">new</span> List&lt;Func&lt;RequestDelegate, RequestDelegate&gt;&gt;();  </span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">public</span> RequestDelegate <span class="title">Build</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        RequestDelegate app = context =&gt;</span><br><span class="line">        &#123;</span><br><span class="line">            context.Response.StatusCode = <span class="number">404</span>;</span><br><span class="line">            <span class="keyword">return</span> Task.FromResult(<span class="number">0</span>);</span><br><span class="line">        &#125;;</span><br><span class="line">        <span class="keyword">foreach</span> (<span class="keyword">var</span> component <span class="keyword">in</span> middlewares.Reverse())</span><br><span class="line">        &#123;</span><br><span class="line">            app = component(app);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> app;</span><br><span class="line">    &#125;    </span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">public</span> IApplicationBuilder <span class="title">Use</span>(<span class="params">Func&lt;RequestDelegate, RequestDelegate&gt; middleware</span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        middlewares.Add(middleware);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="ApplicationBuilderFactory"><a href="#ApplicationBuilderFactory" class="headerlink" title="ApplicationBuilderFactory"></a>ApplicationBuilderFactory</h2><p><code>IApplicationBuilderFactory</code> 是 ASP.NET Core 用来创建 <code>IApplicationBuilder</code> 的工厂，如下面的代码片段所示，该接口定义了唯一个方法 <code>CreateBuilder</code> 接收 <code>FeatureCollection</code> 对象参数 来创建 <code>IApplicationBuilder</code> 对象，该 <code>IFeatureCollection</code> 对象正是承载与服务器相关特性的集合。<code>ApplicationBuilderFactory</code> 类型是该接口的默认实现者，当 <code>CreateBuilder</code> 方法被调用的时候，它会直接将构造时提供 <code>ServiceProvider</code> 对象和 <code>serverFeatures</code> 参数表示的 <code>IFeatureCollection</code> 对象来创建 <code>ApplicationBuilder</code> 对象。<br><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">IApplicationBuilderFactory</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function">IApplicationBuilder <span class="title">CreateBuilder</span>(<span class="params">IFeatureCollection serverFeatures</span>)</span>;</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">ApplicationBuilderFactory</span> : <span class="title">IApplicationBuilderFactory</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">readonly</span> IServiceProvider _serviceProvider;</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ApplicationBuilderFactory</span>(<span class="params">IServiceProvider serviceProvider</span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>._serviceProvider = serviceProvider;</span><br><span class="line">    &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">public</span> IApplicationBuilder <span class="title">CreateBuilder</span>(<span class="params">IFeatureCollection serverFeatures</span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ApplicationBuilder(_serviceProvider, serverFeatures);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure></p>
+<h1 id="中间件类型"><a href="#中间件类型" class="headerlink" title="中间件类型"></a>中间件类型</h1><p>虽然中间件最终体现为一个类型为 Func&lt;RequestDelegate, RequestDelegate&gt; 的委托对象，但是大部分情况下都会将中间件定义成一个单独的类型。中间件类型不要求实现某个接口或继承某个基类，但要遵循几个必要的约定。现在通过 ContentMiddleware 类来看看一个合法的中间件类型应该如何定义。<br><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">ContentMiddleare</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> RequestDelegate     _next;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">byte</span>[]         _content;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">string</span>         _contentType;</span><br><span class="line"> </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ContentMiddleare</span>(<span class="params">RequestDelegate next, <span class="keyword">byte</span>[] content, <span class="keyword">string</span> contentType</span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        _next         = next;</span><br><span class="line">        _content      = content;</span><br><span class="line">        _contentType  = contentType;</span><br><span class="line">    &#125;</span><br><span class="line">  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">async</span> Task <span class="title">Invoke</span>(<span class="params">HttpContext context, ILoggerFactory loggerFactory</span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        loggerFactory.CreateLogger&lt;ContentMiddleare&gt;().LogInformation(<span class="string">$"Write content (<span class="subst">&#123;_contentType&#125;</span>)"</span>);</span><br><span class="line">        context.Response.ContentType = _contentType;</span><br><span class="line">        <span class="keyword">await</span> context.Response.Body.WriteAsync(_content,<span class="number">0</span>, _content.Length);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br>ContentMiddleware 中间件将任何类型的内容响应给客户端，它的 _content 和 _contentType 两个字段分别代表响应内容和媒体类型(内容类型或者 MIME 类型)，它体现了一个典型中间件类型的定义规则或者约定:</p>
+<ul>
+<li>应该定义为非静态类。</li>
+<li>具有一个公共构造函数。这个构造函数的第一个参数类型必须为 <code>RequestDelegate</code>，代表对请求的后续操作(可以视为下一个注册的中间件)</li>
+<li>针对请求的处理定义在一个名为 <code>Invoke</code> 的公共实例方法，其返回类型为 Task。该方法的第一个参数类型为 <code>HttpContext</code>，代表当前 HTTP 上下文。可以为这个方法定义任意数量和类型的额外参数，当这个方法被执行的时候，系统将会采用依赖注入的方式为这些参数赋值。</li>
+</ul>
+<h2 id="中间件类型注册"><a href="#中间件类型注册" class="headerlink" title="中间件类型注册"></a>中间件类型注册</h2><p>中间件类型的注册可以通过调用 <code>IApplicationBuilder</code> 接口的扩展方法 <code>UseMiddleware</code> 和 <code>UseMiddleware&lt;TMiddleware&gt;</code> 来注册。除了指定中间件的类型之外，我们还需要按照顺序指定目标构造函数的全部或部分参数。不过构造函数的第一个参数 <code>RequestDelegate</code> 不需要提供，如果只指定了部分参数，缺失的参数将会通过 <code>ServiceProvider</code> 提供。<br><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">class</span> <span class="title">UseMiddlewareExtensions</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> IApplicationBuilder UseMiddleware&lt;TMiddleware&gt;(<span class="keyword">this</span> IApplicationBuilder app, <span class="keyword">params</span> <span class="keyword">object</span>[] args);</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> IApplicationBuilder <span class="title">UseMiddleware</span>(<span class="params"><span class="keyword">this</span> IApplicationBuilder app, Type middleware, <span class="keyword">params</span> <span class="keyword">object</span>[] args</span>)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><br>可以按照下面的方式来注册上面定义的 ContentMiddleware 中间件:<br><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> WebHostBuilder()</span><br><span class="line">    .Configure(app =&gt; app.UseMiddleware&lt;ContentMiddleare&gt;(File.ReadAllBytes(<span class="string">"girl.png"</span>),<span class="string">"image/png"</span>))</span><br><span class="line">...</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/asp-net-core/" rel="tag"># asp.net core</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/aspnetcore-fundamentals-logging/" rel="next" title="ASP.NET Core 框架基础 - 日志系统">
+                <i class="fa fa-chevron-left"></i> ASP.NET Core 框架基础 - 日志系统
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/aspnetcore-filters/" rel="prev" title="ASP.NET Core 应用 - 过滤器 「Filters」">
+                ASP.NET Core 应用 - 过滤器 「Filters」 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Frost He</p>
+              <p class="site-description motion-element" itemprop="description">Stay hungry, stay foolish</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">55</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#概述"><span class="nav-text">概述</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#一个简单的-Hello-World-应用"><span class="nav-text">一个简单的 Hello World 应用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#管道的构成"><span class="nav-text">管道的构成</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#定制管道"><span class="nav-text">定制管道</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#服务器"><span class="nav-text">服务器</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#HttpApplication"><span class="nav-text">HttpApplication</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HostingApplication"><span class="nav-text">HostingApplication</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#KestrelServer"><span class="nav-text">KestrelServer</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ServerAddressesFeature"><span class="nav-text">ServerAddressesFeature</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#WebHost"><span class="nav-text">WebHost</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#WebHostOptions"><span class="nav-text">WebHostOptions</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#构建管道"><span class="nav-text">构建管道</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#WebHostBuilder"><span class="nav-text">WebHostBuilder</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#几个常用的扩展方法"><span class="nav-text">几个常用的扩展方法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#HttpContext"><span class="nav-text">HttpContext</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#FeatureCollection"><span class="nav-text">FeatureCollection</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DefaultHttpContext"><span class="nav-text">DefaultHttpContext</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HttpContextFactory"><span class="nav-text">HttpContextFactory</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ApplicationBulder"><span class="nav-text">ApplicationBulder</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#ApplicationBuilderFactory"><span class="nav-text">ApplicationBuilderFactory</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#中间件类型"><span class="nav-text">中间件类型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#中间件类型注册"><span class="nav-text">中间件类型注册</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2015 &mdash; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Frost He</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+
+
+
+
+
+        
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//tajs.qq.com/stats?sId=65458438";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === '') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,1199 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next mist" lang="default">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="K2S73UudyU-JTh9S0U_KnOKgOvE7aW7EpO560okLyUU" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="asp.net core,docker," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="本文记录了如何通过 Docker 部署 ASP.NET Core 应用程序以及 Visual Studio 集成的 Docker 工具">
+<meta name="keywords" content="asp.net core,docker">
+<meta property="og:type" content="article">
+<meta property="og:title" content="为 ASP.NET Core 应用程序添加 Docker 支持">
+<meta property="og:url" content="https://berdypango.github.io/aspnetcore-host-in-docker-containers/index.html">
+<meta property="og:site_name" content="FrostHe.Handbook">
+<meta property="og:description" content="本文记录了如何通过 Docker 部署 ASP.NET Core 应用程序以及 Visual Studio 集成的 Docker 工具">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://berdypango.github.io/aspnetcore-host-in-docker-containers/01.png">
+<meta property="og:image" content="https://berdypango.github.io/aspnetcore-host-in-docker-containers/02.png">
+<meta property="og:image" content="https://berdypango.github.io/aspnetcore-host-in-docker-containers/03.png">
+<meta property="og:updated_time" content="2018-08-21T13:53:38.319Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="为 ASP.NET Core 应用程序添加 Docker 支持">
+<meta name="twitter:description" content="本文记录了如何通过 Docker 部署 ASP.NET Core 应用程序以及 Visual Studio 集成的 Docker 工具">
+<meta name="twitter:image" content="https://berdypango.github.io/aspnetcore-host-in-docker-containers/01.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"display":"hide"},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: 'ZL78UP9TUE',
+      apiKey: '',
+      indexName: 'FrostHe.Handbook',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://berdypango.github.io/aspnetcore-host-in-docker-containers/"/>
+
+
+
+
+
+  <title>为 ASP.NET Core 应用程序添加 Docker 支持 | FrostHe.Handbook</title>
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-125853342-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+
+  <div class="container  page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">FrostHe.Handbook</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            Search
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="Searching..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://berdypango.github.io/aspnetcore-host-in-docker-containers/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Frost He">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FrostHe.Handbook">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">为 ASP.NET Core 应用程序添加 Docker 支持</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-02-20T21:01:22+08:00">
+                2018-02-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Web/" itemprop="url" rel="index">
+                    <span itemprop="name">Web</span>
+                  </a>
+                </span>
+
+                
+                
+                  , 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Web/ASP-NET-Core/" itemprop="url" rel="index">
+                    <span itemprop="name">ASP.NET Core</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                  <span class="post-meta-divider">|</span>
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  1,646
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+              <div class="post-description">
+                  本文记录了如何通过 Docker 部署 ASP.NET Core 应用程序以及 Visual Studio 集成的 Docker 工具
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>参考资料</p>
+<ul>
+<li><a href="https://docs.microsoft.com/en-us/dotnet/core/docker/building-net-docker-images?view=aspnetcore-2.1" target="_blank" rel="noopener">Building Docker Images for .NET Core Applications</a></li>
+<li><a href="https://docs.microsoft.com/zh-cn/aspnet/core/host-and-deploy/docker/visual-studio-tools-for-docker?view=aspnetcore-2.1" target="_blank" rel="noopener">Visual Studio Tools for Docker with ASP.NET Core</a></li>
+</ul>
+<h2 id="微软提供的-Docker-Image"><a href="#微软提供的-Docker-Image" class="headerlink" title="微软提供的 Docker Image"></a>微软提供的 Docker Image</h2><p>微软为 ASP.NET Core 开发人员提供了三种官方 Docker Image，因为不同的阶段的关注点不一样。</p>
+<ul>
+<li>Development: 快速迭代和调试更改，以大尺寸的 Image 换取开发的便利</li>
+<li>Build: 包含所有用于生成应用的依赖和库，如编译器和其他优化编码的工具，开发人员使用该 Image 创建最终要放置在 Production 环境下的 Image 所需的资产，该 Image 主要用于持续集成。这样的好处在于使得生成工具仅仅需要知道如何运行该 Image，而不用关心其他细节。</li>
+<li>Production: 用于生产环境运行的 Image，体积经过了优化，因而在多 Host 部署时节省了网络通信时间，所有位于该 Image 中的内容都是为最优化运行应用程序而准备的。</li>
+</ul>
+<h3 id="Docker-Image-命名规则"><a href="#Docker-Image-命名规则" class="headerlink" title="Docker Image 命名规则"></a>Docker Image 命名规则</h3><ul>
+<li><code>microsoft/dotnet:&lt;version&gt;-sdk</code>: 该 Image 包含了 .NET Core SDK，其中包含 .NET Core 和 CLI，该 Image 用于支持上述 <code>Development</code> 和 <code>Build</code> 使用场景。另外，<code>microsoft/dotnet:sdk</code> 表示获取最新版本的 Image。</li>
+<li><code>microsoft/dotnet:&lt;versuib&gt;-runtime</code>: 该 Image 包含 .NET Core(运行时和类库)并对运行 .NET Core 应用程序做了优化，对应于上述 <code>Production</code> 的使用场景。</li>
+</ul>
+<h3 id="其他-Image"><a href="#其他-Image" class="headerlink" title="其他 Image"></a>其他 Image</h3><p>除了上述三种 Image 之外，微软还提供了一些用于特殊用途的 Image，如</p>
+<ul>
+<li><code>microsoft/dotnet:&lt;version&gt;-runtime-deps</code>: <code>runtime-deps</code> 包含了 .NET Core 依赖的操作系统本地库，这种 Image 主要用于 Self-Contained 应用程序。</li>
+<li>各个 Image 的最新版本:<ul>
+<li><code>microsoft/dotnet</code> 或 <code>microsoft/dotnet:latest</code>: SDK Image 的别名</li>
+<li><code>microsoft/dotnet:sdk</code></li>
+<li><code>microsoft/dotnet:runtime</code></li>
+<li><code>microsoft/dotnet:runtime-deps</code></li>
+</ul>
+</li>
+</ul>
+<h2 id="开始第一个-ASP-NET-Core-Docker-App"><a href="#开始第一个-ASP-NET-Core-Docker-App" class="headerlink" title="开始第一个 ASP.NET Core Docker App"></a>开始第一个 ASP.NET Core Docker App</h2><h3 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h3><ul>
+<li>安装 <a href="https://www.microsoft.com/net/learn/get-started/windows" target="_blank" rel="noopener">.NET Core SDK 2.0</a></li>
+<li>安装一个喜欢的代码编辑器，例如 Visual Studio(Code)。</li>
+<li>安装 Docker 引擎</li>
+<li>安装 Git</li>
+</ul>
+<h3 id="获取示例项目"><a href="#获取示例项目" class="headerlink" title="获取示例项目"></a>获取示例项目</h3><p>首先选取一个工作目录，然后执行:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git <span class="built_in">clone</span> https://github.com/dotnet/dotnet-docker-samples/</span><br></pre></td></tr></table></figure></p>
+<p>克隆完成后，进入 <code>aspnetapp</code> 目录，执行 <code>dotnet run</code>，在容器化应用程序之前，首先确保该应用程序能够运行。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cd</span> aspnetapp</span><br><span class="line">$ dotnet run</span><br><span class="line"></span><br><span class="line">Hosting environment: Production</span><br><span class="line">Content root path: D:\Development\Git Repositories\Github Projects\dotnet-docker-samples\aspnetapp</span><br><span class="line">Now listening on: http://localhost:5000</span><br></pre></td></tr></table></figure></p>
+<p>确认 <code>dotnet run</code> 正常后，改用 <code>docker</code> 生成并运行:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> aspnetapp</span><br><span class="line">$ docker build -t aspnetapp . <span class="comment"># 生成 Docker Image 并将其 tag 为 aspnetapp</span></span><br><span class="line"></span><br><span class="line">$ docker run -it --rm -p 5000:80 --name aspnetcore_sample aspnetapp</span><br><span class="line"></span><br><span class="line">Successfully built 8fb665ff9690</span><br><span class="line">Successfully tagged aspnetapp:latest</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>Docker 的端口映射为 <code>host:container</code></p>
+</blockquote>
+<p>现在访问 <code>http://{your-host-ip-address}:5000</code> 便可得到示例应用程序的页面。</p>
+<h2 id="Visual-Studio-Docker-工具集"><a href="#Visual-Studio-Docker-工具集" class="headerlink" title="Visual Studio Docker 工具集"></a>Visual Studio Docker 工具集</h2><h3 id="为应用程序添加-Docker-支持"><a href="#为应用程序添加-Docker-支持" class="headerlink" title="为应用程序添加 Docker 支持"></a>为应用程序添加 Docker 支持</h3><p>要使 ASP.NET 与 Docker 集成，该项目必须是 .NET Core 项目，Linux 和 Windows 两种类别的容器都支持。ASP.NET Core 项目的 Container 类型必须与本机 Docker 引擎运行的 Container 类型相同。可通过在任务栏图标上右键单击 Docker 图标 -&gt; <code>Switch to Windows containers</code> 或 <code>Switch to Linux containers</code> 功能来进行切换。</p>
+<h3 id="创建新的应用程序"><a href="#创建新的应用程序" class="headerlink" title="创建新的应用程序"></a>创建新的应用程序</h3><p>对于新创建的 ASP.NET Core 项目，勾选 <code>Enable Docker Support</code>，并选择一个 Docker Container 类型:<br><img src="/aspnetcore-host-in-docker-containers/01.png"></p>
+<h3 id="为现有项目添加-Docker-支持"><a href="#为现有项目添加-Docker-支持" class="headerlink" title="为现有项目添加 Docker 支持"></a>为现有项目添加 Docker 支持</h3><p>Visual Studio 仅支持为 .NET Core 项目添加 Docker 支持，有两种方式，首先打开一个项目</p>
+<ol>
+<li>选择 Project 菜单 -&gt; Docker Support<img src="/aspnetcore-host-in-docker-containers/02.png"></li>
+<li>右键单击项目 -&gt; 添加 -&gt; Docker Support<img src="/aspnetcore-host-in-docker-containers/03.png"></li>
+</ol>
+<h2 id="Visual-Studio-Docker-概览"><a href="#Visual-Studio-Docker-概览" class="headerlink" title="Visual Studio Docker 概览"></a>Visual Studio Docker 概览</h2><p>当对一个项目添加 Docker 支持后，VisualStudio 将项解决方案目录添加一个 <code>docker-compose</code> 的项目，其中包含:</p>
+<ul>
+<li><em>.dockerignore</em>: 生成 build 时需要忽略的文件和目录匹配字段</li>
+<li><em>docker-compose.yml</em>: Docker Compose 的定义文件，定义了一系列 Image 的集合用于 <code>docker-compose build</code> 和 <code>docker-compose run</code>。</li>
+<li><em>docker-compose.override.yml</em>: 一个可选文件，也会被 Docker Compose 读取，包含需要对服务进行重写的配置信息。Visual Studio 执行 <code>docker-compose -f &quot;docker-compose.yml&quot; -f &quot;docker-compose.override.yml&quot;</code> 来合并这些文件</li>
+</ul>
+<p>同时，ASP.NET Core 项目文件夹下自动生成了一个名为 <code>Dockerfile</code> 的文件，该文件起始包含 4 个单独的生成环节，其根据 Docker <a href="https://docs.docker.com/develop/develop-images/multistage-build/" target="_blank" rel="noopener">multi-stage build</a> 定义，内容如下:<br><figure class="highlight bash"><figcaption><span>dockerfile</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">FROM microsoft/aspnetcore:2.0 AS base</span><br><span class="line">WORKDIR /app</span><br><span class="line">EXPOSE 80</span><br><span class="line"></span><br><span class="line">FROM microsoft/aspnetcore-build:2.0 AS build</span><br><span class="line">WORKDIR /src</span><br><span class="line">COPY AspDotNetCoreDocker/AspDotNetCoreDocker.csproj AspDotNetCoreDocker/</span><br><span class="line">RUN dotnet restore AspDotNetCoreDocker/AspDotNetCoreDocker.csproj</span><br><span class="line">COPY . .</span><br><span class="line">WORKDIR /src/AspDotNetCoreDocker</span><br><span class="line">RUN dotnet build AspDotNetCoreDocker.csproj -c Release -o /app</span><br><span class="line"></span><br><span class="line">FROM build AS publish</span><br><span class="line">RUN dotnet publish AspDotNetCoreDocker.csproj -c Release -o /app</span><br><span class="line"></span><br><span class="line">FROM base AS final</span><br><span class="line">WORKDIR /app</span><br><span class="line">COPY --from=publish /app .</span><br><span class="line">ENTRYPOINT [<span class="string">"dotnet"</span>, <span class="string">"AspDotNetCoreDocker.dll"</span>]</span><br></pre></td></tr></table></figure></p>
+<p>该 <em>Dockerfile</em> 基于 <code>microsoft/aspnetcore</code> Image，该 Image 包含了所有与 ASP.NET Core 相关的 Nuget 包。查看 <em>docker-compose.yml</em> 文件，其中包含了自建 Image 的名称:<br><figure class="highlight yaml"><figcaption><span>docker-compose.yml</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">'3.4'</span></span><br><span class="line"></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line"><span class="attr">  aspdotnetcoredocker:</span></span><br><span class="line"><span class="attr">    image:</span> <span class="string">frosthe/aspdotnetcoredocker</span></span><br><span class="line"><span class="attr">    build:</span></span><br><span class="line"><span class="attr">      context:</span> <span class="string">.</span></span><br><span class="line"><span class="attr">      dockerfile:</span> <span class="string">AspDotNetCoreDocker/Dockerfile</span></span><br></pre></td></tr></table></figure></p>
+<p>在这个例子中，如果应用程序以 <code>Debug</code> 模式运行，<code>aspdotnetcoredocker</code> Image 会生成 <code>aspdotnetcoredocker:dev</code>，以 <code>Release</code> 模式运行时，会生成 <code>aspdotnetcoredocker:latest</code> Image。</p>
+<p>Image 的名称通常以 <a href="https://hub.docker.com/" target="_blank" rel="noopener">Docker Hub</a> 的用户名作为前缀(此处为 <code>frosthe</code>)。也可以自建 Registry 来承载私有的 Image。</p>
+<h3 id="调试"><a href="#调试" class="headerlink" title="调试"></a>调试</h3><p>在 <code>Debug</code> 模式下按下 F5，同时查看 Visual Studio 的输出窗口，其步骤如下:</p>
+<ul>
+<li><code>microsoft/aspnetcore</code>: 获取 aspnet core runtime Image。</li>
+<li><code>microsoft/aspnetcore-build</code>: 获取编译/发布 Image。</li>
+<li><code>ASPNETCORE_ENVIRONMENT</code>: Container 内环境变量设置为 <code>Development</code>。</li>
+<li>Container 暴露 80 端口了并映射到了主机的动态端口，该动态端口由 Docker 主机决定，可通过 <code>docker ps</code> 来查询。</li>
+<li>应用程序被复制到了 Container 中</li>
+<li>默认浏览器被打开，并通过动态端口将调试器附加到了 Container 中。</li>
+</ul>
+<p>完成后执行 <code>docker images</code> 可以看到生成好的 <code>aspdotnetcoredocker:dev</code> Image 和 <code>microsoft/aspnetcore</code> Image。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">REPOSITORY                       TAG                   IMAGE ID            CREATED             SIZE</span><br><span class="line">frosthe/aspdotnetcoredocker      dev                   bf575b94e1c2        2 weeks ago         345MB</span><br><span class="line">microsoft/aspnetcore             2.0.5                 b1a5de255274        3 months ago        305MB</span><br></pre></td></tr></table></figure></p>
+<p>执行 <code>docker ps</code> 可以看到正在运行的 container。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">CONTAINER ID        IMAGE                             COMMAND               CREATED             STATUS              PORTS                   NAMES</span><br><span class="line">f92786da06e1        frosthe/aspdotnetcoredocker:dev   <span class="string">"tail -f /dev/null"</span>   52 seconds ago      Up 50 seconds       0.0.0.0:32768-&gt;80/tcp   dockercompose3863187778964625453_aspdotnetcoredocker_1</span><br></pre></td></tr></table></figure></p>
+<h3 id="编辑并继续"><a href="#编辑并继续" class="headerlink" title="编辑并继续"></a>编辑并继续</h3><p>与传统 .NET 程序的调试一样，针对静态文件和 Razor 视图的更改都将实时更新，而无需重新编译，但针对源代码的修改，则需要重新编译并重启 Kestrel 服务器，这都在 Container 中完成。</p>
+<h3 id="发布-Docker-Image"><a href="#发布-Docker-Image" class="headerlink" title="发布 Docker Image"></a>发布 Docker Image</h3><p>一旦开发和调试完成，需要首先将配置切换至 <code>Release</code>，然后生成应用程序，Docker 工具集会生成一个新的打上 <code>latest</code> 标签的 Image，最后可将该 Image 上传至私有仓库或 Docker Hub。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/asp-net-core/" rel="tag"># asp.net core</a>
+          
+            <a href="/tags/docker/" rel="tag"># docker</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/docker-multi-stage-build/" rel="next" title="在 Dockerfile 中使用多阶段生成(Multi-Stage Builds)">
+                <i class="fa fa-chevron-left"></i> 在 Dockerfile 中使用多阶段生成(Multi-Stage Builds)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/diy-setup-raspberry-pi/" rel="prev" title="DIY - 准备树莓派 3b+">
+                DIY - 准备树莓派 3b+ <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Frost He</p>
+              <p class="site-description motion-element" itemprop="description">Stay hungry, stay foolish</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">55</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#微软提供的-Docker-Image"><span class="nav-text">微软提供的 Docker Image</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Docker-Image-命名规则"><span class="nav-text">Docker Image 命名规则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其他-Image"><span class="nav-text">其他 Image</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#开始第一个-ASP-NET-Core-Docker-App"><span class="nav-text">开始第一个 ASP.NET Core Docker App</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#准备工作"><span class="nav-text">准备工作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#获取示例项目"><span class="nav-text">获取示例项目</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Visual-Studio-Docker-工具集"><span class="nav-text">Visual Studio Docker 工具集</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#为应用程序添加-Docker-支持"><span class="nav-text">为应用程序添加 Docker 支持</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建新的应用程序"><span class="nav-text">创建新的应用程序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#为现有项目添加-Docker-支持"><span class="nav-text">为现有项目添加 Docker 支持</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Visual-Studio-Docker-概览"><span class="nav-text">Visual Studio Docker 概览</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#调试"><span class="nav-text">调试</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#编辑并继续"><span class="nav-text">编辑并继续</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#发布-Docker-Image"><span class="nav-text">发布 Docker Image</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2015 &mdash; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Frost He</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+
+
+
+
+
+        
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//tajs.qq.com/stats?sId=65458438";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === '') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
