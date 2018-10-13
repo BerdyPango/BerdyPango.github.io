@@ -8,7 +8,7 @@
   <meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
-<meta name="theme-color" content="#222">
+<meta name="theme-color" content="">
 
 
 
@@ -38,31 +38,19 @@
 
 
 
-  
-  
-  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
 
 
 
 
 
 
+<link href="/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
 
-<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
-
-<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
-
-
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+<link href="//main.css?v=" rel="stylesheet" type="text/css" />
 
 
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
 
 
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
-
-
-  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
 
 
 
@@ -87,7 +75,7 @@
 <meta property="og:site_name" content="FrostHe.Handbook">
 <meta property="og:description" content="本文主要记录了 Linux 系统下与用户何群组相关的指令和操作指南">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-04-18T01:51:00.557Z">
+<meta property="og:updated_time" content="2018-10-13T03:21:29.514Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux 基础 - 用户和群组">
 <meta name="twitter:description" content="本文主要记录了 Linux 系统下与用户何群组相关的指令和操作指南">
@@ -99,13 +87,13 @@
   var CONFIG = {
     root: '/',
     scheme: 'Mist',
-    version: '5.1.4',
+    version: '',
     sidebar: {"display":"hide"},
-    fancybox: true,
-    tabs: true,
+    fancybox: ,
+    tabs: ,
     motion: {"enable":false},
     duoshuo: {
-      userId: '0',
+      userId: 'undefined',
       author: 'Author'
     },
     algolia: {
@@ -119,8 +107,6 @@
 </script>
 
 
-
-  <link rel="canonical" href="https://berdypango.github.io/linux-account-and-group/"/>
 
 
 
@@ -194,6 +180,16 @@
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
             Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
           </a>
         </li>
       
@@ -299,7 +295,7 @@
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Frost He">
       <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="image" content="/avatar.gif">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
@@ -315,17 +311,8 @@
         
 
         <div class="post-meta">
+          
           <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-04-21T22:34:47+08:00">
-                2016-04-21
-              </time>
             
 
             
@@ -333,28 +320,6 @@
             
           </span>
 
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/linux/" itemprop="url" rel="index">
-                    <span itemprop="name">linux</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
           
 
           
@@ -428,7 +393,7 @@
 <li><a href="#%E4%BF%AE%E6%94%B9%E7%BE%A4%E7%BB%84---groupmod">修改群组 - groupmod</a></li>
 <li><a href="#%E5%88%A0%E9%99%A4%E7%BE%A4%E7%BB%84---groupdel">删除群组 - groupdel</a></li>
 <li><a href="#%E7%BE%A4%E7%BB%84%E7%AE%A1%E7%90%86%E5%91%98---gpasswd">群组管理员 - gpasswd</a></li>
-<li><a href="#%E5%88%9D%E5%A7%8B%E7%BE%A4%E7%BB%84%EF%BC%8C%E6%AC%A1%E8%A6%81%E7%BE%A4%E7%BB%84%E5%92%8C%E6%9C%89%E6%95%88%E7%BE%A4%E7%BB%84">初始群组，次要群组和有效群组</a></li>
+<li><a href="#%E5%88%9D%E5%A7%8B%E7%BE%A4%E7%BB%84%E6%AC%A1%E8%A6%81%E7%BE%A4%E7%BB%84%E5%92%8C%E6%9C%89%E6%95%88%E7%BE%A4%E7%BB%84">初始群组，次要群组和有效群组</a></li>
 </ul>
 </li>
 </ul>
@@ -695,7 +660,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">55</span>
+                  <span class="site-state-item-count">53</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -706,7 +671,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-count">21</span>
                   <span class="site-state-item-name">categories</span>
                 </a>
               </div>
@@ -717,7 +682,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-count">37</span>
                   <span class="site-state-item-name">tags</span>
                 </a>
               </div>
@@ -837,8 +802,6 @@
 
 
 
-  
-
 
 
 
@@ -852,41 +815,36 @@
 
   
   
-    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+    <script type="text/javascript" src="//jquery/index.js?v=2.1.3"></script>
   
 
   
   
-    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+    <script type="text/javascript" src="//fastclick/lib/fastclick.min.js?v=1.0.6"></script>
   
 
   
   
-    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+    <script type="text/javascript" src="//jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
   
 
   
   
-    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+    <script type="text/javascript" src="//velocity/velocity.min.js?v=1.2.1"></script>
   
 
   
   
-    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
-  
-
-  
-  
-    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+    <script type="text/javascript" src="//velocity/velocity.ui.min.js?v=1.2.1"></script>
   
 
 
   
 
 
-  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+  <script type="text/javascript" src="//src/utils.js?v="></script>
 
-  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+  <script type="text/javascript" src="//src/motion.js?v="></script>
 
 
 
@@ -894,15 +852,15 @@
   
 
   
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+  <script type="text/javascript" src="//src/scrollspy.js?v="></script>
+<script type="text/javascript" src="//src/post-details.js?v="></script>
 
 
 
   
 
 
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+  <script type="text/javascript" src="//src/bootstrap.js?v="></script>
 
 
 

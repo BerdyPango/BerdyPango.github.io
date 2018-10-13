@@ -1,0 +1,1158 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next mist" lang="default">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="K2S73UudyU-JTh9S0U_KnOKgOvE7aW7EpO560okLyUU" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="//main.css?v=" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+
+
+  <meta name="keywords" content="linux,openwrt,shadowsocks," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="文本记录了利用网件 WNDR 4300 路由器安装 OpenWrt 实现全局科学上网的路径与原理">
+<meta name="keywords" content="linux,openwrt,shadowsocks">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DIY - 网件 WNDR 4300 路由器配置全局科学上网">
+<meta property="og:url" content="https://berdypango.github.io/router-openwrt-shadowsocks/index.html">
+<meta property="og:site_name" content="FrostHe.Handbook">
+<meta property="og:description" content="文本记录了利用网件 WNDR 4300 路由器安装 OpenWrt 实现全局科学上网的路径与原理">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-10-13T02:11:16.994Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="DIY - 网件 WNDR 4300 路由器配置全局科学上网">
+<meta name="twitter:description" content="文本记录了利用网件 WNDR 4300 路由器安装 OpenWrt 实现全局科学上网的路径与原理">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '',
+    sidebar: {"display":"hide"},
+    fancybox: ,
+    tabs: ,
+    motion: {"enable":false},
+    duoshuo: {
+      userId: 'undefined',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: 'ZL78UP9TUE',
+      apiKey: '',
+      indexName: 'FrostHe.Handbook',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+
+
+
+
+  <title>DIY - 网件 WNDR 4300 路由器配置全局科学上网 | FrostHe.Handbook</title>
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-125853342-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+
+  <div class="container  page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">FrostHe.Handbook</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            Search
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="Searching..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://berdypango.github.io/router-openwrt-shadowsocks/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Frost He">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FrostHe.Handbook">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">DIY - 网件 WNDR 4300 路由器配置全局科学上网</h1>
+        
+
+        <div class="post-meta">
+          
+          <span class="post-time">
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                  <span class="post-meta-divider">|</span>
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  2,442
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+              <div class="post-description">
+                  文本记录了利用网件 WNDR 4300 路由器安装 OpenWrt 实现全局科学上网的路径与原理
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="shadowsocks-libev"><a href="#shadowsocks-libev" class="headerlink" title="shadowsocks-libev"></a>shadowsocks-libev</h2><p><code>shadowsocks-libev</code> 是一个 <code>shadowsocks</code> 协议的轻量级实现，其依赖于 <a href="http://software.schmorp.de/pkg/libev.html" target="_blank" rel="noopener">libev</a>，是 <code>shadowsocks-android</code>, <code>shadowsocks-ios</code> 以及 <code>shadowsocks-openwrt</code> 的上游项目。其具有以下特点：</p>
+<ol>
+<li>体积小巧，静态编译并打包后只有 100 KB。</li>
+<li>高并发，基于 libev 实现的异步 I/O，以及基于线程池的异步 DNS，同时连接数可上万。</li>
+<li>低资源占用。几乎不占用 CPU 资源，服务器端内存占用一般在 3MB 左右。<br>跨平台。适用于所有常见硬件平台，已测试通过的包括 x86，ARM 和 MIPS。也适用于大部分 POSIX 的操作系统或平台，包括 Linux，OS X 和 Cygwin 等。</li>
+<li>协议及配置兼容。完全兼容 <code>shadowsocks</code> 协议，且兼容标准实现中的 JSON 风格配置文件，可与任意实现的 <code>shadowsocks</code> 客户端或服务端搭配使用。</li>
+</ol>
+<p><code>shadowsocks-libev</code> 包括服务端和客户端两部分，一共三个模块。</p>
+<ol>
+<li>ss-server: 服务器端，部署在远程服务器，提供 shadowsocks 服务。</li>
+<li>ss-local: 客户端，提供本地 socks5 协议代理。</li>
+<li>ss-redir: 客户端，提供本地透明代理，需要与 NAT 配合使用</li>
+<li>ss-tunnel: 客户端，本地端口转发<br>官网地址：<br><a href="https://github.com/shadowsocks/shadowsocks-libev" target="_blank" rel="noopener">https://github.com/shadowsocks/shadowsocks-libev</a></li>
+</ol>
+<h2 id="准备一台安装-shadowsocks-libev-的海外服务器"><a href="#准备一台安装-shadowsocks-libev-的海外服务器" class="headerlink" title="准备一台安装 shadowsocks-libev 的海外服务器"></a>准备一台安装 shadowsocks-libev 的海外服务器</h2><h3 id="套用-bbr-拥塞算法"><a href="#套用-bbr-拥塞算法" class="headerlink" title="套用 bbr 拥塞算法"></a>套用 bbr 拥塞算法</h3><p>在搬瓦工购买一台 Ubuntu 16.04 x64 系统的 vps。首先查看内核版本:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ uname -r</span><br><span class="line"></span><br><span class="line">2.6.32-042stab128.2</span><br></pre></td></tr></table></figure></p>
+<p>更新至最新版本内核:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt update</span><br><span class="line">$ sudo apt install --install-recommends linux-generic-hwe-16.04</span><br></pre></td></tr></table></figure></p>
+<p>更新内核版本完成后，重启服务器:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo reboot</span><br></pre></td></tr></table></figure></p>
+<p>要利用 <code>shadowsocks-libev</code> 科学上网，首先要有一台国外的服务器安装并运行 <code>shadowsocks</code> 服务端。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get update</span><br><span class="line">$ sudo apt-get install shadowsocks-libev</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>具体系统安装指南参考<a href="https://github.com/shadowsocks/shadowsocks-libev" target="_blank" rel="noopener">Github</a>。</p>
+</blockquote>
+<p>上述命令会:</p>
+<ul>
+<li>安装 <code>ss-local</code> <code>ss-redir</code> <code>ss-server</code> <code>ss-tunnel</code> 到 <code>/usr/bin</code></li>
+<li>新增开机启动脚本至 <code>/etc/init.d/shadowsocks-libev</code></li>
+<li>配置文件 /etc/shadowsocks-libev/config.json (旧版是/etc/shadowsocks/config.json)</li>
+<li>一些默认启动配置 /etc/default/shadowsocks-libev (旧版是/etc/default/shadowsocks)</li>
+</ul>
+<h3 id="配置服务端"><a href="#配置服务端" class="headerlink" title="配置服务端"></a>配置服务端</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ sudo vi /etc/shadowsocks-libev/config.json</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">    <span class="string">"server"</span>: <span class="string">"1.0.9.8"</span>,</span><br><span class="line">    <span class="string">"server_port"</span>: 1098,</span><br><span class="line">    <span class="string">"password"</span>: <span class="string">"killgfw"</span>,</span><br><span class="line">    <span class="string">"method"</span>: <span class="string">"aes-256-cfb"</span>        </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>必须把 <code>server 1.0.9.8</code> 改成自己海外服务器的 ip 地址，或改成 0.0.0.0 表示监听本机。如果访问变慢，时断时续，可能是受到了干扰，可尝试改变加密方式，如改成 bf-cfb。</p>
+<h3 id="修改防火墙设置"><a href="#修改防火墙设置" class="headerlink" title="修改防火墙设置"></a>修改防火墙设置</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo ufw allow 1098</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>1098 只是举例，配置文件中是哪个端口号，这里就是多少</p>
+</blockquote>
+<h3 id="控制-shadowsocks-libev"><a href="#控制-shadowsocks-libev" class="headerlink" title="控制 shadowsocks-libev"></a>控制 shadowsocks-libev</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ sudo service shadowsocks-libev start</span><br><span class="line">$ sudo service shadowsocks-libev stop</span><br></pre></td></tr></table></figure>
+<h3 id="查看-ss-server-是否已经启动并且带有-u-启动参数"><a href="#查看-ss-server-是否已经启动并且带有-u-启动参数" class="headerlink" title="查看 ss-server 是否已经启动并且带有 -u 启动参数"></a>查看 ss-server 是否已经启动并且带有 -u 启动参数</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ ps ax | grep ss-server</span><br><span class="line"></span><br><span class="line">/usr/bin/ss-server -c /etc/shadowsocks-libev/config.json -a root -u -f /var/run/shadowsocks-libev/shadowsocks-libev.pid</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>其中有 <code>-u</code> 选项。如果 <code>shadowsocks</code> 客户端启用了 udp relay, 而服务端启动时不带 -u 参数，将无法正常工作。</p>
+</blockquote>
+<h2 id="在-OpenWrt-路由器上配置-shadowsocks-libev-客户端"><a href="#在-OpenWrt-路由器上配置-shadowsocks-libev-客户端" class="headerlink" title="在 OpenWrt 路由器上配置 shadowsocks-libev 客户端"></a>在 OpenWrt 路由器上配置 shadowsocks-libev 客户端</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ vi /etc/shadowsocks.json</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">    <span class="string">"server"</span>: <span class="string">"1.0.9.8"</span>,</span><br><span class="line">    <span class="string">"server_port"</span>: 1098,</span><br><span class="line">    <span class="string">"local_port"</span>: 7654,</span><br><span class="line">    <span class="string">"password"</span>: <span class="string">"killgfw"</span>,</span><br><span class="line">    <span class="string">"method"</span>: <span class="string">"aes-256-cfb"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>配置中几项参数需与服务端配置匹配。客户端的安装至 <a href="https://sourceforge.net/projects/openwrt-dist/files/shadowsocks-libev/" target="_blank" rel="noopener">https://sourceforge.net/projects/openwrt-dist/files/shadowsocks-libev/</a></p>
+</blockquote>
+<p>一切就绪后，使用 <code>ss-local -c /etc/shadowsocks.json</code> 在路由器测试代理上网。</p>
+<h2 id="让-OpenWRT-正常安装软件"><a href="#让-OpenWRT-正常安装软件" class="headerlink" title="让 OpenWRT 正常安装软件"></a>让 OpenWRT 正常安装软件</h2><p>当我们刚给路由器刷上 OpenWRT 后，其只具备基本的上网功能，如果使用 <code>opkg update</code> 安装软件时，发现其根本不能 update，因为它连接的 <code>download.operwrt.org</code> 本身也在被墙列表中(或未被墙，但速度奇慢)。</p>
+<h3 id="方法1-为-opkg-配置代理"><a href="#方法1-为-opkg-配置代理" class="headerlink" title="方法1: 为 opkg 配置代理"></a>方法1: 为 opkg 配置代理</h3><p>使用 SSH 远程登录路由器系统，找到 <code>/etc/opkg.conf</code> 文件，添加代理选项:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">option http_proxy http://proxy.example.org:8080/</span><br><span class="line">option ftp_proxy ftp://proxy.example.org:2121/</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用以下选项进行服务器认证</span></span><br><span class="line">option proxy_username xxxx</span><br><span class="line">option proxy_password xxxx</span><br></pre></td></tr></table></figure></p>
+<p>有时，因为 <code>busybox</code> 中 <code>wget</code> 的限制，代理服务器的认证可能失败。这时，可以尝试在代理服务器的 URL 中传入用户名和密码：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">option http_proxy http://username:password@proxy.example.org:8080/</span><br><span class="line">option ftp_proxy http://username:password@proxy.example.org:2121/</span><br></pre></td></tr></table></figure></p>
+<p>参考官方文档: <a href="https://wiki.openwrt.org/zh-cn/doc/techref/opkg" target="_blank" rel="noopener">https://wiki.openwrt.org/zh-cn/doc/techref/opkg</a></p>
+<h3 id="方法2-调整本地-opkg-仓库"><a href="#方法2-调整本地-opkg-仓库" class="headerlink" title="方法2: 调整本地 opkg 仓库"></a>方法2: 调整本地 opkg 仓库</h3><p>参考 <a href="https://softwaredownload.gitbooks.io/openwrt-fanqiang/content/ebook/02.15.html" target="_blank" rel="noopener">https://softwaredownload.gitbooks.io/openwrt-fanqiang/content/ebook/02.15.html</a></p>
+<h2 id="OpenWrt-科学上网原理"><a href="#OpenWrt-科学上网原理" class="headerlink" title="OpenWrt 科学上网原理"></a>OpenWrt 科学上网原理</h2><p>连接至路由器的家庭设备，所有流量都会经过路由器，而路由器会解析该条请求域名，至 <code>/etc/dnsmasq.d</code> 目录中查询 <code>accelerated-domains.china.conf</code> 配置清单，例如:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">server=/10010.com/114.114.114.114</span><br><span class="line">server=/115.com/114.114.114.114</span><br></pre></td></tr></table></figure></p>
+<p>如果任何用户访问 10010.com，<code>dnsmasq</code> 发现匹配项，则转发至国内域名服务器 114.114.114.114 查询该域名的 ip 地址。同一目录下的 <code>gfwlist.conf</code> 中包含:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">server=/<span class="comment">#/127.0.0.1#3210</span></span><br></pre></td></tr></table></figure></p>
+<p><code>#</code> 表示通配符，意为匹配所有域名，该文件将匹配的所有域名转发至本地端口 3210。由于 <code>dnsmasq</code> 会优先匹配具体规则，如果找不到该规则，则匹配泛化规则。因此，dnsmasq 会首先匹配 <code>accelerated-domains.china.conf</code> 上的域名，如果找不到匹配项，则匹配 <code>gfwlist.conf</code> 并转发至本地 3210 端口进行域名查询，而 3210 由本地 ss-tunel 客户端到远程服务器进行域名查询。</p>
+<h3 id="etc-init-d-shadowsocks-脚本"><a href="#etc-init-d-shadowsocks-脚本" class="headerlink" title="/etc/init.d/shadowsocks 脚本"></a>/etc/init.d/shadowsocks 脚本</h3><p>查看 <code>/etc/init.d/shadowsocks</code> 脚本文件可得到:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">START=95</span><br><span class="line"></span><br><span class="line">SERVICE_USE_PID=1</span><br><span class="line">SERVICE_WRITE_PID=1</span><br><span class="line">SERVICE_DAEMONIZE=1</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">start</span></span>() &#123;</span><br><span class="line">	sed -i <span class="string">'s/114.114.114.114/127.0.0.1#3210/'</span> /etc/dnsmasq.d/gfwlist.conf</span><br><span class="line">	/etc/init.d/dnsmasq restart</span><br><span class="line"></span><br><span class="line">	service_start /usr/bin/ss-redir -b 0.0.0.0 -c /etc/shadowsocks.json -f /var/run/shadowsocks.pid</span><br><span class="line">	service_start /usr/bin/ss-tunnel -b 0.0.0.0 -c /etc/shadowsocks.json -l 3210 -L 8.8.8.8:53 -u </span><br><span class="line">	/usr/bin/shadowsocks-firewall</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">stop</span></span>() &#123;</span><br><span class="line">	sed -i <span class="string">'s/127.0.0.1#3210/114.114.114.114/'</span> /etc/dnsmasq.d/gfwlist.conf</span><br><span class="line">	/etc/init.d/dnsmasq restart</span><br><span class="line"></span><br><span class="line">	service_stop /usr/bin/ss-redir</span><br><span class="line">	service_stop /usr/bin/ss-tunnel</span><br><span class="line">	killall ss-redir</span><br><span class="line">	killall ss-tunnel</span><br><span class="line">	/etc/init.d/firewall restart</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>该脚本的大致逻辑为:</p>
+<ul>
+<li>停止 <code>shadowsocks</code> 服务时，将 <code>dnsmasq</code> 泛域名匹配的规则改为查询国内 dns 域名的规则，即 <code>sed -i &#39;s/127.0.0.1#3210/114.114.114.114/&#39; /etc/dnsmasq.d/gfwlist.conf</code></li>
+<li>启动 <code>shadowsocks</code> 服务时，如果以前停止过 <code>shadowsocks</code> 服务，要把泛域名匹配的解析改成通过<code>ss-tunnel 3210</code> 端口转发，<code>sed -i &#39;s/114.114.114.114/127.0.0.1#3210/&#39; /etc/dnsmasq.d/gfwlist.conf</code>。同时开启 <code>3210</code> 端口，并将收到的请求走 <code>ss-tunnel</code> 通道向远程服务器的发送向 <code>8:8:8:8:53</code> 查询 dns，即 <code>service_start /usr/bin/ss-tunnel -b 0.0.0.0 -c /etc/shadowsocks.json -l 3210 -L 8.8.8.8:53 -u</code></li>
+<li><code>dnsmasq</code> 只负责域名查询分配转发，查询到 IP 地址后，再通过 <code>usr/bin/shdowsocks-firewall</code> 脚本判断是否要通过 <code>shadowsocks</code> 加密请求内容。</li>
+</ul>
+<blockquote>
+<p>运行 <code>/etc/init.d/shadowsocks stop</code> 有时并没有结束 <code>ss-redir</code> 或 <code>ss-tunnel</code> 进程，即使 <code>killall</code> 有时还是不能杀掉进程，这种情况就只能重启路由器了。也就是说，修改了翻墙配置，有时必须重启路由器才能生效。</p>
+</blockquote>
+<h3 id="usr-bin-shdowsocks-firewall-脚本"><a href="#usr-bin-shdowsocks-firewall-脚本" class="headerlink" title="/usr/bin/shdowsocks-firewall 脚本"></a>/usr/bin/shdowsocks-firewall 脚本</h3><ol>
+<li><p>如果请求指向自建 <code>shadowsocks</code> 服务器地址，立即返回，不做处理</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#create a new chain named SHADOWSOCKS</span></span><br><span class="line">iptables -t nat -N SHADOWSOCKS</span><br><span class="line">iptables -t nat -N SHADOWSOCKS_WHITELIST</span><br><span class="line"></span><br><span class="line"><span class="comment"># Ignore your shadowsocks server's addresses</span></span><br><span class="line"><span class="comment"># It's very IMPORTANT, just be careful.</span></span><br><span class="line">iptables -t nat -A SHADOWSOCKS -d 1.0.9.8 -j RETURN    </span><br><span class="line"><span class="comment">#iptables -t nat -A SHADOWSOCKS -d 1.0.9.7 -j RETURN</span></span><br><span class="line"><span class="comment">#iptables -t nat -A SHADOWSOCKS -d 1.0.9.6 -j RETURN</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>如果本地发出至局域网的请求，立即返回，不做处理</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Ignore LANs IP address</span></span><br><span class="line">iptables -t nat -A SHADOWSOCKS -d 0.0.0.0/8 -j RETURN</span><br><span class="line">iptables -t nat -A SHADOWSOCKS -d 10.0.0.0/8 -j RETURN</span><br><span class="line">iptables -t nat -A SHADOWSOCKS -d 127.0.0.0/8 -j RETURN</span><br><span class="line">iptables -t nat -A SHADOWSOCKS -d 169.254.0.0/16 -j RETURN</span><br><span class="line">iptables -t nat -A SHADOWSOCKS -d 172.16.0.0/12 -j RETURN</span><br><span class="line">iptables -t nat -A SHADOWSOCKS -d 192.168.0.0/16 -j RETURN</span><br><span class="line">iptables -t nat -A SHADOWSOCKS -d 224.0.0.0/4 -j RETURN</span><br><span class="line">iptables -t nat -A SHADOWSOCKS -d 240.0.0.0/4 -j RETURN</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>如果发出到中国的 IP 地址，立即返回，不做处理</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Ignore China IP address</span></span><br><span class="line"><span class="keyword">for</span> white_ip <span class="keyword">in</span> `cat /etc/chinadns_chnroute.txt`;</span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">    iptables -t nat -A SHADOWSOCKS_WHITELIST -d <span class="string">"<span class="variable">$&#123;white_ip&#125;</span>"</span> -j MARK --<span class="built_in">set</span>-mark 1</span><br><span class="line"><span class="keyword">done</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Check whitelist</span></span><br><span class="line">iptables -t nat -A SHADOWSOCKS -j SHADOWSOCKS_WHITELIST</span><br><span class="line">iptables -t nat -A SHADOWSOCKS -m mark --mark 1 -j RETURN</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>其他全部转发至 <code>shdowsocks-libev</code> 本地客户端 <code>ss-redir</code> 监听的端口，由 <code>ss-redir</code> 负责和服务端进行加密通讯。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#for hulu.com</span></span><br><span class="line">iptables -t nat -A SHADOWSOCKS -p tcp --dport 1935 -j REDIRECT --to-ports 7654</span><br><span class="line">iptables -t nat -A SHADOWSOCKS -p udp --dport 1935 -j REDIRECT --to-ports 7654</span><br><span class="line"></span><br><span class="line"><span class="comment"># for Chrome browser and youtube.com</span></span><br><span class="line">iptables -t nat -A SHADOWSOCKS -p udp --dport 443 -j REDIRECT --to-ports 7654</span><br><span class="line"></span><br><span class="line"><span class="comment"># Anything else should be redirected to shadowsocks's local port</span></span><br><span class="line">iptables -t nat -A SHADOWSOCKS -p tcp -j REDIRECT --to-ports 7654</span><br><span class="line"><span class="comment"># Apply the rules</span></span><br><span class="line">iptables -t nat -A PREROUTING -p tcp -j SHADOWSOCKS</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<blockquote>
+<p><code>iptables -t nat -A SHADOWSOCKS -p tcp -j REDIRECT --to-ports 7654</code> 这里 7654 必须和 <code>OpenWrt</code> 路由器 <code>/etc/shadowsocks.json</code> 里的 <code>local_port</code> 保持一致</p>
+<p>首先运行全代理模式，然后再执行白名单。在白名单比较长时冷启动的速度会比较快。</p>
+</blockquote>
+<blockquote>
+<p>中国的 IP 列表较长，如果路由器硬件配置不是太好，可以把 Ignore China IP address 段注释掉，启用 Ignore Asia IP address 段。</p>
+</blockquote>
+<h3 id="控制-shadowsocks-本地客户端"><a href="#控制-shadowsocks-本地客户端" class="headerlink" title="控制 shadowsocks 本地客户端"></a>控制 shadowsocks 本地客户端</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ /etc/init.d/dnsmasq restart <span class="comment"># 重启 dnsmasq </span></span><br><span class="line">$ /etc/init.d/shadowsocks stop</span><br><span class="line">$ /etc/init.d/shadowsocks start</span><br><span class="line">$ /etc/init.d/shadowsocks <span class="built_in">enable</span> <span class="comment"># 设置 shadowsocks 在 OpenWrt 路由器启动时自动启动</span></span><br><span class="line">$ /etc/init.d/shadowsocks <span class="built_in">disable</span> <span class="comment"># 取消 shadowsocks 随机启动</span></span><br></pre></td></tr></table></figure>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/linux/" rel="tag"># linux</a>
+          
+            <a href="/tags/openwrt/" rel="tag"># openwrt</a>
+          
+            <a href="/tags/shadowsocks/" rel="tag"># shadowsocks</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/linux-setup-a-new-ubuntu-server/" rel="next" title="搭建 Ubuntu 16.04 LTS">
+                <i class="fa fa-chevron-left"></i> 搭建 Ubuntu 16.04 LTS
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/ddd-overview/" rel="prev" title="《实现领域驱动设计》读书笔记(1) - 总览">
+                《实现领域驱动设计》读书笔记(1) - 总览 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Frost He</p>
+              <p class="site-description motion-element" itemprop="description">Stay hungry, stay foolish</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">53</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">37</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#shadowsocks-libev"><span class="nav-text">shadowsocks-libev</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#准备一台安装-shadowsocks-libev-的海外服务器"><span class="nav-text">准备一台安装 shadowsocks-libev 的海外服务器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#套用-bbr-拥塞算法"><span class="nav-text">套用 bbr 拥塞算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置服务端"><span class="nav-text">配置服务端</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修改防火墙设置"><span class="nav-text">修改防火墙设置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#控制-shadowsocks-libev"><span class="nav-text">控制 shadowsocks-libev</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查看-ss-server-是否已经启动并且带有-u-启动参数"><span class="nav-text">查看 ss-server 是否已经启动并且带有 -u 启动参数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在-OpenWrt-路由器上配置-shadowsocks-libev-客户端"><span class="nav-text">在 OpenWrt 路由器上配置 shadowsocks-libev 客户端</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#让-OpenWRT-正常安装软件"><span class="nav-text">让 OpenWRT 正常安装软件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#方法1-为-opkg-配置代理"><span class="nav-text">方法1: 为 opkg 配置代理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方法2-调整本地-opkg-仓库"><span class="nav-text">方法2: 调整本地 opkg 仓库</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OpenWrt-科学上网原理"><span class="nav-text">OpenWrt 科学上网原理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#etc-init-d-shadowsocks-脚本"><span class="nav-text">/etc/init.d/shadowsocks 脚本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#usr-bin-shdowsocks-firewall-脚本"><span class="nav-text">/usr/bin/shdowsocks-firewall 脚本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#控制-shadowsocks-本地客户端"><span class="nav-text">控制 shadowsocks 本地客户端</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2015 &mdash; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Frost He</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+
+
+
+
+
+        
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//tajs.qq.com/stats?sId=65458438";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="//jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="//fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="//jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="//velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="//velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="//src/utils.js?v="></script>
+
+  <script type="text/javascript" src="//src/motion.js?v="></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="//src/scrollspy.js?v="></script>
+<script type="text/javascript" src="//src/post-details.js?v="></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="//src/bootstrap.js?v="></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === '') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
