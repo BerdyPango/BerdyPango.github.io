@@ -1,0 +1,1169 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next mist" lang="default">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="K2S73UudyU-JTh9S0U_KnOKgOvE7aW7EpO560okLyUU" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="linux,raspberry-pi,smart-home,home-assistant," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="HomeAssistant 是一个开源的智能家居网关项目，本文介绍了如何在树莓派 Raspbian 系统上架设 HA">
+<meta name="keywords" content="linux,raspberry-pi,smart-home,home-assistant">
+<meta property="og:type" content="article">
+<meta property="og:title" content="搭建开源智能家居网关 - HomeAssistant">
+<meta property="og:url" content="https://berdypango.github.io/smarthome-setup-ha-on-raspberrypi/index.html">
+<meta property="og:site_name" content="FrostHe.Handbook">
+<meta property="og:description" content="HomeAssistant 是一个开源的智能家居网关项目，本文介绍了如何在树莓派 Raspbian 系统上架设 HA">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://berdypango.github.io/smarthome-setup-ha-on-raspberrypi/web-ui-home.jpg">
+<meta property="og:updated_time" content="2018-10-22T14:23:33.676Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="搭建开源智能家居网关 - HomeAssistant">
+<meta name="twitter:description" content="HomeAssistant 是一个开源的智能家居网关项目，本文介绍了如何在树莓派 Raspbian 系统上架设 HA">
+<meta name="twitter:image" content="https://berdypango.github.io/smarthome-setup-ha-on-raspberrypi/web-ui-home.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"hide","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: 'ZL78UP9TUE',
+      apiKey: '',
+      indexName: 'FrostHe.Handbook',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://berdypango.github.io/smarthome-setup-ha-on-raspberrypi/"/>
+
+
+
+
+
+  <title>搭建开源智能家居网关 - HomeAssistant | FrostHe.Handbook</title>
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-125853342-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="default">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">FrostHe.Handbook</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            Search
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="Searching..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://berdypango.github.io/smarthome-setup-ha-on-raspberrypi/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Frost He">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FrostHe.Handbook">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">搭建开源智能家居网关 - HomeAssistant</h1>
+        
+
+        <div class="post-meta">
+          
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-05-24T11:03:44+08:00">
+                2018-05-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Smart-Home/" itemprop="url" rel="index">
+                    <span itemprop="name">Smart Home</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                  <span class="post-meta-divider">|</span>
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Words count in article&#58;</span>
+                
+                <span title="Words count in article">
+                  1,373
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+              <div class="post-description">
+                  HomeAssistant 是一个开源的智能家居网关项目，本文介绍了如何在树莓派 Raspbian 系统上架设 HA
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>参考资料:</p>
+<ul>
+<li><a href="https://www.raspberrypi.org/blog/docker-comes-to-raspberry-pi/" target="_blank" rel="noopener">Docker Comes to Raspberry Pi</a></li>
+<li><a href="https://www.home-assistant.io/docs/installation/docker/" target="_blank" rel="noopener">HA Installation on Docker</a></li>
+<li><a href="https://www.home-assistant.io/components/http/" target="_blank" rel="noopener">HA Http</a></li>
+<li><a href="https://www.home-assistant.io/docs/ecosystem/nginx/" target="_blank" rel="noopener">HA Nginx</a></li>
+</ul>
+<h2 id="Home-Assistant-简介"><a href="#Home-Assistant-简介" class="headerlink" title="Home Assistant 简介"></a>Home Assistant 简介</h2><p><a href="(https://www.home-assistant.io/">Home Assistant</a>(以下简称 HA) 是一个开源的智能家居网关项目，它可以将市面上所有支持 wifi 接入的智能硬件设备整合到一起进行统一管理，并提供了默认的 Web UI。HA 社区开发了海量组件以支持市面上主流的设备，在 IoT 中扮演了大脑的角色。在个人服务器上架设 HA 有多种实现方式，*UNIX 发行商也都制作了对应的系统映像，<code>HomeAssistant</code> 官方推荐使用「树莓派3B+」作为其宿主机器。</p>
+<h2 id="前提条件"><a href="#前提条件" class="headerlink" title="前提条件"></a>前提条件</h2><p>为了达到预期效果，最好提前准备好以下设备:</p>
+<ul>
+<li>一台安装了 <strong>Raspbian</strong> 系统的树莓派 3B+，并已接入网络，安装指南可参考「<a href="/homeserver-setup-raspberry-pi/">准备树莓派 3b+</a>」</li>
+<li>任何支持 wifi 的智能灯具一盏，本文选用了 「<a href="https://item.jd.com/7122991.html" target="_blank" rel="noopener">Yeelight LED 智能灯</a>」。</li>
+</ul>
+<h2 id="安装-Home-Assistant"><a href="#安装-Home-Assistant" class="headerlink" title="安装 Home Assistant"></a>安装 Home Assistant</h2><p>官方推出了 <strong>HA</strong> 的 <strong>Docker Image</strong>，本文主要介绍在 <code>Raspbian</code> 系统上通过 <code>Docker</code> 安装 <code>HomeAssistant</code>。如果你不喜欢 <code>Docker</code>，可以参考 <a href="https://www.home-assistant.io/getting-started/" target="_blank" rel="noopener">Install Home Assistant</a> 使用其他安装方式。</p>
+<h3 id="安装-Docker-引擎-Optional"><a href="#安装-Docker-引擎-Optional" class="headerlink" title="安装 Docker 引擎(Optional)"></a>安装 Docker 引擎(Optional)</h3><p>下载安装脚本并执行:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">$ curl -sSL https://get.docker.com | sh</span><br><span class="line"></span><br><span class="line">Client:</span><br><span class="line"> Version:      18.05.0-ce</span><br><span class="line"> API version:  1.37</span><br><span class="line"> Go version:   go1.9.5</span><br><span class="line"> Git commit:   f150324</span><br><span class="line"> Built:        Wed May  9 22:24:36 2018</span><br><span class="line"> OS/Arch:      linux/arm</span><br><span class="line"> Experimental: <span class="literal">false</span></span><br><span class="line"> Orchestrator: swarm</span><br><span class="line"></span><br><span class="line">Server:</span><br><span class="line"> Engine:</span><br><span class="line">  Version:      18.05.0-ce</span><br><span class="line">  API version:  1.37 (minimum version 1.12)</span><br><span class="line">  Go version:   go1.9.5</span><br><span class="line">  Git commit:   f150324</span><br><span class="line">  Built:        Wed May  9 22:20:37 2018</span><br><span class="line">  OS/Arch:      linux/arm</span><br><span class="line">  Experimental: <span class="literal">false</span></span><br><span class="line">If you would like to use Docker as a non-root user, you should now consider</span><br><span class="line">adding your user to the <span class="string">"docker"</span> group with something like:</span><br><span class="line"></span><br><span class="line">  sudo usermod -aG docker pi</span><br><span class="line"></span><br><span class="line">Remember that you will have to <span class="built_in">log</span> out and back <span class="keyword">in</span> <span class="keyword">for</span> this to take effect!</span><br><span class="line"></span><br><span class="line">WARNING: Adding a user to the <span class="string">"docker"</span> group will grant the ability to run</span><br><span class="line">         containers <span class="built_in">which</span> can be used to obtain root privileges on the</span><br><span class="line">         docker host.</span><br><span class="line">         Refer to https://docs.docker.com/engine/security/security/<span class="comment">#docker-daemon-attack-surface</span></span><br><span class="line">         <span class="keyword">for</span> more information.</span><br></pre></td></tr></table></figure></p>
+<p>将 <code>pi</code> 用户加入 <code>docker</code> 群组<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo usermod -aG docker pi</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>如提示所说，用户 <code>pi</code> 加入群组后需要再次登录以生效</p>
+</blockquote>
+<h3 id="拉取-HomeAssistan-Docker-Image"><a href="#拉取-HomeAssistan-Docker-Image" class="headerlink" title="拉取 HomeAssistan Docker Image"></a>拉取 HomeAssistan Docker Image</h3><p>使用 <strong>Docker</strong> 安装 <strong>HA</strong> 是非常简单的，官方提供了支持 <strong>Raspberry Pi 3</strong> 的 <strong>Docker Image</strong> 和「<a href="https://www.home-assistant.io/docs/installation/docker/" target="_blank" rel="noopener">安装指南</a>」:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker run -d --name=<span class="string">"home-assistant"</span> -v /path/to/your/config:/config -v /etc/localtime:/etc/localtime:ro --net=host homeassistant/raspberrypi3-homeassistant:0.XX.X</span><br></pre></td></tr></table></figure></p>
+<p>参数 <code>/path/to/your/config:/config</code> 映射 container 的 <code>/config</code> 至本地主机的物理路径，此处我选择了 <code>/etc/home-assistant/config</code>，同时，HA 为树莓派推出的 image 不包含 <code>latest</code> 的标签，所以在安装之前需要去「<a href="https://www.home-assistant.io/" target="_blank" rel="noopener">HA 官网</a>」查看 HA 当前的最新版本，例如 0.69.1:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">$ docker run -d --name=<span class="string">"home-assistant"</span> -v /etc/home-assistant/config:/config -v /etc/localtime:/etc/localtime:ro --net=host homeassistant/raspberrypi3-homeassistant:0.69.1</span><br><span class="line"></span><br><span class="line">Unable to find image <span class="string">'homeassistant/raspberrypi3-homeassistant:0.69.1'</span> locally</span><br><span class="line">0.69.1: Pulling from homeassistant/raspberrypi3-homeassistant</span><br><span class="line">95d54dd4bdad: Pull complete</span><br><span class="line">72bf7d76c392: Pull complete</span><br><span class="line">9620ed938a4f: Pull complete</span><br><span class="line">a16372392f2e: Pull complete</span><br><span class="line">cd5a28710c58: Downloading [===================================&gt;               ]  2.695MB/3.766MB</span><br><span class="line">9b376789f5cb: Downloading [====&gt;                                              ]   1.49MB/16MB</span><br><span class="line">428cd24e8c1b: Download complete</span><br><span class="line">3e7ded663f3a: Downloading [=&gt;                                                 ]  45.59kB/2.24MB</span><br><span class="line">5ad200a39e9a: Waiting</span><br><span class="line">47c50281d4f4: Waiting</span><br><span class="line">34a35918edbb: Waiting</span><br><span class="line">ff968d62969e: Waiting</span><br><span class="line">88d8e837fc65: Waiting</span><br><span class="line">0048f1b252d1: Waiting</span><br><span class="line">fe24e50f4c0c: Waiting</span><br><span class="line">8a894406a1f7: Waiting</span><br><span class="line">c521d5fa0262: Waiting</span><br><span class="line">b87db931bad3: Waiting</span><br><span class="line">faa8f2005c47: Waiting</span><br><span class="line">0316d5cde9e4: Waiting</span><br><span class="line">aca6725ed6a1: Waiting</span><br><span class="line"></span><br><span class="line"><span class="comment"># ...Docker 正从远程拉取所需的 image...</span></span><br><span class="line"></span><br><span class="line">Digest: sha256:76d8f1dee1d372fee469f688275854865e12ca662d4090800bb1a3ea5cefdf0f</span><br><span class="line">Status: Downloaded newer image <span class="keyword">for</span> homeassistant/raspberrypi3-homeassistant:0.69.1</span><br><span class="line">c360dbc77bede87b4eae2210d7b2df11c80f13a5acb227feaf53b3b8554ef2cd</span><br></pre></td></tr></table></figure></p>
+<p>安装完成后，<strong>HomeAssistant</strong> 的 container 已经开始运行:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ docker ps</span><br><span class="line"></span><br><span class="line">CONTAINER ID        IMAGE                                             COMMAND                  CREATED             STATUS              PORTS               NAMES</span><br><span class="line">c360dbc77bed        homeassistant/raspberrypi3-homeassistant:0.69.1   <span class="string">"/usr/bin/entry.sh p…"</span>   5 minutes ago       Up 5 minutes                            home-assistant</span><br></pre></td></tr></table></figure></p>
+<p>查看刚刚指定的配置文件目录，其下出现了这些文件及目录:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">-rw-r--r-- 1 root root      2 May 21 03:42 automations.yaml</span><br><span class="line">-rw-r--r-- 1 root root   1800 May 21 03:42 configuration.yaml</span><br><span class="line">-rw-r--r-- 1 root root      0 May 21 03:42 customize.yaml</span><br><span class="line">drwxr-xr-x 2 root root   4096 May 21 03:42 deps</span><br><span class="line">-rw-r--r-- 1 root root      0 May 21 03:42 groups.yaml</span><br><span class="line">-rw-r--r-- 1 root root    106 May 21 03:43 home-assistant.log</span><br><span class="line">-rw-r--r-- 1 root root 126976 May 21 04:11 home-assistant_v2.db</span><br><span class="line">-rw-r--r-- 1 root root      0 May 21 03:42 scripts.yaml</span><br><span class="line">-rw-r--r-- 1 root root    157 May 21 03:42 secrets.yaml</span><br><span class="line">drwxr-xr-x 2 root root   4096 May 21 03:43 tts</span><br></pre></td></tr></table></figure></p>
+<p><code>config</code> 目录(此处为 <code>/etc/home-assistant/config/</code>)下的 <code>configuration.yaml</code> 是配置文件的入口点，其他由 <code>yaml</code> 为扩展名的配置文件均是为了实现独立管理而单独分离出来的文件，可在 <code>configuration.yaml</code> 文档中找到如下入口载入这些配置文件:<br><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">customize:</span> <span class="string">!include</span> <span class="string">customize.yaml</span></span><br><span class="line"><span class="attr">group:</span> <span class="string">!include</span> <span class="string">groups.yaml</span></span><br><span class="line"><span class="attr">automation:</span> <span class="string">!include</span> <span class="string">automations.yaml</span></span><br><span class="line"><span class="attr">script:</span> <span class="string">!include</span> <span class="string">scripts.yaml</span></span><br></pre></td></tr></table></figure></p>
+<p><code>8123</code> 是 <strong>Web UI</strong> 的默认端口，尝试在浏览器中输入 <strong>http://{ip-address-to-raspberry}:8123</strong> 访问，得到如下结果:</p>
+<img src="/smarthome-setup-ha-on-raspberrypi/web-ui-home.jpg" title="Home Assistant Web UI">
+<p><strong>HA</strong> 会自动查找接入同一 wifi 网络中的智能设备，是因为在 <code>configuration.yaml</code> 中配置了如下节点:<br><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Discover some devices automatically</span></span><br><span class="line"><span class="attr">discovery:</span></span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>接入 HA 的设备无需打开相应的 App 进行绑定。</p>
+</blockquote>
+<h2 id="开机启动-HA-Container"><a href="#开机启动-HA-Container" class="headerlink" title="开机启动 HA Container"></a>开机启动 HA Container</h2><p>一切正常之后，每次重启树莓派必须手动执行 <code>docker container start [Container ID]/NAME</code> 的方式来启动 <strong>HA</strong> 服务，我们需要将其做成服务或加入开机启动项脚本，在 <code>/etc/rc.local</code> 下添加以下语句:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ sudo nano /etc/rc.local</span><br><span class="line"></span><br><span class="line">docker container start home-assistant</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>该脚本文件具体可参考 <a href="https://www.raspberrypi.org/documentation/linux/usage/rc-local.md" target="_blank" rel="noopener">RC.LOCAL</a></p>
+</blockquote>
+<p>重启树莓派，<strong>HA</strong> 开机启动成功，至此，一个基本款的家庭 <strong>HA</strong> 搭建就完成了。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/linux/" rel="tag"># linux</a>
+          
+            <a href="/tags/raspberry-pi/" rel="tag"># raspberry-pi</a>
+          
+            <a href="/tags/smart-home/" rel="tag"># smart-home</a>
+          
+            <a href="/tags/home-assistant/" rel="tag"># home-assistant</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/homeserver-implement-ddns/" rel="next" title="利用 DDNS 实现内网穿透">
+                <i class="fa fa-chevron-left"></i> 利用 DDNS 实现内网穿透
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/smarthome-control-via-alexa/" rel="prev" title="通过 Amazon Alexa 控制 HomeAssistant">
+                通过 Amazon Alexa 控制 HomeAssistant <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Frost He</p>
+              <p class="site-description motion-element" itemprop="description">Stay hungry, stay foolish</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">55</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">37</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Home-Assistant-简介"><span class="nav-number">1.</span> <span class="nav-text">Home Assistant 简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#前提条件"><span class="nav-number">2.</span> <span class="nav-text">前提条件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装-Home-Assistant"><span class="nav-number">3.</span> <span class="nav-text">安装 Home Assistant</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-Docker-引擎-Optional"><span class="nav-number">3.1.</span> <span class="nav-text">安装 Docker 引擎(Optional)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#拉取-HomeAssistan-Docker-Image"><span class="nav-number">3.2.</span> <span class="nav-text">拉取 HomeAssistan Docker Image</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#开机启动-HA-Container"><span class="nav-number">4.</span> <span class="nav-text">开机启动 HA Container</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2015 &mdash; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Frost He</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+
+
+
+
+
+        
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//tajs.qq.com/stats?sId=65458438";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

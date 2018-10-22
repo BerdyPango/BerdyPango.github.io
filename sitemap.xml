@@ -2,6 +2,76 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://berdypango.github.io/smarthome-control-via-siri/</loc>
+    
+    <lastmod>2018-10-22T14:24:42.126Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://berdypango.github.io/smarthome-control-via-alexa/</loc>
+    
+    <lastmod>2018-10-22T14:24:33.575Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://berdypango.github.io/smarthome-setup-ha-on-raspberrypi/</loc>
+    
+    <lastmod>2018-10-22T14:23:33.676Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://berdypango.github.io/smarthome-enable-remote-access-to-ha/</loc>
+    
+    <lastmod>2018-10-22T14:22:23.196Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://berdypango.github.io/homeserver-setup-seafile-on-raspberryr-pi/</loc>
+    
+    <lastmod>2018-10-22T14:18:17.018Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://berdypango.github.io/homeserver-setup-raspberry-pi/</loc>
+    
+    <lastmod>2018-10-22T14:18:11.975Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://berdypango.github.io/homeserver-setup-nas-on-raspberry-pi/</loc>
+    
+    <lastmod>2018-10-22T14:18:04.269Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://berdypango.github.io/homeserver-implement-ddns/</loc>
+    
+    <lastmod>2018-10-22T14:17:18.469Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://berdypango.github.io/git-push-to-remote-repository/</loc>
+    
+    <lastmod>2018-10-19T12:54:52.482Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://berdypango.github.io/security-cert-from-letsencrypt/</loc>
+    
+    <lastmod>2018-10-18T15:30:47.883Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://berdypango.github.io/linux-account-and-group/</loc>
     
     <lastmod>2018-10-13T03:21:29.514Z</lastmod>
@@ -19,20 +89,6 @@
     <loc>https://berdypango.github.io/git-embeded-repository/</loc>
     
     <lastmod>2018-10-13T02:38:48.125Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://berdypango.github.io/smarthome-control-via-siri/</loc>
-    
-    <lastmod>2018-10-13T02:35:00.668Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://berdypango.github.io/smarthome-control-via-alexa/</loc>
-    
-    <lastmod>2018-10-13T02:34:54.055Z</lastmod>
     
   </url>
   
@@ -58,23 +114,9 @@
   </url>
   
   <url>
-    <loc>https://berdypango.github.io/security-cert-from-letsencrypt/</loc>
-    
-    <lastmod>2018-10-13T02:31:14.134Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://berdypango.github.io/security-all-about-certificates/</loc>
     
     <lastmod>2018-10-13T02:30:39.754Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://berdypango.github.io/homeserver-setup-raspberry-pi/</loc>
-    
-    <lastmod>2018-10-13T02:29:07.095Z</lastmod>
     
   </url>
   
@@ -275,13 +317,6 @@
   </url>
   
   <url>
-    <loc>https://berdypango.github.io/git-push-to-remote-repository/</loc>
-    
-    <lastmod>2018-10-13T02:15:28.529Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://berdypango.github.io/docker-multi-stage-build/</loc>
     
     <lastmod>2018-10-13T02:14:17.637Z</lastmod>
@@ -348,27 +383,6 @@
     <loc>https://berdypango.github.io/router-openwrt-shadowsocks/</loc>
     
     <lastmod>2018-10-13T02:11:16.994Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://berdypango.github.io/smarthome-setup-on-raspberrypi/</loc>
-    
-    <lastmod>2018-10-13T02:09:36.205Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://berdypango.github.io/homeserver-setup-seafile-on-raspberryr-pi/</loc>
-    
-    <lastmod>2018-10-13T02:09:10.369Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://berdypango.github.io/homeserver-setup-nas-on-raspberry-pi/</loc>
-    
-    <lastmod>2018-10-13T02:09:05.445Z</lastmod>
     
   </url>
   
