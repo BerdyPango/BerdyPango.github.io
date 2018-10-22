@@ -100,10 +100,10 @@
     root: '/',
     scheme: 'Mist',
     version: '5.1.4',
-    sidebar: {"position":"left","display":"hide","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    sidebar: {"display":"hide"},
     fancybox: true,
     tabs: true,
-    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    motion: {"enable":false},
     duoshuo: {
       userId: '0',
       author: 'Author'
@@ -151,10 +151,8 @@
 
   
   
-    
-  
 
-  <div class="container sidebar-position-left page-post-detail">
+  <div class="container  page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -200,16 +198,6 @@
         </li>
       
         
-        <li class="menu-item menu-item-archives">
-          <a href="/archives/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
-            
-            Archives
-          </a>
-        </li>
-      
-        
         <li class="menu-item menu-item-categories">
           <a href="/categories/" rel="section">
             
@@ -226,6 +214,16 @@
               <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
             
             Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
           </a>
         </li>
       
@@ -611,7 +609,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#原理"><span class="nav-number">1.</span> <span class="nav-text">原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#前提条件"><span class="nav-number">2.</span> <span class="nav-text">前提条件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置从外网访问-HA"><span class="nav-number">3.</span> <span class="nav-text">配置从外网访问 HA</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#为-HA-网页-UI-设置密码"><span class="nav-number">3.1.</span> <span class="nav-text">为 HA 网页 UI 设置密码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#为-Home-Assistant-配置-Nginx-代理"><span class="nav-number">3.2.</span> <span class="nav-text">为 Home Assistant 配置 Nginx 代理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#为-HomeAssistant-应用-HTTPS"><span class="nav-number">3.3.</span> <span class="nav-text">为 HomeAssistant 应用 HTTPS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置-DDNS-实现内网穿透"><span class="nav-number">3.4.</span> <span class="nav-text">配置 DDNS 实现内网穿透</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#原理"><span class="nav-text">原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#前提条件"><span class="nav-text">前提条件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置从外网访问-HA"><span class="nav-text">配置从外网访问 HA</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#为-HA-网页-UI-设置密码"><span class="nav-text">为 HA 网页 UI 设置密码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#为-Home-Assistant-配置-Nginx-代理"><span class="nav-text">为 Home Assistant 配置 Nginx 代理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#为-HomeAssistant-应用-HTTPS"><span class="nav-text">为 HomeAssistant 应用 HTTPS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置-DDNS-实现内网穿透"><span class="nav-text">配置 DDNS 实现内网穿透</span></a></li></ol></li></ol></div>
             
 
           </div>
@@ -633,7 +631,7 @@
       <div class="footer-inner">
         <div class="copyright">&copy; 2015 &mdash; <span itemprop="copyrightYear">2018</span>
   <span class="with-love">
-    <i class="fa fa-user"></i>
+    <i class="fa fa-"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">Frost He</span>
 
@@ -1009,7 +1007,7 @@
 
                   // select top N slices in content
 
-                  var upperBound = parseInt('1');
+                  var upperBound = parseInt('');
                   if (upperBound >= 0) {
                     slicesOfContent = slicesOfContent.slice(0, upperBound);
                   }
@@ -1076,7 +1074,7 @@
             }
           }
 
-          if ('auto' === 'auto') {
+          if ('auto' === '') {
             input.addEventListener('input', inputEventFunction);
           } else {
             $('.search-icon').click(inputEventFunction);

@@ -82,14 +82,14 @@
 <meta name="description" content="文本记录了利用网件 WNDR 4300 路由器安装 OpenWrt 实现全局科学上网的路径与原理">
 <meta name="keywords" content="linux,openwrt,shadowsocks">
 <meta property="og:type" content="article">
-<meta property="og:title" content="DIY - 网件 WNDR 4300 路由器配置全局科学上网">
+<meta property="og:title" content="Openwrt 实现全局科学上网">
 <meta property="og:url" content="https://berdypango.github.io/router-openwrt-shadowsocks/index.html">
 <meta property="og:site_name" content="FrostHe.Handbook">
 <meta property="og:description" content="文本记录了利用网件 WNDR 4300 路由器安装 OpenWrt 实现全局科学上网的路径与原理">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-10-13T02:11:16.994Z">
+<meta property="og:updated_time" content="2018-10-22T14:50:02.569Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="DIY - 网件 WNDR 4300 路由器配置全局科学上网">
+<meta name="twitter:title" content="Openwrt 实现全局科学上网">
 <meta name="twitter:description" content="文本记录了利用网件 WNDR 4300 路由器安装 OpenWrt 实现全局科学上网的路径与原理">
 
 
@@ -100,10 +100,10 @@
     root: '/',
     scheme: 'Mist',
     version: '5.1.4',
-    sidebar: {"position":"left","display":"hide","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    sidebar: {"display":"hide"},
     fancybox: true,
     tabs: true,
-    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    motion: {"enable":false},
     duoshuo: {
       userId: '0',
       author: 'Author'
@@ -126,7 +126,7 @@
 
 
 
-  <title>DIY - 网件 WNDR 4300 路由器配置全局科学上网 | FrostHe.Handbook</title>
+  <title>Openwrt 实现全局科学上网 | FrostHe.Handbook</title>
   
 
 
@@ -151,10 +151,8 @@
 
   
   
-    
-  
 
-  <div class="container sidebar-position-left page-post-detail">
+  <div class="container  page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -200,16 +198,6 @@
         </li>
       
         
-        <li class="menu-item menu-item-archives">
-          <a href="/archives/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
-            
-            Archives
-          </a>
-        </li>
-      
-        
         <li class="menu-item menu-item-categories">
           <a href="/categories/" rel="section">
             
@@ -226,6 +214,16 @@
               <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
             
             Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
           </a>
         </li>
       
@@ -323,7 +321,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">DIY - 网件 WNDR 4300 路由器配置全局科学上网</h1>
+          <h1 class="post-title" itemprop="name headline">Openwrt 实现全局科学上网</h1>
         
 
         <div class="post-meta">
@@ -682,7 +680,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#shadowsocks-libev"><span class="nav-number">1.</span> <span class="nav-text">shadowsocks-libev</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#准备一台安装-shadowsocks-libev-的海外服务器"><span class="nav-number">2.</span> <span class="nav-text">准备一台安装 shadowsocks-libev 的海外服务器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#套用-bbr-拥塞算法"><span class="nav-number">2.1.</span> <span class="nav-text">套用 bbr 拥塞算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置服务端"><span class="nav-number">2.2.</span> <span class="nav-text">配置服务端</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修改防火墙设置"><span class="nav-number">2.3.</span> <span class="nav-text">修改防火墙设置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#控制-shadowsocks-libev"><span class="nav-number">2.4.</span> <span class="nav-text">控制 shadowsocks-libev</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查看-ss-server-是否已经启动并且带有-u-启动参数"><span class="nav-number">2.5.</span> <span class="nav-text">查看 ss-server 是否已经启动并且带有 -u 启动参数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在-OpenWrt-路由器上配置-shadowsocks-libev-客户端"><span class="nav-number">3.</span> <span class="nav-text">在 OpenWrt 路由器上配置 shadowsocks-libev 客户端</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#让-OpenWRT-正常安装软件"><span class="nav-number">4.</span> <span class="nav-text">让 OpenWRT 正常安装软件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#方法1-为-opkg-配置代理"><span class="nav-number">4.1.</span> <span class="nav-text">方法1: 为 opkg 配置代理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方法2-调整本地-opkg-仓库"><span class="nav-number">4.2.</span> <span class="nav-text">方法2: 调整本地 opkg 仓库</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OpenWrt-科学上网原理"><span class="nav-number">5.</span> <span class="nav-text">OpenWrt 科学上网原理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#etc-init-d-shadowsocks-脚本"><span class="nav-number">5.1.</span> <span class="nav-text">/etc/init.d/shadowsocks 脚本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#usr-bin-shdowsocks-firewall-脚本"><span class="nav-number">5.2.</span> <span class="nav-text">/usr/bin/shdowsocks-firewall 脚本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#控制-shadowsocks-本地客户端"><span class="nav-number">5.3.</span> <span class="nav-text">控制 shadowsocks 本地客户端</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#shadowsocks-libev"><span class="nav-text">shadowsocks-libev</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#准备一台安装-shadowsocks-libev-的海外服务器"><span class="nav-text">准备一台安装 shadowsocks-libev 的海外服务器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#套用-bbr-拥塞算法"><span class="nav-text">套用 bbr 拥塞算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置服务端"><span class="nav-text">配置服务端</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修改防火墙设置"><span class="nav-text">修改防火墙设置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#控制-shadowsocks-libev"><span class="nav-text">控制 shadowsocks-libev</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查看-ss-server-是否已经启动并且带有-u-启动参数"><span class="nav-text">查看 ss-server 是否已经启动并且带有 -u 启动参数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在-OpenWrt-路由器上配置-shadowsocks-libev-客户端"><span class="nav-text">在 OpenWrt 路由器上配置 shadowsocks-libev 客户端</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#让-OpenWRT-正常安装软件"><span class="nav-text">让 OpenWRT 正常安装软件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#方法1-为-opkg-配置代理"><span class="nav-text">方法1: 为 opkg 配置代理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方法2-调整本地-opkg-仓库"><span class="nav-text">方法2: 调整本地 opkg 仓库</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OpenWrt-科学上网原理"><span class="nav-text">OpenWrt 科学上网原理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#etc-init-d-shadowsocks-脚本"><span class="nav-text">/etc/init.d/shadowsocks 脚本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#usr-bin-shdowsocks-firewall-脚本"><span class="nav-text">/usr/bin/shdowsocks-firewall 脚本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#控制-shadowsocks-本地客户端"><span class="nav-text">控制 shadowsocks 本地客户端</span></a></li></ol></li></ol></div>
             
 
           </div>
@@ -704,7 +702,7 @@
       <div class="footer-inner">
         <div class="copyright">&copy; 2015 &mdash; <span itemprop="copyrightYear">2018</span>
   <span class="with-love">
-    <i class="fa fa-user"></i>
+    <i class="fa fa-"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">Frost He</span>
 
@@ -1080,7 +1078,7 @@
 
                   // select top N slices in content
 
-                  var upperBound = parseInt('1');
+                  var upperBound = parseInt('');
                   if (upperBound >= 0) {
                     slicesOfContent = slicesOfContent.slice(0, upperBound);
                   }
@@ -1147,7 +1145,7 @@
             }
           }
 
-          if ('auto' === 'auto') {
+          if ('auto' === '') {
             input.addEventListener('input', inputEventFunction);
           } else {
             $('.search-icon').click(inputEventFunction);

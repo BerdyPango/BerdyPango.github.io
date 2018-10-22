@@ -102,10 +102,10 @@
     root: '/',
     scheme: 'Mist',
     version: '5.1.4',
-    sidebar: {"position":"left","display":"hide","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    sidebar: {"display":"hide"},
     fancybox: true,
     tabs: true,
-    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    motion: {"enable":false},
     duoshuo: {
       userId: '0',
       author: 'Author'
@@ -153,10 +153,8 @@
 
   
   
-    
-  
 
-  <div class="container sidebar-position-left page-post-detail">
+  <div class="container  page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -202,16 +200,6 @@
         </li>
       
         
-        <li class="menu-item menu-item-archives">
-          <a href="/archives/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
-            
-            Archives
-          </a>
-        </li>
-      
-        
         <li class="menu-item menu-item-categories">
           <a href="/categories/" rel="section">
             
@@ -228,6 +216,16 @@
               <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
             
             Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
           </a>
         </li>
       
@@ -830,7 +828,7 @@ table th:nth-of-type(2) {
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#日志模型三要素"><span class="nav-number">2.</span> <span class="nav-text">日志模型三要素</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#创建-Logger"><span class="nav-number">3.</span> <span class="nav-text">创建 Logger</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#采用依赖注入来创建日志"><span class="nav-number">4.</span> <span class="nav-text">采用依赖注入来创建日志</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#日志类别-Category"><span class="nav-number">5.</span> <span class="nav-text">日志类别(Category)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#日志级别-LogLevel"><span class="nav-number">6.</span> <span class="nav-text">日志级别(LogLevel)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#日志事件-ID-EventId"><span class="nav-number">7.</span> <span class="nav-text">日志事件 ID(EventId)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#日志消息模板-Message-Template"><span class="nav-number">8.</span> <span class="nav-text">日志消息模板(Message Template)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#日志过滤"><span class="nav-number">9.</span> <span class="nav-text">日志过滤</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#通过配置创建日志过滤规则"><span class="nav-number">9.1.</span> <span class="nav-text">通过配置创建日志过滤规则</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#以编程方式创建日志过滤规则"><span class="nav-number">9.2.</span> <span class="nav-text">以编程方式创建日志过滤规则</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#日志过滤规匹配算法"><span class="nav-number">9.3.</span> <span class="nav-text">日志过滤规匹配算法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#日志提供器别名"><span class="nav-number">9.4.</span> <span class="nav-text">日志提供器别名</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#默认最小日志级别"><span class="nav-number">9.5.</span> <span class="nav-text">默认最小日志级别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#日志全局过滤器委托"><span class="nav-number">9.6.</span> <span class="nav-text">日志全局过滤器委托</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#日志区限-Log-Scopes"><span class="nav-number">10.</span> <span class="nav-text">日志区限(Log Scopes)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#内置日志提供器"><span class="nav-number">11.</span> <span class="nav-text">内置日志提供器</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Console-提供器"><span class="nav-number">11.1.</span> <span class="nav-text">Console 提供器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Debug-提供器"><span class="nav-number">11.2.</span> <span class="nav-text">Debug 提供器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#EventSource-提供器"><span class="nav-number">11.3.</span> <span class="nav-text">EventSource 提供器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Windows-EventLog-提供器"><span class="nav-number">11.4.</span> <span class="nav-text">Windows EventLog 提供器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TraceSource-提供器"><span class="nav-number">11.5.</span> <span class="nav-text">TraceSource 提供器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Azure-App-Service-提供器"><span class="nav-number">11.6.</span> <span class="nav-text">Azure App Service 提供器</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#LoggerMessage-模式"><span class="nav-number">12.</span> <span class="nav-text">LoggerMessage 模式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#LoggerMessage-Define"><span class="nav-number">12.1.</span> <span class="nav-text">LoggerMessage.Define</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LoggerMessage-DefineScope"><span class="nav-number">12.2.</span> <span class="nav-text">LoggerMessage.DefineScope</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#前言"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#日志模型三要素"><span class="nav-text">日志模型三要素</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#创建-Logger"><span class="nav-text">创建 Logger</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#采用依赖注入来创建日志"><span class="nav-text">采用依赖注入来创建日志</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#日志类别-Category"><span class="nav-text">日志类别(Category)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#日志级别-LogLevel"><span class="nav-text">日志级别(LogLevel)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#日志事件-ID-EventId"><span class="nav-text">日志事件 ID(EventId)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#日志消息模板-Message-Template"><span class="nav-text">日志消息模板(Message Template)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#日志过滤"><span class="nav-text">日志过滤</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#通过配置创建日志过滤规则"><span class="nav-text">通过配置创建日志过滤规则</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#以编程方式创建日志过滤规则"><span class="nav-text">以编程方式创建日志过滤规则</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#日志过滤规匹配算法"><span class="nav-text">日志过滤规匹配算法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#日志提供器别名"><span class="nav-text">日志提供器别名</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#默认最小日志级别"><span class="nav-text">默认最小日志级别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#日志全局过滤器委托"><span class="nav-text">日志全局过滤器委托</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#日志区限-Log-Scopes"><span class="nav-text">日志区限(Log Scopes)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#内置日志提供器"><span class="nav-text">内置日志提供器</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Console-提供器"><span class="nav-text">Console 提供器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Debug-提供器"><span class="nav-text">Debug 提供器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#EventSource-提供器"><span class="nav-text">EventSource 提供器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Windows-EventLog-提供器"><span class="nav-text">Windows EventLog 提供器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TraceSource-提供器"><span class="nav-text">TraceSource 提供器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Azure-App-Service-提供器"><span class="nav-text">Azure App Service 提供器</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#LoggerMessage-模式"><span class="nav-text">LoggerMessage 模式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#LoggerMessage-Define"><span class="nav-text">LoggerMessage.Define</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#LoggerMessage-DefineScope"><span class="nav-text">LoggerMessage.DefineScope</span></a></li></ol></li></ol></div>
             
 
           </div>
@@ -852,7 +850,7 @@ table th:nth-of-type(2) {
       <div class="footer-inner">
         <div class="copyright">&copy; 2015 &mdash; <span itemprop="copyrightYear">2018</span>
   <span class="with-love">
-    <i class="fa fa-user"></i>
+    <i class="fa fa-"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">Frost He</span>
 
@@ -1228,7 +1226,7 @@ table th:nth-of-type(2) {
 
                   // select top N slices in content
 
-                  var upperBound = parseInt('1');
+                  var upperBound = parseInt('');
                   if (upperBound >= 0) {
                     slicesOfContent = slicesOfContent.slice(0, upperBound);
                   }
@@ -1295,7 +1293,7 @@ table th:nth-of-type(2) {
             }
           }
 
-          if ('auto' === 'auto') {
+          if ('auto' === '') {
             input.addEventListener('input', inputEventFunction);
           } else {
             $('.search-icon').click(inputEventFunction);

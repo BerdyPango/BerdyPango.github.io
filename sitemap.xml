@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://berdypango.github.io/router-openwrt-shadowsocks/</loc>
+    
+    <lastmod>2018-10-22T14:50:02.569Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://berdypango.github.io/smarthome-control-via-siri/</loc>
     
     <lastmod>2018-10-22T14:24:42.126Z</lastmod>
@@ -72,14 +79,14 @@
   </url>
   
   <url>
-    <loc>https://berdypango.github.io/linux-account-and-group/</loc>
+    <loc>https://berdypango.github.io/linux-background-knowledge/</loc>
     
     <lastmod>2018-10-13T03:21:29.514Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://berdypango.github.io/linux-background-knowledge/</loc>
+    <loc>https://berdypango.github.io/linux-account-and-group/</loc>
     
     <lastmod>2018-10-13T03:21:29.514Z</lastmod>
     
@@ -376,13 +383,6 @@
     <loc>https://berdypango.github.io/docker-containers/</loc>
     
     <lastmod>2018-10-13T02:12:52.085Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://berdypango.github.io/router-openwrt-shadowsocks/</loc>
-    
-    <lastmod>2018-10-13T02:11:16.994Z</lastmod>
     
   </url>
   
