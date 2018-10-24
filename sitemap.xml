@@ -2,9 +2,23 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://blog.frosthe.net/hexo-next-customization/</loc>
+    
+    <lastmod>2018-10-24T15:08:54.567Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://blog.frosthe.net/smarthome-control-via-siri/</loc>
+    
+    <lastmod>2018-10-24T15:08:18.258Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://blog.frosthe.net/smarthome-configuring-ha/</loc>
     
-    <lastmod>2018-10-24T12:28:23.867Z</lastmod>
+    <lastmod>2018-10-24T13:36:32.097Z</lastmod>
     
   </url>
   
@@ -12,13 +26,6 @@
     <loc>https://blog.frosthe.net/smarthome-control-via-alexa/</loc>
     
     <lastmod>2018-10-24T12:28:17.512Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://blog.frosthe.net/smarthome-control-via-siri/</loc>
-    
-    <lastmod>2018-10-24T12:28:13.463Z</lastmod>
     
   </url>
   
@@ -72,13 +79,6 @@
   </url>
   
   <url>
-    <loc>https://blog.frosthe.net/hexo-next-customization/</loc>
-    
-    <lastmod>2018-10-24T10:49:31.692Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://blog.frosthe.net/git-push-to-remote-repository/</loc>
     
     <lastmod>2018-10-23T13:16:27.078Z</lastmod>
@@ -114,14 +114,14 @@
   </url>
   
   <url>
-    <loc>https://blog.frosthe.net/linux-account-and-group/</loc>
+    <loc>https://blog.frosthe.net/linux-background-knowledge/</loc>
     
     <lastmod>2018-10-13T03:21:29.514Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://blog.frosthe.net/linux-background-knowledge/</loc>
+    <loc>https://blog.frosthe.net/linux-account-and-group/</loc>
     
     <lastmod>2018-10-13T03:21:29.514Z</lastmod>
     
