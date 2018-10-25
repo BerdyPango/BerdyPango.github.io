@@ -87,12 +87,14 @@
 <meta property="og:site_name" content="FrostHe.Handbook">
 <meta property="og:description" content="Seafile 是一个免费开源的私有云项目，本文介绍了如何在树莓派上搭建 Seafile">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://blog.frosthe.net/homeserver-setup-seafile-on-raspberryr-pi/seafile-sync-arch.png">
+<meta property="og:image" content="https://blog.frosthe.net/homeserver-setup-seafile-on-raspberryr-pi/mobile-arch.png">
 <meta property="og:image" content="https://blog.frosthe.net/homeserver-setup-seafile-on-raspberryr-pi/01.png">
-<meta property="og:updated_time" content="2018-10-22T14:18:17.018Z">
+<meta property="og:updated_time" content="2018-10-25T12:46:31.609Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="搭建 Seafile 私有云">
 <meta name="twitter:description" content="Seafile 是一个免费开源的私有云项目，本文介绍了如何在树莓派上搭建 Seafile">
-<meta name="twitter:image" content="https://blog.frosthe.net/homeserver-setup-seafile-on-raspberryr-pi/01.png">
+<meta name="twitter:image" content="https://blog.frosthe.net/homeserver-setup-seafile-on-raspberryr-pi/seafile-sync-arch.png">
 
 
 
@@ -125,7 +127,22 @@
   <link rel="canonical" href="https://blog.frosthe.net/homeserver-setup-seafile-on-raspberryr-pi/"/>
 
 
-
+{
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+}
 
 
   <title>搭建 Seafile 私有云 | FrostHe.Handbook</title>
@@ -392,7 +409,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  732
+                  1,170
                 </span>
               
 
@@ -428,13 +445,49 @@
 <li><a href="https://manual.seafile.com/deploy/start_seafile_at_system_bootup.html" target="_blank" rel="noopener">Enabling Https with Nginx</a></li>
 <li><a href="https://manual.seafile.com/deploy/start_seafile_at_system_bootup.html" target="_blank" rel="noopener">Start Seafile at System Bootup</a></li>
 </ul>
-<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>手机和 Mac 里存的照片和视频越来越多，而 iCloud 的免费存储空间只有 5G，于是萌生了在家里搭建私有云盘的想法。搭建私有云主要解决了以下几个问题:</p>
+<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>手机和 Mac 里存的照片和视频越来越多，而 iCloud 的免费存储空间只有 5G，更重要的是，国行 iCloud 上了云上贵州。于是萌生了在家里搭建私有云盘的想法。搭建私有云主要解决了以下几个问题:</p>
 <ul>
 <li>突破 iCloud，百度网盘等的容量限制，自己想买多大的硬盘都可以</li>
 <li>将个人数据隐私与任何第三方隔离，不用担心数据被第三方窃取</li>
 <li>提升上传下载的速度，如果用过百度网盘，都懂的。</li>
 </ul>
 <p>Seafile 是目前发现的口碑最好的开源私有云项目，完备的<a href="https://manual.seafile.com/" target="_blank" rel="noopener">官网文档</a>和配套的各平台的客户端，决定一试。</p>
+<h2 id="Seafile-简介"><a href="#Seafile-简介" class="headerlink" title="Seafile 简介"></a>Seafile 简介</h2><p>Seafile 由以下组件组成:</p>
+<ul>
+<li>Ccnet 守护进程: ccnet 客户端和 ccnet 服务端，网络服务进程，客户端与服务端数据通信的通道</li>
+<li>Seafile 守护进程: 数据服务守护进程</li>
+<li>Seahub: Web UI 服务器，Seafile 服务器包含了一个轻量的 Python Http 服务器 <code>gunicorn</code>。Seahub 以 <code>gunicorn</code> 应用程序运行。</li>
+<li>FileServer: 由于 <code>gunicorn</code> 处理大文件非常吃力，FileServer 用于处理 Seahub 源文件上传与下载的功能。</li>
+<li>Controller: 监控 ccnet 与 Seafile 守护进程，在适当的时候重启它们。</li>
+</ul>
+<p>下图展示了 Seafile 桌面客户端与服务端同步文件的过程:<br><img src="/homeserver-setup-seafile-on-raspberryr-pi/seafile-sync-arch.png" title="PC 客户端文件同步流程示意图"></p>
+<p>下图展示了移动客户端与服务端同步文件的过程:<br><img src="/homeserver-setup-seafile-on-raspberryr-pi/mobile-arch.png" title="移动客户端文件同步流程示意图"></p>
+<h3 id="数据模型"><a href="#数据模型" class="headerlink" title="数据模型"></a>数据模型</h3><p>Seafile 内部使用一种类似于 Git 的数据模型，由 <code>Repo</code>，<code>Branch</code>，<code>Commit</code>，<code>FS</code> 和 <code>Block</code> 组成。</p>
+<ul>
+<li>Repo: 也被称作 <code>Library</code>，每个 <code>repo</code> 都包含一个 <code>uuid</code>，以及诸如「描述」，「创建者」和「密码」等特性</li>
+<li>Branch: 与 Git 不同，只有两种预定义的 <code>branch</code>: <code>local</code> 和 <code>master</code>。在浏览器中，针对 <code>Repo</code> 的改动会推送到服务端的临时分支，然后合并至 <code>master</code> 分支。在 PC 客户端，针对 <code>Repo</code> 的改动会:<ul>
+<li><ol>
+<li>首先提交到 <code>local</code> 分支</li>
+</ol>
+</li>
+<li><ol start="2">
+<li><code>master</code> 分支从服务端下载，合并至 <code>local</code> 分支</li>
+</ol>
+</li>
+<li><ol start="3">
+<li><code>local</code> 分支上传至服务端</li>
+</ol>
+</li>
+<li><ol start="4">
+<li>服务端 <code>master</code> 分支以 <code>fast-forward</code> 合并至 <code>local</code> 分支。</li>
+</ol>
+</li>
+</ul>
+</li>
+<li>Commit: 与 Git 一致</li>
+<li>FS: 有两种类型的 FS 对象: <code>SeafDir Object</code> 和 <code>Seafile Object</code>。<code>SeafDir Object</code> 代表一个目录，<code>Seafile Object</code> 代表一个文件。</li>
+<li>Block: 一个文件被分割至数个不定长度的 Block 中，系统使用 <a href="http://pdos.csail.mit.edu/papers/lbfs:sosp01/lbfs.pdf" target="_blank" rel="noopener">Content Defined Chunking</a> 算法将文件切分至 Block，</li>
+</ul>
 <h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>Seafile Docker 暂时不支持树莓派的 CPU 架构，所以这里按照一般安装流程，seafile 依赖的本地数据库可以是 Sqlite 或 MySql，这里选择了 Mysql，遵照官网的文档，首先安装 Mysql 服务，再执行 seafile 服务的安装脚本。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">// </span><br><span class="line">$ sudo apt-get install python2.7 libpython2.7 python-setuptools python-imaging   python-ldap python-mysqldb python-memcache python-urllib3 python-requests</span><br><span class="line"></span><br><span class="line">// install mysql server</span><br><span class="line">$ sudo apt-get install mysql-server</span><br><span class="line"></span><br><span class="line">$ mysql -p -u root</span><br><span class="line"></span><br><span class="line">---------------------------------</span><br><span class="line">This is your configuration</span><br><span class="line">---------------------------------</span><br><span class="line"></span><br><span class="line">    server name:            Aiur</span><br><span class="line">    server ip/domain:       192.168.1.140</span><br><span class="line"></span><br><span class="line">    seafile data dir:       /mnt/shared/seafile-data</span><br><span class="line">    fileserver port:        8082</span><br><span class="line"></span><br><span class="line">    database:               create new</span><br><span class="line">    ccnet database:         ccnet-db</span><br><span class="line">    seafile database:       seafile-db</span><br><span class="line">    seahub database:        seahub-db</span><br><span class="line">    database user:          seafile</span><br><span class="line"></span><br><span class="line">---------------------------------</span><br><span class="line">Press ENTER to <span class="built_in">continue</span>, or Ctrl-C to abort</span><br><span class="line">---------------------------------</span><br><span class="line"></span><br><span class="line">-----------------------------------------------------------------</span><br><span class="line">Your seafile server configuration has been finished successfully.</span><br><span class="line">-----------------------------------------------------------------</span><br><span class="line"></span><br><span class="line">run seafile server:     ./seafile.sh &#123; start | stop | restart &#125;</span><br><span class="line">run seahub  server:     ./seahub.sh  &#123; start &lt;port&gt; | stop | restart &lt;port&gt; &#125;</span><br><span class="line"></span><br><span class="line">-----------------------------------------------------------------</span><br><span class="line">If you are behind a firewall, remember to allow input/output of these tcp ports:</span><br><span class="line">-----------------------------------------------------------------</span><br><span class="line"></span><br><span class="line">port of seafile fileserver:   8082</span><br><span class="line">port of seahub:               8000</span><br><span class="line"></span><br><span class="line">When problems occur, Refer to</span><br><span class="line"></span><br><span class="line">        https://github.com/haiwen/seafile/wiki</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> information.</span><br></pre></td></tr></table></figure></p>
 <h2 id="开始使用"><a href="#开始使用" class="headerlink" title="开始使用"></a>开始使用</h2><p>执行启动 seafile 和 seahub 服务，seafile 是用于文件传输的服务，seahub 是 web ui。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ sudo ./seafile.sh start</span><br><span class="line">$ sudo ./seahub.sh start</span><br></pre></td></tr></table></figure></p>
 <img src="/homeserver-setup-seafile-on-raspberryr-pi/01.png" title="开始使用">
@@ -637,7 +690,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#背景"><span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装"><span class="nav-text">安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#开始使用"><span class="nav-text">开始使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置开机启动-Seafile"><span class="nav-text">配置开机启动 Seafile</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#创建专用于执行-Seafile-服务的帐户和群组"><span class="nav-text">创建专用于执行 Seafile 服务的帐户和群组</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建-Seafile-的两个-Service-Unit"><span class="nav-text">创建 Seafile 的两个 Service Unit</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Seafile-Service"><span class="nav-text">Seafile Service</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Seahub-Service"><span class="nav-text">Seahub Service</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#启用开机服务"><span class="nav-text">启用开机服务</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#背景"><span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Seafile-简介"><span class="nav-text">Seafile 简介</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#数据模型"><span class="nav-text">数据模型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装"><span class="nav-text">安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#开始使用"><span class="nav-text">开始使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置开机启动-Seafile"><span class="nav-text">配置开机启动 Seafile</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#创建专用于执行-Seafile-服务的帐户和群组"><span class="nav-text">创建专用于执行 Seafile 服务的帐户和群组</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建-Seafile-的两个-Service-Unit"><span class="nav-text">创建 Seafile 的两个 Service Unit</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Seafile-Service"><span class="nav-text">Seafile Service</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Seahub-Service"><span class="nav-text">Seahub Service</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#启用开机服务"><span class="nav-text">启用开机服务</span></a></li></ol></li></ol></div>
             
 
           </div>

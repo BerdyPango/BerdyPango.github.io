@@ -2,7 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://blog.frosthe.net/hexo-next-customization/</loc>
-    <lastmod>2018-10-24T15:08:54.567Z</lastmod>
+    <lastmod>2018-10-25T13:52:58.445Z</lastmod>
+  </url>  <url>
+    <loc>https://blog.frosthe.net/homeserver-implement-ddns/</loc>
+    <lastmod>2018-10-25T12:57:34.626Z</lastmod>
+  </url>  <url>
+    <loc>https://blog.frosthe.net/homeserver-setup-raspberry-pi/</loc>
+    <lastmod>2018-10-25T12:54:05.723Z</lastmod>
+  </url>  <url>
+    <loc>https://blog.frosthe.net/homeserver-setup-seafile-on-raspberryr-pi/</loc>
+    <lastmod>2018-10-25T12:46:31.609Z</lastmod>
   </url>  <url>
     <loc>https://blog.frosthe.net/smarthome-control-via-siri/</loc>
     <lastmod>2018-10-24T15:08:18.258Z</lastmod>
@@ -19,9 +28,6 @@
     <loc>https://blog.frosthe.net/smarthome-setup-ha-on-raspberrypi/</loc>
     <lastmod>2018-10-24T12:27:53.369Z</lastmod>
   </url>  <url>
-    <loc>https://blog.frosthe.net/homeserver-implement-ddns/</loc>
-    <lastmod>2018-10-24T10:51:35.987Z</lastmod>
-  </url>  <url>
     <loc>https://blog.frosthe.net/router-openwrt-shadowsocks/</loc>
     <lastmod>2018-10-24T10:49:31.706Z</lastmod>
   </url>  <url>
@@ -30,12 +36,6 @@
   </url>  <url>
     <loc>https://blog.frosthe.net/git-push-to-remote-repository/</loc>
     <lastmod>2018-10-23T13:16:27.078Z</lastmod>
-  </url>  <url>
-    <loc>https://blog.frosthe.net/homeserver-setup-seafile-on-raspberryr-pi/</loc>
-    <lastmod>2018-10-22T14:18:17.018Z</lastmod>
-  </url>  <url>
-    <loc>https://blog.frosthe.net/homeserver-setup-raspberry-pi/</loc>
-    <lastmod>2018-10-22T14:18:11.975Z</lastmod>
   </url>  <url>
     <loc>https://blog.frosthe.net/homeserver-setup-nas-on-raspberry-pi/</loc>
     <lastmod>2018-10-22T14:18:04.269Z</lastmod>

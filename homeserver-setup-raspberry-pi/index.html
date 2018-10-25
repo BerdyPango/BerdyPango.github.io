@@ -88,9 +88,10 @@
 <meta property="og:description" content="记录了搭建新购入的树莓派的全过程">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://blog.frosthe.net/homeserver-setup-raspberry-pi/r-pi-board.jpg">
+<meta property="og:image" content="https://blog.frosthe.net/homeserver-setup-raspberry-pi/ether.png">
 <meta property="og:image" content="https://blog.frosthe.net/homeserver-setup-raspberry-pi/raspi-config.jpg">
 <meta property="og:image" content="https://blog.frosthe.net/homeserver-setup-raspberry-pi/r-pi-ip.jpg">
-<meta property="og:updated_time" content="2018-10-22T14:18:11.975Z">
+<meta property="og:updated_time" content="2018-10-25T12:54:05.723Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="准备树莓派 3b+">
 <meta name="twitter:description" content="记录了搭建新购入的树莓派的全过程">
@@ -127,7 +128,22 @@
   <link rel="canonical" href="https://blog.frosthe.net/homeserver-setup-raspberry-pi/"/>
 
 
-
+{
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+}
 
 
   <title>准备树莓派 3b+ | FrostHe.Handbook</title>
@@ -394,7 +410,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  327
+                  329
                 </span>
               
 
@@ -429,7 +445,7 @@
 <li>树莓派 3b+ * 1</li>
 <li>网线 * 1</li>
 <li>Micro SD 卡 * 1，容量大于 8 GB</li>
-<li>读卡器 * 1</li>
+<li>Micro SD 读卡器 * 1</li>
 <li>键盘 * 1</li>
 <li>HDMI 线 * 1</li>
 <li>显示器 * 1</li>
@@ -440,7 +456,7 @@
 <li>Etcher 映像烧录软件 -&gt; <a href="https://etcher.io/" target="_blank" rel="noopener">下载地址</a></li>
 </ul>
 <h2 id="搭建"><a href="#搭建" class="headerlink" title="搭建"></a>搭建</h2><ol>
-<li>使用 Etcher 将 RASPBIAN STRETCH LITE 烧录至 Micro SD 卡中</li>
+<li>使用 Etcher 将 RASPBIAN STRETCH LITE 烧录至 Micro SD 卡中 <img src="/homeserver-setup-raspberry-pi/ether.png" title="将 Image 烧录至 Micro SD 卡中"></li>
 <li>将就绪的 Micro SD 卡插入树莓派</li>
 <li>将树莓派接入网线，电源线，HDMI 线和键盘</li>
 <li>树莓派开机，第一次启动会花 1-2 分钟</li>

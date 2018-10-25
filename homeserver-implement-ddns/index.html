@@ -88,7 +88,7 @@
 <meta property="og:description" content="本文介绍了 DDNS 的背景及原理，以及如何使用开源手段实现 DDNS">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://blog.frosthe.net/homeserver-implement-ddns/port-forwarding.png">
-<meta property="og:updated_time" content="2018-10-24T10:51:35.987Z">
+<meta property="og:updated_time" content="2018-10-25T12:57:34.626Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="利用 DDNS 实现内网穿透">
 <meta name="twitter:description" content="本文介绍了 DDNS 的背景及原理，以及如何使用开源手段实现 DDNS">
@@ -125,7 +125,22 @@
   <link rel="canonical" href="https://blog.frosthe.net/homeserver-implement-ddns/"/>
 
 
-
+{
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+}
 
 
   <title>利用 DDNS 实现内网穿透 | FrostHe.Handbook</title>
@@ -430,7 +445,7 @@
 <li>确保本地网络的公网 IP 可由外网访问</li>
 </ul>
 <p>上述第三条并不是硬性的技术指标，而是近年来有些 ISP 为了腾出公网 IPv4 资源，在没有告知用户的情况下将家庭网络置于某个区域的局域网之下。如果用户没有从外网访问家庭网络的需求，这一做法也无伤大雅，否则，一定要确认这一点，并向 ISP 申请开放公网 IP 地址。</p>
-<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><p>国内市场上有诸如<a href="https://www.oray.com/" target="_blank" rel="noopener">花生壳</a>，国外市场上有诸如<a href="https://www.duckdns.org/" target="_blank" rel="noopener">DuckDns</a> 的 DDNS 服务商，他们为用户提供二级域名使用权和相应的客户端软件用以更新 DNS 记录。为了争取最大的自由度，本文将绕过第三方通过开源手段来实现。</p>
+<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><p>国内市场上有诸如<a href="https://www.oray.com/" target="_blank" rel="noopener">花生壳</a>，国外市场上有诸如 <a href="https://www.duckdns.org/" target="_blank" rel="noopener">DuckDns</a> 的 DDNS 服务商，他们为用户提供二级域名使用权和相应的客户端软件用以更新 DNS 记录。为了争取最大的自由度，本文将绕过第三方通过开源手段来实现。</p>
 <p>假设我在阿里云(也可能是腾讯云，重要的是其提供相应的域名管理 API)注册了 <code>example.com</code>，阿里云负责确保全网都可访问该域名。然后在家庭网络中的某台主机安装 Git，从 <a href="https://github.com/BerdyPango/ddns-client-aliyun" target="_blank" rel="noopener">ddns-client-aliyun</a> 拉取用于更新阿里云域名记录的 ddns 客户端，配置 <code>ha.example.com</code> 并运行一次。</p>
 <h2 id="配置路由器端口转发及防火墙设置"><a href="#配置路由器端口转发及防火墙设置" class="headerlink" title="配置路由器端口转发及防火墙设置"></a>配置路由器端口转发及防火墙设置</h2><p>由于众所周知的原因，国内 ISP 屏蔽了家庭网络的 80 及 443 端口，我们需要选择其他端口作为访问 Http(s) 服务的端口并且在入站防火墙中放通这些端口的 TCP 协议。最后，提供 Http(s) 服务的家庭网络的主机通常位于路由器之后，所以需要在路由器配置端口转发。<br><img src="/homeserver-implement-ddns/port-forwarding.png" title="端口转发配置"></p>
 
