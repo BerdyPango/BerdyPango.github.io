@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="FrostHe.Handbook">
 <meta property="og:description" content="当在项目中引用了其他开源库的源代码，如何进行管理？">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-10-13T02:38:48.125Z">
+<meta property="og:updated_time" content="2018-11-17T13:14:01.422Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Git Module 与嵌套 Repository">
 <meta name="twitter:description" content="当在项目中引用了其他开源库的源代码，如何进行管理？">
@@ -432,7 +432,7 @@
 <li>项目依赖一个外部项目，并希望将两者分开维护</li>
 <li>将一个大项目拆分为多个小项目并将它们黏合在一起</li>
 </ol>
-<h1 id="添加一个-Submodule"><a href="#添加一个-Submodule" class="headerlink" title="添加一个 Submodule"></a>添加一个 Submodule</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git submodule add https://github.com/chaconinc/DbConnector</span><br></pre></td></tr></table></figure>
+<h2 id="添加一个-Submodule"><a href="#添加一个-Submodule" class="headerlink" title="添加一个 Submodule"></a>添加一个 Submodule</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git submodule add https://github.com/chaconinc/DbConnector</span><br></pre></td></tr></table></figure>
 <p>默认情况下，submodules 将使用与 Git repository 一致的名称作为 directory 添加到当前项目的根目录下，在这个例子中为 “DbConnector”。也可以在命令最后指定一个自定义的路径作为该 submodule 的目录。</p>
 <p>执行 <code>git status</code>，看到以下变化：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ git status</span><br><span class="line">On branch master</span><br><span class="line">Your branch is up-to-date with <span class="string">'origin/master'</span>.</span><br><span class="line"></span><br><span class="line">Changes to be committed:</span><br><span class="line">  (use <span class="string">"git reset HEAD &lt;file&gt;..."</span> to unstage)</span><br><span class="line"></span><br><span class="line">	new file:   .gitmodules</span><br><span class="line">	new file:   DbConnector</span><br></pre></td></tr></table></figure></p>
 <p>一个新的文件 <code>.gitmodules</code> 被创建了，该配置文件存储了当前项目与 submodule 之间的关系映射，以下是其内容举例：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[submodule <span class="string">"DbConnector"</span>]</span><br><span class="line">	path = DbConnector</span><br><span class="line">	url = https://github.com/chaconinc/DbConnector</span><br></pre></td></tr></table></figure></p>
@@ -442,14 +442,14 @@
 <p>或者：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git submodule update --init --recursive</span><br></pre></td></tr></table></figure></p>
 <p>另外一种方式是在执行 <code>git clone</code> 父级项目时添加 <code>--recurse-submodules</code> 参数，将一次完成父级项目及所有 submodules 的克隆<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git <span class="built_in">clone</span> --recurse-submodules https://github.com/chaconinc/MainProject</span><br></pre></td></tr></table></figure></p>
 <p>之后，如果希望同父级项目一同获取所有 submodules 的更新，执行<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git pull --recurse-submodules</span><br></pre></td></tr></table></figure></p>
-<h1 id="获取子项目更新"><a href="#获取子项目更新" class="headerlink" title="获取子项目更新"></a>获取子项目更新</h1><p>使用 Git Submodules 一个最典型的应用场景是，引用一个由外部维护的 Git repository，仅仅使用它而不做任何修改。</p>
+<h2 id="获取子项目更新"><a href="#获取子项目更新" class="headerlink" title="获取子项目更新"></a>获取子项目更新</h2><p>使用 Git Submodules 一个最典型的应用场景是，引用一个由外部维护的 Git repository，仅仅使用它而不做任何修改。</p>
 <p>首先导航到指定 submodule 所在目录，执行 <code>git fetch</code> 和 <code>git merge</code> 获取本地更新。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$ git fetch</span><br><span class="line">From https://github.com/chaconinc/DbConnector</span><br><span class="line">   c3f01dc..d0354fc  master     -&gt; origin/master</span><br><span class="line"></span><br><span class="line">$ git merge origin/master</span><br><span class="line">Updating c3f01dc..d0354fc</span><br><span class="line">Fast-forward</span><br><span class="line"> scripts/connect.sh | 1 +</span><br><span class="line"> src/db.c           | 1 +</span><br><span class="line"> 2 files changed, 2 insertions(+)</span><br></pre></td></tr></table></figure></p>
 <p>回到父级项目目录，执行 <code>git diff --submodule</code>，可以看到 submodules 已经获得更新并列出一个添加到该项目的 commit 列表。如果不想每次在执行 <code>git diff</code> 时都输入 <code>--submodule</code> 参数，可在 <code>git config</code> 文件中添加该命令的默认参数或执行 <code>git config diff.submodule log</code>，之后再执行 <code>diff</code> 将会将列出所有子项目更新日志。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ git config --global diff.submodule <span class="built_in">log</span></span><br><span class="line">$ git diff</span><br><span class="line">Submodule DbConnector c3f01dc..d0354fc:</span><br><span class="line">  &gt; more efficient db routine</span><br><span class="line">  &gt; better connection routine</span><br></pre></td></tr></table></figure></p>
 <p>此时如果主项目提交至远程 Git repository，之后其他开发人员再获取代码时将会得到与主项目同步后的 submodule。</p>
 <p>另外一种方式是直接在主项目目录下执行 <code>git submodule update --remote</code> 命令，git 将自动更新所有 submodules。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ git submodule update --remote DbConnector</span><br><span class="line">remote: Counting objects: 4, <span class="keyword">done</span>.</span><br><span class="line">remote: Compressing objects: 100% (2/2), <span class="keyword">done</span>.</span><br><span class="line">remote: Total 4 (delta 2), reused 4 (delta 2)</span><br><span class="line">Unpacking objects: 100% (4/4), <span class="keyword">done</span>.</span><br><span class="line">From https://github.com/chaconinc/DbConnector</span><br><span class="line">   3f19983..d0354fc  master     -&gt; origin/master</span><br><span class="line">Submodule path <span class="string">'DbConnector'</span>: checked out <span class="string">'d0354fc054692d3906c85c3af05ddce39a1c0644'</span></span><br></pre></td></tr></table></figure></p>
 <p>该命令将默认以所有 submodules 的 master branch 作为更新依据，如何以另外一个 branch name 作为默认更新的依据，参考下文的<a href="#Git-Module">Git Module</a></p>
 <p>可在 git config 文件中为 <code>status</code> 命令添加默认参数或执行 <code>git config status.submodulesummary 1</code>，之后执行 <code>git status</code> 显示简短的摘要<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">$ git config status.submodulesummary 1</span><br><span class="line"></span><br><span class="line">$ git status</span><br><span class="line">On branch master</span><br><span class="line">Your branch is up-to-date with <span class="string">'origin/master'</span>.</span><br><span class="line"></span><br><span class="line">Changes not staged <span class="keyword">for</span> commit:</span><br><span class="line">  (use <span class="string">"git add &lt;file&gt;..."</span> to update what will be committed)</span><br><span class="line">  (use <span class="string">"git checkout -- &lt;file&gt;..."</span> to discard changes <span class="keyword">in</span> working directory)</span><br><span class="line"></span><br><span class="line">	modified:   .gitmodules</span><br><span class="line">	modified:   DbConnector (new commits)</span><br><span class="line"></span><br><span class="line">Submodules changed but not updated:</span><br><span class="line"></span><br><span class="line">* DbConnector c3f01dc...c87d55d (4):</span><br><span class="line">  &gt; catch non-null terminated lines</span><br></pre></td></tr></table></figure></p>
-<h1 id="Git-Module"><a href="#Git-Module" class="headerlink" title="Git Module"></a>Git Module</h1><p><code>submodule</code> 是嵌套在另一个 repository 中的 repository，<code>submodule</code> 有自己的版本历史，包含子模块的 repository 称为 <code>superproject</code></p>
+<h2 id="Git-Module"><a href="#Git-Module" class="headerlink" title="Git Module"></a>Git Module</h2><p><code>submodule</code> 是嵌套在另一个 repository 中的 repository，<code>submodule</code> 有自己的版本历史，包含子模块的 repository 称为 <code>superproject</code></p>
 <p><code>.gitmodules</code> 放置在一个 Git 工作树的顶级目录下，该文件是一个匹配 <a href="https://git-scm.com/docs/git-config" target="_blank" rel="noopener">git-config</a> 的文本文件。该文件的每个 subsection 代表一个 submodule 的配置项，subsection 的值为 submodule 的名称，如果不显式指定 name 选项，该名称值将取该 submodule 的路径作为名称。同时，每一个 subsection 包含以下必填值：</p>
 <ul>
 <li>submodule.<code>&lt;name&gt;</code>.path: 相对于 Git working tree 顶层目录的路径，默认迁出位置，<strong>该值不能以 <code>/</code> 结尾</strong>，所有 submodule 的路径必须唯一。</li>
@@ -494,6 +494,37 @@
 
     
       <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/assets/wechat-reward-image.jpg" alt="Frost He 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/assets/alipay-reward-image.jpg" alt="Frost He 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
         <ul class="post-copyright">
   <li class="post-copyright-author">
     <strong>本文作者：</strong>
@@ -505,13 +536,11 @@
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>
-    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处，并保留以上声明信息！
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
   </li>
 </ul>
 
       </div>
-    
-
     
 
     <footer class="post-footer">
@@ -533,8 +562,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/git-push-to-remote-repository/" rel="next" title="Git - Push to remote Reposotory">
-                <i class="fa fa-chevron-left"></i> Git - Push to remote Reposotory
+              <a href="/git-push-to-remote-repository/" rel="next" title="Git - 推送至远程仓库">
+                <i class="fa fa-chevron-left"></i> Git - 推送至远程仓库
               </a>
             
           </div>
@@ -622,7 +651,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">57</span>
+                  <span class="site-state-item-count">60</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -633,7 +662,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-count">22</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -644,7 +673,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">37</span>
+                  <span class="site-state-item-count">43</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -677,7 +706,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#添加一个-Submodule"><span class="nav-text">添加一个 Submodule</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#获取子项目更新"><span class="nav-text">获取子项目更新</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Git-Module"><span class="nav-text">Git Module</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#添加一个-Submodule"><span class="nav-text">添加一个 Submodule</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#获取子项目更新"><span class="nav-text">获取子项目更新</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Git-Module"><span class="nav-text">Git Module</span></a></li></ol></div>
             
 
           </div>

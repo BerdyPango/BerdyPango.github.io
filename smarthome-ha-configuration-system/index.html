@@ -79,21 +79,23 @@
 
 
 
-<meta name="description" content="本文详细介绍了 Home Assistant 的核心配置文件 - configuration.yaml">
+<meta name="description" content="本文介绍了 Home Assistant 配置驱动模型">
 <meta name="keywords" content="smart-home,home-assistant">
 <meta property="og:type" content="article">
-<meta property="og:title" content="智慧家庭 - 配置 Home Assistant">
-<meta property="og:url" content="https://blog.frosthe.net/smarthome-configuring-ha/index.html">
+<meta property="og:title" content="智慧家庭 - 认识 Home Assistant 的配置系统">
+<meta property="og:url" content="https://blog.frosthe.net/smarthome-ha-configuration-system/index.html">
 <meta property="og:site_name" content="FrostHe.Handbook">
-<meta property="og:description" content="本文详细介绍了 Home Assistant 的核心配置文件 - configuration.yaml">
+<meta property="og:description" content="本文介绍了 Home Assistant 配置驱动模型">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://blog.frosthe.net/smarthome-configuring-ha/entity_id.png">
-<meta property="og:image" content="https://blog.frosthe.net/smarthome-configuring-ha/customization.png">
-<meta property="og:updated_time" content="2018-10-25T15:17:54.445Z">
+<meta property="og:image" content="https://blog.frosthe.net/smarthome-ha-configuration-system/entity_id.png">
+<meta property="og:image" content="https://blog.frosthe.net/smarthome-ha-configuration-system/customization.png">
+<meta property="og:image" content="https://blog.frosthe.net/smarthome-ha-configuration-system/find_entity_id.png">
+<meta property="og:image" content="https://blog.frosthe.net/smarthome-ha-configuration-system/illusion.png">
+<meta property="og:updated_time" content="2018-11-17T13:14:01.781Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="智慧家庭 - 配置 Home Assistant">
-<meta name="twitter:description" content="本文详细介绍了 Home Assistant 的核心配置文件 - configuration.yaml">
-<meta name="twitter:image" content="https://blog.frosthe.net/smarthome-configuring-ha/entity_id.png">
+<meta name="twitter:title" content="智慧家庭 - 认识 Home Assistant 的配置系统">
+<meta name="twitter:description" content="本文介绍了 Home Assistant 配置驱动模型">
+<meta name="twitter:image" content="https://blog.frosthe.net/smarthome-ha-configuration-system/entity_id.png">
 
 
 
@@ -123,13 +125,13 @@
 
 
 
-  <link rel="canonical" href="https://blog.frosthe.net/smarthome-configuring-ha/"/>
+  <link rel="canonical" href="https://blog.frosthe.net/smarthome-ha-configuration-system/"/>
 
 
 
 
 
-  <title>智慧家庭 - 配置 Home Assistant | FrostHe.Handbook</title>
+  <title>智慧家庭 - 认识 Home Assistant 的配置系统 | FrostHe.Handbook</title>
   
 
 
@@ -307,7 +309,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://blog.frosthe.net/smarthome-configuring-ha/">
+    <link itemprop="mainEntityOfPage" href="https://blog.frosthe.net/smarthome-ha-configuration-system/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Frost He">
@@ -324,7 +326,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">智慧家庭 - 配置 Home Assistant</h1>
+          <h1 class="post-title" itemprop="name headline">智慧家庭 - 认识 Home Assistant 的配置系统</h1>
         
 
         <div class="post-meta">
@@ -393,7 +395,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  1,130
+                  1,547
                 </span>
               
 
@@ -405,7 +407,7 @@
 
           
               <div class="post-description">
-                  本文详细介绍了 Home Assistant 的核心配置文件 - configuration.yaml
+                  本文介绍了 Home Assistant 配置驱动模型
               </div>
           
 
@@ -422,7 +424,13 @@
       
 
       
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>不同于一般应用程序的配置文件，<strong>HA</strong> 的配置信息会随着接入系统的设备增多而包含越来越多的信息，为了将不同类别的配置信息分开管理，官方推荐的做法是把根配置文件 <code>configuration.yaml</code> 下的不同节点以不同文件的形式进行管理，例如，默认的配置文件就包含了:</p>
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p><strong>HA</strong> 是由「组件」堆砌出的系统，官方提供了海量的组件及其用法的介绍，其中涵盖了使 <strong>HA</strong> 成为「家庭大脑」的方方面面，一个「组件」大致由两部分组成:</p>
+<ul>
+<li>组件模块: 提供组件核心功能的逻辑</li>
+<li>配置信息: 使组件能够运行的必要信息，可能包括 <code>platform</code> 信息，用户第三方服务的密钥等</li>
+</ul>
+<p>以下代码展示了一个使用 「pushbullet」 平台的 「notify」组件配置信息:<br><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">notify:</span></span><br><span class="line"><span class="attr">  platform:</span> <span class="string">pushbullet</span></span><br><span class="line"><span class="attr">  api_key:</span> <span class="string">"o.1234abcd"</span></span><br><span class="line"><span class="attr">  name:</span> <span class="string">pushbullet</span></span><br></pre></td></tr></table></figure></p>
+<p><strong>HA</strong> 将所有「组件」通过配置信息定制，因此，配置信息成了描述整个 <strong>HA</strong> 的数据源，虽然 <strong>HA</strong> 社区正致力于实现通过 Web UI 来配置所有内容，但了解其数据模型对于解决问题及理解其运作方式是不可缺少的一环。不同于一般应用程序的配置文件，<strong>HA</strong> 的配置信息会随着接入系统的设备增多而包含越来越多的信息，为了将不同类别的配置信息分开管理，官方推荐的做法是把根配置文件 <code>configuration.yaml</code> 下的不同节点以不同文件的形式进行管理，例如，默认的配置文件就包含了:</p>
 <ul>
 <li><code>configuration.yaml</code><ul>
 <li><code>automations.yaml</code></li>
@@ -453,9 +461,9 @@
 <blockquote>
 <p>此处定义的 <code>entity</code> <code>name</code> 会转换为以 <code>_</code> 分隔的 entity_id，例如 <code>Living Room</code> 会转换为 <code>living_room</code></p>
 </blockquote>
-<h3 id="群组"><a href="#群组" class="headerlink" title="群组"></a>群组</h3><p>一旦设置好多个设备，便可对它们进行「逻辑分组」，每个群组由其名称和一组的「实体 ID」组成，「实体 ID」可在 Web UI 的 <strong>Developer Tools</strong> 面板的 <strong>Set State</strong> 页面找到:<br><img src="/smarthome-configuring-ha/entity_id.png" title="实体 ID 查询页面"></p>
-<p>以下以两种风格演示群组的定义方式:<br><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">group:</span></span><br><span class="line"><span class="attr">  living_room:</span></span><br><span class="line"><span class="attr">    entities:</span> <span class="string">light.table_lamp,</span> <span class="string">switch.ac</span></span><br><span class="line"><span class="attr">  bedroom:</span></span><br><span class="line"><span class="attr">    entities:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">light.bedroom</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">media_player.nexus_player</span></span><br></pre></td></tr></table></figure></p>
-<h2 id="定制实体"><a href="#定制实体" class="headerlink" title="定制实体"></a>定制实体</h2><p>不同类别的实体提供了一系列通用的 <code>attribute</code> 用于实现定制化，这些值包括但不限于:</p>
+<h3 id="群组"><a href="#群组" class="headerlink" title="群组"></a>群组</h3><p>一旦设置好设备，便可对它们进行「逻辑分组」，每个群组由其名称和一组「实体 ID」组成，「实体 ID」可在 Web UI 的 <strong>Developer Tools</strong> 面板的 <strong>Set State</strong> 页面找到:<br><img src="/smarthome-ha-configuration-system/entity_id.png" title="实体 ID 查询页面"></p>
+<p>可由以下两种风格定义群组:<br><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">group:</span></span><br><span class="line">  <span class="comment"># 数组风格</span></span><br><span class="line"><span class="attr">  living_room:</span></span><br><span class="line"><span class="attr">    entities:</span> <span class="string">light.table_lamp,</span> <span class="string">switch.ac</span></span><br><span class="line">  <span class="comment"># 集合风格</span></span><br><span class="line"><span class="attr">  bedroom:</span></span><br><span class="line"><span class="attr">    entities:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">light.bedroom</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">media_player.nexus_player</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="自定义实体特性"><a href="#自定义实体特性" class="headerlink" title="自定义实体特性"></a>自定义实体特性</h2><p>不同类别的「实体」提供了一系列通用的 <code>attribute</code> 用于实现定制化，这些值包括但不限于:</p>
 <ul>
 <li>friendly_name: 在 UI 中显示的名称</li>
 <li>homebridge_name: 在 <strong>HomeBridge</strong> 中显示的名称</li>
@@ -474,7 +482,18 @@
 <li>unit_of_measurement: 测量单位，未指定测量单位的传感器将显示离散值，默认值为 <code>None</code></li>
 <li>initial_state: 为自动化设置初始状态，<code>on</code> 或者 <code>off</code></li>
 </ul>
-<p>这些值可通过 Web UI 的 <code>Customize</code> 入口:<br><img src="/smarthome-configuring-ha/customization.png" title="Web UI 的定制入口"><br>或在配置文件夹中的 <code>customize.yaml</code> 指定<br><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">light.yeelight_ct2_7c49eb1551e8:</span></span><br><span class="line"><span class="attr">  friendly_name:</span> <span class="string">Lamp</span></span><br><span class="line"><span class="string">sensor.yr_symbol:</span></span><br><span class="line"><span class="attr">  friendly_name:</span> <span class="string">Wether</span></span><br></pre></td></tr></table></figure></p>
+<p>定制化特性可在配置文件夹中的 <code>customize.yaml</code> 指定<br><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">light.yeelight_ct2_7c49eb1551e8:</span></span><br><span class="line"><span class="attr">  friendly_name:</span> <span class="string">Lamp</span></span><br><span class="line"><span class="string">sensor.yr_symbol:</span></span><br><span class="line"><span class="attr">  friendly_name:</span> <span class="string">Wether</span></span><br></pre></td></tr></table></figure></p>
+<p><strong>HA</strong> 社区开发团队正在致力于实现通过 Web UI 来完成所有信息的配置，例如，<code>Customize</code> 的 UI 入口如下:<br><img src="/smarthome-ha-configuration-system/customization.png" title="Web UI 的定制入口"></p>
+<h2 id="添加-HA-所在主机的系统监控组件"><a href="#添加-HA-所在主机的系统监控组件" class="headerlink" title="添加 HA 所在主机的系统监控组件"></a>添加 HA 所在主机的系统监控组件</h2><p>用到的组件:</p>
+<ul>
+<li><a href="https://www.home-assistant.io/components/sensor.fastdotcom/" target="_blank" rel="noopener">Fast.com</a></li>
+<li><a href="https://www.home-assistant.io/components/sensor.systemmonitor/" target="_blank" rel="noopener">System Monitor</a></li>
+</ul>
+<p>在 <code>sensors.yaml</code> 文件中包含「System Monitor」组件的配置代码:<br><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">- platform:</span> <span class="string">systemmonitor</span></span><br><span class="line"><span class="attr">  resources:</span></span><br><span class="line"><span class="attr">    - type:</span> <span class="string">disk_use_percent</span></span><br><span class="line"><span class="attr">      arg:</span> <span class="string">/</span></span><br><span class="line"><span class="attr">    - type:</span> <span class="string">memory_use_percent</span></span><br><span class="line"><span class="attr">    - type:</span> <span class="string">processor_use</span></span><br><span class="line"><span class="attr">    - type:</span> <span class="string">network_in</span></span><br><span class="line"><span class="attr">      arg:</span> <span class="string">eth0</span></span><br><span class="line"><span class="attr">    - type:</span> <span class="string">network_out</span></span><br><span class="line"><span class="attr">      arg:</span> <span class="string">eth0</span></span><br><span class="line"><span class="attr">    - type:</span> <span class="string">last_boot</span></span><br></pre></td></tr></table></figure></p>
+<p>引用实体的 ID 可在 Web UI 的 <code>States</code> 面板找到:<br><img src="/smarthome-ha-configuration-system/find_entity_id.png" title="entity id 所在位置"></p>
+<p>在 <code>groups.yaml</code> 创建一个群组展示这些信息:<br><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">system_monitor:</span></span><br><span class="line"><span class="attr">  entities:</span></span><br><span class="line"><span class="bullet">    -</span> <span class="string">sensor.processor_use</span></span><br><span class="line"><span class="bullet">    -</span> <span class="string">sensor.memory_use_percent</span></span><br><span class="line"><span class="bullet">    -</span> <span class="string">sensor.disk_use_percent_</span></span><br><span class="line"><span class="bullet">    -</span> <span class="string">sensor.network_in_eth0</span></span><br><span class="line"><span class="bullet">    -</span> <span class="string">sensor.network_out_eth0</span></span><br><span class="line"><span class="bullet">    -</span> <span class="string">sensor.last_boot</span></span><br></pre></td></tr></table></figure></p>
+<p>最后，在 <code>customize.yaml</code> 中修改某些实体的自定义信息:<br><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">group.system_monitor:</span></span><br><span class="line"><span class="attr">  friendly_name:</span> <span class="string">System</span> <span class="string">Monitor</span></span><br></pre></td></tr></table></figure></p>
+<p>最终的效果如下图:<br><img src="/smarthome-ha-configuration-system/illusion.png" title="效果图"></p>
 
       
     </div>
@@ -486,28 +505,7 @@
 
     
       <div>
-        <ul class="post-copyright">
-  <li class="post-copyright-author">
-    <strong>本文作者：</strong>
-    Frost He
-  </li>
-  <li class="post-copyright-link">
-    <strong>本文链接：</strong>
-    <a href="https://blog.frosthe.net/smarthome-configuring-ha/" title="智慧家庭 - 配置 Home Assistant">https://blog.frosthe.net/smarthome-configuring-ha/</a>
-  </li>
-  <li class="post-copyright-license">
-    <strong>版权声明： </strong>
-    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处，并保留以上声明信息！
-  </li>
-</ul>
-
-      </div>
-    
-
-    
-      
-        <div>
-          <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
   <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
   <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
     <span>打赏</span>
@@ -516,15 +514,15 @@
 
     
       <div id="wechat" style="display: inline-block">
-        <img id="wechat_qr" src="/assets/wechat-reward-image.jpg" alt="Frost He 微信打赏"/>
-        <p>微信打赏</p>
+        <img id="wechat_qr" src="/assets/wechat-reward-image.jpg" alt="Frost He 微信支付"/>
+        <p>微信支付</p>
       </div>
     
 
     
       <div id="alipay" style="display: inline-block">
-        <img id="alipay_qr" src="/assets/alipay-reward-image.jpg" alt="Frost He 支付宝打赏"/>
-        <p>支付宝打赏</p>
+        <img id="alipay_qr" src="/assets/alipay-reward-image.jpg" alt="Frost He 支付宝"/>
+        <p>支付宝</p>
       </div>
     
 
@@ -533,8 +531,27 @@
   </div>
 </div>
 
-        </div>
-      
+      </div>
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    Frost He
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://blog.frosthe.net/smarthome-ha-configuration-system/" title="智慧家庭 - 认识 Home Assistant 的配置系统">https://blog.frosthe.net/smarthome-ha-configuration-system/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
     
 
     <footer class="post-footer">
@@ -556,8 +573,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/smarthome-setup-ha-on-raspberrypi/" rel="next" title="智慧家庭 - 搭建开源智能家居网关 - HomeAssistant">
-                <i class="fa fa-chevron-left"></i> 智慧家庭 - 搭建开源智能家居网关 - HomeAssistant
+              <a href="/smarthome-setup-ha-on-raspberrypi/" rel="next" title="智慧家庭 - 搭建 HomeAssistant">
+                <i class="fa fa-chevron-left"></i> 智慧家庭 - 搭建 HomeAssistant
               </a>
             
           </div>
@@ -645,7 +662,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">57</span>
+                  <span class="site-state-item-count">60</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -656,7 +673,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-count">22</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -667,7 +684,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">37</span>
+                  <span class="site-state-item-count">43</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -700,7 +717,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#YAML"><span class="nav-text">YAML</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#使用环境变量"><span class="nav-text">使用环境变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用缺省值"><span class="nav-text">使用缺省值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#包含其他文件"><span class="nav-text">包含其他文件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基本配置信息"><span class="nav-text">基本配置信息</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#向-HA-添加设备"><span class="nav-text">向 HA 添加设备</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#风格1-将所有实体以父级类聚"><span class="nav-text">风格1: 将所有实体以父级类聚</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#风格2-单独定义每个设备"><span class="nav-text">风格2: 单独定义每个设备</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#群组"><span class="nav-text">群组</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#定制实体"><span class="nav-text">定制实体</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#YAML"><span class="nav-text">YAML</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#使用环境变量"><span class="nav-text">使用环境变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用缺省值"><span class="nav-text">使用缺省值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#包含其他文件"><span class="nav-text">包含其他文件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基本配置信息"><span class="nav-text">基本配置信息</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#向-HA-添加设备"><span class="nav-text">向 HA 添加设备</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#风格1-将所有实体以父级类聚"><span class="nav-text">风格1: 将所有实体以父级类聚</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#风格2-单独定义每个设备"><span class="nav-text">风格2: 单独定义每个设备</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#群组"><span class="nav-text">群组</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自定义实体特性"><span class="nav-text">自定义实体特性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#添加-HA-所在主机的系统监控组件"><span class="nav-text">添加 HA 所在主机的系统监控组件</span></a></li></ol></div>
             
 
           </div>

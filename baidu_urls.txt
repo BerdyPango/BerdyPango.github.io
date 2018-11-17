@@ -1,3 +1,6 @@
+https://blog.frosthe.net/cordova-create-custom-android-plugin/
+https://blog.frosthe.net/cordova-get-started/
+https://blog.frosthe.net/dotnet-cefsharp/
 https://blog.frosthe.net/security-openid-connect/
 https://blog.frosthe.net/security-oauth2/
 https://blog.frosthe.net/security-cert-from-letsencrypt/
@@ -6,7 +9,7 @@ https://blog.frosthe.net/security-encryption/
 https://blog.frosthe.net/smarthome-enable-remote-access-to-ha/
 https://blog.frosthe.net/smarthome-control-via-alexa/
 https://blog.frosthe.net/smarthome-control-via-siri/
-https://blog.frosthe.net/smarthome-configuring-ha/
+https://blog.frosthe.net/smarthome-ha-configuration-system/
 https://blog.frosthe.net/smarthome-setup-ha-on-raspberrypi/
 https://blog.frosthe.net/homeserver-implement-ddns/
 https://blog.frosthe.net/homeserver-setup-seafile-on-raspberryr-pi/

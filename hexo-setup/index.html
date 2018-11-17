@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="搭建博客的第一步，就是要找到符合自己需求的博客框架。之前用 LAMP 搭过 Wordpress，但就写博客这个需求来说 Wordpress 的功能太重了，希望环境尽量越简单越好。与同事们交流得知 Hexo 是一个轻量级的基于 Markdown(.md) 的轻博客框架，自己便开始了 DIY。">
+<meta name="description" content="本文索引:  前言 环境准备 初始化 配置 _config.yml 网站(site) 网址(url)   本地测试 部署到 Github Pages 为 Github Pages 指定自定义域名     前言如果你  希望摆脱对第三方云笔记的依赖  对 Git 有足够的了解  那么 Hexo 将是个人博客很好的一个选择。Hexo 是一个轻量级的基于 Markdown(.md) 的轻博客框架。 环境">
 <meta name="keywords" content="hexo">
 <meta property="og:type" content="article">
 <meta property="og:title" content="搭建 Hexo 轻博客">
 <meta property="og:url" content="https://blog.frosthe.net/hexo-setup/index.html">
 <meta property="og:site_name" content="FrostHe.Handbook">
-<meta property="og:description" content="搭建博客的第一步，就是要找到符合自己需求的博客框架。之前用 LAMP 搭过 Wordpress，但就写博客这个需求来说 Wordpress 的功能太重了，希望环境尽量越简单越好。与同事们交流得知 Hexo 是一个轻量级的基于 Markdown(.md) 的轻博客框架，自己便开始了 DIY。">
+<meta property="og:description" content="本文索引:  前言 环境准备 初始化 配置 _config.yml 网站(site) 网址(url)   本地测试 部署到 Github Pages 为 Github Pages 指定自定义域名     前言如果你  希望摆脱对第三方云笔记的依赖  对 Git 有足够的了解  那么 Hexo 将是个人博客很好的一个选择。Hexo 是一个轻量级的基于 Markdown(.md) 的轻博客框架。 环境">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-10-24T10:49:31.702Z">
+<meta property="og:updated_time" content="2018-11-17T13:14:01.634Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="搭建 Hexo 轻博客">
-<meta name="twitter:description" content="搭建博客的第一步，就是要找到符合自己需求的博客框架。之前用 LAMP 搭过 Wordpress，但就写博客这个需求来说 Wordpress 的功能太重了，希望环境尽量越简单越好。与同事们交流得知 Hexo 是一个轻量级的基于 Markdown(.md) 的轻博客框架，自己便开始了 DIY。">
+<meta name="twitter:description" content="本文索引:  前言 环境准备 初始化 配置 _config.yml 网站(site) 网址(url)   本地测试 部署到 Github Pages 为 Github Pages 指定自定义域名     前言如果你  希望摆脱对第三方云笔记的依赖  对 Git 有足够的了解  那么 Hexo 将是个人博客很好的一个选择。Hexo 是一个轻量级的基于 Markdown(.md) 的轻博客框架。 环境">
 
 
 
@@ -390,7 +390,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  1,367
+                  1,377
                 </span>
               
 
@@ -415,8 +415,29 @@
       
 
       
-        <p>搭建博客的第一步，就是要找到符合自己需求的博客框架。之前用 LAMP 搭过 <a href="https://cn.wordpress.org/" target="_blank" rel="noopener">Wordpress</a>，但就写博客这个需求来说 Wordpress 的功能太重了，希望环境尽量越简单越好。与同事们交流得知 <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> 是一个轻量级的基于 <a href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet" target="_blank" rel="noopener">Markdown(.md)</a> 的轻博客框架，自己便开始了 DIY。</p>
-<a id="more"></a>
+        <p>本文索引:<br><!-- TOC --></p>
+<ul>
+<li><a href="#前言">前言</a></li>
+<li><a href="#环境准备">环境准备</a></li>
+<li><a href="#初始化">初始化</a></li>
+<li><a href="#配置-_configyml">配置 _config.yml</a><ul>
+<li><a href="#网站site">网站(site)</a></li>
+<li><a href="#网址url">网址(url)</a></li>
+</ul>
+</li>
+<li><a href="#本地测试">本地测试</a></li>
+<li><a href="#部署到-github-pages">部署到 Github Pages</a><ul>
+<li><a href="#为-github-pages-指定自定义域名">为 Github Pages 指定自定义域名</a></li>
+</ul>
+</li>
+</ul>
+<!-- /TOC -->
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>如果你</p>
+<ul>
+<li>希望摆脱对第三方云笔记的依赖 </li>
+<li>对 Git 有足够的了解</li>
+</ul>
+<p>那么 <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a> 将是个人博客很好的一个选择。Hexo 是一个轻量级的基于 <a href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet" target="_blank" rel="noopener">Markdown(.md)</a> 的轻博客框架。</p>
 <h2 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h2><ul>
 <li>Node.js</li>
 <li>安装 hexo npm 包</li>
@@ -537,6 +558,37 @@
 
     
       <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>打赏</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/assets/wechat-reward-image.jpg" alt="Frost He 微信支付"/>
+        <p>微信支付</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/assets/alipay-reward-image.jpg" alt="Frost He 支付宝"/>
+        <p>支付宝</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+      <div>
         <ul class="post-copyright">
   <li class="post-copyright-author">
     <strong>本文作者：</strong>
@@ -548,13 +600,11 @@
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>
-    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处，并保留以上声明信息！
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
   </li>
 </ul>
 
       </div>
-    
-
     
 
     <footer class="post-footer">
@@ -659,7 +709,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">57</span>
+                  <span class="site-state-item-count">60</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -670,7 +720,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-count">22</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -681,7 +731,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">37</span>
+                  <span class="site-state-item-count">43</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -714,7 +764,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#环境准备"><span class="nav-text">环境准备</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#初始化"><span class="nav-text">初始化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置-config-yml"><span class="nav-text">配置 _config.yml</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#网站-site"><span class="nav-text">网站(site)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#网址-url"><span class="nav-text">网址(url)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#本地测试"><span class="nav-text">本地测试</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#部署到-Github-Pages"><span class="nav-text">部署到 Github Pages</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#为-Github-Pages-指定自定义域名"><span class="nav-text">为 Github Pages 指定自定义域名</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#环境准备"><span class="nav-text">环境准备</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#初始化"><span class="nav-text">初始化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置-config-yml"><span class="nav-text">配置 _config.yml</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#网站-site"><span class="nav-text">网站(site)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#网址-url"><span class="nav-text">网址(url)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#本地测试"><span class="nav-text">本地测试</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#部署到-Github-Pages"><span class="nav-text">部署到 Github Pages</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#为-Github-Pages-指定自定义域名"><span class="nav-text">为 Github Pages 指定自定义域名</span></a></li></ol></li></ol></div>
             
 
           </div>
