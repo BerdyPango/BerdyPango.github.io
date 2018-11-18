@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://blog.frosthe.net/homeserver-setup-isp-device/</loc>
+    <lastmod>2018-11-18T07:40:06.230Z</lastmod>
+  </url>  <url>
+    <loc>https://blog.frosthe.net/hexo-next-customization/</loc>
+    <lastmod>2018-11-18T07:36:06.038Z</lastmod>
+  </url>  <url>
     <loc>https://blog.frosthe.net/cordova-create-custom-android-plugin/</loc>
     <lastmod>2018-11-17T13:21:31.789Z</lastmod>
   </url>  <url>
@@ -22,9 +28,6 @@
     <loc>https://blog.frosthe.net/hexo-setup/</loc>
     <lastmod>2018-11-17T13:14:01.634Z</lastmod>
   </url>  <url>
-    <loc>https://blog.frosthe.net/hexo-next-customization/</loc>
-    <lastmod>2018-11-17T13:14:01.579Z</lastmod>
-  </url>  <url>
     <loc>https://blog.frosthe.net/git-push-to-remote-repository/</loc>
     <lastmod>2018-11-17T13:14:01.469Z</lastmod>
   </url>  <url>
@@ -33,9 +36,6 @@
   </url>  <url>
     <loc>https://blog.frosthe.net/homeserver-setup-seafile-on-raspberryr-pi/</loc>
     <lastmod>2018-10-27T11:50:31.924Z</lastmod>
-  </url>  <url>
-    <loc>https://blog.frosthe.net/homeserver-implement-ddns/</loc>
-    <lastmod>2018-10-25T15:18:40.981Z</lastmod>
   </url>  <url>
     <loc>https://blog.frosthe.net/homeserver-setup-nas-on-raspberry-pi/</loc>
     <lastmod>2018-10-25T15:18:36.665Z</lastmod>

@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="linux,ddns,raspberry-pi," />
+  <meta name="keywords" content="ddns,network,router," />
 
 
 
@@ -79,20 +79,26 @@
 
 
 
-<meta name="description" content="本文介绍了 DDNS 的背景及原理，以及如何使用开源手段实现 DDNS">
-<meta name="keywords" content="linux,ddns,raspberry-pi">
+<meta name="description" content="本文介绍了以电信宽带为基础的其他应用">
+<meta name="keywords" content="ddns,network,router">
 <meta property="og:type" content="article">
-<meta property="og:title" content="利用 DDNS 实现内网穿透">
-<meta property="og:url" content="https://blog.frosthe.net/homeserver-implement-ddns/index.html">
+<meta property="og:title" content="电信宽带的正确使用姿势">
+<meta property="og:url" content="https://blog.frosthe.net/homeserver-setup-isp-device/index.html">
 <meta property="og:site_name" content="FrostHe.Handbook">
-<meta property="og:description" content="本文介绍了 DDNS 的背景及原理，以及如何使用开源手段实现 DDNS">
+<meta property="og:description" content="本文介绍了以电信宽带为基础的其他应用">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://blog.frosthe.net/homeserver-implement-ddns/port-forwarding.png">
-<meta property="og:updated_time" content="2018-10-25T15:18:40.981Z">
+<meta property="og:image" content="https://blog.frosthe.net/homeserver-setup-isp-device/enable-telnet.jpg">
+<meta property="og:image" content="https://blog.frosthe.net/homeserver-setup-isp-device/login-with-telecomadmin.jpg">
+<meta property="og:image" content="https://blog.frosthe.net/homeserver-setup-isp-device/make-modern-bridge.jpg">
+<meta property="og:image" content="https://blog.frosthe.net/homeserver-setup-isp-device/setup-wan-pppoe.png">
+<meta property="og:image" content="https://blog.frosthe.net/homeserver-setup-isp-device/ip-from-baidu.png">
+<meta property="og:image" content="https://blog.frosthe.net/homeserver-setup-isp-device/ip-from-wan.png">
+<meta property="og:image" content="https://blog.frosthe.net/homeserver-setup-isp-device/port-forwarding.png">
+<meta property="og:updated_time" content="2018-11-18T07:40:06.230Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="利用 DDNS 实现内网穿透">
-<meta name="twitter:description" content="本文介绍了 DDNS 的背景及原理，以及如何使用开源手段实现 DDNS">
-<meta name="twitter:image" content="https://blog.frosthe.net/homeserver-implement-ddns/port-forwarding.png">
+<meta name="twitter:title" content="电信宽带的正确使用姿势">
+<meta name="twitter:description" content="本文介绍了以电信宽带为基础的其他应用">
+<meta name="twitter:image" content="https://blog.frosthe.net/homeserver-setup-isp-device/enable-telnet.jpg">
 
 
 
@@ -122,13 +128,13 @@
 
 
 
-  <link rel="canonical" href="https://blog.frosthe.net/homeserver-implement-ddns/"/>
+  <link rel="canonical" href="https://blog.frosthe.net/homeserver-setup-isp-device/"/>
 
 
 
 
 
-  <title>利用 DDNS 实现内网穿透 | FrostHe.Handbook</title>
+  <title>电信宽带的正确使用姿势 | FrostHe.Handbook</title>
   
 
 
@@ -306,7 +312,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://blog.frosthe.net/homeserver-implement-ddns/">
+    <link itemprop="mainEntityOfPage" href="https://blog.frosthe.net/homeserver-setup-isp-device/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Frost He">
@@ -323,7 +329,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">利用 DDNS 实现内网穿透</h1>
+          <h1 class="post-title" itemprop="name headline">电信宽带的正确使用姿势</h1>
         
 
         <div class="post-meta">
@@ -336,8 +342,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-23T11:38:06+08:00">
-                2018-05-23
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-18T14:28:57+08:00">
+                2018-05-18
               </time>
             
 
@@ -392,7 +398,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  602
+                  1,357
                 </span>
               
 
@@ -404,7 +410,7 @@
 
           
               <div class="post-description">
-                  本文介绍了 DDNS 的背景及原理，以及如何使用开源手段实现 DDNS
+                  本文介绍了以电信宽带为基础的其他应用
               </div>
           
 
@@ -421,18 +427,50 @@
       
 
       
-        <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>众所周知，由于 IPv4 资源的逐渐枯竭，国内的家庭网络 IP 地址是由 ISP(Internet Server Provider) 动态分配的，这使得家庭服务器无法使用固定 IP 地址向外提供服务，于是 <a href="https://zh.wikipedia.org/wiki/%E5%8B%95%E6%85%8BDNS" target="_blank" rel="noopener">DDNS(Dynamic Domain Name System)</a> 便派上了用场。</p>
-<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>利用家庭主机不断检测本地网络的公共 IP 地址变化，一旦变化便向指定的域名更新其记录值，这样当从外网通过域名解析 IP 地址时，会始终指向同一个主机。</p>
-<h2 id="前提条件"><a href="#前提条件" class="headerlink" title="前提条件"></a>前提条件</h2><p>要实现 DDNS，至少应该准备:</p>
+        <p>本文索引:</p>
 <ul>
-<li>可远程管理的已注册域名</li>
-<li>可配置端口转发的路由器</li>
-<li>确保本地网络的公网 IP 可由外网访问</li>
+<li><a href="#%E5%89%8D%E8%A8%80">前言</a></li>
+<li><a href="#%E8%8E%B7%E5%8F%96%E5%85%89%E7%8C%AB%E8%B6%85%E7%BA%A7%E7%AE%A1%E7%90%86%E5%91%98%E6%9D%83%E9%99%90">获取光猫超级管理员权限</a></li>
+<li><a href="#%E7%94%B1%E5%85%89%E7%8C%AB%E6%8B%A8%E5%8F%B7%E6%94%B9%E4%B8%BA%E8%B7%AF%E7%94%B1%E5%99%A8%E6%8B%A8%E5%8F%B7">由光猫拨号改为路由器拨号</a><ul>
+<li><a href="#%E5%B0%86%E7%94%B5%E4%BF%A1%E5%85%89%E7%8C%AB%E8%AE%BE%E4%B8%BA%E6%A1%A5%E6%8E%A5%E6%A8%A1%E5%BC%8F">将电信光猫设为桥接模式</a></li>
+<li><a href="#%E5%9C%A8%E8%B7%AF%E7%94%B1%E5%99%A8%E4%B8%AD%E8%AE%BE%E7%BD%AE%E6%8B%A8%E5%8F%B7%E4%B8%8A%E7%BD%91">在路由器中设置拨号上网</a></li>
 </ul>
-<p>上述第三条并不是硬性的技术指标，而是近年来有些 ISP 为了腾出公网 IPv4 资源，在没有告知用户的情况下将家庭网络置于某个区域的局域网之下。如果用户没有从外网访问家庭网络的需求，这一做法也无伤大雅，否则，一定要确认这一点，并向 ISP 申请开放公网 IP 地址。</p>
-<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><p>国内市场上有诸如<a href="https://www.oray.com/" target="_blank" rel="noopener">花生壳</a>，国外市场上有诸如 <a href="https://www.duckdns.org/" target="_blank" rel="noopener">DuckDns</a> 的 DDNS 服务商，他们为用户提供二级域名使用权和相应的客户端软件用以更新 DNS 记录。为了争取最大的自由度，本文将绕过第三方通过开源手段来实现。</p>
-<p>假设我在阿里云(也可能是腾讯云，重要的是其提供相应的域名管理 API)注册了 <code>example.com</code>，阿里云负责确保全网都可访问该域名。然后在家庭网络中的某台主机安装 Git，从 <a href="https://github.com/BerdyPango/ddns-client-aliyun" target="_blank" rel="noopener">ddns-client-aliyun</a> 拉取用于更新阿里云域名记录的 ddns 客户端，配置 <code>ha.example.com</code> 并运行一次。</p>
-<h2 id="配置路由器端口转发及防火墙设置"><a href="#配置路由器端口转发及防火墙设置" class="headerlink" title="配置路由器端口转发及防火墙设置"></a>配置路由器端口转发及防火墙设置</h2><p>由于众所周知的原因，国内 ISP 屏蔽了家庭网络的 80 及 443 端口，我们需要选择其他端口作为访问 Http(s) 服务的端口并且在入站防火墙中放通这些端口的 TCP 协议。最后，提供 Http(s) 服务的家庭网络的主机通常位于路由器之后，所以需要在路由器配置端口转发。<br><img src="/homeserver-implement-ddns/port-forwarding.png" title="端口转发配置"></p>
+</li>
+<li><a href="#%E7%A1%AE%E8%AE%A4%E5%85%AC%E7%BD%91-ip-%E5%9C%B0%E5%9D%80%E6%AD%A3%E7%A1%AE%E5%8F%AF%E7%94%A8">确认公网 IP 地址正确可用</a></li>
+<li><a href="#%E5%88%A9%E7%94%A8-ddns-%E5%AE%9E%E7%8E%B0%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F">利用 DDNS 实现内网穿透</a><ul>
+<li><a href="#%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86">实现原理</a></li>
+<li><a href="#%E5%89%8D%E6%8F%90%E6%9D%A1%E4%BB%B6">前提条件</a></li>
+<li><a href="#%E5%AE%9E%E7%8E%B0">实现</a></li>
+<li><a href="#%E5%9C%A8%E8%B7%AF%E7%94%B1%E5%99%A8%E4%B8%AD%E9%85%8D%E7%BD%AE%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91">在路由器中配置端口转发</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>99 或 199 块钱一个月接入的电信宽带，除了其基础的 100M 或 300M 带宽上网之外，还可以做很多事</p>
+<h2 id="获取光猫超级管理员权限"><a href="#获取光猫超级管理员权限" class="headerlink" title="获取光猫超级管理员权限"></a>获取光猫超级管理员权限</h2><p>首先，将任意一台 PC 直连光猫 LAN 口，打开浏览器，输入 <code>http://192.168.1.1</code> ，用 <code>useradmin</code> 账号登陆(密码位于光猫背面贴纸)。将地址栏中的连接 <code>http://192.168.1.1/cgi-bin/content.asp</code> 改为 <code>http://192.168.1.1/cgi-bin/telnet.asp</code>，进入如下的界面：<br><img src="/homeserver-setup-isp-device/enable-telnet.jpg" title="启用光猫 Telnet"><br>勾选 <code>Telnet 设置: 启用</code>，点击确定。</p>
+<p>接下来打开 <code>Windows</code> 的 <code>cmd</code> 或 <code>MacOS</code> 的 <code>Terminal</code>，以 <code>telnet</code> 连接光猫:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ telnet 192.168.1.1</span><br><span class="line"></span><br><span class="line">tc login:</span><br><span class="line"></span><br><span class="line"><span class="comment"># 用户名 admin</span></span><br><span class="line"><span class="comment"># 密码 1234</span></span><br></pre></td></tr></table></figure></p>
+<p>要求输入登录密码，其默认用户名和密码为 <code>admin</code> 和 <code>1234</code>，登录后输入以下命令:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ cat /tmp/ctromfile.cfg</span><br></pre></td></tr></table></figure></p>
+<p>将打印出来的所有内容保存至本地本文编辑器，搜索 <code>telecomadmin</code>，找到对应行的密码行:<br><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">Entry0</span></span></span><br><span class="line"><span class="tag"><span class="attr">username</span>=<span class="string">"telecomadmin"</span></span></span><br><span class="line"><span class="tag"><span class="attr">web_passwd</span>=<span class="string">"&#123;password-for-telecomadmin&#125;"</span>/&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p><code>web_passwd</code> 即为 <code>telecomadmin</code> 用户的密码</p>
+<h2 id="由光猫拨号改为路由器拨号"><a href="#由光猫拨号改为路由器拨号" class="headerlink" title="由光猫拨号改为路由器拨号"></a>由光猫拨号改为路由器拨号</h2><p>电信提供的光猫虽然已经自带路由功能，但出于商业目的，功能仍然极其有限，所以很多家庭都会购买单独的路由器，以实现更高级的功能，例如「内网穿透」、「全局科学上网」以及「自动下载机」等等。在此之前，我们希望路由器充当家庭网络的「网关」，以获取正确的公网 ip 地址。</p>
+<h3 id="将电信光猫设为桥接模式"><a href="#将电信光猫设为桥接模式" class="headerlink" title="将电信光猫设为桥接模式"></a>将电信光猫设为桥接模式</h3><p>使用 <code>telecomadmin</code> 登录电信光猫:<br><img src="/homeserver-setup-isp-device/login-with-telecomadmin.jpg" title="使用 telecomadmin 登录"><br>在「网络」-&gt; 「宽带设置」标签页，选定指定 <code>Internet</code> 的「连接名称」(此处为 <strong>5_INTERNET_B_VID_1025</strong>)，将「模式」由 <strong>Route</strong> 改为 <strong>Bridge</strong>:<br><img src="/homeserver-setup-isp-device/make-modern-bridge.jpg" title="将光猫作为网络「桥」"><br>我们想要使用路由器作为 DHCP 的服务器，光猫仅仅负责传输宽带，保存更改后，把光猫的 LAN 口与路由器的 WAN 口相连，再把路由器的 LAN 接入任意 PC 的以太网口，此时路由器替代光猫成为了「网关」，默认情况下，网关的 ip 地址为 <code>192.168.1.1</code>，而 PC 会由路由器 DHCP 服务分配一个该网段下的 ip 地址，例如 <code>192.168.1.200</code>。</p>
+<h3 id="在路由器中设置拨号上网"><a href="#在路由器中设置拨号上网" class="headerlink" title="在路由器中设置拨号上网"></a>在路由器中设置拨号上网</h3><p>在浏览器中访问 <code>192.168.1.1</code>，此时访问的已是路由器厂商提供的 Web 管理界面了，进入到相应的页面，找到 WAN 口的设置，填入电信宽带上网用的用户名和密码:<br><img src="/homeserver-setup-isp-device/setup-wan-pppoe.png" title="设置路由器的 WAN 口 PPPoE 拨号上网"></p>
+<blockquote>
+<p>如何设置无线网络此处不赘述</p>
+</blockquote>
+<h2 id="确认公网-IP-地址正确可用"><a href="#确认公网-IP-地址正确可用" class="headerlink" title="确认公网 IP 地址正确可用"></a>确认公网 IP 地址正确可用</h2><p>完成上一步操作之后，PC 应该已经可以正常上网了，在百度中输入 <code>ip</code> 得到一个公网 ip 地址，在路由器管理界面中，查看当前 WAN 口获取到的 ip 地址:<br><img src="/homeserver-setup-isp-device/ip-from-baidu.png" title="从百度获取的 ip 地址"><br><img src="/homeserver-setup-isp-device/ip-from-wan.png" title="从路由器 WAN 获取的 ip 地址"><br>从百度获取的 ip 地址是从外网检测到的 ip 地址，WAN 口的 ip 地址是由电信分配的 ip 地址，两者可能会不一样，WAN 口获取的 ip 地址可能是某个大区域的子网 ip 地址，虽然不影响上网，但无法实现「内网穿透」等功能。如果遇到类似情况，拨打 10000 号申诉通常都会解决。</p>
+<h2 id="利用-DDNS-实现内网穿透"><a href="#利用-DDNS-实现内网穿透" class="headerlink" title="利用 DDNS 实现内网穿透"></a>利用 DDNS 实现内网穿透</h2><h3 id="实现原理"><a href="#实现原理" class="headerlink" title="实现原理"></a>实现原理</h3><p>家庭网络中的主机不断检测本地网络的公共 IP 地址变化，并不断向指定的域名更新记录。这样，当从外网通过域名解析主机时，将始终指向同一个主机。</p>
+<h3 id="前提条件"><a href="#前提条件" class="headerlink" title="前提条件"></a>前提条件</h3><p>为了实现 DDNS，至少应该准备:</p>
+<ol>
+<li>可远程管理的注册域名: 本文以阿里云万网域名为例</li>
+<li>路由器具备端口转发功能</li>
+<li>确保本地网络的公网 IP 可由外网访问</li>
+</ol>
+<h3 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h3><p>国内市场上有诸如<a href="https://www.oray.com/" target="_blank" rel="noopener">花生壳</a>，国外市场上有诸如 <a href="https://www.duckdns.org/" target="_blank" rel="noopener">DuckDns</a> 的 DDNS 服务商，他们为用户提供二级域名使用权和相应的客户端软件用以更新 DNS 记录。为了争取最大的自由度，本文将绕过第三方通过开源手段来实现。</p>
+<p>假设我在阿里云(也可能是腾讯云，重要的是其提供相应的域名管理 API)注册了 <code>example.com</code>，阿里云负责提供全网都可访问该域名的 <code>dns</code> 服务。然后在家庭网络中的某台主机(最好是服务器)安装 Git，从 <a href="https://github.com/rfancn/aliyun-ddns-client" target="_blank" rel="noopener">aliyun-ddns-client</a> 拉取用于更新阿里云域名记录的 ddns 客户端，配置 <code>ha.example.com</code> 并运行。</p>
+<h3 id="在路由器中配置端口转发"><a href="#在路由器中配置端口转发" class="headerlink" title="在路由器中配置端口转发"></a>在路由器中配置端口转发</h3><p>路由器没有能力或并不知道从外网入站的网络访问需要什么样的服务，它需要将入站请求转发至提供该种服务的内网主机，并映射相应的端口号。<br><img src="/homeserver-setup-isp-device/port-forwarding.png" title="端口转发配置"></p>
+<blockquote>
+<p>由于众所周知的原因，国内 ISP 屏蔽了家庭网络的 80 及 443 端口，如果需要提供 http(s) 服务，需要选择其他端口。</p>
+</blockquote>
 
       
     </div>
@@ -444,7 +482,28 @@
 
     
       <div>
-        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    Frost He
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://blog.frosthe.net/homeserver-setup-isp-device/" title="电信宽带的正确使用姿势">https://blog.frosthe.net/homeserver-setup-isp-device/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    
+      
+        <div>
+          <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
   <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
   <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
     <span>打赏</span>
@@ -470,38 +529,19 @@
   </div>
 </div>
 
-      </div>
-    
-
-    
-      <div>
-        <ul class="post-copyright">
-  <li class="post-copyright-author">
-    <strong>本文作者：</strong>
-    Frost He
-  </li>
-  <li class="post-copyright-link">
-    <strong>本文链接：</strong>
-    <a href="https://blog.frosthe.net/homeserver-implement-ddns/" title="利用 DDNS 实现内网穿透">https://blog.frosthe.net/homeserver-implement-ddns/</a>
-  </li>
-  <li class="post-copyright-license">
-    <strong>版权声明： </strong>
-    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
-  </li>
-</ul>
-
-      </div>
+        </div>
+      
     
 
     <footer class="post-footer">
       
         <div class="post-tags">
           
-            <a href="/tags/linux/" rel="tag"><i class="fa fa-tag"></i> linux</a>
-          
             <a href="/tags/ddns/" rel="tag"><i class="fa fa-tag"></i> ddns</a>
           
-            <a href="/tags/raspberry-pi/" rel="tag"><i class="fa fa-tag"></i> raspberry-pi</a>
+            <a href="/tags/network/" rel="tag"><i class="fa fa-tag"></i> network</a>
+          
+            <a href="/tags/router/" rel="tag"><i class="fa fa-tag"></i> router</a>
           
         </div>
       
@@ -514,8 +554,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/homeserver-setup-seafile-on-raspberryr-pi/" rel="next" title="搭建 Seafile 私有云">
-                <i class="fa fa-chevron-left"></i> 搭建 Seafile 私有云
+              <a href="/aspnetcore-host-in-docker-containers/" rel="next" title="为 ASP.NET Core 应用程序添加 Docker 支持">
+                <i class="fa fa-chevron-left"></i> 为 ASP.NET Core 应用程序添加 Docker 支持
               </a>
             
           </div>
@@ -524,8 +564,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/smarthome-setup-ha-on-raspberrypi/" rel="prev" title="智慧家庭 - 搭建 HomeAssistant">
-                智慧家庭 - 搭建 HomeAssistant <i class="fa fa-chevron-right"></i>
+              <a href="/homeserver-setup-raspberry-pi/" rel="prev" title="准备树莓派 3b+">
+                准备树莓派 3b+ <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -625,7 +665,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">43</span>
+                  <span class="site-state-item-count">45</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -658,7 +698,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#背景"><span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#原理"><span class="nav-text">原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#前提条件"><span class="nav-text">前提条件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实现"><span class="nav-text">实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置路由器端口转发及防火墙设置"><span class="nav-text">配置路由器端口转发及防火墙设置</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#获取光猫超级管理员权限"><span class="nav-text">获取光猫超级管理员权限</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#由光猫拨号改为路由器拨号"><span class="nav-text">由光猫拨号改为路由器拨号</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#将电信光猫设为桥接模式"><span class="nav-text">将电信光猫设为桥接模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在路由器中设置拨号上网"><span class="nav-text">在路由器中设置拨号上网</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#确认公网-IP-地址正确可用"><span class="nav-text">确认公网 IP 地址正确可用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#利用-DDNS-实现内网穿透"><span class="nav-text">利用 DDNS 实现内网穿透</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#实现原理"><span class="nav-text">实现原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#前提条件"><span class="nav-text">前提条件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实现"><span class="nav-text">实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在路由器中配置端口转发"><span class="nav-text">在路由器中配置端口转发</span></a></li></ol></li></ol></div>
             
 
           </div>
