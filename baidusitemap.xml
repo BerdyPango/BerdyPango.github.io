@@ -1,20 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://blog.frosthe.net/architecture-mediator-pattern/</loc>
+    <lastmod>2018-11-23T14:25:09.599Z</lastmod>
+  </url>  <url>
+    <loc>https://blog.frosthe.net/dotnet-cefsharp/</loc>
+    <lastmod>2018-11-20T14:53:16.536Z</lastmod>
+  </url>  <url>
+    <loc>https://blog.frosthe.net/cordova-get-started/</loc>
+    <lastmod>2018-11-20T14:53:16.488Z</lastmod>
+  </url>  <url>
+    <loc>https://blog.frosthe.net/cordova-create-custom-android-plugin/</loc>
+    <lastmod>2018-11-20T14:53:16.454Z</lastmod>
+  </url>  <url>
+    <loc>https://blog.frosthe.net/ddd-tactical-value-object/</loc>
+    <lastmod>2018-11-20T12:38:24.994Z</lastmod>
+  </url>  <url>
     <loc>https://blog.frosthe.net/homeserver-setup-isp-device/</loc>
     <lastmod>2018-11-18T07:40:06.230Z</lastmod>
   </url>  <url>
     <loc>https://blog.frosthe.net/hexo-next-customization/</loc>
     <lastmod>2018-11-18T07:36:06.038Z</lastmod>
-  </url>  <url>
-    <loc>https://blog.frosthe.net/cordova-create-custom-android-plugin/</loc>
-    <lastmod>2018-11-17T13:21:31.789Z</lastmod>
-  </url>  <url>
-    <loc>https://blog.frosthe.net/cordova-get-started/</loc>
-    <lastmod>2018-11-17T13:21:24.118Z</lastmod>
-  </url>  <url>
-    <loc>https://blog.frosthe.net/dotnet-cefsharp/</loc>
-    <lastmod>2018-11-17T13:17:40.442Z</lastmod>
   </url>  <url>
     <loc>https://blog.frosthe.net/about/index.html</loc>
     <lastmod>2018-11-17T13:14:01.993Z</lastmod>
@@ -72,9 +78,6 @@
   </url>  <url>
     <loc>https://blog.frosthe.net/security-all-about-certificates/</loc>
     <lastmod>2018-10-13T02:30:39.754Z</lastmod>
-  </url>  <url>
-    <loc>https://blog.frosthe.net/ddd-tactical-value-object/</loc>
-    <lastmod>2018-10-13T02:28:39.254Z</lastmod>
   </url>  <url>
     <loc>https://blog.frosthe.net/ddd-tactical-entity/</loc>
     <lastmod>2018-10-13T02:28:32.699Z</lastmod>

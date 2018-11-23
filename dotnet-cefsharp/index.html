@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="hybrid,dotnet,chrome,cefsharp," />
+  <meta name="keywords" content="dotnet,hybrid,chrome,cefsharp," />
 
 
 
@@ -80,14 +80,14 @@
 
 
 <meta name="description" content="本文根据 CefSharp 官方文档整理了在 .NET 中集成 CefSharp 的指南">
-<meta name="keywords" content="hybrid,dotnet,chrome,cefsharp">
+<meta name="keywords" content="dotnet,hybrid,chrome,cefsharp">
 <meta property="og:type" content="article">
 <meta property="og:title" content="在 .NET Framework 中集成 CefSharp">
 <meta property="og:url" content="https://blog.frosthe.net/dotnet-cefsharp/index.html">
 <meta property="og:site_name" content="FrostHe.Handbook">
 <meta property="og:description" content="本文根据 CefSharp 官方文档整理了在 .NET 中集成 CefSharp 的指南">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-11-17T13:17:40.442Z">
+<meta property="og:updated_time" content="2018-11-20T14:53:16.536Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="在 .NET Framework 中集成 CefSharp">
 <meta name="twitter:description" content="本文根据 CefSharp 官方文档整理了在 .NET 中集成 CefSharp 的指南">
@@ -390,7 +390,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  2,870
+                  2,857
                 </span>
               
 
@@ -461,13 +461,13 @@
 <h2 id="快速开始"><a href="#快速开始" class="headerlink" title="快速开始"></a>快速开始</h2><p>创建一个新项目并添加对 <code>CefSharp</code> 的引用，参考 <a href="https://www.codeproject.com/Articles/881315/Display-HTML-in-WPF-and-CefSharp-Tutorial-Part" target="_blank" rel="noopener">Display HTML in WPF and CefSharp Tutorial Part 1</a></p>
 <h2 id="进程-Process"><a href="#进程-Process" class="headerlink" title="进程 Process"></a>进程 Process</h2><p><code>CEF</code> 运行时包含多个进程</p>
 <ul>
-<li><code>browser</code> 进程: 主进程，负责创建窗口，渲染和网络访问，该进程大部分情况下等同于「宿主应用程序」所在的进程，且大部分逻辑将在该进程中执行。</li>
-<li><code>render</code> 进程: 渲染和与 Javascript 交互(如 JS 对象绑定)则发生在另一个 <code>render</code> 进程中，默认进程模型将会为每一个单独的源([scheme] + [domain]) 开辟一个 <code>render</code> 进程。</li>
+<li><code>browser</code> 进程: 主进程，负责创建窗口，渲染和网络访问，该进程大部分情况下等同于「宿主应用程序」所在的进程，且执行大部分逻辑。</li>
+<li><code>render</code> 进程: 渲染和与 <code>Javascript</code> 交互(如 JS 对象绑定)由另一个 <code>render</code> 进程处理，进程模型将会为每一个单独的 <code>Origin</code>([scheme] + [domain]) 开辟一个 <code>render</code> 进程。</li>
 <li><code>plugin</code> 进程: 负责处理诸如 <code>Flash</code> 等插件</li>
-<li><code>gpu</code> 进程: 处理加速组装等</li>
+<li><code>gpu</code> 进程: 处理渲染加速等</li>
 </ul>
 <hr>
-<h2 id="线程-Threads"><a href="#线程-Threads" class="headerlink" title="线程 Threads"></a>线程 Threads</h2><p>不同级别的进程可能管理多个线程，<code>browser</code> 进程包含了以下线程:</p>
+<h2 id="线程-Threads"><a href="#线程-Threads" class="headerlink" title="线程 Threads"></a>线程 Threads</h2><p>不同级别的进程可管理多个线程，<code>browser</code> 进程包含了以下线程:</p>
 <ul>
 <li>UI 线程: <code>browser</code> 进程的主线程，默认情况下 <code>CefSharp</code> 使用 <code>setting.MultiThreadedMessageLoop = true</code> 设置，这使得 <code>CEF</code> 的 UI 线程与宿主应用程序的 UI 线程使用不同的线程。</li>
 <li>IO 线程: 在 <code>browser</code> 进程中负责处理 IPC 和网络消息</li>
@@ -477,10 +477,10 @@
 <hr>
 <h2 id="Initialize-和-Shutdown"><a href="#Initialize-和-Shutdown" class="headerlink" title="Initialize 和 Shutdown"></a>Initialize 和 Shutdown</h2><h3 id="Initialize"><a href="#Initialize" class="headerlink" title="Initialize"></a>Initialize</h3><p><code>Initialize</code> 方法仅允许每个应用程序调用一次，该方法用于初始化底层 <code>CEF</code> 库，可以显式或隐式的调用该方法:</p>
 <ul>
-<li>隐式调用: 首次创建 <code>ChromiumWebBrowser</code> 实例时，将检查 <code>CEF</code> 是否已被初始化，如果没有，则使用默认设置调用初始化方法</li>
-<li>显式调用: 当希望指定自定义设置值时，可显式调用 <code>CEF.Initialize(CefSettings settings)</code> 方法</li>
+<li>隐式调用: 首次创建 <code>ChromiumWebBrowser</code> 实例时，将检查 <code>CEF</code> 是否已被初始化，如果没有，则使用默认配置调用初始化方法</li>
+<li>显式调用: 当希望指定自定义配置时，可显式调用 <code>CEF.Initialize(CefSettings settings)</code> 方法</li>
 </ul>
-<h3 id="Shutdown"><a href="#Shutdown" class="headerlink" title="Shutdown"></a>Shutdown</h3><p><code>ChromiumWebBrowser</code> 的 WPF 和 Winform 的实现都在对应程序的 <code>Exit</code> 事件中默认调用了 <code>Shutdown</code> 方法。要禁用这一行为，可在任何 <code>ChromiumWebBrowser</code> 实例创建之前设置 <code>CefSharpSettings.ShutdownOnExit = false</code>。</p>
+<h3 id="Shutdown"><a href="#Shutdown" class="headerlink" title="Shutdown"></a>Shutdown</h3><p><code>ChromiumWebBrowser</code> 的 WPF 和 Winform 的实现都在对应的 <code>Exit</code> 事件中默认调用了 <code>Shutdown</code> 方法。要禁用这一行为，可在任一 <code>ChromiumWebBrowser</code> 实例创建之前设置 <code>CefSharpSettings.ShutdownOnExit = false</code>。</p>
 <blockquote>
 <p><code>Initialize</code> 和 <code>Shutdown</code> 都必须在应用程序的主线程中调用，如果在另外的线程中调用它们，应用程序将会挂起。</p>
 </blockquote>
@@ -491,7 +491,7 @@
 <li><code>BrowserSubprocessPath</code>: 启用子进程的路径，通常不建议更改</li>
 <li><code>MultiThreadedMessageLoop</code>: 默认为 <code>true</code>，也可以设置为 <code>false</code> 并将 <code>Cef</code> 集成至现有应用程序的消息泵中，参考 <a href="https://github.com/cefsharp/CefSharp/issues/1748" target="_blank" rel="noopener">https://github.com/cefsharp/CefSharp/issues/1748</a></li>
 <li><code>CommandLineArgsDisabled</code>: 设置为 <code>true</code> 以禁用使用标准的 <code>Chromium</code> 命令行参数控制浏览器行为</li>
-<li><code>CachePath</code>: 缓存数据在本机上存放的路径，若为空，则使用临时缓存和内存缓存。仅当该设置不为空时，HTML5 数据库，如 <code>localStorage</code> 才会持久化</li>
+<li><code>CachePath</code>: 缓存数据在本机上存放的路径，若为空，则使用临时缓存和内存缓存。仅当该设置不为空时，HTML5 数据库(如 <code>localStorage</code>)才会被持久化</li>
 <li><code>Locale</code>: 传给 Blink 的本地化信息，<code>en-US</code> 为默认值，可由命令行参数 <code>lang</code> 控制</li>
 <li><code>LogFile</code>: Debug 日志使用的持久化目录与文件名。<code>./debug.log</code> 为默认值。可由命令行参数 <code>log-file</code> 控制</li>
 <li><code>LogSeverity</code>: 类似于 LogLevel，仅当等于或高于该级别的日志将会记录，可由 <code>log-severity</code> 命令行参数控制，可接收 <code>verbose</code>、<code>info</code>、<code>warning</code>、<code>error</code>、<code>error-report</code> 和 <code>disabled</code> 值。</li>
@@ -561,7 +561,7 @@
 <figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">browser.RenderProcessMessageHandler = <span class="keyword">new</span> RenderProcessMessageHandler();</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">RenderProcessMessageHandler</span> : <span class="title">IRenderProcessMessageHandler</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="comment">// Wait for the underlying JavaScript Context to be created. This is only called for the main frame.</span></span><br><span class="line">  <span class="comment">// If the page has no JavaScript, no context will be created.</span></span><br><span class="line">  <span class="keyword">void</span> IRenderProcessMessageHandler.OnContextCreated(IWebBrowser browserControl, IBrowser browser, IFrame frame)</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">string</span> script = <span class="string">"document.addEventListener('DOMContentLoaded', function()&#123; alert('DomLoaded'); &#125;);"</span>;</span><br><span class="line"></span><br><span class="line">    frame.ExecuteJavaScriptAsync(script);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//Wait for the page to finish loading (all resources will have been loaded, rendering is likely still happening)</span></span><br><span class="line">browser.LoadingStateChanged += (sender, args) =&gt;</span><br><span class="line">&#123;</span><br><span class="line">  <span class="comment">//Wait for the Page to finish loading</span></span><br><span class="line">  <span class="keyword">if</span> (args.IsLoading == <span class="literal">false</span>)</span><br><span class="line">  &#123;</span><br><span class="line">    browser.ExecuteJavaScriptAsync(<span class="string">"alert('All Resources Have Loaded');"</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//Wait for the MainFrame to finish loading</span></span><br><span class="line">browser.FrameLoadEnd += (sender, args) =&gt;</span><br><span class="line">&#123;</span><br><span class="line">  <span class="comment">//Wait for the MainFrame to finish loading</span></span><br><span class="line">  <span class="keyword">if</span>(args.Frame.IsMain)</span><br><span class="line">  &#123;</span><br><span class="line">    args.Frame.ExecuteJavaScriptAsync(<span class="string">"alert('MainFrame finished loading');"</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 <h3 id="从-NET-中调用带有返回结果的-Javascript-方法"><a href="#从-NET-中调用带有返回结果的-Javascript-方法" class="headerlink" title="从 .NET 中调用带有返回结果的 Javascript 方法"></a>从 .NET 中调用带有返回结果的 Javascript 方法</h3><p>如果希望调用一个带有返回结果的 Javascript 方法，使用 <code>Task&lt;JavascriptResponse&gt; EvaluateScriptAsync(string script, TimeSpan? timeout)</code>，Javascript 异步执行并最终返回一个 <code>JavascriptResponse</code> 类型的实例，包含错误消息，执行结果和是否成功的标志。<br><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Get Document Height</span></span><br><span class="line"><span class="keyword">var</span> task = frame.EvaluateScriptAsync(<span class="string">"(function() &#123; var body = document.body, html = document.documentElement; return  Math.max( body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight ); &#125;)();"</span>, <span class="literal">null</span>);</span><br><span class="line"></span><br><span class="line">task.ContinueWith(t =&gt;</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (!t.IsFaulted)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">var</span> response = t.Result;</span><br><span class="line">        EvaluateJavaScriptResult = response.Success ? (response.Result ?? <span class="string">"null"</span>) : response.Message;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;, TaskScheduler.FromCurrentSynchronizationContext());</span><br></pre></td></tr></table></figure></p>
 <blockquote>
-<p>返回结果的类型仅支持基元类型，如 <code>int</code>，<code>bool</code>，<code>string</code> 等，目前还没有一个合适的方法将 Javascript 类型映射为一个 .NET 类型，但可借助 <code>JSON.toStringify()</code> 返回 JSON 字符串的形式来组织复杂类型，之后在 .NET 中利用 JSON.NET 将该字符串反序列化为相应的类型。</p>
+<p>返回结果的类型仅支持基元类型，如 <code>int</code>，<code>bool</code>，<code>string</code> 等，目前还没有一个合适的方法将 <code>Javascript</code> 类型映射为一个 .NET 类型，但可借助 <code>JSON.toStringify()</code> 返回 JSON 字符串的形式来组织复杂类型，之后在 .NET 中利用 JSON.NET 将该字符串反序列化为相应的类型。</p>
 </blockquote>
 <h3 id="将一个-NET-类型暴露给-Javascript"><a href="#将一个-NET-类型暴露给-Javascript" class="headerlink" title="将一个 .NET 类型暴露给 Javascript"></a>将一个 .NET 类型暴露给 Javascript</h3><p>Javascript 绑定(JSB)实现了 <code>Javascript</code> 和 <code>.NET</code> 之间的通信，目前该方法提供了异步和同步版本的实现</p>
 <h4 id="异步-Javascript-Binding-API"><a href="#异步-Javascript-Binding-API" class="headerlink" title="异步 Javascript Binding API"></a>异步 Javascript Binding API</h4><ul>
@@ -631,9 +631,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/hybrid/" rel="tag"><i class="fa fa-tag"></i> hybrid</a>
-          
             <a href="/tags/dotnet/" rel="tag"><i class="fa fa-tag"></i> dotnet</a>
+          
+            <a href="/tags/hybrid/" rel="tag"><i class="fa fa-tag"></i> hybrid</a>
           
             <a href="/tags/chrome/" rel="tag"><i class="fa fa-tag"></i> chrome</a>
           
@@ -739,7 +739,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">59</span>
+                  <span class="site-state-item-count">60</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -750,7 +750,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-count">22</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -761,7 +761,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">45</span>
+                  <span class="site-state-item-count">47</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

@@ -15,6 +15,7 @@ https://blog.frosthe.net/homeserver-setup-seafile-on-raspberryr-pi/
 https://blog.frosthe.net/homeserver-setup-nas-on-raspberry-pi/
 https://blog.frosthe.net/homeserver-setup-raspberry-pi/
 https://blog.frosthe.net/homeserver-setup-isp-device/
+https://blog.frosthe.net/architecture-mediator-pattern/
 https://blog.frosthe.net/aspnetcore-host-in-docker-containers/
 https://blog.frosthe.net/docker-multi-stage-build/
 https://blog.frosthe.net/docker-dockerfile-best-practices/

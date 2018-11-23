@@ -92,7 +92,7 @@
 <meta property="og:image" content="https://blog.frosthe.net/cordova-get-started/env_android_sdk.png">
 <meta property="og:image" content="https://blog.frosthe.net/cordova-get-started/env_tools.png">
 <meta property="og:image" content="https://blog.frosthe.net/cordova-get-started/app_first_launched.png">
-<meta property="og:updated_time" content="2018-11-17T13:21:24.118Z">
+<meta property="og:updated_time" content="2018-11-20T14:53:16.488Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Cordova 快速开始">
 <meta name="twitter:description" content="依据官方文档在 Windows 系统下开始 Cordova 开发">
@@ -396,7 +396,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  1,038
+                  1,024
                 </span>
               
 
@@ -441,42 +441,42 @@
 </ul>
 </li>
 <li><a href="#%E4%BD%BF%E7%94%A8-merges-%E4%B8%BA%E5%8D%95%E7%8B%AC%E7%9A%84-platform-%E6%8F%90%E4%BE%9B%E5%AE%9A%E5%88%B6%E5%8C%96%E5%86%85%E5%AE%B9">使用 merges 为单独的 platform 提供定制化内容</a></li>
-<li><a href="#%E6%9B%B4%E6%96%B0-cordova-%E5%8F%8A%E4%BD%A0%E7%9A%84%E9%A1%B9%E7%9B%AE">更新 cordova 及你的项目</a></li>
+<li><a href="#%E6%9B%B4%E6%96%B0-cordova-%E5%8F%8A%E9%A1%B9%E7%9B%AE">更新 cordova 及项目</a></li>
 </ul>
 <h2 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h2><p>确保以下工具集已安装好:</p>
 <ul>
-<li><code>nodejs</code> 和 <code>npm</code>: <code>cordova cli</code> 是一个运行在 <code>nodejs</code> 下的 <code>npm</code> 包</li>
+<li><code>nodejs</code> 和 <code>npm</code>: <code>cordova cli</code> 是一个运行在 <code>nodejs</code> 上的 <code>npm</code> 包</li>
 <li><code>git</code>: 用于在安装过程中下载某些依赖 <code>git</code> 仓库的文件</li>
 </ul>
 <h2 id="安装-cordova-cli"><a href="#安装-cordova-cli" class="headerlink" title="安装 cordova cli"></a>安装 cordova cli</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install -g cordova</span><br></pre></td></tr></table></figure>
 <h2 id="创建-cordova-app"><a href="#创建-cordova-app" class="headerlink" title="创建 cordova app"></a>创建 cordova app</h2><ol>
 <li>导航至一个目标目录，执行 <code>cordova create hello</code></li>
 <li>导航至项目目录内: <code>cd hello</code></li>
-<li>添加平台支持: 可执行 <code>cordova platform ls</code> 查看当前安装的平台支持及所有支持的平台，添加对 <code>browser</code>，<code>ios</code>，和 <code>android</code> 平台的支持<ol>
+<li>添加支持的 <code>platform</code>: 可执行 <code>cordova platform ls</code> 查看当前已支持的 <code>platform</code> 及可支持的 <code>platform</code>，添加对 <code>browser</code>，<code>ios</code>，和 <code>android</code> 的支持<ol>
 <li><code>cordova platform add browser</code></li>
 <li><code>cordova platform add ios</code></li>
 <li><code>cordova platform add android</code></li>
 </ol>
 </li>
-<li>安装对应平台的 SDK: 要针对不同平台生成 app，要求开发环境中必须包含该平台所需的 SDK，<code>browser</code> 平台无需任何特定的 SDK，以下列出其他各平台编译所需环境的参考：<ol>
+<li>安装对应 <code>platform</code> 的 SDK: 要生成不同 <code>platform</code> 的 app，要求开发环境中必须包含编译该 <code>platform</code> 所需的 SDK，<code>browser platform</code> 无需任何特定的 SDK，以下列出常见 <code>platform</code> 编译所需环境的参考：<ol>
 <li>Android: 参考 <a href="https://cordova.apache.org/docs/en/8.x/guide/platforms/android/index.html#requirements-and-support" target="_blank" rel="noopener">Android Platform Guide</a></li>
 <li>iOS: 参考 <a href="https://cordova.apache.org/docs/en/8.x/guide/platforms/ios/index.html#requirements-and-support" target="_blank" rel="noopener">iOS Platform Guide</a></li>
 <li>Windows: <a href="https://cordova.apache.org/docs/en/8.x/guide/platforms/windows/index.html#requirements-and-support" target="_blank" rel="noopener">Windows Platform Guide</a></li>
 </ol>
 </li>
-<li>初始化: 默认情况下，<code>cordova create</code> 生成基于 <code>browser</code> 平台的项目，可在 <code>www/js/index.js</code> 中的 <code>onDeviceReady</code> 指定任何初始化逻辑</li>
+<li>初始化: 默认情况下，<code>cordova create</code> 创建的是基于 <code>browser platform</code> 的项目，可在 <code>www/js/index.js</code> 中的 <code>onDeviceReady</code> 扩展初始化逻辑</li>
 <li>生成: <ol>
-<li>执行 <code>cordova requirements</code> 以检查当前环境是否满足生成不同 <code>platform</code> 所需的要求</li>
-<li>执行 <code>cordova build</code> 以生成项目支持的所有平台或 <code>cordova build browser</code> 仅生成 <code>browser</code> 平台的 app。</li>
+<li>执行 <code>cordova requirements [platform]</code> 检查当前环境是否满足生成对应 <code>platform</code> 的要求，若不指定 <code>platform</code>，则检查所有已支持 <code>platform</code> 的编译要求</li>
+<li>执行 <code>cordova build [platform]</code> 生成对应 <code>platform</code>，不指定 <code>platform</code> 则生成所有支持的 <code>platform</code> </li>
 </ol>
 </li>
 </ol>
 <h2 id="在-Android-上测试-cordova-app"><a href="#在-Android-上测试-cordova-app" class="headerlink" title="在 Android 上测试 cordova app"></a>在 Android 上测试 cordova app</h2><h3 id="准备-1"><a href="#准备-1" class="headerlink" title="准备"></a>准备</h3><ul>
-<li><code>JDK</code>(Java Development Kit): 前往 <a href="https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html" target="_blank" rel="noopener">JDK 官网</a> 下载对应的开发套件版，在 Windows 系统下需要设置 <code>JAVA_HOME</code> 环境变量至 JDK 的安装目录(参考<a href="https://cordova.apache.org/docs/en/8.x/guide/platforms/android/index.html#setting-environment-variables" target="_blank" rel="noopener">这里</a>)</li>
-<li><p><code>Gradle</code>: 为 Cordova 生成安卓应用时必须的工具库，其依赖 JDK 或 JRE，参考<a href="https://gradle.org/install/" target="_blank" rel="noopener">安装指南</a>在不同系统中安装 <code>Gradle</code>。在 Windows 系统下需要在 <code>PATH</code> 环境变量中指定 <code>Gradle</code> 的路径(参考<a href="https://cordova.apache.org/docs/en/8.x/guide/platforms/android/index.html#setting-environment-variables" target="_blank" rel="noopener">这里</a>)，安装完成后，检查版本:</p>
+<li><code>JDK</code>(Java Development Kit): 前往 <a href="https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html" target="_blank" rel="noopener">JDK 官网</a> 下载对应的开发套件，在 Windows 系统下需要设置 <code>JAVA_HOME</code> 环境变量至 JDK 的安装目录(参考<a href="https://cordova.apache.org/docs/en/8.x/guide/platforms/android/index.html#setting-environment-variables" target="_blank" rel="noopener">这里</a>)</li>
+<li><p><code>Gradle</code>: 生成 <code>Android</code> 应用时必须的工具库，其依赖 JDK 或 JRE，参考<a href="https://gradle.org/install/" target="_blank" rel="noopener">安装指南</a>在不同系统中安装 <code>Gradle</code>。在 Windows 系统下需要在 <code>PATH</code> 环境变量中指定 <code>Gradle</code> 的路径(参考<a href="https://cordova.apache.org/docs/en/8.x/guide/platforms/android/index.html#setting-environment-variables" target="_blank" rel="noopener">这里</a>)，安装完成后，检查版本:</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ gradle --version</span><br><span class="line">------------------------------------------------------------</span><br><span class="line">Gradle 4.10.2</span><br><span class="line">------------------------------------------------------------</span><br></pre></td></tr></table></figure>
 </li>
-<li><p><code>Android SDK</code>: <code>Android Studio</code> 集成了 <code>Android SDK</code>，可至<a href="https://developer.android.com/studio/" target="_blank" rel="noopener">官网</a>下载并安装，<code>Android Studio</code> 安装完成后，使用其集成的 SDK Manager 确保以下 SDK 必须安装:</p>
+<li><p><code>Android SDK</code>: <code>Android Studio</code> 集成了 <code>Android SDK</code>，可至<a href="https://developer.android.com/studio/" target="_blank" rel="noopener">官网</a>下载并安装，<code>Android Studio</code> 安装完成后，使用其集成的 SDK Manager 安装以下必备的 SDK:</p>
 <ul>
 <li>Android Platform SDK</li>
 <li>Android SDK build-tools: 版本 19.1.0 或更高</li>
@@ -486,13 +486,13 @@
 </li>
 </ul>
 <blockquote>
-<p>注意: x86 的安卓 Image 要求使用硬件加速，该功能不能与 Windows 系统上的 Hyper-V 共存，在安装 Intel Hardware Accelerated Execution Manager 之前确保 Hyper-V 已被禁用</p>
+<p>注意: x86 的 Android Image 要求使用硬件加速，该功能不能与 Windows 系统上的 Hyper-V 共存，在安装 Intel Hardware Accelerated Execution Manager 之前确保 Hyper-V 已被禁用</p>
 </blockquote>
 <h3 id="设置环境变量"><a href="#设置环境变量" class="headerlink" title="设置环境变量"></a>设置环境变量</h3><p>当以上所有依赖的环境安装完成后，开始设置环境变量:</p>
 <ul>
 <li><code>JAVA_HOME</code> 环境变量设置到 JDK 的安装目录  <img src="/cordova-get-started/env_java_home.png" title="JAVA_HOME 环境变量"></li>
-<li><code>ANDROID_HOME</code> 环境变量设置到 Android SDK 的安装目录  <img src="/cordova-get-started/env_android_sdk.png" title="ANDROID_SDK 环境变量"></li>
-<li>推荐将 <code>Android SDK</code> 的 <code>tools</code>，<code>tools/bin</code> 及 <code>platform-tools</code> 目录添加至 <code>PATH</code> 环境变量  <img src="/cordova-get-started/env_tools.png" title="tools PATH">
+<li><code>ANDROID_HOME</code> 环境变量设置到 <code>Android SDK</code> 的安装目录  <img src="/cordova-get-started/env_android_sdk.png" title="ANDROID_SDK 环境变量"></li>
+<li><code>Android SDK</code> 的 <code>tools</code>，<code>tools/bin</code> 及 <code>platform-tools</code> 目录添加至 <code>PATH</code> 环境变量  <img src="/cordova-get-started/env_tools.png" title="tools PATH">
 </li>
 </ul>
 <p>一切就绪之后，执行以下命令检查当前环境是否能够成功生成 <code>Android App</code>:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ cordova requirements android</span><br><span class="line"></span><br><span class="line">Requirements check results <span class="keyword">for</span> android:</span><br><span class="line">Java JDK: installed 1.8.0</span><br><span class="line">Android SDK: installed <span class="literal">true</span></span><br><span class="line">Android target: installed android-28,android-27</span><br><span class="line">Gradle: installed D:\Program Files\Android\Android Studio\gradle\gradle-4.6\bin\gradle</span><br></pre></td></tr></table></figure></p>
@@ -502,8 +502,8 @@
 <img src="/cordova-get-started/app_first_launched.png" title="模拟器上的效果">
 <p>如果手上有一台搭载 Android 系统的手机，执行 <code>cordova run android</code> 在真机上测试。</p>
 <hr>
-<h2 id="使用-merges-为单独的-platform-提供定制化内容"><a href="#使用-merges-为单独的-platform-提供定制化内容" class="headerlink" title="使用 merges 为单独的 platform 提供定制化内容"></a>使用 merges 为单独的 platform 提供定制化内容</h2><p><code>cordova</code> 使用 <code>merges</code> 目录为单个 <code>platform</code> 存在定制化内容，项目顶层目录下 <code>merges/{platform}</code> 目录镜像了 <code>www</code> 的目录结构，将希望覆盖或额外添加的内容放置在 <code>merges/{platform}</code> 目录下。</p>
-<h2 id="更新-cordova-及你的项目"><a href="#更新-cordova-及你的项目" class="headerlink" title="更新 cordova 及你的项目"></a>更新 cordova 及你的项目</h2><p>更新 <code>cordova</code>:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ (sudo) npm update -g cordova</span><br></pre></td></tr></table></figure></p>
+<h2 id="使用-merges-为单独的-platform-提供定制化内容"><a href="#使用-merges-为单独的-platform-提供定制化内容" class="headerlink" title="使用 merges 为单独的 platform 提供定制化内容"></a>使用 merges 为单独的 platform 提供定制化内容</h2><p><code>cordova</code> 使用 <code>merges</code> 目录为 <code>platform</code> 存储定制化内容，项目顶层目录下的 <code>merges/{platform}</code> 目录镜像了 <code>www</code> 的目录结构，将希望覆盖或额外添加的内容放置在 <code>merges/{platform}</code> 目录下。</p>
+<h2 id="更新-cordova-及项目"><a href="#更新-cordova-及项目" class="headerlink" title="更新 cordova 及项目"></a>更新 cordova 及项目</h2><p>更新 <code>cordova</code>:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ (sudo) npm update -g cordova</span><br></pre></td></tr></table></figure></p>
 <p>更新 <code>platform</code>:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ cordova platform update android --save</span><br><span class="line">$ cordova platform update ios --save</span><br></pre></td></tr></table></figure></p>
 
       
@@ -644,7 +644,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">59</span>
+                  <span class="site-state-item-count">60</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -655,7 +655,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-count">22</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -666,7 +666,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">45</span>
+                  <span class="site-state-item-count">47</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -699,7 +699,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#准备"><span class="nav-text">准备</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装-cordova-cli"><span class="nav-text">安装 cordova cli</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建-cordova-app"><span class="nav-text">创建 cordova app</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在-Android-上测试-cordova-app"><span class="nav-text">在 Android 上测试 cordova app</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#准备-1"><span class="nav-text">准备</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#设置环境变量"><span class="nav-text">设置环境变量</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用-merges-为单独的-platform-提供定制化内容"><span class="nav-text">使用 merges 为单独的 platform 提供定制化内容</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#更新-cordova-及你的项目"><span class="nav-text">更新 cordova 及你的项目</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#准备"><span class="nav-text">准备</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装-cordova-cli"><span class="nav-text">安装 cordova cli</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建-cordova-app"><span class="nav-text">创建 cordova app</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在-Android-上测试-cordova-app"><span class="nav-text">在 Android 上测试 cordova app</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#准备-1"><span class="nav-text">准备</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#设置环境变量"><span class="nav-text">设置环境变量</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用-merges-为单独的-platform-提供定制化内容"><span class="nav-text">使用 merges 为单独的 platform 提供定制化内容</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#更新-cordova-及项目"><span class="nav-text">更新 cordova 及项目</span></a></li></ol></div>
             
 
           </div>
