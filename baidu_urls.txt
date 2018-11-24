@@ -1,3 +1,4 @@
+https://blog.frosthe.net/architecture-ddd-in-eshopcontainers/
 https://blog.frosthe.net/cordova-create-custom-android-plugin/
 https://blog.frosthe.net/cordova-get-started/
 https://blog.frosthe.net/dotnet-cefsharp/
@@ -37,6 +38,8 @@ https://blog.frosthe.net/aspnetcore-fundamentals-configuration-options/
 https://blog.frosthe.net/aspnetcore-fundamentals-configuration/
 https://blog.frosthe.net/aspnetcore-fundamentals-filesystem/
 https://blog.frosthe.net/microservice-overview/
+https://blog.frosthe.net/architecture-cqrs/
+https://blog.frosthe.net/architecture-repository-pattern/
 https://blog.frosthe.net/ddd-tactical-domain-service/
 https://blog.frosthe.net/ddd-tactical-value-object/
 https://blog.frosthe.net/ddd-tactical-entity/

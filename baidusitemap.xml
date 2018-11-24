@@ -1,11 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://blog.frosthe.net/architecture-ddd-in-eshopcontainers/</loc>
+    <lastmod>2018-11-24T14:45:05.751Z</lastmod>
+  </url>  <url>
+    <loc>https://blog.frosthe.net/ddd-tactical-entity/</loc>
+    <lastmod>2018-11-24T14:37:59.084Z</lastmod>
+  </url>  <url>
+    <loc>https://blog.frosthe.net/ddd-strategic-archietecture/</loc>
+    <lastmod>2018-11-24T14:34:18.701Z</lastmod>
+  </url>  <url>
+    <loc>https://blog.frosthe.net/architecture-cqrs/</loc>
+    <lastmod>2018-11-24T14:31:08.773Z</lastmod>
+  </url>  <url>
+    <loc>https://blog.frosthe.net/ddd-strategic/</loc>
+    <lastmod>2018-11-24T13:20:15.358Z</lastmod>
+  </url>  <url>
+    <loc>https://blog.frosthe.net/ddd-overview/</loc>
+    <lastmod>2018-11-24T13:06:04.116Z</lastmod>
+  </url>  <url>
+    <loc>https://blog.frosthe.net/architecture-repository-pattern/</loc>
+    <lastmod>2018-11-24T12:55:01.023Z</lastmod>
+  </url>  <url>
     <loc>https://blog.frosthe.net/architecture-mediator-pattern/</loc>
-    <lastmod>2018-11-23T14:25:09.599Z</lastmod>
+    <lastmod>2018-11-24T12:36:00.947Z</lastmod>
   </url>  <url>
     <loc>https://blog.frosthe.net/dotnet-cefsharp/</loc>
-    <lastmod>2018-11-20T14:53:16.536Z</lastmod>
+    <lastmod>2018-11-24T11:24:38.854Z</lastmod>
   </url>  <url>
     <loc>https://blog.frosthe.net/cordova-get-started/</loc>
     <lastmod>2018-11-20T14:53:16.488Z</lastmod>
@@ -79,20 +100,8 @@
     <loc>https://blog.frosthe.net/security-all-about-certificates/</loc>
     <lastmod>2018-10-13T02:30:39.754Z</lastmod>
   </url>  <url>
-    <loc>https://blog.frosthe.net/ddd-tactical-entity/</loc>
-    <lastmod>2018-10-13T02:28:32.699Z</lastmod>
-  </url>  <url>
     <loc>https://blog.frosthe.net/ddd-tactical-domain-service/</loc>
     <lastmod>2018-10-13T02:28:27.562Z</lastmod>
-  </url>  <url>
-    <loc>https://blog.frosthe.net/ddd-strategic/</loc>
-    <lastmod>2018-10-13T02:28:20.001Z</lastmod>
-  </url>  <url>
-    <loc>https://blog.frosthe.net/ddd-strategic-archietecture/</loc>
-    <lastmod>2018-10-13T02:28:14.461Z</lastmod>
-  </url>  <url>
-    <loc>https://blog.frosthe.net/ddd-overview/</loc>
-    <lastmod>2018-10-13T02:28:08.118Z</lastmod>
   </url>  <url>
     <loc>https://blog.frosthe.net/microservice-overview/</loc>
     <lastmod>2018-10-13T02:26:44.521Z</lastmod>

@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="architecture,pattern,dotnet,mediator," />
+  <meta name="keywords" content="architecture,dotnet,mediator-pattern," />
 
 
 
@@ -80,16 +80,16 @@
 
 
 <meta name="description" content="本文介绍了「中间人」模式及其应用场景，以及 .NET MediatR 类库如何实现「中间人」模式">
-<meta name="keywords" content="architecture,pattern,dotnet,mediator">
+<meta name="keywords" content="architecture,dotnet,mediator-pattern">
 <meta property="og:type" content="article">
-<meta property="og:title" content="架构与模式 - 中间人模式及其 .NET 实现">
+<meta property="og:title" content="Mediator 模式及其 .NET 实现">
 <meta property="og:url" content="https://blog.frosthe.net/architecture-mediator-pattern/index.html">
 <meta property="og:site_name" content="FrostHe.Handbook">
 <meta property="og:description" content="本文介绍了「中间人」模式及其应用场景，以及 .NET MediatR 类库如何实现「中间人」模式">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-11-23T14:25:09.599Z">
+<meta property="og:updated_time" content="2018-11-24T12:36:00.947Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="架构与模式 - 中间人模式及其 .NET 实现">
+<meta name="twitter:title" content="Mediator 模式及其 .NET 实现">
 <meta name="twitter:description" content="本文介绍了「中间人」模式及其应用场景，以及 .NET MediatR 类库如何实现「中间人」模式">
 
 
@@ -126,7 +126,7 @@
 
 
 
-  <title>架构与模式 - 中间人模式及其 .NET 实现 | FrostHe.Handbook</title>
+  <title>Mediator 模式及其 .NET 实现 | FrostHe.Handbook</title>
   
 
 
@@ -321,7 +321,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">架构与模式 - 中间人模式及其 .NET 实现</h1>
+          <h1 class="post-title" itemprop="name headline">Mediator 模式及其 .NET 实现</h1>
         
 
         <div class="post-meta">
@@ -390,7 +390,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  1,063
+                  1,108
                 </span>
               
 
@@ -432,7 +432,7 @@
 <p>也许有人看到这段代码会觉得 <code>Controller</code> 承担了太多职责，于是开始思考应该将这些职责移到更适合的下层组件当中去。然而，无论这些依赖存在于哪个组件都显得太臃肿了，因为它显式依赖了这些对象(无论是具体类型还是抽象类型)。</p>
 <p>为了解决这个问题，我们引入中间人模式，让所有依赖其他对象进行交互的类型转而引用中间人类型，使得耦合度大大降低:<br><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">DashboardController</span>(<span class="params"></span></span></span><br><span class="line"><span class="function"><span class="params">    IMediator mediator</span></span></span><br><span class="line"><span class="function"><span class="params">    </span>)</span></span><br></pre></td></tr></table></figure></p>
 <p>从签名上看似乎清爽多了，但实际的通信和交互应该如何实现呢？让我们看看如何将一个简单的命令通过 MediatR 应用在真实的项目中。</p>
-<h2 id="MediatR-类库"><a href="#MediatR-类库" class="headerlink" title="MediatR 类库"></a>MediatR 类库</h2><p>我们以一个 ASP.NET Core 项目为例来演示如何实现这一过程，关键步骤为:</p>
+<h2 id="MediatR-类库"><a href="#MediatR-类库" class="headerlink" title="MediatR 类库"></a>MediatR 类库</h2><p><a href="https://github.com/jbogard/MediatR" target="_blank" rel="noopener">MediatR</a> 是 .NET 生态中实现「中间人」模式的轻量级类库，支持 <code>Request</code>/<code>Notification</code> 两种通信方式，在编码实现上支持同步/异步编程模型，我们以一个 ASP.NET Core 项目为例来演示如何实现这一过程，关键步骤为:</p>
 <ol>
 <li>通过 Nuget 添加对 <code>MediatR</code> 的项目引用</li>
 <li>创建 <code>Request</code> 对象</li>
@@ -462,7 +462,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://blog.frosthe.net/architecture-mediator-pattern/" title="架构与模式 - 中间人模式及其 .NET 实现">https://blog.frosthe.net/architecture-mediator-pattern/</a>
+    <a href="https://blog.frosthe.net/architecture-mediator-pattern/" title="Mediator 模式及其 .NET 实现">https://blog.frosthe.net/architecture-mediator-pattern/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>
@@ -481,11 +481,9 @@
           
             <a href="/tags/architecture/" rel="tag"><i class="fa fa-tag"></i> architecture</a>
           
-            <a href="/tags/pattern/" rel="tag"><i class="fa fa-tag"></i> pattern</a>
-          
             <a href="/tags/dotnet/" rel="tag"><i class="fa fa-tag"></i> dotnet</a>
           
-            <a href="/tags/mediator/" rel="tag"><i class="fa fa-tag"></i> mediator</a>
+            <a href="/tags/mediator-pattern/" rel="tag"><i class="fa fa-tag"></i> mediator-pattern</a>
           
         </div>
       
@@ -587,7 +585,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">60</span>
+                  <span class="site-state-item-count">63</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -609,7 +607,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">47</span>
+                  <span class="site-state-item-count">48</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

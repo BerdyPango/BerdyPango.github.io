@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Developer, Frost He" />
+  <meta name="keywords" content="architecture,cqrs," />
 
 
 
@@ -79,16 +79,21 @@
 
 
 
-<meta name="description" content="Stay hungry, stay foolish">
-<meta property="og:type" content="website">
-<meta property="og:title" content="FrostHe.Handbook">
-<meta property="og:url" content="https://blog.frosthe.net/tags/mediator/index.html">
+<meta name="description" content="本文介绍了 CQRS 的由来以及应用 CQRS 所带来的好处">
+<meta name="keywords" content="architecture,cqrs">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CRQS - 命令与查询职责分离">
+<meta property="og:url" content="https://blog.frosthe.net/architecture-cqrs/index.html">
 <meta property="og:site_name" content="FrostHe.Handbook">
-<meta property="og:description" content="Stay hungry, stay foolish">
+<meta property="og:description" content="本文介绍了 CQRS 的由来以及应用 CQRS 所带来的好处">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://blog.frosthe.net/architecture-cqrs/crud-process.png">
+<meta property="og:image" content="https://blog.frosthe.net/architecture-cqrs/cqrs-process.png">
+<meta property="og:updated_time" content="2018-11-24T14:31:08.773Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="FrostHe.Handbook">
-<meta name="twitter:description" content="Stay hungry, stay foolish">
+<meta name="twitter:title" content="CRQS - 命令与查询职责分离">
+<meta name="twitter:description" content="本文介绍了 CQRS 的由来以及应用 CQRS 所带来的好处">
+<meta name="twitter:image" content="https://blog.frosthe.net/architecture-cqrs/crud-process.png">
 
 
 
@@ -118,13 +123,13 @@
 
 
 
-  <link rel="canonical" href="https://blog.frosthe.net/tags/mediator/"/>
+  <link rel="canonical" href="https://blog.frosthe.net/architecture-cqrs/"/>
 
 
 
 
 
-  <title>标签: mediator | FrostHe.Handbook</title>
+  <title>CRQS - 命令与查询职责分离 | FrostHe.Handbook</title>
   
 
 
@@ -150,7 +155,7 @@
   
   
 
-  <div class="container  ">
+  <div class="container  page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -288,54 +293,226 @@
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block tag">
+  <div id="posts" class="posts-expand">
+    
 
-    <div id="posts" class="posts-collapse">
-      <div class="collection-title">
-        <h1>mediator<small>标签</small>
-        </h1>
-      </div>
+  
 
-      
-        
+  
+  
+  
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://blog.frosthe.net/architecture-cqrs/">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Frost He">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FrostHe.Handbook">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/architecture-mediator-pattern/" itemprop="url">
-              
-                <span itemprop="name">架构与模式 - 中间人模式及其 .NET 实现</span>
-              
-            </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline">CRQS - 命令与查询职责分离</h1>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-02-28T11:54:28+08:00"
-              content="2018-02-28" >
-          02-28
-        </time>
-      </div>
+        <div class="post-meta">
+          
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-24T21:41:52+08:00">
+                2017-03-24
+              </time>
+            
 
-    </header>
-  </article>
+            
 
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Architecture-and-Pattern/" itemprop="url" rel="index">
+                    <span itemprop="name">Architecture and Pattern</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                  <span class="post-meta-divider">|</span>
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  393
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+              <div class="post-description">
+                  本文介绍了 CQRS 的由来以及应用 CQRS 所带来的好处
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>参考资料:</p>
+<ul>
+<li><a href="https://martinfowler.com/bliki/CQRS.html" target="_blank" rel="noopener">CQRS</a></li>
+</ul>
+<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>CQRS 代表 <strong>Command Query Responsibility Segregation</strong>，命令与查询职责分离。</p>
+<p>最原始的 CRUD 案例一定是仅包含数据库访问功能的应用程序:<br><img src="/architecture-cqrs/crud-process.png" title="CRUD 应用程序模型"><br>随着需求的不断增长，想要以更加个性化的方式从系统中「读取」数据，例如将多条记录合并成一条，从多张数据表中组成新的虚拟表。在「更新」方面，我们想要在持久化之前添加验证规则或从现有数据计算出合理的值。我们会发现越来越多信息的组合才是对应用程序有价值的数据，开发人员通过会在域模型之上建立概念模型以供消费方使用。</p>
+<p>引入 CQRS 旨在将用于展示和修改系统状态的模型从概念模型中分离，在概念模型中同时包含两者将引入对两者都没有好处的复杂度。下图展示了一个 CQRS 应用程序模型:<br><img src="/architecture-cqrs/cqrs-process.png" title="CQRS 应用程序模型"><br>内存对象可能使用相同的数据库，也可能使用不同的数据库。使用单独的数据库意味着需要某种通信机制来同步数据。</p>
+<p>在决定采用 CQRS 之前仍需思考再三，因为它会给项目引入复杂度，更高的复杂度意味着更高的风险。CRUD 仍然是许多系统最适合最简单的模型。CQRS 主要运用在复杂度较高的域模型设计和对性能要求较高的系统中。</p>
 
       
     </div>
+    
+    
+    
 
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    Frost He
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://blog.frosthe.net/architecture-cqrs/" title="CRQS - 命令与查询职责分离">https://blog.frosthe.net/architecture-cqrs/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/architecture/" rel="tag"><i class="fa fa-tag"></i> architecture</a>
+          
+            <a href="/tags/cqrs/" rel="tag"><i class="fa fa-tag"></i> cqrs</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/architecture-repository-pattern/" rel="next" title="Repository 模式和工作单元">
+                <i class="fa fa-chevron-left"></i> Repository 模式和工作单元
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/microservice-overview/" rel="prev" title="微服务架构的挑战与解决方案">
+                微服务架构的挑战与解决方案 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -343,6 +520,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -363,8 +544,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -379,7 +569,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">60</span>
+                  <span class="site-state-item-count">63</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -401,7 +591,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">47</span>
+                  <span class="site-state-item-count">48</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -424,6 +614,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#背景"><span class="nav-text">背景</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -562,6 +768,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
