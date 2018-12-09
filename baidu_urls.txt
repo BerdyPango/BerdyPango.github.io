@@ -46,6 +46,7 @@ https://blog.frosthe.net/ddd-tactical-entity/
 https://blog.frosthe.net/ddd-strategic-archietecture/
 https://blog.frosthe.net/ddd-strategic/
 https://blog.frosthe.net/ddd-overview/
+https://blog.frosthe.net/router-install-openwrt/
 https://blog.frosthe.net/linux-setup-a-new-ubuntu-server/
 https://blog.frosthe.net/linux-configure-csf/
 https://blog.frosthe.net/linux-document-search/

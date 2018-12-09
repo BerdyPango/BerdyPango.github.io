@@ -82,14 +82,14 @@
 <meta name="description" content="关于密码信息的概念及工作原理笔记，不间断更新">
 <meta name="keywords" content="security,netframework">
 <meta property="og:type" content="article">
-<meta property="og:title" content="加解密笔记 - .NET Standard">
+<meta property="og:title" content="加解密笔记及 .NET 实现">
 <meta property="og:url" content="https://blog.frosthe.net/security-encryption/index.html">
 <meta property="og:site_name" content="FrostHe.Handbook">
 <meta property="og:description" content="关于密码信息的概念及工作原理笔记，不间断更新">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-10-13T02:31:35.750Z">
+<meta property="og:updated_time" content="2018-12-07T03:07:59.242Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="加解密笔记 - .NET Standard">
+<meta name="twitter:title" content="加解密笔记及 .NET 实现">
 <meta name="twitter:description" content="关于密码信息的概念及工作原理笔记，不间断更新">
 
 
@@ -126,7 +126,7 @@
 
 
 
-  <title>加解密笔记 - .NET Standard | FrostHe.Handbook</title>
+  <title>加解密笔记及 .NET 实现 | FrostHe.Handbook</title>
   
 
 
@@ -321,7 +321,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">加解密笔记 - .NET Standard</h1>
+          <h1 class="post-title" itemprop="name headline">加解密笔记及 .NET 实现</h1>
         
 
         <div class="post-meta">
@@ -390,7 +390,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  1,676
+                  1,879
                 </span>
               
 
@@ -421,21 +421,28 @@
       
         <p>参考资料: </p>
 <ul>
+<li><a href="https://proandroiddev.com/security-best-practices-symmetric-encryption-with-aes-in-java-7616beaaade9" target="_blank" rel="noopener">Security Best Practices: Symmetric Encryption with AES in Java and Android</a></li>
 <li><a href="https://docs.microsoft.com/en-us/dotnet/standard/security/cryptographic-services" target="_blank" rel="noopener">Cryptographic Services</a></li>
 </ul>
 <h2 id="加密的意义"><a href="#加密的意义" class="headerlink" title="加密的意义"></a>加密的意义</h2><p>加密技术首要考虑的关注点在于: </p>
 <ul>
 <li>保密: 确保通信的数据不能被第三方读取</li>
 <li>数据完整: 确保数据在通信过程中不能被第三方纂改</li>
-<li>认证: 确保数据来源，防止任何第三方伪造数据</li>
+<li>认证: 验证数据来源，防止第三方伪造数据</li>
 </ul>
-<h2 id="密码学基础技术"><a href="#密码学基础技术" class="headerlink" title="密码学基础技术"></a>密码学基础技术</h2><ul>
-<li>对称加密</li>
+<h2 id="密码学基础概念"><a href="#密码学基础概念" class="headerlink" title="密码学基础概念"></a>密码学基础概念</h2><ul>
+<li>对称加密: 加解密双方使用同一个密钥对消息进行加解密，</li>
 <li>非对称加密</li>
+<li>密文哈希: 哈希算法将一组任意大小的二进制数据变成一组固定大小的二进制数据，且无法实施逆向工程</li>
+<li>消息认证码: 消息认证码 Message Authentication Code(Mac) 是提供给消息接收方以验证消息来源及确保消息完整性的额外信息</li>
 <li>数字签名</li>
-<li>密文哈希</li>
 </ul>
-<h2 id="AES-Advanced-Encryption-Standard-CBC"><a href="#AES-Advanced-Encryption-Standard-CBC" class="headerlink" title="AES(Advanced Encryption Standard) CBC"></a>AES(Advanced Encryption Standard) CBC</h2><p>原理: 加解密双方使用同一个密钥(secret key)及 <code>IV</code> 加解密信息，<code>CBC(Cipher Block Chaining)</code>，将明文按固定字节大小切割，得到的每一块为一个 <code>Block</code>，每个 <code>Block</code> 加密前将前一个 <code>Block</code> 的密文与当前 <code>Block</code> 的明文进行 <code>XOR</code> 运算，然后再进行加密，因此每一个 <code>Block</code> 都依赖前序所有的 <code>Block</code>。而第一个 <code>Block</code> 使用一个与所有 <code>Block</code> 大小相同的随机生成的初始化向量 <code>IV(Initialization Vector)</code>进行 <code>XOR</code> 运算。同时明文的最后一个 <code>Block</code> 不见得与指定 <code>Block</code> 大小相同，于是需要补齐(Padding)算法进行填充。</p>
+<h2 id="AES-Advanced-Encryption-Standard-CBC-Cipher-Block-Chaining"><a href="#AES-Advanced-Encryption-Standard-CBC-Cipher-Block-Chaining" class="headerlink" title="AES(Advanced Encryption Standard) CBC(Cipher Block Chaining)"></a>AES(Advanced Encryption Standard) CBC(Cipher Block Chaining)</h2><p>原理: 加解密双方使用同一个密钥(secret key)及 <code>IV</code> 加解密信息，<code>CBC</code> 将明文按<strong>固定字节大小</strong>切割，得到的每一块称为一个 <code>Block</code>，每个 <code>Block</code> 将前一个密文 <code>Block</code> 与当前 <code>Block</code> 进行 <code>XOR</code> 运算。这样，每一个 <code>Block</code> 都依赖前序所有的 <code>Block</code>。而第一个 <code>Block</code> 使用一个与 <code>Block</code> 长度相同的随机生成的「初始化向量 IV(Initialization Vector)」进行 <code>XOR</code> 运算。鉴于倍加密消息不一定能够被切割为 <code>Block</code> 长度的整数倍，于是引入「补齐 Padding」算法进行填充。</p>
+<ul>
+<li>AES 支持 128 位，192 位及 256 位大小的密文块</li>
+<li>因为 IV 的长度总是与 <code>Block</code> 的长度相同，在传输或持久化数据时，常见的做法是将 IV 直接作为前缀 <code>Prepend</code> 到密文前面</li>
+<li>在过程中 <code>Key</code> 的长度与 <code>Block</code> 的长度没有直接关系，只会影响循环加密的次数，128 位的密钥有 10 个加密循环，192 位密钥有 12 个加密循环，256 位密钥有 14 个加密循环</li>
+</ul>
 <p>.NET 提供了以下类型实现对称加密算法:</p>
 <ul>
 <li>AesManaged (.NET Framework 3.5 时引入)</li>
@@ -445,7 +452,7 @@
 <li>RijndaelManaged</li>
 <li>TripleDESCryptoServiceProvider</li>
 </ul>
-<h2 id="消息认证码-MAC-Message-Authentication-Code"><a href="#消息认证码-MAC-Message-Authentication-Code" class="headerlink" title="消息认证码(MAC, Message Authentication Code)"></a>消息认证码(MAC, Message Authentication Code)</h2><p>对称加密本身并不能验证加密数据的完整性，第三方可能拦截加密的密文然后替换掉其中某些字节发送给接收方，消息认证码则是确保数据一致性的手段。数据加密完成之后，基于密文使用 MAC 算法得到一个 MAC 值，然后将该值追加值密文末尾。常用的 MAC 算法有 HMAC(Hash-based Message Authentication Code)。</p>
+<h2 id="消息认证码-MAC-Message-Authentication-Code"><a href="#消息认证码-MAC-Message-Authentication-Code" class="headerlink" title="消息认证码(MAC, Message Authentication Code)"></a>消息认证码(MAC, Message Authentication Code)</h2><p>对称加密本身并不能验证加密数据的完整性，第三方可能拦截加密的密文然后替换掉其中某些字节发送给接收方。数据加密完成之后，基于密文使用 MAC 算法得到一个 MAC 值，然后将该值以合适的方式附加到密文上。常用的 MAC 算法有 HMAC(Hash-based Message Authentication Code)。</p>
 <p>MAC 的作用与数字签名类似，唯一的区别在于加密方和解密方使用相同的 Key，虽然确保了数据完整性，但也意味着消息将被处理两次，同样的，接收方在收到数据后也将处理两次。</p>
 <h2 id="公钥加密-Public-key-Encryption"><a href="#公钥加密-Public-key-Encryption" class="headerlink" title="公钥加密(Public-key Encryption)"></a>公钥加密(Public-key Encryption)</h2><p>Public/Private 密钥对<br>加密双方使用一个非对称密钥对 - 公钥和私钥，数据由公钥加密后只能由私钥解密，而数据由私钥签名的则只能由公钥验证，公钥可以是公开的，但私钥必须保密。</p>
 <p>现假设 A 和 B 想要通信，A 负责生成密钥对，那么 A 将其公钥发送给 B，B 使用公钥对通信信息加密，后将密文发送给 A，A 用其私钥解密密文。在此情景中，如果 A 将公钥发送给 B 时被攻击者拦截，同时攻击者将后续的密文一并拦截，但持有公钥和密文是无法解密信息的。另外，B 在收到公钥后，如何验证收到的的确是 A 的私钥？A 将一段消息使用某种哈希算法得到签名，再将签名使用私钥加密，B 接到签名信息和消息后，使用公钥解密密文得到签名信息，再使用相同的哈希算法处理收到的消息，B 通过对比两个签名的哈希值来判断消息是否被篡改。</p>
@@ -460,7 +467,7 @@
 <li>ECDiffieHellmanKeyDerivationFunction (基类)</li>
 <li>ECDsaCng</li>
 </ul>
-<h2 id="数字签名"><a href="#数字签名" class="headerlink" title="数字签名"></a>数字签名</h2><p>数字签名用于验证发送方的身份，对称加密也提供支持数字签名，A 首先使用哈希算法加密一条消息得到哈希值，该哈希值称为该消息的消息摘要，接下来 A 使用他的私钥将消息摘要加密，密文称为数字签名。B 接收到该数字签名和消息后，B 使用 A 的公钥解密该数字签名得到消息摘要，然后自行使用相同的哈希算法对收到的消息进行哈希处理，如果得到的哈希值与 B 解密后的消息摘要一致，那么 B 便可以确保该消息的确来自 A 且未被篡改。</p>
+<h2 id="数字签名"><a href="#数字签名" class="headerlink" title="数字签名"></a>数字签名</h2><p>数字签名用于验证发送方的身份，对称加密也提供支持数字签名。首先，A 使用某种哈希算法处理一条消息得到字面为<strong>哈希值</strong>的「消息摘要」，然后 A 使用私钥将消息摘要加密，密文的字面值则称为「数字签名」。B 收到消息和数字签名后，使用 A 的<strong>公钥</strong>解密该数字签名得到「消息摘要」，然后使用<strong>相同的哈希算法</strong>对收到的消息进行处理，如果得到的哈希值与解密后的「消息摘要」一致，那么 B 便可以认为该消息的确来源于 A 且未被篡改。</p>
 <p>要验证数据被某个发送方签名，接收需要得知以下信息:</p>
 <ul>
 <li>发送方的公钥</li>
@@ -513,7 +520,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://blog.frosthe.net/security-encryption/" title="加解密笔记 - .NET Standard">https://blog.frosthe.net/security-encryption/</a>
+    <a href="https://blog.frosthe.net/security-encryption/" title="加解密笔记及 .NET 实现">https://blog.frosthe.net/security-encryption/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>
@@ -634,7 +641,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">63</span>
+                  <span class="site-state-item-count">64</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -689,7 +696,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#加密的意义"><span class="nav-text">加密的意义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#密码学基础技术"><span class="nav-text">密码学基础技术</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AES-Advanced-Encryption-Standard-CBC"><span class="nav-text">AES(Advanced Encryption Standard) CBC</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#消息认证码-MAC-Message-Authentication-Code"><span class="nav-text">消息认证码(MAC, Message Authentication Code)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#公钥加密-Public-key-Encryption"><span class="nav-text">公钥加密(Public-key Encryption)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数字签名"><span class="nav-text">数字签名</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#哈希值"><span class="nav-text">哈希值</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数字证书"><span class="nav-text">数字证书</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#生成随机数"><span class="nav-text">生成随机数</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#加密的意义"><span class="nav-text">加密的意义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#密码学基础概念"><span class="nav-text">密码学基础概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AES-Advanced-Encryption-Standard-CBC-Cipher-Block-Chaining"><span class="nav-text">AES(Advanced Encryption Standard) CBC(Cipher Block Chaining)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#消息认证码-MAC-Message-Authentication-Code"><span class="nav-text">消息认证码(MAC, Message Authentication Code)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#公钥加密-Public-key-Encryption"><span class="nav-text">公钥加密(Public-key Encryption)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数字签名"><span class="nav-text">数字签名</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#哈希值"><span class="nav-text">哈希值</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数字证书"><span class="nav-text">数字证书</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#生成随机数"><span class="nav-text">生成随机数</span></a></li></ol></div>
             
 
           </div>
