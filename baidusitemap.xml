@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://blog.frosthe.net/smarthome-setup-ha-on-raspberrypi/</loc>
+    <lastmod>2018-12-22T08:22:47.443Z</lastmod>
+  </url>  <url>
+    <loc>https://blog.frosthe.net/homeserver-setup-raspberry-pi/</loc>
+    <lastmod>2018-12-22T08:22:47.437Z</lastmod>
+  </url>  <url>
     <loc>https://blog.frosthe.net/router-install-openwrt/</loc>
     <lastmod>2018-12-09T13:44:42.477Z</lastmod>
   </url>  <url>
@@ -52,9 +58,6 @@
     <loc>https://blog.frosthe.net/about/index.html</loc>
     <lastmod>2018-11-17T13:14:01.993Z</lastmod>
   </url>  <url>
-    <loc>https://blog.frosthe.net/smarthome-setup-ha-on-raspberrypi/</loc>
-    <lastmod>2018-11-17T13:14:01.845Z</lastmod>
-  </url>  <url>
     <loc>https://blog.frosthe.net/smarthome-ha-configuration-system/</loc>
     <lastmod>2018-11-17T13:14:01.781Z</lastmod>
   </url>  <url>
@@ -72,9 +75,6 @@
   </url>  <url>
     <loc>https://blog.frosthe.net/homeserver-setup-nas-on-raspberry-pi/</loc>
     <lastmod>2018-10-25T15:18:36.665Z</lastmod>
-  </url>  <url>
-    <loc>https://blog.frosthe.net/homeserver-setup-raspberry-pi/</loc>
-    <lastmod>2018-10-25T15:18:32.146Z</lastmod>
   </url>  <url>
     <loc>https://blog.frosthe.net/smarthome-control-via-alexa/</loc>
     <lastmod>2018-10-25T15:17:48.780Z</lastmod>

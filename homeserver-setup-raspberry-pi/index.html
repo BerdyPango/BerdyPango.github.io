@@ -82,7 +82,7 @@
 <meta name="description" content="记录了搭建新购入的树莓派的全过程">
 <meta name="keywords" content="linux,raspberry-pi">
 <meta property="og:type" content="article">
-<meta property="og:title" content="准备树莓派 3b+">
+<meta property="og:title" content="家庭数字化系统 - 准备树莓派">
 <meta property="og:url" content="https://blog.frosthe.net/homeserver-setup-raspberry-pi/index.html">
 <meta property="og:site_name" content="FrostHe.Handbook">
 <meta property="og:description" content="记录了搭建新购入的树莓派的全过程">
@@ -90,10 +90,11 @@
 <meta property="og:image" content="https://blog.frosthe.net/homeserver-setup-raspberry-pi/r-pi-board.jpg">
 <meta property="og:image" content="https://blog.frosthe.net/homeserver-setup-raspberry-pi/ether.png">
 <meta property="og:image" content="https://blog.frosthe.net/homeserver-setup-raspberry-pi/raspi-config.jpg">
-<meta property="og:image" content="https://blog.frosthe.net/homeserver-setup-raspberry-pi/r-pi-ip.jpg">
-<meta property="og:updated_time" content="2018-10-25T15:18:32.146Z">
+<meta property="og:image" content="https://blog.frosthe.net/homeserver-setup-raspberry-pi/static-lease.png">
+<meta property="og:image" content="https://blog.frosthe.net/homeserver-setup-raspberry-pi/network-topology.png">
+<meta property="og:updated_time" content="2018-12-22T08:22:47.437Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="准备树莓派 3b+">
+<meta name="twitter:title" content="家庭数字化系统 - 准备树莓派">
 <meta name="twitter:description" content="记录了搭建新购入的树莓派的全过程">
 <meta name="twitter:image" content="https://blog.frosthe.net/homeserver-setup-raspberry-pi/r-pi-board.jpg">
 
@@ -131,7 +132,7 @@
 
 
 
-  <title>准备树莓派 3b+ | FrostHe.Handbook</title>
+  <title>家庭数字化系统 - 准备树莓派 | FrostHe.Handbook</title>
   
 
 
@@ -326,7 +327,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">准备树莓派 3b+</h1>
+          <h1 class="post-title" itemprop="name headline">家庭数字化系统 - 准备树莓派</h1>
         
 
         <div class="post-meta">
@@ -395,7 +396,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  329
+                  1,498
                 </span>
               
 
@@ -424,10 +425,34 @@
       
 
       
-        <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>新买了个树莓派 3B+，初步设想是准备拿它做 NAS 服务器，HomeAssitant 网关和 KODI 媒体中心。</p>
+        <p>参考资料:</p>
+<ul>
+<li><a href="https://www.raspberrypi.org/blog/docker-comes-to-raspberry-pi/" target="_blank" rel="noopener">Docker Comes to Raspberry Pi</a></li>
+</ul>
+<p>本文目录:</p>
+<ul>
+<li><a href="#%E8%83%8C%E6%99%AF">背景</a></li>
+<li><a href="#%E7%A1%AC%E4%BB%B6%E5%87%86%E5%A4%87">硬件准备</a></li>
+<li><a href="#%E8%BD%AF%E4%BB%B6%E5%87%86%E5%A4%87">软件准备</a></li>
+<li><a href="#%E5%AE%89%E8%A3%85%E5%8F%8A%E9%85%8D%E7%BD%AE%E7%B3%BB%E7%BB%9F%E9%95%9C%E5%83%8F">安装及配置系统镜像</a></li>
+<li><a href="#%E4%B8%BA%E6%A0%91%E8%8E%93%E6%B4%BE-raspbian-%E7%B3%BB%E7%BB%9F%E5%AE%89%E8%A3%85-docker-%E5%BC%95%E6%93%8E">为树莓派 Raspbian 系统安装 Docker 引擎</a><ul>
+<li><a href="#%E5%AE%89%E8%A3%85-docker-%E5%BC%95%E6%93%8E">安装 Docker 引擎</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>作为一名技术宅，自然是希望自己家里的「数字化系统」越 fancy 越好，但考虑到腰包里毛爷爷的数量，不得不搜寻物美价廉的方案来实现一些「非刚需，但 Nice to Have」的需求，这些需求包括但不限于:</p>
+<ul>
+<li>局域网多设备的文件共享</li>
+<li>7 * 24小时无人值守的下载器</li>
+<li>绕过第三方云存储的私有云同步方案</li>
+<li>家庭媒体中心的搭建</li>
+<li>家庭智能设备的网关系统</li>
+</ul>
+<p>笔者打算针对上述罗列的内容单辟一个系列，以一篇一个主题覆盖其中所有的细节。如果你也有以上列表中的一项或多项需求，不妨继续往下看。</p>
+<h2 id="硬件准备"><a href="#硬件准备" class="headerlink" title="硬件准备"></a>硬件准备</h2><p>为了达成这一愿景，需要在基础设施上投入一些成本，其中最重要的是家庭服务器。我们对家庭服务器的期待至少有: 性能稳定，功耗低，价格低廉。如今爆火的树莓派非常符合家庭小型服务器的要求，网络上关于树莓派的文章很多，这里不再赘述。</p>
 <img src="/homeserver-setup-raspberry-pi/r-pi-board.jpg" title="树莓派 3b+">
-<h2 id="硬件准备"><a href="#硬件准备" class="headerlink" title="硬件准备"></a>硬件准备</h2><ul>
-<li>树莓派 3b+ * 1</li>
+<p>假设我们手上已经有了一台树莓派(2 代以上的版本都可以)，还需要准备以下设备: </p>
+<ul>
 <li>网线 * 1</li>
 <li>Micro SD 卡 * 1，容量大于 8 GB</li>
 <li>Micro SD 读卡器 * 1</li>
@@ -437,27 +462,43 @@
 <li>USB 电源线 * 1</li>
 </ul>
 <h2 id="软件准备"><a href="#软件准备" class="headerlink" title="软件准备"></a>软件准备</h2><ul>
-<li>RASPBIAN STRETCH LITE 系统映像 -&gt; <a href="https://www.raspberrypi.org/downloads/raspbian/" target="_blank" rel="noopener">下载地址</a></li>
-<li>Etcher 映像烧录软件 -&gt; <a href="https://etcher.io/" target="_blank" rel="noopener">下载地址</a></li>
+<li>Raspbian Stretch Lite 系统镜像 -&gt; <a href="https://www.raspberrypi.org/downloads/raspbian/" target="_blank" rel="noopener">下载地址</a></li>
+<li>Etcher 映像烧录软件 -&gt; <a href="https://etcher.io/" target="_blank" rel="noopener">下载地址</a>: 将树莓派系统镜像烧录至 Micro SD 卡的工具软件</li>
 </ul>
-<h2 id="搭建"><a href="#搭建" class="headerlink" title="搭建"></a>搭建</h2><ol>
-<li>使用 Etcher 将 RASPBIAN STRETCH LITE 烧录至 Micro SD 卡中 <img src="/homeserver-setup-raspberry-pi/ether.png" title="将 Image 烧录至 Micro SD 卡中"></li>
-<li>将就绪的 Micro SD 卡插入树莓派</li>
-<li>将树莓派接入网线，电源线，HDMI 线和键盘</li>
-<li>树莓派开机，第一次启动会花 1-2 分钟</li>
-<li>使用预设用户 pi/raspberry 登录系统</li>
-<li>键入 <code>sudo raspi-config</code> 进行如下设置:<img src="/homeserver-setup-raspberry-pi/raspi-config.jpg" title="配置界面"><ol>
+<blockquote>
+<p>官方提供了 3 个版本的系统镜像，本文为了尽量保持简单，选择最为精简的版本 Raspbian Stretch Lite，此镜像是基于命令行工具的版本，本系列文章均基于命令行工具版本的系统镜像介绍，如果对命令行界面不熟悉，可以选择另外两个自带桌面 GUI 的版本</p>
+</blockquote>
+<h2 id="安装及配置系统镜像"><a href="#安装及配置系统镜像" class="headerlink" title="安装及配置系统镜像"></a>安装及配置系统镜像</h2><ol>
+<li>使用 Etcher 将 Raspbian Stretch Lite 烧录至 Micro SD 卡中 <img src="/homeserver-setup-raspberry-pi/ether.png" title="将 Image 烧录至 Micro SD 卡中"></li>
+<li>将 Micro SD 卡插入树莓派</li>
+<li>将网线，电源线，HDMI 线和键盘与树莓派相连</li>
+<li>树莓派开机，第一次启动大概需要 1-2 分钟</li>
+<li>使用预设用户/密码为 pi/raspberry 登录系统</li>
+<li>键入 <code>sudo raspi-config</code> 进行如下设置:<img src="/homeserver-setup-raspberry-pi/raspi-config.jpg" title="配置界面">
+<ol>
 <li>-&gt; 1 Change User Password，修改 pi 用户登录密码</li>
 <li>-&gt; 2 Network Options -&gt; N1 Hostname，更改 Hostname</li>
-<li>-&gt; 2 Network Options -&gt; N2 Wi-fi，设置 Wifi</li>
-<li>-&gt; 5 Interfacing Options -&gt; P2 SSH，启用 SSH</li>
+<li>-&gt; 2 Network Options -&gt; N2 Wi-fi，设置家庭局域网的 Wifi，不管是使用无线还是有线网络，确保树莓派与家庭中的其他设备位于同一个局域网即可</li>
+<li>-&gt; 5 Interfacing Options -&gt; P2 SSH，启用 SSH，对于使用命令行或需要通过其他主机远程管理树莓派的需求，这一步是必须的</li>
 </ol>
 </li>
-<li>重启树莓派</li>
-<li>通过路由器管理界面查询树莓派的 IP 地址，并将该 IP 地址与 MAC 地址绑定为固定 IP 地址。<img src="/homeserver-setup-raspberry-pi/r-pi-ip.jpg"></li>
-<li>撤掉除电源线以外的其他所有线缆，在 PC 上使用 SSH 远程管理树莓派</li>
-<li>执行 <code>apt-get update</code> 以及 <code>apt-get upgrade</code> 命令使预装软件获得最新版本</li>
+<li>配置完成后，重启树莓派</li>
+<li>在 PC 上使用 SSH 客户端软件(如 PuTTY 等)远程登录树莓派</li>
+<li>(可选)为了防止 IP 地址过期，可通过路由器管理界面给树莓派分配静态的 IP 地址 <img src="/homeserver-setup-raspberry-pi/static-lease.png" title="将树莓派绑定静态 IP 地址">
+</li>
 </ol>
+<p>至此，树莓派的准备工作就完成了，其网络拓扑如下:<br><img src="/homeserver-setup-raspberry-pi/network-topology.png" title="网络拓扑示意图"></p>
+<h2 id="为树莓派-Raspbian-系统安装-Docker-引擎"><a href="#为树莓派-Raspbian-系统安装-Docker-引擎" class="headerlink" title="为树莓派 Raspbian 系统安装 Docker 引擎"></a>为树莓派 Raspbian 系统安装 Docker 引擎</h2><blockquote>
+<p>之所以将这一步纳入树莓派的准备工作中，是因为笔者发现在实际使用过程中，几乎所有常见的服务都发布了其相应的 Docker 镜像。对容器化不熟悉的朋友可以参考 iOS 对 App 的管理思路: 每个 App 都从统一的入口(App Store)下载，在单独的隔离环境运行，卸载时也不会出现诸如 Windows 上大量残余文件需要手动清理的问题。</p>
+</blockquote>
+<p>对计算机(特别是服务器)的管理和维护是非常乏味的工作，相信各位在使用 Windows 系统时或多或少都有过系统盘空间越来越少，系统使用起来越来越卡顿的经验。而服务器是以高可用性为宗旨的，如何最大程度的降低维护成本是管理服务器的首要考量。<code>Docker</code> 解决了不同的服务在部署时由于依赖问题而污染宿主机的问题。使得安装和部署某个服务在单独的隔离环境中进行，简化了流程，也更加清晰。</p>
+<h3 id="安装-Docker-引擎"><a href="#安装-Docker-引擎" class="headerlink" title="安装 Docker 引擎"></a>安装 Docker 引擎</h3><p>树莓派官网提供了安装 <code>Docker</code> 引擎的脚本，下载安装脚本并执行:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">$ curl -sSL https://get.docker.com | sh</span><br><span class="line"></span><br><span class="line">Client:</span><br><span class="line"> Version:      18.05.0-ce</span><br><span class="line"> API version:  1.37</span><br><span class="line"> Go version:   go1.9.5</span><br><span class="line"> Git commit:   f150324</span><br><span class="line"> Built:        Wed May  9 22:24:36 2018</span><br><span class="line"> OS/Arch:      linux/arm</span><br><span class="line"> Experimental: <span class="literal">false</span></span><br><span class="line"> Orchestrator: swarm</span><br><span class="line"></span><br><span class="line">Server:</span><br><span class="line"> Engine:</span><br><span class="line">  Version:      18.05.0-ce</span><br><span class="line">  API version:  1.37 (minimum version 1.12)</span><br><span class="line">  Go version:   go1.9.5</span><br><span class="line">  Git commit:   f150324</span><br><span class="line">  Built:        Wed May  9 22:20:37 2018</span><br><span class="line">  OS/Arch:      linux/arm</span><br><span class="line">  Experimental: <span class="literal">false</span></span><br><span class="line">If you would like to use Docker as a non-root user, you should now consider</span><br><span class="line">adding your user to the <span class="string">"docker"</span> group with something like:</span><br><span class="line"></span><br><span class="line">  sudo usermod -aG docker pi</span><br><span class="line"></span><br><span class="line">Remember that you will have to <span class="built_in">log</span> out and back <span class="keyword">in</span> <span class="keyword">for</span> this to take effect!</span><br><span class="line"></span><br><span class="line">WARNING: Adding a user to the <span class="string">"docker"</span> group will grant the ability to run</span><br><span class="line">         containers <span class="built_in">which</span> can be used to obtain root privileges on the</span><br><span class="line">         docker host.</span><br><span class="line">         Refer to https://docs.docker.com/engine/security/security/<span class="comment">#docker-daemon-attack-surface</span></span><br><span class="line">         <span class="keyword">for</span> more information.</span><br></pre></td></tr></table></figure></p>
+<p>将 <code>pi</code> 用户加入 <code>docker</code> 群组<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo usermod -aG docker pi</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>如提示所说，用户 <code>pi</code> 加入群组后需要再次登录以生效</p>
+</blockquote>
+<p>再次以 <code>pi</code> 用户登录树莓派，执行 <code>docker -v</code>，看到版本号即表示安装成功:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ docker -v</span><br><span class="line"></span><br><span class="line">Docker version 18.05.0-ce, build f150324</span><br></pre></td></tr></table></figure></p>
+<p>至此，树莓派准备就绪，可以开始部署各种应用服务了。</p>
 
       
     </div>
@@ -476,7 +517,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://blog.frosthe.net/homeserver-setup-raspberry-pi/" title="准备树莓派 3b+">https://blog.frosthe.net/homeserver-setup-raspberry-pi/</a>
+    <a href="https://blog.frosthe.net/homeserver-setup-raspberry-pi/" title="家庭数字化系统 - 准备树莓派">https://blog.frosthe.net/homeserver-setup-raspberry-pi/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>
@@ -683,7 +724,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#背景"><span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#硬件准备"><span class="nav-text">硬件准备</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#软件准备"><span class="nav-text">软件准备</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#搭建"><span class="nav-text">搭建</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#背景"><span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#硬件准备"><span class="nav-text">硬件准备</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#软件准备"><span class="nav-text">软件准备</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装及配置系统镜像"><span class="nav-text">安装及配置系统镜像</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#为树莓派-Raspbian-系统安装-Docker-引擎"><span class="nav-text">为树莓派 Raspbian 系统安装 Docker 引擎</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-Docker-引擎"><span class="nav-text">安装 Docker 引擎</span></a></li></ol></li></ol></div>
             
 
           </div>
