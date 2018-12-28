@@ -27,7 +27,7 @@ https://blog.frosthe.net/docker-swarms/
 https://blog.frosthe.net/docker-services/
 https://blog.frosthe.net/docker-containers/
 https://blog.frosthe.net/docker-setup/
-https://blog.frosthe.net/router-basic-services/
+https://blog.frosthe.net/homeserver-router-basic-services/
 https://blog.frosthe.net/aspnetcore-notes/
 https://blog.frosthe.net/aspnetcore-viewcomponent/
 https://blog.frosthe.net/aspnetcore-validation/
@@ -47,7 +47,7 @@ https://blog.frosthe.net/ddd-tactical-entity/
 https://blog.frosthe.net/ddd-strategic-archietecture/
 https://blog.frosthe.net/ddd-strategic/
 https://blog.frosthe.net/ddd-overview/
-https://blog.frosthe.net/router-install-openwrt/
+https://blog.frosthe.net/homeserver-install-openwrt-on-router/
 https://blog.frosthe.net/linux-setup-a-new-ubuntu-server/
 https://blog.frosthe.net/linux-configure-csf/
 https://blog.frosthe.net/linux-document-search/
