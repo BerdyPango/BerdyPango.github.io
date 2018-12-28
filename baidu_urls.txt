@@ -27,6 +27,7 @@ https://blog.frosthe.net/docker-swarms/
 https://blog.frosthe.net/docker-services/
 https://blog.frosthe.net/docker-containers/
 https://blog.frosthe.net/docker-setup/
+https://blog.frosthe.net/router-basic-services/
 https://blog.frosthe.net/aspnetcore-notes/
 https://blog.frosthe.net/aspnetcore-viewcomponent/
 https://blog.frosthe.net/aspnetcore-validation/

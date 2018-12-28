@@ -90,7 +90,7 @@
 <meta property="og:image" content="https://blog.frosthe.net/aspnetcore-host-in-docker-containers/01.png">
 <meta property="og:image" content="https://blog.frosthe.net/aspnetcore-host-in-docker-containers/02.png">
 <meta property="og:image" content="https://blog.frosthe.net/aspnetcore-host-in-docker-containers/03.png">
-<meta property="og:updated_time" content="2018-10-13T02:18:00.655Z">
+<meta property="og:updated_time" content="2018-12-27T11:02:43.660Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="为 ASP.NET Core 应用程序添加 Docker 支持">
 <meta name="twitter:description" content="本文记录了如何通过 Docker 部署 ASP.NET Core 应用程序以及 Visual Studio 集成的 Docker 工具">
@@ -394,7 +394,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  1,646
+                  1,633
                 </span>
               
 
@@ -428,7 +428,7 @@
 <li><a href="https://docs.microsoft.com/en-us/dotnet/core/docker/building-net-docker-images?view=aspnetcore-2.1" target="_blank" rel="noopener">Building Docker Images for .NET Core Applications</a></li>
 <li><a href="https://docs.microsoft.com/zh-cn/aspnet/core/host-and-deploy/docker/visual-studio-tools-for-docker?view=aspnetcore-2.1" target="_blank" rel="noopener">Visual Studio Tools for Docker with ASP.NET Core</a></li>
 </ul>
-<h2 id="微软提供的-Docker-Image"><a href="#微软提供的-Docker-Image" class="headerlink" title="微软提供的 Docker Image"></a>微软提供的 Docker Image</h2><p>微软为 ASP.NET Core 开发人员提供了三种官方 Docker Image，因为不同的阶段的关注点不一样。</p>
+<h2 id="微软提供的-Docker-Image"><a href="#微软提供的-Docker-Image" class="headerlink" title="微软提供的 Docker Image"></a>微软提供的 Docker Image</h2><p>微软为 ASP.NET Core 开发人员提供了三种官方 Docker Image: </p>
 <ul>
 <li>Development: 快速迭代和调试更改，以大尺寸的 Image 换取开发的便利</li>
 <li>Build: 包含所有用于生成应用的依赖和库，如编译器和其他优化编码的工具，开发人员使用该 Image 创建最终要放置在 Production 环境下的 Image 所需的资产，该 Image 主要用于持续集成。这样的好处在于使得生成工具仅仅需要知道如何运行该 Image，而不用关心其他细节。</li>
@@ -452,7 +452,7 @@
 <h2 id="开始第一个-ASP-NET-Core-Docker-App"><a href="#开始第一个-ASP-NET-Core-Docker-App" class="headerlink" title="开始第一个 ASP.NET Core Docker App"></a>开始第一个 ASP.NET Core Docker App</h2><h3 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h3><ul>
 <li>安装 <a href="https://www.microsoft.com/net/learn/get-started/windows" target="_blank" rel="noopener">.NET Core SDK 2.0</a></li>
 <li>安装一个喜欢的代码编辑器，例如 Visual Studio(Code)。</li>
-<li>安装 Docker 引擎</li>
+<li>安装 Docker CE for Windows</li>
 <li>安装 Git</li>
 </ul>
 <h3 id="获取示例项目"><a href="#获取示例项目" class="headerlink" title="获取示例项目"></a>获取示例项目</h3><p>首先选取一个工作目录，然后执行:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git <span class="built_in">clone</span> https://github.com/dotnet/dotnet-docker-samples/</span><br></pre></td></tr></table></figure></p>
@@ -469,7 +469,7 @@
 <li>选择 Project 菜单 -&gt; Docker Support<img src="/aspnetcore-host-in-docker-containers/02.png"></li>
 <li>右键单击项目 -&gt; 添加 -&gt; Docker Support<img src="/aspnetcore-host-in-docker-containers/03.png"></li>
 </ol>
-<h2 id="Visual-Studio-Docker-概览"><a href="#Visual-Studio-Docker-概览" class="headerlink" title="Visual Studio Docker 概览"></a>Visual Studio Docker 概览</h2><p>当对一个项目添加 Docker 支持后，VisualStudio 将项解决方案目录添加一个 <code>docker-compose</code> 的项目，其中包含:</p>
+<h2 id="Visual-Studio-Docker-概览"><a href="#Visual-Studio-Docker-概览" class="headerlink" title="Visual Studio Docker 概览"></a>Visual Studio Docker 概览</h2><p>当对一个项目添加 Docker 支持后，VisualStudio 将项解决方案目录添加一个 <code>docker-compose.dcproj</code> 项目，其中包含:</p>
 <ul>
 <li><em>.dockerignore</em>: 生成 build 时需要忽略的文件和目录匹配字段</li>
 <li><em>docker-compose.yml</em>: Docker Compose 的定义文件，定义了一系列 Image 的集合用于 <code>docker-compose build</code> 和 <code>docker-compose run</code>。</li>
@@ -631,7 +631,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">64</span>
+                  <span class="site-state-item-count">65</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

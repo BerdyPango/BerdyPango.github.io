@@ -93,7 +93,7 @@
 <meta property="og:image" content="https://blog.frosthe.net/cordova-create-custom-android-plugin/remote_debug.png">
 <meta property="og:image" content="https://blog.frosthe.net/cordova-create-custom-android-plugin/chrome_dev_tools.png">
 <meta property="og:image" content="https://blog.frosthe.net/cordova-create-custom-android-plugin/android_studio_debug.png">
-<meta property="og:updated_time" content="2018-11-20T14:53:16.454Z">
+<meta property="og:updated_time" content="2018-12-27T06:36:55.832Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Cordova 的 Plugin 及创建自定义 Android Plugin">
 <meta name="twitter:description" content="本文依据 Cordova 官方文档以 Android 平台为例介绍了创建自定义 Plugin 的流程">
@@ -397,7 +397,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  2,564
+                  2,574
                 </span>
               
 
@@ -455,7 +455,7 @@
 </ul>
 </li>
 </ul>
-<h2 id="添加-plugin"><a href="#添加-plugin" class="headerlink" title="添加 plugin"></a>添加 plugin</h2><p>为了能够使 app 访问移动设备的功能，<code>cordova</code> 以 <code>plugin</code> 的形式粘合 <code>web app</code> 和本地 SDK，<code>plugin</code> 将本地 SDK 的功能以 <code>Javascript API</code> 的方式暴露给 <code>web app</code>。标准化的 <code>plugin</code> 大多以 <code>npm</code> 包的形式提供，可借助类似 <code>cordova plugin search camera</code> 的命令行搜索相应的 <code>plugin</code>，而一些关键的 API 则被 <code>Cordova</code> 本身集成，它们被称为 <a href="https://cordova.apache.org/docs/en/8.x/guide/support/index.html#core-plugin-apis" target="_blank" rel="noopener">Core Plugin APIs</a>。现在，我们将提供本地相机功能的 <code>camera plugin</code> 添加至 <a href="/cordova-get-started">Cordova 快速开始</a>中的初始项目:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ cordova plugin search camera</span><br></pre></td></tr></table></figure></p>
+<h2 id="添加-plugin"><a href="#添加-plugin" class="headerlink" title="添加 plugin"></a>添加 plugin</h2><p>为了让 <code>web app</code> 能够访问移动设备的本地功能，<code>cordova</code> 以 <code>plugin</code> 的方式粘合 <code>web app</code> 和移动设备本地 SDK。<code>plugin</code> 将移动设备本地 SDK 的功能以 <code>Javascript API</code> 的方式暴露给 <code>web app</code>。标准化的 <code>plugin</code> 大多以 <code>npm</code> 包的形式提供，可借助类似 <code>cordova plugin search camera</code> 的命令搜索相应的 <code>plugin</code>，而一些通用的 API 则被 <code>cordova</code> 内置集成，它们被称为 <a href="https://cordova.apache.org/docs/en/8.x/guide/support/index.html#core-plugin-apis" target="_blank" rel="noopener">Core Plugin APIs</a>。现在，我们将提供本地相机功能的 <code>camera plugin</code> 添加至 <a href="/cordova-get-started">Cordova 快速开始</a>中的初始项目:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ cordova plugin search camera</span><br></pre></td></tr></table></figure></p>
 <p>取到准确的 <code>plugin</code> 名称之后，安装该 <code>plugin</code>:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ cordova plugin add cordova-plugin-camera</span><br><span class="line"></span><br><span class="line">Fetching plugin <span class="string">"cordova-plugin-camera@~2.1.0"</span> via npm</span><br><span class="line">Installing <span class="string">"cordova-plugin-camera"</span> <span class="keyword">for</span> android</span><br><span class="line">Installing <span class="string">"cordova-plugin-camera"</span> <span class="keyword">for</span> ios</span><br></pre></td></tr></table></figure></p>
 <p>可执行 <code>cordova plugin ls</code> 查看当前已安装的 <code>plugin</code>:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ cordova plugin ls</span><br><span class="line"></span><br><span class="line">cordova-plugin-camera 2.1.0 <span class="string">"Camera"</span></span><br><span class="line">cordova-plugin-whitelist 1.2.1 <span class="string">"Whitelist"</span></span><br></pre></td></tr></table></figure></p>
 <hr>
@@ -682,7 +682,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">64</span>
+                  <span class="site-state-item-count">65</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
