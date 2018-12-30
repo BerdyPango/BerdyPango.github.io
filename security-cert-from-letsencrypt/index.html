@@ -82,21 +82,17 @@
 <meta name="description" content="Let&apos;s Encrypt 是一个免费发放 SSL 证书的 CA，本文介绍了其申请流程及推荐工具 Certbot 的使用">
 <meta name="keywords" content="security,cryptography,ssl-certificate,letsencrypt">
 <meta property="og:type" content="article">
-<meta property="og:title" content="通过 Let&#39;s Encrypt 申请 SSL 数字证书">
+<meta property="og:title" content="向 Let&#39;s Encrypt CA 申请单域名证书">
 <meta property="og:url" content="https://blog.frosthe.net/security-cert-from-letsencrypt/index.html">
 <meta property="og:site_name" content="FrostHe.Handbook">
 <meta property="og:description" content="Let&apos;s Encrypt 是一个免费发放 SSL 证书的 CA，本文介绍了其申请流程及推荐工具 Certbot 的使用">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://blog.frosthe.net/security-cert-from-letsencrypt/howitworks_challenge.png">
-<meta property="og:image" content="https://blog.frosthe.net/security-cert-from-letsencrypt/howitworks_authorization.png">
-<meta property="og:image" content="https://blog.frosthe.net/security-cert-from-letsencrypt/howitworks_certificate.png">
-<meta property="og:image" content="https://blog.frosthe.net/security-cert-from-letsencrypt/howitworks_revocation.png">
 <meta property="og:image" content="https://blog.frosthe.net/security-cert-from-letsencrypt/example-crt.png">
-<meta property="og:updated_time" content="2018-10-18T15:30:47.883Z">
+<meta property="og:updated_time" content="2018-12-30T04:28:52.786Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="通过 Let&#39;s Encrypt 申请 SSL 数字证书">
+<meta name="twitter:title" content="向 Let&#39;s Encrypt CA 申请单域名证书">
 <meta name="twitter:description" content="Let&apos;s Encrypt 是一个免费发放 SSL 证书的 CA，本文介绍了其申请流程及推荐工具 Certbot 的使用">
-<meta name="twitter:image" content="https://blog.frosthe.net/security-cert-from-letsencrypt/howitworks_challenge.png">
+<meta name="twitter:image" content="https://blog.frosthe.net/security-cert-from-letsencrypt/example-crt.png">
 
 
 
@@ -132,7 +128,7 @@
 
 
 
-  <title>通过 Let's Encrypt 申请 SSL 数字证书 | FrostHe.Handbook</title>
+  <title>向 Let's Encrypt CA 申请单域名证书 | FrostHe.Handbook</title>
   
 
 
@@ -327,7 +323,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">通过 Let's Encrypt 申请 SSL 数字证书</h1>
+          <h1 class="post-title" itemprop="name headline">向 Let's Encrypt CA 申请单域名证书</h1>
         
 
         <div class="post-meta">
@@ -340,8 +336,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-24T19:07:58+08:00">
-                2018-07-24
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-20T19:07:58+08:00">
+                2018-07-20
               </time>
             
 
@@ -396,7 +392,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  1,991
+                  1,778
                 </span>
               
 
@@ -428,39 +424,67 @@
         <p>参考资料:</p>
 <ul>
 <li><a href="https://letsencrypt.org/how-it-works/" target="_blank" rel="noopener">How its works - Let’s Encrypt</a></li>
+<li><a href="https://certbot.eff.org/docs/using.html#getting-certificates-and-choosing-plugins" target="_blank" rel="noopener">Getting certificates(and choosing plugins)</a></li>
 </ul>
-<p>假设某网站主体拥有 <code>www.example.com</code> 域名的管理权限，为了使该网站启用 SSL，网站主体必须首先从「证书颁发机构(CA, Certificate Authority)」获得「数字证书」。<a href="https://letsencrypt.org/" target="_blank" rel="noopener">Let’s Encrypt</a> 是一个免费发放 SSL 证书的 CA，通常是个人站长的优先选择。</p>
-<p>申请数字证书，需要完成以下两个步骤：</p>
-<ol>
-<li>域名验证: 网站主体必须向 CA 证明其拥有对 <code>www.example.com</code> 的管理权限。</li>
-<li>证书申领: 网站主体向 CA 申请、更新或撤销 <code>www.example.com</code> 的证书。</li>
-</ol>
-<h2 id="域名验证"><a href="#域名验证" class="headerlink" title="域名验证"></a>域名验证</h2><p><code>Let&#39;s Encrypt</code> 使用「公钥」来标识申请人，当申请人首次与 CA 联系时，需自行生成一个「非对称密钥对」，并将其「公钥」传递给 CA 作为标识，之后，<code>Let&#39;s Encrypt</code> 向申请人提出以下两种方式之一的 <code>Challenge</code>:</p>
+<p>本文索引:</p>
 <ul>
-<li>向 <code>www.example.com</code> 添加一条给定随机值的 DNS 记录，或</li>
-<li>在 <code>https://www.example.com/</code> 下添加一条给定随机值的资源</li>
+<li><a href="#%E5%89%8D%E8%A8%80">前言</a></li>
+<li><a href="#%E4%BD%BF%E7%94%A8-certbot-%E7%AE%A1%E7%90%86-lets-encrypt-%E9%A2%81%E5%8F%91%E7%9A%84%E6%95%B0%E5%AD%97%E8%AF%81%E4%B9%A6">使用 Certbot 管理 Let’s Encrypt 颁发的数字证书</a><ul>
+<li><a href="#%E5%AE%89%E8%A3%85-certbot">安装 Certbot</a></li>
+<li><a href="#%E8%8E%B7%E5%8F%96%E8%AF%81%E4%B9%A6">获取证书</a></li>
+<li><a href="#%E5%AE%89%E8%A3%85%E8%AF%81%E4%B9%A6">安装证书</a></li>
 </ul>
-<p>同时，<code>Let&#39;s Encrypt</code> 会向申请人提供一条 <code>nonce</code> 并要求申请人使用私钥进行签名，以证明申请人确实是「密钥对」的持有方。<br><img src="/security-cert-from-letsencrypt/howitworks_challenge.png" title="Challenge"><br>申请人以上述任何一种方式通过 CA 的 Challenge，并以其「私钥」对 <code>nonce</code> 进行签名后，CA 将进行验证:<br><img src="/security-cert-from-letsencrypt/howitworks_authorization.png" title="CA Vertification"><br>如果上述验证通过，那么 CA 将认可申请人对 <code>www.example.com</code> 域名拥有管理权限，并关联该「密钥对」为 <code>www.example.com</code> 已授权密钥对。</p>
-<h2 id="证书申领"><a href="#证书申领" class="headerlink" title="证书申领"></a>证书申领</h2><p>为 <code>www.example.com</code> 申请证书，申请人需要构造一个 PKCS#10 的 <a href="https://tools.ietf.org/html/rfc2986" target="_blank" rel="noopener">CSR(Certificate Signing Request)</a> 请求，该请求指示 <code>Let&#39;s Encrypt</code> 为 <code>www.example.com</code> 域名及一个指定的「公钥」颁发数字证书。通常，CSR 中包含一条使用对应的「私钥」签名的消息摘要，申请人也会将整个 CSR 进行签名。当 CA 完全验证这些信息之后，将为 <code>www.example.com</code> 颁发一个包含先前 CSR 中提供的「公钥」的证书，并返回给申请人。</p>
-<img src="/security-cert-from-letsencrypt/howitworks_certificate.png" title="颁发证书流程">
-<h2 id="证书废止"><a href="#证书废止" class="headerlink" title="证书废止"></a>证书废止</h2><p>证书的废止过程与申请类似，申请人向 CA 发送一条用其「私钥」签名的证书废止申请，CA 完成验证之后，发布证书废止信息至主流废止通道(<a href="https://en.wikipedia.org/wiki/Online_Certificate_Status_Protocol" target="_blank" rel="noopener">OCSP</a>，以通知「证书检验方」(如浏览器)该证书已撤销。</p>
-<img src="/security-cert-from-letsencrypt/howitworks_revocation.png" title="废止证书流程">
-<h2 id="使用-Certbot-管理证书"><a href="#使用-Certbot-管理证书" class="headerlink" title="使用 Certbot 管理证书"></a>使用 Certbot 管理证书</h2><p><a href="https://certbot.eff.org/lets-encrypt/debianstretch-other" target="_blank" rel="noopener">Certbot</a> 是 <code>Let&#39;s Encrypt</code> 官方推荐的数字证书管理工具，该工具将上述讨论的繁杂的数字证书申请流程以编程的方式实现。Certbot 在各个 *NIX 系统的发行版本都提供了对应的版本，以下以 Ubuntu 16.04 LTS 为例，为 <code>www.frosthe.net</code> 申请证书。</p>
-<h3 id="安装-Certbot"><a href="#安装-Certbot" class="headerlink" title="安装 Certbot"></a>安装 Certbot</h3><p>按照官方文档给出的针对 Ubuntu 16.04 LTS 系统的指引，执行以下命令:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get update</span><br><span class="line">$ sudo apt-get install software-properties-common</span><br><span class="line">$ sudo add-apt-repository ppa:certbot/certbot</span><br><span class="line">$ sudo apt-get update</span><br><span class="line">$ sudo apt-get install certbot</span><br></pre></td></tr></table></figure></p>
-<h3 id="获取证书"><a href="#获取证书" class="headerlink" title="获取证书"></a>获取证书</h3><p>Certbot 支持一系列「插件」来获取及安装证书，例如 DNS 插件将以添加 DNS 记录的方式来验证域名，或使用 webroot 插件在站点根目录下新增资源来验证域名。如果使用 <code>certbot certonly</code> 子命令，将以 <code>interactive</code> 模式来选择需要使用哪种「插件」及其他相关信息，该模式有助于理解证书申请过程，但不便于自动化。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">$ sudo certbot certonly</span><br><span class="line">How would you like to authenticate with the ACME CA?</span><br><span class="line">- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</span><br><span class="line">1: Spin up a temporary webserver (standalone)</span><br><span class="line">2: Place files in webroot directory (webroot)</span><br><span class="line">- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</span><br><span class="line">Select the appropriate number [1-2] then [enter] (press &apos;c&apos; to cancel): 2</span><br><span class="line"></span><br><span class="line">Plugins selected: Authenticator webroot, Installer None</span><br><span class="line">Starting new HTTPS connection (1): acme-v02.api.letsencrypt.org</span><br><span class="line">Please enter in your domain name(s) (comma and/or space separated)  (Enter &apos;c&apos;</span><br><span class="line">to cancel): www.frosthe.net</span><br><span class="line"></span><br><span class="line">Obtaining a new certificate</span><br><span class="line">Performing the following challenges:</span><br><span class="line">http-01 challenge for www.frosthe.net</span><br><span class="line">Input the webroot for www.frosthe.net: (Enter &apos;c&apos; to cancel):</span><br></pre></td></tr></table></figure></p>
-<p>到这里申请人收到 Let’s Encrypt 的挑战，被要求指定 <code>www.frosthe.net</code> 域名的 <code>webroot</code>，在进行下一步之前，需要完成以下两件事: </p>
+</li>
+<li><a href="#%E8%87%AA%E5%8A%A8%E6%9B%B4%E6%96%B0%E8%AF%81%E4%B9%A6">自动更新证书</a></li>
+<li><a href="#%E5%88%A0%E9%99%A4%E8%AF%81%E4%B9%A6">删除证书</a></li>
+</ul>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>基于<a href="/security-how-letsencrypt-works">上一篇文章</a>的介绍，本篇将介绍使用官方推荐的 <a href="https://github.com/ietf-wg-acme/acme" target="_blank" rel="noopener">ACME</a> 客户代理软件<a href="https://certbot.eff.org/" target="_blank" rel="noopener">Certbot</a> 为 <code>www.frosthe.net</code> 申请 HTTPS 证书。</p>
+<h2 id="使用-Certbot-管理-Let’s-Encrypt-颁发的数字证书"><a href="#使用-Certbot-管理-Let’s-Encrypt-颁发的数字证书" class="headerlink" title="使用 Certbot 管理 Let’s Encrypt 颁发的数字证书"></a>使用 Certbot 管理 Let’s Encrypt 颁发的数字证书</h2><p><code>certbot</code> 在各个 *NIX 系统的发行版本都提供了对应的版本，以下以 Ubuntu 16.04 LTS 为例，为 <code>www.frosthe.net</code> 申请单域名证书。</p>
+<p>在不支持通配符证书之前，<code>Let&#39;s Encrypt</code> 支持两种证书:</p>
+<ol>
+<li>单域名证书: 证书仅包含一个域名</li>
+<li>SAN 证书: 证书可包含多个域名(<code>Let&#39;s Encrypt 限制为 20</code>)，例如，一个证书可覆盖 <code>www.example.com</code>、<code>www.example.cn</code>、<code>auth.example.com</code> 等。</li>
+</ol>
+<p>本文仅介绍单域名证书的申请。</p>
+<h3 id="安装-Certbot"><a href="#安装-Certbot" class="headerlink" title="安装 Certbot"></a>安装 Certbot</h3><p>按照官方文档给出的 Ubuntu 16.04 LTS 系统的指引，执行以下命令:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get update</span><br><span class="line">$ sudo apt-get install software-properties-common</span><br><span class="line">$ sudo add-apt-repository ppa:certbot/certbot</span><br><span class="line">$ sudo apt-get update</span><br><span class="line">$ sudo apt-get install certbot</span><br></pre></td></tr></table></figure></p>
+<h3 id="获取证书"><a href="#获取证书" class="headerlink" title="获取证书"></a>获取证书</h3><p><code>certbot</code> 支持一系列「插件」，这些插件主要服务于两种用途:</p>
+<ul>
+<li>确认用户对域名的管理权限<ul>
+<li><code>dns</code> 插件: 要求用户添加给定 DNS 记录来确认域名管理权</li>
+<li><code>webroot</code> 插件: 要求用户在站点根目录下新增给定资源来确认域名管理权</li>
+<li><code>manual</code> 插件: 自定义插件，通过提供数个脚本的方式满足 certbot 各个认证阶段的要求，这种方式通常适用于内置认证插件不支持的 dns 提供商，也用于自动化</li>
+</ul>
+</li>
+<li>将证书自动安装至指定 Web 服务器: <ul>
+<li>Apache 插件: </li>
+<li>Nginx 插件:</li>
+<li>Haproxy 插件: </li>
+<li>Plesk 插件: </li>
+</ul>
+</li>
+</ul>
+<p>如果使用 <code>certbot certonly</code> 子命令，将以「交互模式」来选择需要使用哪种「插件」来获取证书，该模式有助于理解证书申请过程，但不便于自动化，以下以 <code>certbot certonly</code> 命令及 <code>webroot</code> 插件为 <code>www.frosthe.net</code> 申请数字证书:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">$ sudo certbot certonly</span><br><span class="line">How would you like to authenticate with the ACME CA?</span><br><span class="line">- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</span><br><span class="line">1: Spin up a temporary webserver (standalone)</span><br><span class="line">2: Place files in webroot directory (webroot)</span><br><span class="line">- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</span><br><span class="line">Select the appropriate number [1-2] then [enter] (press &apos;c&apos; to cancel): 2</span><br><span class="line"></span><br><span class="line">Plugins selected: Authenticator webroot, Installer None</span><br><span class="line">Starting new HTTPS connection (1): acme-v02.api.letsencrypt.org</span><br><span class="line">Please enter in your domain name(s) (comma and/or space separated)  (Enter &apos;c&apos;</span><br><span class="line">to cancel): www.frosthe.net</span><br><span class="line"></span><br><span class="line">Obtaining a new certificate</span><br><span class="line">Performing the following challenges:</span><br><span class="line">http-01 challenge for www.frosthe.net</span><br><span class="line">Input the webroot for www.frosthe.net: (Enter &apos;c&apos; to cancel):</span><br></pre></td></tr></table></figure></p>
+<p>到这里申请人收到 Let’s Encrypt 的挑战，要求申请人指定 <code>www.frosthe.net</code> 域名的 <code>webroot</code>，在进行下一步之前，需要完成以下两件事: </p>
 <ol>
 <li>在 <code>frosthe.net</code> 的域名提供商控制台添加一条 DNS 记录将 <code>www</code> 记录值指向当前 <code>Web Server</code> 的 IP 地址。</li>
 <li>配置 <code>Web Server</code> 使其能够响应 <code>http</code> 请求，这里我使用了 <code>nginx</code>:<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">        listen 80;</span><br><span class="line">        listen [::]:80;</span><br><span class="line">        server_name www.frosthe.net;</span><br><span class="line">        root /var/www/html;</span><br><span class="line">        index index.html;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
+<blockquote>
+<p>需要指出的是，选用 <code>webroot</code> 插件必须保证主机的 80 或 443 端口是可访问的，因为 <code>cerbot</code> 没有提供选项指定目标主机的端口号</p>
+</blockquote>
 <p>接下来，回到刚才的 <code>certbot</code> 流程当中:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">Please enter <span class="keyword">in</span> your domain name(s) (comma and/or space separated)  (Enter <span class="string">'c'</span></span><br><span class="line">to cancel): www.frosthe.net</span><br><span class="line">Obtaining a new certificate</span><br><span class="line">Performing the following challenges:</span><br><span class="line">http-01 challenge <span class="keyword">for</span> www.frosthe.net</span><br><span class="line">Input the webroot <span class="keyword">for</span> www.frosthe.net: (Enter <span class="string">'c'</span> to cancel): /var/www/html</span><br><span class="line">Waiting <span class="keyword">for</span> verification...</span><br><span class="line">Cleaning up challenges</span><br><span class="line"></span><br><span class="line">IMPORTANT NOTES:</span><br><span class="line"> - Congratulations! Your certificate and chain have been saved at:</span><br><span class="line">   /etc/letsencrypt/live/www.frosthe.net/fullchain.pem</span><br><span class="line">   Your key file has been saved at:</span><br><span class="line">   /etc/letsencrypt/live/www.frosthe.net/privkey.pem</span><br><span class="line">   Your cert will expire on 2018-12-17. To obtain a new or tweaked</span><br><span class="line">   version of this certificate <span class="keyword">in</span> the future, simply run certbot</span><br><span class="line">   again. To non-interactively renew *all* of your certificates, run</span><br><span class="line">   <span class="string">"certbot renew"</span></span><br></pre></td></tr></table></figure></p>
-<p>执行 <code>sudo certbot certificates</code> 可以看到针对 <code>www.frosthe.net</code> 域名的证书已经申请成功:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ sudo certbot certificates</span><br><span class="line">- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</span><br><span class="line">Found the following certs:</span><br><span class="line">  Certificate Name: www.frosthe.net</span><br><span class="line">    Domains: www.frosthe.net</span><br><span class="line">    Expiry Date: 2018-12-17 11:52:22+00:00 (VALID: 89 days)</span><br><span class="line">    Certificate Path: /etc/letsencrypt/live/www.frosthe.net/fullchain.pem</span><br><span class="line">    Private Key Path: /etc/letsencrypt/live/www.frosthe.net/privkey.pem</span><br><span class="line">- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</span><br></pre></td></tr></table></figure></p>
-<h3 id="安装证书"><a href="#安装证书" class="headerlink" title="安装证书"></a>安装证书</h3><p>证书获取之后，还没有任何地方应用它，在浏览器中尝试访问 <code>https://www.frosthe.net</code> 将会报错。Certbot 同样提供了一系列「插件」以支持在成功获得证书之后自动安装到对应的 <code>Web Server</code> 配置，例如，<code>nginx</code> 插件，现在手动安装证书，编辑 <code>nginx</code> 的配置文件:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">        listen 80;</span><br><span class="line">        listen [::]:80;</span><br><span class="line"></span><br><span class="line">        server_name www.frosthe.net;</span><br><span class="line">        root /var/www/html;</span><br><span class="line">        index index.html;</span><br><span class="line"></span><br><span class="line">        listen 443 ssl;</span><br><span class="line">        listen [::]:443 ssl;</span><br><span class="line">        ssl_certificate /etc/letsencrypt/live/www.frosthe.net/fullchain.pem;</span><br><span class="line">        ssl_certificate_key /etc/letsencrypt/live/www.frosthe.net/privkey.pem;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>执行 <code>sudo certbot certificates</code> 可以看到 <code>www.frosthe.net</code> 域名的证书已经申请成功:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ sudo certbot certificates</span><br><span class="line">- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</span><br><span class="line">Found the following certs:</span><br><span class="line">  Certificate Name: www.frosthe.net</span><br><span class="line">    Domains: www.frosthe.net</span><br><span class="line">    Expiry Date: 2018-12-17 11:52:22+00:00 (VALID: 89 days)</span><br><span class="line">    Certificate Path: /etc/letsencrypt/live/www.frosthe.net/fullchain.pem</span><br><span class="line">    Private Key Path: /etc/letsencrypt/live/www.frosthe.net/privkey.pem</span><br><span class="line">- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</span><br></pre></td></tr></table></figure></p>
+<p>上述过程为了便于理解，仅仅是获取证书，接下来需要安装证书。</p>
+<h3 id="安装证书"><a href="#安装证书" class="headerlink" title="安装证书"></a>安装证书</h3><p>成功获取证书之后，还没有任何地方应用它，在浏览器中尝试访问 <code>https://www.frosthe.net</code> 将会报错。<code>certbot</code> 同样提供了一系列「插件」以支持在成功获得证书之后自动安装到对应的 <code>Web Server</code> 配置，例如，<code>nginx</code> 插件，现在手动安装证书，编辑 <code>nginx</code> 的配置文件:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">        listen 80;</span><br><span class="line">        listen [::]:80;</span><br><span class="line"></span><br><span class="line">        server_name www.frosthe.net;</span><br><span class="line">        root /var/www/html;</span><br><span class="line">        index index.html;</span><br><span class="line"></span><br><span class="line">        listen 443 ssl;</span><br><span class="line">        listen [::]:443 ssl;</span><br><span class="line">        ssl_certificate /etc/letsencrypt/live/www.frosthe.net/fullchain.pem;</span><br><span class="line">        ssl_certificate_key /etc/letsencrypt/live/www.frosthe.net/privkey.pem;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>再次尝试在浏览器中访问 <code>https://www.frosthe.net</code>，如预期一般显示了页面，查看该站点的证书文件，得到以下信息:</p>
 <img src="/security-cert-from-letsencrypt/example-crt.png" title="www.frosthe.net 的证书信息">
-<p>上述过程可由 certbot 的 <code>nginx</code> 插件自动安装，目前 Let’s Encrypt 通过在 <code>webroot</code> 下放置文件来自动验证域名拥有者:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo certbot --authenticator webroot --installer nginx</span><br></pre></td></tr></table></figure></p>
-<h2 id="自动更新证书"><a href="#自动更新证书" class="headerlink" title="自动更新证书"></a>自动更新证书</h2><p>由 <code>Let&#39;s Encrypt</code> 颁发的数字证书有效期仅为 90 天，过期之后 https 将失效，所幸 Certbot 提供了 <code>renew</code> 子命令以更新证书有效期，可首先使用 <code>sudo certbot --dry-run</code> 进行测试:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">$ sudo certbot renew --dry-run</span><br><span class="line"></span><br><span class="line">- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</span><br><span class="line">Processing /etc/letsencrypt/renewal/www.frosthe.net.conf</span><br><span class="line">- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</span><br><span class="line">Cert not due <span class="keyword">for</span> renewal, but simulating renewal <span class="keyword">for</span> dry run</span><br><span class="line">Plugins selected: Authenticator webroot, Installer None</span><br><span class="line">Starting new HTTPS connection (1): acme-staging-v02.api.letsencrypt.org</span><br><span class="line">Renewing an existing certificate</span><br><span class="line">Performing the following challenges:</span><br><span class="line">http-01 challenge <span class="keyword">for</span> www.frosthe.net</span><br><span class="line">Waiting <span class="keyword">for</span> verification...</span><br><span class="line">Cleaning up challenges</span><br><span class="line"></span><br><span class="line">- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</span><br><span class="line">new certificate deployed without reload, fullchain is</span><br><span class="line">/etc/letsencrypt/live/www.frosthe.net/fullchain.pem</span><br><span class="line">- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</span><br><span class="line"></span><br><span class="line">- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</span><br><span class="line">** DRY RUN: simulating <span class="string">'certbot renew'</span> close to cert expiry</span><br><span class="line">**          (The <span class="built_in">test</span> certificates below have not been saved.)</span><br><span class="line"></span><br><span class="line">Congratulations, all renewals succeeded. The following certs have been renewed:</span><br><span class="line">  /etc/letsencrypt/live/www.frosthe.net/fullchain.pem (success)</span><br><span class="line">** DRY RUN: simulating <span class="string">'certbot renew'</span> close to cert expiry</span><br><span class="line">**          (The <span class="built_in">test</span> certificates above have not been saved.)</span><br><span class="line">- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</span><br></pre></td></tr></table></figure></p>
+<p>上述过程可由 <code>certbot</code> 的 <code>nginx</code> 插件自动安装，目前 Let’s Encrypt 通过在 <code>webroot</code> 下放置文件来自动验证域名拥有者:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo certbot --authenticator webroot --installer nginx</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>插件与 certbot 是分离的 package，在使用指定的插件以前，必须先通过 <code>apt-get install</code> 来安装相应的插件，具体可参考<a href="https://certbot.eff.org/docs/using.html#dns-plugins" target="_blank" rel="noopener">这里</a></p>
+</blockquote>
+<hr>
+<h2 id="自动更新证书"><a href="#自动更新证书" class="headerlink" title="自动更新证书"></a>自动更新证书</h2><p>由 <code>Let&#39;s Encrypt</code> 颁发的数字证书有效期仅为 90 天，过期之后 https 将失效。<code>certbot</code> 提供了 <code>renew</code> 子命令以更新证书有效期，可首先使用 <code>sudo certbot --dry-run</code> 进行测试:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">$ sudo certbot renew --dry-run</span><br><span class="line"></span><br><span class="line">- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</span><br><span class="line">Processing /etc/letsencrypt/renewal/www.frosthe.net.conf</span><br><span class="line">- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</span><br><span class="line">Cert not due <span class="keyword">for</span> renewal, but simulating renewal <span class="keyword">for</span> dry run</span><br><span class="line">Plugins selected: Authenticator webroot, Installer None</span><br><span class="line">Starting new HTTPS connection (1): acme-staging-v02.api.letsencrypt.org</span><br><span class="line">Renewing an existing certificate</span><br><span class="line">Performing the following challenges:</span><br><span class="line">http-01 challenge <span class="keyword">for</span> www.frosthe.net</span><br><span class="line">Waiting <span class="keyword">for</span> verification...</span><br><span class="line">Cleaning up challenges</span><br><span class="line"></span><br><span class="line">- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</span><br><span class="line">new certificate deployed without reload, fullchain is</span><br><span class="line">/etc/letsencrypt/live/www.frosthe.net/fullchain.pem</span><br><span class="line">- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</span><br><span class="line"></span><br><span class="line">- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</span><br><span class="line">** DRY RUN: simulating <span class="string">'certbot renew'</span> close to cert expiry</span><br><span class="line">**          (The <span class="built_in">test</span> certificates below have not been saved.)</span><br><span class="line"></span><br><span class="line">Congratulations, all renewals succeeded. The following certs have been renewed:</span><br><span class="line">  /etc/letsencrypt/live/www.frosthe.net/fullchain.pem (success)</span><br><span class="line">** DRY RUN: simulating <span class="string">'certbot renew'</span> close to cert expiry</span><br><span class="line">**          (The <span class="built_in">test</span> certificates above have not been saved.)</span><br><span class="line">- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</span><br></pre></td></tr></table></figure></p>
 <p>最后，可将该命令以一条 <code>crontab</code> 的方式加入任务管理器，以定期执行更新，注意，如果 <code>certbot</code> 是以 <code>root</code> 用户安装的，则需要首先切换到 <code>root</code>。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ (sudo) su -</span><br><span class="line">$ crontab -e</span><br><span class="line"></span><br><span class="line">0 5 * * 1 certbot renew</span><br></pre></td></tr></table></figure></p>
 <h2 id="删除证书"><a href="#删除证书" class="headerlink" title="删除证书"></a>删除证书</h2><p>执行 <code>certbot delete</code> 来执行删除证书的功能，该命令将列出已安装的证书，按提示选择目标证书:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">$ (sudo) certbot delete</span><br><span class="line"></span><br><span class="line">Saving debug <span class="built_in">log</span> to /var/<span class="built_in">log</span>/letsencrypt/letsencrypt.log</span><br><span class="line"></span><br><span class="line">Which certificate would you like to delete?</span><br><span class="line">-------------------------------------------------------------------------------</span><br><span class="line">1: www.frosthe.net</span><br><span class="line">-------------------------------------------------------------------------------</span><br><span class="line">Press 1 [enter] to confirm the selection (press <span class="string">'c'</span> to cancel): 1</span><br><span class="line"></span><br><span class="line">-------------------------------------------------------------------------------</span><br><span class="line">Deleted all files relating to certificate www.frosthe.net.</span><br><span class="line">-------------------------------------------------------------------------------</span><br></pre></td></tr></table></figure></p>
 <p>执行 <code>certbot delete --cert-name www.frosthe.net</code> 以快速删除证书:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ (sudo) certbot delete --cert-name www.frosthe.net</span><br></pre></td></tr></table></figure></p>
@@ -482,7 +506,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://blog.frosthe.net/security-cert-from-letsencrypt/" title="通过 Let's Encrypt 申请 SSL 数字证书">https://blog.frosthe.net/security-cert-from-letsencrypt/</a>
+    <a href="https://blog.frosthe.net/security-cert-from-letsencrypt/" title="向 Let's Encrypt CA 申请单域名证书">https://blog.frosthe.net/security-cert-from-letsencrypt/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>
@@ -518,8 +542,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/security-all-about-certificates/" rel="next" title="X.509 数字证书">
-                <i class="fa fa-chevron-left"></i> X.509 数字证书
+              <a href="/security-how-letsencrypt-works/" rel="next" title="Let's Encrypt 证书颁发机构">
+                <i class="fa fa-chevron-left"></i> Let's Encrypt 证书颁发机构
               </a>
             
           </div>
@@ -607,7 +631,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">65</span>
+                  <span class="site-state-item-count">67</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -618,7 +642,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-count">19</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -662,7 +686,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#域名验证"><span class="nav-text">域名验证</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#证书申领"><span class="nav-text">证书申领</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#证书废止"><span class="nav-text">证书废止</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用-Certbot-管理证书"><span class="nav-text">使用 Certbot 管理证书</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-Certbot"><span class="nav-text">安装 Certbot</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#获取证书"><span class="nav-text">获取证书</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装证书"><span class="nav-text">安装证书</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自动更新证书"><span class="nav-text">自动更新证书</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#删除证书"><span class="nav-text">删除证书</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用-Certbot-管理-Let’s-Encrypt-颁发的数字证书"><span class="nav-text">使用 Certbot 管理 Let’s Encrypt 颁发的数字证书</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-Certbot"><span class="nav-text">安装 Certbot</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#获取证书"><span class="nav-text">获取证书</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装证书"><span class="nav-text">安装证书</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自动更新证书"><span class="nav-text">自动更新证书</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#删除证书"><span class="nav-text">删除证书</span></a></li></ol></div>
             
 
           </div>

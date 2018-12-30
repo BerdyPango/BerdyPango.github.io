@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="FrostHe.Handbook">
 <meta property="og:description" content="本文介绍了定义 Dockerfile 的注意事项">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-10-13T02:13:49.367Z">
+<meta property="og:updated_time" content="2018-12-29T05:33:22.734Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Dockerfile 最佳实践">
 <meta name="twitter:description" content="本文介绍了定义 Dockerfile 的注意事项">
@@ -390,7 +390,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  1,025
+                  1,032
                 </span>
               
 
@@ -423,6 +423,7 @@
 <ul>
 <li><a href="https://docs.docker.com/develop/develop-images/dockerfile_best-practices/#dockerfile-instructions" target="_blank" rel="noopener">Dockerfile Instructions</a></li>
 <li><a href="http://goinbigdata.com/docker-run-vs-cmd-vs-entrypoint/" target="_blank" rel="noopener">Docker RUN vs CMD vs ENTRYPOINT</a></li>
+<li><a href="https://blog.realkinetic.com/building-minimal-docker-containers-for-python-applications-37d0272c52f3" target="_blank" rel="noopener">Building Minimal Docker Containers for Python Applications</a></li>
 </ul>
 <h2 id="Docker-Image-和-层"><a href="#Docker-Image-和-层" class="headerlink" title="Docker Image 和 层"></a>Docker Image 和 层</h2><p>创建一个 Image 由 Dockerfile 中的一系列指令组成，这些指令从现有 Image 或 OS 之上添加「层」，OS 是每个 Image 的起始点，于其上添加「层」来创建新的 Image。每一「层」参考前一层针对上下文进行修改，就像一个洋葱，OS 位于最内层。考虑以下 Dockerfile:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">FROM ubuntu:15.04</span><br><span class="line">COPY . /app</span><br><span class="line">RUN make /app</span><br><span class="line">CMD python /app/app.py</span><br></pre></td></tr></table></figure></p>
 <p>每一行指令都创建一层:</p>
@@ -432,8 +433,8 @@
 <li><code>RUN</code>: 调用 <code>make</code> 生成应用程序</li>
 <li><code>CMD</code>: 指示 Container 应该执行什么命令</li>
 </ul>
-<p>当运行 Container 时，实际上是在所有「层」之上添加了一个可写「层」，针对运行 Container 的所有改变，如写入新文件，修改现有文件或删除文件，都在该「层」中进行</p>
-<h2 id="理解生成-Context"><a href="#理解生成-Context" class="headerlink" title="理解生成 Context"></a>理解生成 Context</h2><p>当执行 <code>docker build</code> 命令时，当前的工作目录被称为 <em>build context</em>。命令行工具默认情况下会假设 Dockerfile 位于此目录下，但也可通过 <code>-f</code> 选项来指定文件路径。</p>
+<p>当运行 Container 时，实际上是在所有「层」之上添加了一个可写「层」，针对运行 <code>Container</code> 的所有改变，如写入新文件，修改现有文件或删除文件，都在该「层」中进行</p>
+<h2 id="理解生成-Context"><a href="#理解生成-Context" class="headerlink" title="理解生成 Context"></a>理解生成 Context</h2><p>当执行 <code>docker build</code> 命令时，当前的工作目录被称为 <em>build context</em>。命令行工具默认情况下会假设 <code>Dockerfile</code> 位于此目录下，但也可通过 <code>-f</code> 选项来指定文件路径。</p>
 <h2 id="RUN，CMD-和-ENTRYPOINT-的区别"><a href="#RUN，CMD-和-ENTRYPOINT-的区别" class="headerlink" title="RUN，CMD 和 ENTRYPOINT 的区别"></a>RUN，CMD 和 ENTRYPOINT 的区别</h2><h3 id="Shell-形式"><a href="#Shell-形式" class="headerlink" title="Shell 形式"></a>Shell 形式</h3><p>Shell 形式通常为 <code>&lt;instruction&gt; &lt;command&gt;</code>，例如:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">RUN apt-get install python3</span><br><span class="line">CMD <span class="built_in">echo</span> <span class="string">"Hello world"</span></span><br><span class="line">ENTRYPOINT <span class="built_in">echo</span> <span class="string">"Hello world"</span></span><br></pre></td></tr></table></figure></p>
 <p>三个指令都可以写为 Shell 形式，当指令以 Shell 形式执行时，实际上指令是以 <code>/bin.sh -c &lt;command&gt;</code> 进行调用的，如果 Dockerfile 中存在如下指令:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ENV name John Dow</span><br><span class="line">ENTRYPOINT <span class="built_in">echo</span> <span class="string">"Hello, <span class="variable">$name</span>"</span></span><br></pre></td></tr></table></figure></p>
 <p>那么执行 <code>docker run -it &lt;image&gt;</code> 将得到:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Hello, John Dow</span><br></pre></td></tr></table></figure></p>
@@ -600,7 +601,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">65</span>
+                  <span class="site-state-item-count">67</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -611,7 +612,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-count">19</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>

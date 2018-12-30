@@ -1,3 +1,4 @@
+https://blog.frosthe.net/security-cert-wildcard-from-letsencrypt/
 https://blog.frosthe.net/architecture-ddd-in-eshopcontainers/
 https://blog.frosthe.net/cordova-create-custom-android-plugin/
 https://blog.frosthe.net/cordova-get-started/
@@ -5,6 +6,7 @@ https://blog.frosthe.net/dotnet-cefsharp/
 https://blog.frosthe.net/security-openid-connect/
 https://blog.frosthe.net/security-oauth2/
 https://blog.frosthe.net/security-cert-from-letsencrypt/
+https://blog.frosthe.net/security-how-letsencrypt-works/
 https://blog.frosthe.net/security-all-about-certificates/
 https://blog.frosthe.net/security-encryption/
 https://blog.frosthe.net/smarthome-enable-remote-access-to-ha/
