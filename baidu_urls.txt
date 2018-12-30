@@ -2,8 +2,11 @@ https://blog.frosthe.net/architecture-ddd-in-eshopcontainers/
 https://blog.frosthe.net/cordova-create-custom-android-plugin/
 https://blog.frosthe.net/cordova-get-started/
 https://blog.frosthe.net/dotnet-cefsharp/
+https://blog.frosthe.net/homeserver-router-basic-services/
+https://blog.frosthe.net/homeserver-install-openwrt-on-router/
 https://blog.frosthe.net/security-openid-connect/
 https://blog.frosthe.net/security-oauth2/
+https://blog.frosthe.net/security-cert-wildcard-from-letsencrypt/
 https://blog.frosthe.net/security-cert-from-letsencrypt/
 https://blog.frosthe.net/security-how-letsencrypt-works/
 https://blog.frosthe.net/security-all-about-certificates/
@@ -19,8 +22,6 @@ https://blog.frosthe.net/homeserver-setup-raspberry-pi/
 https://blog.frosthe.net/homeserver-setup-isp-device/
 https://blog.frosthe.net/architecture-mediator-pattern/
 https://blog.frosthe.net/aspnetcore-host-in-docker-containers/
-https://blog.frosthe.net/docker-multi-stage-build/
-https://blog.frosthe.net/docker-dockerfile-best-practices/
 https://blog.frosthe.net/docker-deployment/
 https://blog.frosthe.net/docker-machine/
 https://blog.frosthe.net/docker-stacks/
@@ -28,7 +29,6 @@ https://blog.frosthe.net/docker-swarms/
 https://blog.frosthe.net/docker-services/
 https://blog.frosthe.net/docker-containers/
 https://blog.frosthe.net/docker-setup/
-https://blog.frosthe.net/homeserver-router-basic-services/
 https://blog.frosthe.net/aspnetcore-notes/
 https://blog.frosthe.net/aspnetcore-viewcomponent/
 https://blog.frosthe.net/aspnetcore-validation/
@@ -48,7 +48,6 @@ https://blog.frosthe.net/ddd-tactical-entity/
 https://blog.frosthe.net/ddd-strategic-archietecture/
 https://blog.frosthe.net/ddd-strategic/
 https://blog.frosthe.net/ddd-overview/
-https://blog.frosthe.net/homeserver-install-openwrt-on-router/
 https://blog.frosthe.net/linux-setup-a-new-ubuntu-server/
 https://blog.frosthe.net/linux-configure-csf/
 https://blog.frosthe.net/linux-document-search/

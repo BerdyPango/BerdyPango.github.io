@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="docker,ops,dockerfile," />
+  <meta name="keywords" content="security,https," />
 
 
 
@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="本文介绍了定义 Dockerfile 的注意事项">
-<meta name="keywords" content="docker,ops,dockerfile">
+<meta name="description" content="申请通配符数字证书是 Let&apos;s Encrypt 近期推出的功能，只有支持 ACME v2 协议的客户代理软件才能申请通配符证书">
+<meta name="keywords" content="security,https">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Dockerfile 最佳实践">
-<meta property="og:url" content="https://blog.frosthe.net/docker-dockerfile-best-practices/index.html">
+<meta property="og:title" content="向 Let&#39;s Encrypt CA 申请通配符证书">
+<meta property="og:url" content="https://blog.frosthe.net/security-cert-wildcard-from-letsencrypt/index.html">
 <meta property="og:site_name" content="FrostHe.Handbook">
-<meta property="og:description" content="本文介绍了定义 Dockerfile 的注意事项">
+<meta property="og:description" content="申请通配符数字证书是 Let&apos;s Encrypt 近期推出的功能，只有支持 ACME v2 协议的客户代理软件才能申请通配符证书">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-12-29T05:33:22.734Z">
+<meta property="og:updated_time" content="2018-12-30T07:39:49.362Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Dockerfile 最佳实践">
-<meta name="twitter:description" content="本文介绍了定义 Dockerfile 的注意事项">
+<meta name="twitter:title" content="向 Let&#39;s Encrypt CA 申请通配符证书">
+<meta name="twitter:description" content="申请通配符数字证书是 Let&apos;s Encrypt 近期推出的功能，只有支持 ACME v2 协议的客户代理软件才能申请通配符证书">
 
 
 
@@ -120,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="https://blog.frosthe.net/docker-dockerfile-best-practices/"/>
+  <link rel="canonical" href="https://blog.frosthe.net/security-cert-wildcard-from-letsencrypt/"/>
 
 
 
 
 
-  <title>Dockerfile 最佳实践 | FrostHe.Handbook</title>
+  <title>向 Let's Encrypt CA 申请通配符证书 | FrostHe.Handbook</title>
   
 
 
@@ -304,7 +304,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://blog.frosthe.net/docker-dockerfile-best-practices/">
+    <link itemprop="mainEntityOfPage" href="https://blog.frosthe.net/security-cert-wildcard-from-letsencrypt/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Frost He">
@@ -321,7 +321,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Dockerfile 最佳实践</h1>
+          <h1 class="post-title" itemprop="name headline">向 Let's Encrypt CA 申请通配符证书</h1>
         
 
         <div class="post-meta">
@@ -334,8 +334,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-13T20:01:49+08:00">
-                2018-02-13
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-24T21:22:58+08:00">
+                2018-07-24
               </time>
             
 
@@ -357,8 +357,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Docker/" itemprop="url" rel="index">
-                    <span itemprop="name">Docker</span>
+                  <a href="/categories/Cryptography/" itemprop="url" rel="index">
+                    <span itemprop="name">Cryptography</span>
                   </a>
                 </span>
 
@@ -390,7 +390,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  1,032
+                  841
                 </span>
               
 
@@ -402,7 +402,7 @@
 
           
               <div class="post-description">
-                  本文介绍了定义 Dockerfile 的注意事项
+                  申请通配符数字证书是 Let's Encrypt 近期推出的功能，只有支持 ACME v2 协议的客户代理软件才能申请通配符证书
               </div>
           
 
@@ -419,47 +419,36 @@
       
 
       
-        <p>参考资料:</p>
+        <p>本文索引:</p>
 <ul>
-<li><a href="https://docs.docker.com/develop/develop-images/dockerfile_best-practices/#dockerfile-instructions" target="_blank" rel="noopener">Dockerfile Instructions</a></li>
-<li><a href="http://goinbigdata.com/docker-run-vs-cmd-vs-entrypoint/" target="_blank" rel="noopener">Docker RUN vs CMD vs ENTRYPOINT</a></li>
-<li><a href="https://blog.realkinetic.com/building-minimal-docker-containers-for-python-applications-37d0272c52f3" target="_blank" rel="noopener">Building Minimal Docker Containers for Python Applications</a></li>
+<li><a href="#%E5%89%8D%E8%A8%80">前言</a></li>
+<li><a href="#%E7%94%B3%E8%AF%B7%E9%80%9A%E9%85%8D%E7%AC%A6%E8%AF%81%E4%B9%A6">申请通配符证书</a></li>
+<li><a href="#%E6%9B%B4%E6%96%B0%E9%80%9A%E9%85%8D%E7%AC%A6%E8%AF%81%E4%B9%A6">更新通配符证书</a></li>
+<li><a href="#%E8%87%AA%E5%8A%A8%E6%9B%B4%E6%96%B0%E9%80%9A%E9%85%8D%E7%AC%A6%E8%AF%81%E4%B9%A6">自动更新通配符证书</a></li>
 </ul>
-<h2 id="Docker-Image-和-层"><a href="#Docker-Image-和-层" class="headerlink" title="Docker Image 和 层"></a>Docker Image 和 层</h2><p>创建一个 Image 由 Dockerfile 中的一系列指令组成，这些指令从现有 Image 或 OS 之上添加「层」，OS 是每个 Image 的起始点，于其上添加「层」来创建新的 Image。每一「层」参考前一层针对上下文进行修改，就像一个洋葱，OS 位于最内层。考虑以下 Dockerfile:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">FROM ubuntu:15.04</span><br><span class="line">COPY . /app</span><br><span class="line">RUN make /app</span><br><span class="line">CMD python /app/app.py</span><br></pre></td></tr></table></figure></p>
-<p>每一行指令都创建一层:</p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>近期，<code>Let&#39;s Encrypt</code> 开放了通配符数字证书申请。通配符数字证书实现了单个证书绑定多个子域名。为了实现通配符证书，<code>Let’s Encrypt</code> 对 ACME 协议的实现进行了升级，只有 v2 协议才支持通配符证书。用户可自行查看客户代理软件是否支持 ACME v2 版本。官方主推的 <code>Certbot</code> 也需要升级到 0.22.0 版本之后才支持通配符证书。</p>
+<p>通配符证书目前<strong>仅支持 <code>dns-01</code> 方式</strong>的 <code>Challenge</code>:</p>
 <ul>
-<li><code>FROM</code>: 创建一层从 <code>ubuntu:15.04</code> 的 Docker Image</li>
-<li><code>COPY</code>: 从 Docker 客户端的当前目录添加文件</li>
-<li><code>RUN</code>: 调用 <code>make</code> 生成应用程序</li>
-<li><code>CMD</code>: 指示 Container 应该执行什么命令</li>
+<li>dns-01: 申请人被要求将一串随机字符串以 <code>TXT</code> 记录添加至目标域名。</li>
 </ul>
-<p>当运行 Container 时，实际上是在所有「层」之上添加了一个可写「层」，针对运行 <code>Container</code> 的所有改变，如写入新文件，修改现有文件或删除文件，都在该「层」中进行</p>
-<h2 id="理解生成-Context"><a href="#理解生成-Context" class="headerlink" title="理解生成 Context"></a>理解生成 Context</h2><p>当执行 <code>docker build</code> 命令时，当前的工作目录被称为 <em>build context</em>。命令行工具默认情况下会假设 <code>Dockerfile</code> 位于此目录下，但也可通过 <code>-f</code> 选项来指定文件路径。</p>
-<h2 id="RUN，CMD-和-ENTRYPOINT-的区别"><a href="#RUN，CMD-和-ENTRYPOINT-的区别" class="headerlink" title="RUN，CMD 和 ENTRYPOINT 的区别"></a>RUN，CMD 和 ENTRYPOINT 的区别</h2><h3 id="Shell-形式"><a href="#Shell-形式" class="headerlink" title="Shell 形式"></a>Shell 形式</h3><p>Shell 形式通常为 <code>&lt;instruction&gt; &lt;command&gt;</code>，例如:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">RUN apt-get install python3</span><br><span class="line">CMD <span class="built_in">echo</span> <span class="string">"Hello world"</span></span><br><span class="line">ENTRYPOINT <span class="built_in">echo</span> <span class="string">"Hello world"</span></span><br></pre></td></tr></table></figure></p>
-<p>三个指令都可以写为 Shell 形式，当指令以 Shell 形式执行时，实际上指令是以 <code>/bin.sh -c &lt;command&gt;</code> 进行调用的，如果 Dockerfile 中存在如下指令:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ENV name John Dow</span><br><span class="line">ENTRYPOINT <span class="built_in">echo</span> <span class="string">"Hello, <span class="variable">$name</span>"</span></span><br></pre></td></tr></table></figure></p>
-<p>那么执行 <code>docker run -it &lt;image&gt;</code> 将得到:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Hello, John Dow</span><br></pre></td></tr></table></figure></p>
-<p>可以看到，变量在执行时得到了解析</p>
-<h3 id="EXEC-形式"><a href="#EXEC-形式" class="headerlink" title="EXEC 形式"></a>EXEC 形式</h3><p>EXEC 形式是 <code>CMD</code> 和 <code>ENTRYPOINT</code> 指令推荐的形式，该形式以字符串数组的来传递命令行的每一个 Arg，其形如:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;instruction&gt; [<span class="string">"executable"</span>, <span class="string">"param1"</span>, <span class="string">"param2"</span>]</span><br><span class="line"></span><br><span class="line">RUN [<span class="string">"apt-get"</span>, <span class="string">"install"</span>, <span class="string">"python3"</span>]</span><br><span class="line">CMD [<span class="string">"/bin/echo"</span>, <span class="string">"Hello world"</span>]</span><br><span class="line">ENTRYPOINT [<span class="string">"/bin/echo"</span>, <span class="string">"Hello world"</span>]</span><br></pre></td></tr></table></figure></p>
-<p>指令以这种方式执行时，将绕过 shell 环境直接调用可执行程序，如果在 Dockerfile 中定义如下指令:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ENV name John Dow</span><br><span class="line">ENTRYPOINT [<span class="string">"/bin/echo"</span>, <span class="string">"Hello, <span class="variable">$name</span>"</span>]</span><br></pre></td></tr></table></figure></p>
-<p>那么执行 <code>docker run -it &lt;image&gt;</code> 将得到:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Hello, <span class="variable">$name</span></span><br></pre></td></tr></table></figure></p>
-<p>此处变量没有被解析，如果希望得到跟前一个例子相同的结果，那么需要在 ENTRYPOINT 中制定 shell 环境的可执行程序:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">ENV name John Dow</span><br><span class="line">ENTRYPOINT [<span class="string">"/bin/bash"</span>, <span class="string">"-c"</span>, <span class="string">"echo Hello, <span class="variable">$name</span>"</span>]</span><br><span class="line"></span><br><span class="line">Hello John Dow</span><br></pre></td></tr></table></figure></p>
-<h3 id="RUN"><a href="#RUN" class="headerlink" title="RUN"></a>RUN</h3><p><code>RUN</code> 指令在当前 Image 之上执行命令并创建一个新的「层」，创建新的 Image，并加入 <code>RUN</code> 指令的执行结果。<code>RUN</code> 指令可用 Shell 或 EXEC 形式书写，通常用来安装依赖库，如:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">RUN apt-get update &amp;&amp; apt-get install -y \</span><br><span class="line">  bzr \</span><br><span class="line">  cvs \</span><br><span class="line">  git \</span><br><span class="line">  mercurial \</span><br><span class="line">  subversion</span><br></pre></td></tr></table></figure></p>
-<h3 id="CMD"><a href="#CMD" class="headerlink" title="CMD"></a>CMD</h3><p>CMD 指令用来指定一个缺省指令，仅当 Docker Container 未指定任何命令时起作用。如:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">CMD <span class="built_in">echo</span> <span class="string">"Hello world"</span> </span><br><span class="line">$ docker run -it &lt;image&gt;</span><br><span class="line">Hello world</span><br></pre></td></tr></table></figure></p>
-<p>如果执行 <code>docker run -it &lt;image&gt; /bin/bash</code>，那么 CMD 将被忽略，并得到:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@7de4bed89922:/<span class="comment">#</span></span><br></pre></td></tr></table></figure></p>
-<h3 id="ENTRYPOINT"><a href="#ENTRYPOINT" class="headerlink" title="ENTRYPOINT"></a>ENTRYPOINT</h3><p><code>ENTRYPOINT</code> 用于配置将 Container 以可执行程序的方式执行，该指令与 <code>CMD</code> 很相似，区别在于 <code>ENTRYPOINT</code> 指令不会被忽略。<code>ENTRYPOINT</code> 有两种形式: Shell 和 EXEC 形式。选择不同的形式将导致不一样的结果。</p>
-<h4 id="EXEC-形式-1"><a href="#EXEC-形式-1" class="headerlink" title="EXEC 形式"></a>EXEC 形式</h4><p>该形式允许 <code>ENTRYPOINT</code> 指令通过 <code>CMD</code> 指令接收候补参数，例如:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">ENTRYPOINT [<span class="string">"/bin/echo"</span>, <span class="string">"Hello"</span>]</span><br><span class="line">CMD [<span class="string">"world"</span>]</span><br><span class="line"><span class="comment"># 当 docker run -it &lt;image&gt; 时得到</span></span><br><span class="line">Hello world</span><br><span class="line"><span class="comment"># 但当 docker run -it &lt;image&gt; John 时得到</span></span><br><span class="line">Hello John</span><br></pre></td></tr></table></figure></p>
-<h4 id="Shell-形式-1"><a href="#Shell-形式-1" class="headerlink" title="Shell 形式"></a>Shell 形式</h4><p>以此形式书写时，<code>ENTRYPOINT</code> 将忽略来自 <code>CMD</code> 和 <code>docker run</code> 命令行的命令。</p>
-<h3 id="通用指南"><a href="#通用指南" class="headerlink" title="通用指南"></a>通用指南</h3><ul>
-<li>使用 <code>RUN</code> 指令在初始 Image 上添加新的「层」来生成最终的 Image。</li>
-<li>通过 <code>CMD</code> 指令来指定缺省命令</li>
-<li>通过 <code>ENTRYPOINT</code> 和 <code>CMD</code> 来创建可执行程序的 Image 并提供一个可被覆盖的初始命令。</li>
-</ul>
-<p>如果 Dockerfile 定义了多个 CMD 指令，只有最后一个会生效。CMD 有三种形式:</p>
+<p>不同的 DNS 提供商可能提供了对应的「插件」，可能需要单独安装，<code>certbot</code> 第三方 DNS 插件可在<a href="https://certbot.eff.org/docs/using.html?highlight=wildcard#third-party-plugins" target="_blank" rel="noopener">此页面</a>查看。如果你注册的域名提供商(例如阿里云)没有提供官方的 DNS 插件，那么只能手动完成验证。</p>
+<hr>
+<h2 id="申请通配符证书"><a href="#申请通配符证书" class="headerlink" title="申请通配符证书"></a>申请通配符证书</h2><p>以下以 <code>*.frosthe.net</code> 为例，使用 <code>manual</code> 插件回应 <code>Challenge</code>。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ certbot certonly -d *.frosthe.net --manual --preferred-chanllenge dns --server https://acme-v02.api.letsencrypt.org/directory</span><br></pre></td></tr></table></figure></p>
+<p>该命令表明:</p>
 <ul>
-<li><code>CMD [&quot;executable&quot;, &quot;param1&quot;, &quot;param2&quot;]</code>: EXEC 形式，推荐</li>
-<li><code>CMD [&quot;param1&quot;, &quot;param2&quot;]</code>: 作为 ENTRYPOINT 的候补命令参数</li>
-<li><code>CMD command param1 param2</code>: Shell 形式</li>
+<li>仅为 <code>*.frosthe.net</code> 获取通配符证书，无需安装</li>
+<li>使用 <code>manual</code> 插件</li>
+<li>使用 <code>dns</code> 方式回应 <code>Challenge</code></li>
+<li>告知 <code>certbot</code> 采用 <code>Let&#39;s Encrypt</code> ACME v2 协议的 API 服务器</li>
 </ul>
+<p>接下来，命令行显示窗会询问申请人当前主机的 ip 地址将被记录，是否接收，输入 y:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</span><br><span class="line">NOTE: The IP of this machine will be publicly logged as having requested this</span><br><span class="line">certificate. If you&apos;re running certbot in manual mode on a machine that is not</span><br><span class="line">your server, please ensure you&apos;re okay with that.</span><br><span class="line"></span><br><span class="line">Are you OK with your IP being logged?</span><br><span class="line">- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</span><br><span class="line">(Y)es/(N)o: y</span><br></pre></td></tr></table></figure></p>
+<p>下一步 <code>certbot</code> 将要求申请人手动添加一条 <code>TXT</code> 的解析:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</span><br><span class="line">Please deploy a DNS TXT record under the name</span><br><span class="line">_acme-challenge.frosthe.net with the following value:</span><br><span class="line"></span><br><span class="line">h9MFbboNRKqN4_8iDlu4dpIBd9UrXKqRrmP62ZHGhJ8</span><br><span class="line"></span><br><span class="line">Before continuing, verify the record is deployed.</span><br><span class="line">- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</span><br><span class="line">Press Enter to Continue</span><br></pre></td></tr></table></figure></p>
+<p>现在，登录 <code>frosthe.net</code> 域名注册商的后台管理界面，按照上述要求添加一条如下图的解析记录:<br><br>确认无误后，回车，得到如下信息:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">IMPORTANT NOTES:</span><br><span class="line"> - Congratulations! Your certificate and chain have been saved at:</span><br><span class="line">   /etc/letsencrypt/live/frosthe.net/fullchain.pem</span><br><span class="line">   Your key file has been saved at:</span><br><span class="line">   /etc/letsencrypt/live/frosthe.net/privkey.pem</span><br><span class="line">   Your cert will expire on 2019-03-30. To obtain a new or tweaked</span><br><span class="line">   version of this certificate <span class="keyword">in</span> the future, simply run certbot</span><br><span class="line">   again. To non-interactively renew *all* of your certificates, run</span><br><span class="line">   <span class="string">"certbot renew"</span></span><br><span class="line"> - If you like Certbot, please consider supporting our work by:</span><br><span class="line"></span><br><span class="line">   Donating to ISRG / Let<span class="string">'s Encrypt:   https://letsencrypt.org/donate</span></span><br><span class="line"><span class="string">   Donating to EFF:                    https://eff.org/donate-le</span></span><br></pre></td></tr></table></figure></p>
+<p>操作完成，可至对应的目录获取证书以作用后。</p>
+<hr>
+<h2 id="更新通配符证书"><a href="#更新通配符证书" class="headerlink" title="更新通配符证书"></a>更新通配符证书</h2><p>通配符证书同样可由 <code>certbot renew</code> 子命令进行更新，但必须手动完成 <code>challenge</code>:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ certbot renew --manual --preferred-challenge dns --server https://acme-v02.api.letsencrypt.org/directory</span><br></pre></td></tr></table></figure></p>
+<hr>
+<h2 id="自动更新通配符证书"><a href="#自动更新通配符证书" class="headerlink" title="自动更新通配符证书"></a>自动更新通配符证书</h2><p>由于通配符证书仅支持 dns 方式的验证，而这种方式要求申请人在其域名管理后台添加新的 <code>TXT</code> 记录，除了某些官方列出的域名提供商以外，其他域名托管商(例如阿里云)的申请人需要外挂脚本来自动化这一过程，参考 <a href="https://certbot.eff.org/docs/using.html?highlight=wildcard#pre-and-post-validation-hooks" target="_blank" rel="noopener">Pre and Post Validation Hooks</a>。</p>
 
       
     </div>
@@ -478,7 +467,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://blog.frosthe.net/docker-dockerfile-best-practices/" title="Dockerfile 最佳实践">https://blog.frosthe.net/docker-dockerfile-best-practices/</a>
+    <a href="https://blog.frosthe.net/security-cert-wildcard-from-letsencrypt/" title="向 Let's Encrypt CA 申请通配符证书">https://blog.frosthe.net/security-cert-wildcard-from-letsencrypt/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>
@@ -495,11 +484,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/docker/" rel="tag"><i class="fa fa-tag"></i> docker</a>
+            <a href="/tags/security/" rel="tag"><i class="fa fa-tag"></i> security</a>
           
-            <a href="/tags/ops/" rel="tag"><i class="fa fa-tag"></i> ops</a>
-          
-            <a href="/tags/dockerfile/" rel="tag"><i class="fa fa-tag"></i> dockerfile</a>
+            <a href="/tags/https/" rel="tag"><i class="fa fa-tag"></i> https</a>
           
         </div>
       
@@ -512,8 +499,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/docker-deployment/" rel="next" title="Docker 初探 (7) - 部署">
-                <i class="fa fa-chevron-left"></i> Docker 初探 (7) - 部署
+              <a href="/security-cert-from-letsencrypt/" rel="next" title="向 Let's Encrypt CA 申请单域名证书">
+                <i class="fa fa-chevron-left"></i> 向 Let's Encrypt CA 申请单域名证书
               </a>
             
           </div>
@@ -522,8 +509,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/docker-multi-stage-build/" rel="prev" title="在 Dockerfile 中使用多阶段生成(Multi-Stage Builds)">
-                在 Dockerfile 中使用多阶段生成(Multi-Stage Builds) <i class="fa fa-chevron-right"></i>
+              <a href="/security-oauth2/" rel="prev" title="OAuth 2.0 简介">
+                OAuth 2.0 简介 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -601,7 +588,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">66</span>
+                  <span class="site-state-item-count">65</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -612,7 +599,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-count">18</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -623,7 +610,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">48</span>
+                  <span class="site-state-item-count">47</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -656,7 +643,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Docker-Image-和-层"><span class="nav-text">Docker Image 和 层</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#理解生成-Context"><span class="nav-text">理解生成 Context</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RUN，CMD-和-ENTRYPOINT-的区别"><span class="nav-text">RUN，CMD 和 ENTRYPOINT 的区别</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Shell-形式"><span class="nav-text">Shell 形式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#EXEC-形式"><span class="nav-text">EXEC 形式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RUN"><span class="nav-text">RUN</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CMD"><span class="nav-text">CMD</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ENTRYPOINT"><span class="nav-text">ENTRYPOINT</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#EXEC-形式-1"><span class="nav-text">EXEC 形式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Shell-形式-1"><span class="nav-text">Shell 形式</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#通用指南"><span class="nav-text">通用指南</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#申请通配符证书"><span class="nav-text">申请通配符证书</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#更新通配符证书"><span class="nav-text">更新通配符证书</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自动更新通配符证书"><span class="nav-text">自动更新通配符证书</span></a></li></ol></div>
             
 
           </div>

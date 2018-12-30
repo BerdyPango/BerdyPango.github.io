@@ -11,9 +11,9 @@
         <tag>ddd</tag>
         <tag>architecture</tag>
         <tag>cqrs</tag>
+        <tag>mediator-pattern</tag>
         <tag>dotnet</tag>
         <tag>repository-pattern</tag>
-        <tag>mediator-pattern</tag>
       </tags>
   </entry>
   <entry>
@@ -56,6 +56,29 @@
       </tags>
   </entry>
   <entry>
+    <title><![CDATA[家庭网关基础服务 - DHCP, DNS, NAT]]></title>
+    <url>%2Fhomeserver-router-basic-services%2F</url>
+    <content type="text"><![CDATA[本文索引: 前言 DHCP DNS NAT 前言大多数家庭网络，通过一个家庭网关将本地局域网(LAN - Local Area Network，下称 LAN)与广域网(WAN - Wide Area Network，下称 WAN)连接起来，本篇文章将介绍实现这一功能涉及到的一系列软件和硬件基础设施。 家庭网关通常指间于广域网和局域网起桥梁作用的设备:我们最熟悉的家庭网关设备就是路由器，其最基本的功能，是在 LAN 和 WAN 之间路由数据。但在多数时候，它还兼顾了其他对 LAN 有用的功能: DHCP: 提供 LAN 主机 IPv4 地址的服务 DNS: 响应 LAN 主机的名称查询 NAT(Network Address Translation): 将公网 IPv4 地址映射至 LAN 主机 IPv4 地址 DHCPDHCP(Dynamic Host Configuration Protocol) 是一种用于动态分配 IP 地址至 LAN 主机的协议。它为家庭主机用户或网络管理员省去了手动为每台主机配置 IP 地址的工作。同时，它维护一个 IP 地址池，当一台主机与 LAN 断开连接，它之前占用的 IP 地址将回到该池，并在有新的设备连接至 LAN 时重新分配。以 DHCP 获取 IP 地址的过程包含 4 个阶段，其被称为 DORA - discovery, offer, request 和 acknowledgement。如下图所示: 首先，客户主机广播一条 DHCP DISCOVER 消息 DHCP 服务器收到此消息，以一条 DHCP OFFER 单播消息回应，该消息包至少包含一个可用的 IP 地址，或包含网关地址和 DNS 服务器地址。如果 LAN 中有多个 DHCP 服务器，客户主机可能收到多条 OFFER 消息。 客户主机用一条 DHCP REQUEST 消息回复一条 OFFER 消息，该 REQUEST 消息将在 LAN 中广播，如果有其他 DHCP 服务器也发布过 OFFER 消息，在接收到此条 REQUEST 消息后将视为该客户主机已拒绝该 OFFER。 收到 REQUEST 消息的 DHCP 服务器将以一条 ACK 消息发布确认信息。 上述 4 个步骤完成之后，客户主机将被分配一个带有有效期的 IP 地址，在 IP 地址过期之后，客户主机将以一定间隔发布 REQUEST+ACK 消息以续期该 IP 地址。当客户主机与 LAN 断开连接时，将会发送一条 RELEASE 消息以告知 DHCP 服务器放弃该 IP 地址的使用。 通常，家庭网关设备会内置 DHCP 服务，并允许用户指定可分配 IP 地址的范围以及其他一些选项: DNS网络中的主机需要以阅读友好的名称来区分它们，而不是通过 IP 地址(IP 地址太难让人记住)，DNS(Domain Name System) 是一个存储名称 - IP 地址映射记录的系统，并提供查询功能(域名解析)。 许多家庭网关设备同时扮演了 DNS 服务器的角色，用以家庭主机以域名形式定位其他主机的 IP 地址。DNS 服务器同时支持递归查询，这意味着本地 DNS 服务器可链接上游 DNS 服务器，形成递归链。DNS 查询从链中第一个节点开始查找，找不到则查询下一个节点，直到找到或链的尾端。DNS 的解析也以 . 分割进行渐进式查找，假设 LAN 中的主机想要获取 witestlab.poly.edu 域名的 IP 地址。 所有的 DNS 域名在最后都有一个 .，但即便省略该 .，DNS 解析者也能够工作 下图展示了整个过程: LAN 中的 DNS 服务器并没有在本地存储 witestlab.poly.edu 的域名映射记录，则将其委托至上游 DNS 服务器 上游 DNS 服务器从最右边开始解析 witestlab.poly.edu，找到负责解析 . 的根 DNS 服务器 根 DNS 服务器不知道 witestlab.poly.edu 的映射记录，但它会回复一个能够解析 .edu(顶级域名) 的 DNS 服务器列表 .edu DNS 服务器也不知道 witestlab.poly.edu 的映射记录，但它会回复一个能够解析 poly.edu(二级域名) 的 DNS 服务器列表 最终，负责解析 poly.edu 的 DNS 服务器知道 witestlab.poly.edu 的映射记录，并最终返回期望的 IP 地址 因此，任何知道根 DNS 服务器地址的 DNS 服务器最终都能找到对应域名的映射记录(除非本身记录不存在)。 在上述例子中，域名服务器所存储的映射记录如下图所示: NAT家庭网关另一个常见的功能是 NAT(Network Address Translation)。NAT 通过修改穿越网关数据包头部信息将 IP 地址空间映射到另一个 IP 地址空间。由于全局公网 IPv4 地址稀缺，不可能为 LAN 中的每一台主机分配一个公网 IPv4 地址。相反，ISP(Internet Service Provider) 仅将为家庭网络分配一个公网 IPv4 地址。LAN 中的主机将使用一个私有的 IP 地址空间，如 192.168.0.0/16 空间。然而，这些地址无法在直接广域网中路由，因此 NAT 一个常见的功能是映射 LAN 中私有 IP 地址至该公网 IPv4 地址。这样，由 LAN 中主机发起或接收的流量就可被路由至广域网。 下图展示了 NAT 网关如何通过修改数据包头部信息来实现这一功能: LAN 中的主机发起一个指向 WAN 中主机的网络连接，该连接会穿越 NAT 网关。开始发送数据包后，这些数据包的原始 From 地址为 LAN 中的私有 IP 地址。 NAT 网关在其翻译表中添加一条新记录，记下 LAN 主机 IP 地址、TCP 端口号、并尝试在 NAT 主机中开放相同的 TCP 端口并记下，如果该端口已经被占用，则尝试其他端口。 当数据包穿越 NAT 网关时，NAT 根据翻译表中的记录，修改数据包的头部信息，将其 From 地址和端口号分别替换为公网 IPv4 地址及记录中的端口号。所以，当数据包实际抵达目标 WAN 主机时，该主机实际收到的是其公网 IP 及家庭网关设备对应的 TCP 端口号 当远程 WAN 主机回发数据包至 NAT 网关，NAT 检查数据包头部信息中的 Destionation Port，再与翻译表中存储的记录比对，提取该条记录对应的 LAN 主机 IP 地址 NAT 再次修改入站数据包头部信息的 Destionation IP 地址及端口号，最终成功完成数据包的转发。 NAT 仅服务于出站的新网络连接，如果网络连接直接由 WAN 主机发起，但 NAT 维护的翻译表中找不到任何匹配的记录，那么所有数据包将被丢弃。因此，位于 NAT 网关之后的设备无法接收来自 WAN 主机的网络连接。 想要 WAN 主机主动对位于 NAT 网关之后的主机发起连接，可以借助端口转发(Port Forwarding)。很多家庭网关设备同样内置了该功能，下图展示了一个端口转发的案例: 假设家庭网络的公网 IPv4 地址为 128.238.66.220，处于 WAN 中的任何主机都可以对该 IP 地址主动发起连接，并使用 TCP 端口 443。NAT 将检查端口转发表以定位 LAN 主机的 IP 地址，同样修改数据包的头部信息。]]></content>
+      <categories>
+        <category>Home Server</category>
+      </categories>
+      <tags>
+        <tag>network</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[网件路由器刷 OpenWrt]]></title>
+    <url>%2Fhomeserver-install-openwrt-on-router%2F</url>
+    <content type="text"><![CDATA[OpenWrt 项目官网 到这个页面查看支持的设备 定位到对应路由器设备页面，此处以 Netgear WNDR 4300 为例，注意安装和升级是两个文件 安装固件新版的镜像在 GUI 方面做了很大的改进，几乎所有设置都可以通过在 Web UI 上完成。 通过 TFTP 的方式安装 关闭路由器电源 为本机预设一个固定的 ip 地址，例如 192.168.1.35，用网线连接至路由器 打开路由器电源 当 LED 灯亮起时，按住 RESET 按钮 保持 RESET 按钮按住，直至「电源 LED 灯」由闪烁「黄灯」变为闪烁「绿灯」 执行 tftp 流转:1$ tftp -i 192.168.1.1 PUT ./openwrt-18.06.1-ar71xx-nand-wndr4300-ubi-factory.img PUT 之后的参数跟 image 的路径 通过网件 OEM 方式安装 使用网线连接至路由器，并在浏览器中输入 http://192.168.1.1 导航至 Advanced -&gt; Administration -&gt; Firmware Upgrade 上传 OpenWrt 固件 openwrt-18.06.1-ar71xx-nand-wndr4300-ubi-factory.img，点击开始 等待安装完成 安装完成之后，可能需要重启一次才能正常访问 192.168.1.1 配置 OpenWrt 导航至 192.168.1.1，使用 root(密码为空)，登录页面，修改一个 root 的密码 导航至 System -&gt; System，为路由器主机换一个名字，并更改为对应的时区: 将光猫用网线连接路由器的 WAN 口，导航至 Network -&gt; Interface，编辑 WAN: 使用路由器进行拨号上网，在 Protocol 一栏选择 PPPoE 点击 Switch protocol 确认操作 填写由 ISP 分配的账号与密码: 完成之后点击 Save &amp; Apply 导航至 Network -&gt; Wireless，设置 2.4 GHz 及 5 GHz 的无线网络 接下来，便可开始对路由器针对性的配置诸如 DDNS，端口转发等功能的配置了。]]></content>
+      <categories>
+        <category>Home Server</category>
+      </categories>
+      <tags>
+        <tag>linux</tag>
+        <tag>openwrt</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[OAuth2.0 和 Openid Connect]]></title>
     <url>%2Fsecurity-openid-connect%2F</url>
     <content type="text"><![CDATA[参考资料: Identity, Claims, &amp; Tokens – An OpenID Connect Primer OpenID Connect 和 OAuth 2.0 结合用于认证OAuth 在设计之初并不是为了做认证，因为 OAuth 没有提供获取用户信息的标准方式，OAuth 被用于用户认证是业界对其滥用的结果。而 OpenID Connect 则是基于 OAuth 2.0 的扩展认证协议，OpenID Connect 对 OAuth 2.0 做了以下扩展: ID Token: 包含了用户的 ID 或其他代表该用户信息的 token 用户信息接口用于获取详细的用户信息 标准化的 Scope 集合 标准化实现 OpenID Connect 的流程中 Authorization Server 在返回中增加了 ID Token，而 ID Token 以 JWT(JSON Web Token) 被熟知，它以标准化的方式将一系列信息加密，并在网络中传输。JWT 由三部分组成: Header: 包含如 Token 类型，加密算法等信息。 Payload: 有时又称作 Claims，该值可由应用程序解码得到。 Signature: 用于验证 JWT 数据完整性。 OpenID Connect 原理及过程与 OpenID Connect(OIDC) 相关的有两个角色，分别是 OpenID Provider(OP): 一个用于认证用户并提供认证结果的 OAuth 2.0 服务 Relying Party(RP): 依赖于 OP 处理认证请求的应用程序 通常情况下，OIDC 开始于一个指向形如 /authorization 入口点的 HTTP GET 请求，该请求携带一系列参数指示了该请求期望得到的认证结果和拥有哪些资源的访问权限。接下来，另一个指向 /token 入口点的 HTTP POST 请求用于获取访问其他资源服务的 Token 凭证。同时，OIDC 还提供了形如 /introspect 的入口点用于检查 Token 以及 /userinfo 的入口点用于获取用户的身份信息。 以上所有入口点的名称都是行业惯例，也可以由 OP 定义为其他名称，OIDC 一项显著的改进是 OP 端加入了元数据机制来发现资源入口点。例如，当访问 https://micah.okta.com/oauth2/aus2yrcz7aMrmDAKZ1t7/.well-known/openid-configuration 链接会得到一个包含了所有入口点的元数据 JSON 格式的文档:123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979899100101102103104105&#123; "issuer":"https://micah.okta.com/oauth2/aus2yrcz7aMrmDAKZ1t7", "authorization_endpoint":"https://micah.okta.com/oauth2/aus2yrcz7aMrmDAKZ1t7/v1/authorize", "token_endpoint":"https://micah.okta.com/oauth2/aus2yrcz7aMrmDAKZ1t7/v1/token", "userinfo_endpoint":"https://micah.okta.com/oauth2/aus2yrcz7aMrmDAKZ1t7/v1/userinfo", "registration_endpoint":"https://micah.okta.com/oauth2/v1/clients", "jwks_uri":"https://micah.okta.com/oauth2/aus2yrcz7aMrmDAKZ1t7/v1/keys", "response_types_supported":[ "code", "id_token", "code id_token", "code token", "id_token token", "code id_token token" ], "response_modes_supported":[ "query", "fragment", "form_post", "okta_post_message" ], "grant_types_supported":[ "authorization_code", "implicit", "refresh_token", "password" ], "subject_types_supported":[ "public" ], "id_token_signing_alg_values_supported":[ "RS256" ], "scopes_supported":[ "openid", "profile", "email", "address", "phone", "offline_access" ], "token_endpoint_auth_methods_supported":[ "client_secret_basic", "client_secret_post", "client_secret_jwt", "none" ], "claims_supported":[ "iss", "ver", "sub", "aud", "iat", "exp", "jti", "auth_time", "amr", "idp", "nonce", "name", "nickname", "preferred_username", "given_name", "middle_name", "family_name", "email", "email_verified", "profile", "zoneinfo", "locale", "address", "phone_number", "picture", "website", "gender", "birthdate", "updated_at", "at_hash", "c_hash" ], "code_challenge_methods_supported":[ "S256" ], "introspection_endpoint":"https://micah.okta.com/oauth2/aus2yrcz7aMrmDAKZ1t7/v1/introspect", "introspection_endpoint_auth_methods_supported":[ "client_secret_basic", "client_secret_post", "client_secret_jwt", "none" ], "revocation_endpoint":"https://micah.okta.com/oauth2/aus2yrcz7aMrmDAKZ1t7/v1/revoke", "revocation_endpoint_auth_methods_supported":[ "client_secret_basic", "client_secret_post", "client_secret_jwt", "none" ], "end_session_endpoint":"https://micah.okta.com/oauth2/aus2yrcz7aMrmDAKZ1t7/v1/logout", "request_parameter_supported":true, "request_object_signing_alg_values_supported":[ "HS256", "HS384", "HS512" ]&#125; Scope/authorization 请求中的 scope 查询参数将决定返回的 Token 中具有何种资源的访问权限。Scope 是 Authorization Server 系统中预定义的细粒度权限等级，以空白字符进行分隔，详细的 Scope 标识在 RFC 6749 中定义，OIDC 中也指定了一些内置的 Scope，openid 是必须指定的 scope 值，其他都是可选的(包括自定义的)，内置的 scope 有: Scope Purpose profile requests access to default profile claims email requests access to email and email_verified claims address requests access to address claim phone requests access to phone_number and phone_number_verified claims profile scope 默认包含的 claim 有: name family_name given_name middle_name nickname preferred_username profile picture website gender birthdate zoneinfo locale updated_at 注意 Scope 是如何与 Claim 进行关联的，Claim 详见下文。 Claim简单来说，Claim 就是有关用户身份信息和 OIDC 服务的以键值对存储的元数据。以下是一个典型的 Claims 集合:JSON12345678910&#123; "family_name": "Silverman", "given_name": "Micah", "locale": "en-US", "name": "Micah Silverman", "preferred_username": "micah.silverman@okta.com", "sub": "00u9vme99nxudvxZA0h7", "updated_at": 1490198843, "zoneinfo": "America/Los_Angeles"&#125; 以上代码列出了 profile Scope 的部分 claim，这是由于想要获取用户信息的请求指定了 profile 的 scope 值，于是返回的 Token 中包含了这些信息。 Response Type/authorization 请求中的 response_type 查询参数不同的值控制着不同的流程，采用哪种类型需要考虑将以何种方式确保 Token(走 Front Channel 还是 Back Channel)的安全性以及如何获取额外的身份信息(直接包含在 Token 中还是发起另一个请求)。主要的有以下三种: Authorization Code: 由后台服务向 OP 请求 Token，走 Back Channel，其查询字符串为 response_type=code，该方式在 OP 认证成功会返回一个 code 值，后续 RP 用该 code 向 OP 请求 Token 交换，即 access_token 和 id_token。这种方式适用于后台服务端存储一个由 OP 分配的 client_id 和 client_secret，并通过 /token 入口点交换 Token，服务端在得到 Token 后可在隐藏 client_id 和 client_secret 的前提下将 Token 返回给客户端(浏览器或 app)，之后客户端使用该 Token 与其他资源服务器进行交互。同时还可以通过 refresh_token 获取新的 access_token 以支持长时会话，这也是OAuth2.0 简介中举例所使用的方式。 Implict: 直接由用户代理端(浏览器或 App) 向 OP 请求 Token，其查询字符串为 response_type=id_token token 或 response_type=id_token，OP 认证成功后将直接返回 id_token + access_token 或仅返回 id_token。这种方式不支持长时会话。 Hybrid: 这种方式结合了以上两种，情况，可指定 response_type=code id_token 的值，OP 在认证成功后立即返回 id_token 和 code 值用于交换访问资源的 access_token 和 refresh_token。 Tokens在了解了 Scopes，Claims 和 Response Type 之后，Tokens 就易于理解了，一共有三种类型的 Token ID Token一个 id_token 就是一个 JWT(JSON Web Token)，这意味着: 用户信息直接被包含在 Token 中 Token 同时包含了足够的信息以校验内容是否被篡改 官方声明中定义了一组用于校验 id_token 的规则，id_token 中的 exp Claim 必须作为参与校验程序的一部分，同时，JWT 使用一个用于签名的 key 来验证数据完整性。 Access TokensAccess Tokens 用作 Bearer Tokens，Bearer Token 意味着来访者可以直接访问授权的资源而无需额外的身份认证。因此，确保 Bearer Token 的安全性非常重要，如果其他人得到了这些 Token，那么就可以冒充受信任的来访者而盗取用户信息。 Access Tokens 通常只有很短的有效期(由其 exp Claim 指定)，当该 Token 过期，用户必须重新认证以得到新的 Bearer Token。OIDC 没有强制规定，于是许多授权服务也将 JWTs 用作 Access Token。 OIDC 将 /userinfo 定义为返回身份信息的入口点，使用 access_token 即可访问该入口点获取资源:123456http https://micah.oktapreview.com/oauth2/.../v1/userinfoHTTP/1.1 400 Bad Request...WWW-Authenticate: Bearer error="invalid_request", error_description="The access token is missing."... 携带 access_token 以访问该资源，但该 Token 已过期:1234567http https://micah.oktapreview.com/oauth2/.../v1/userinfo \Authorization:"Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6Ik93bFNJS3p3Mmt1Wk8zSmpnMW5Dc2RNelJhOEV1elY5emgyREl6X3RVRUkifQ..."HTTP/1.1 401 Unauthorized...WWW-Authenticate: Bearer error="invalid_token", error_description="The token has expired."... 使用一个有效的 access_token 进行访问:12345678910111213141516171819http https://micah.oktapreview.com/oauth2/.../v1/userinfo \Authorization:&quot;Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6Ik93bFNJS3p3Mmt1Wk8zSmpnMW5Dc2RNelJhOEV1elY5emgyREl6X3RVRUkifQ...&quot;HTTP/1.1 200 OK...&#123; &quot;family_name&quot;: &quot;Silverman&quot;, &quot;given_name&quot;: &quot;Micah&quot;, &quot;groups&quot;: [ &quot;ABC123&quot;, &quot;Everyone&quot; ], &quot;locale&quot;: &quot;en-US&quot;, &quot;name&quot;: &quot;Micah Silverman&quot;, &quot;preferred_username&quot;: &quot;micah+okta@afitnerd.com&quot;, &quot;sub&quot;: &quot;...&quot;, &quot;updated_at&quot;: 1490198843, &quot;zoneinfo&quot;: &quot;America/Los_Angeles&quot;&#125; Refresh TokensRefresh Token 用于获取新的 Access Token。通常，Refresh Token 有效期会长于 Access Token。以下是一种典型的案例: 用户登录并取得了一个 Access Token 和 Refresh Token。 应用程序检测到 Access Token 过期了 应用程序使用 Refresh Token 来取得一个新的 Access Token 重复步骤 2 和 3 直至 Refresh Token 过期 Refresh Token 过期之后，用户必须重新认证 这种做的意义是要在用户体验和安全之间取得平衡，假设用户账号被盗，或用户订阅的服务过期了。管理员可以在任何时候撤销用户的 Refresh Token，步骤 3 以上就将失效并强制用户重新认证，如果用户账号此时被挂起或锁定，那么用户也无法再进行认证了。 快速识别 Token ID Token 直接携带了用户身份信息，必须是 JWT Token Access Token 以 Bearer Token 的形式匿名访问特定资源 Refresh Tokens 仅仅用于获取更多的 Access Token 总结以下情况使用 OAuth 2.0: 为请求 API 的客户端分配权限 获取其他系统的用户数据 以下情况使用 OpenID Connect: 登录用户 使系统内用户在其他系统中可访问 应用场景举例: 带有后台服务的网站应用程序(例如 MVC): OpenID Connect，前台请求认证服务，换取 Access Token 和 ID Token，客户端将其以 Cookie 存入浏览器本地以保持状态，这样的优势在于，前后端不再依赖不同平台的 Session 实现，更好的前后端解耦。 本地移动应用: 客户端请求认证服务，换取 Access Token 和 ID Token，将其存储于与设备安全相关的内容栈上，例如 Keychain。 SPA: 前台请求认证服务，以 Implict 模式返回 Access Token 和 Id Token，并确保其安全。]]></content>
@@ -64,6 +87,8 @@
       </categories>
       <tags>
         <tag>security</tag>
+        <tag>oauth</tag>
+        <tag>jwt</tag>
       </tags>
   </entry>
   <entry>
@@ -75,20 +100,32 @@
       </categories>
       <tags>
         <tag>security</tag>
+        <tag>oauth</tag>
+        <tag>jwt</tag>
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[向 Let's Encrypt CA 申请单域名证书]]></title>
-    <url>%2Fsecurity-cert-from-letsencrypt%2F</url>
-    <content type="text"><![CDATA[参考资料: How its works - Let’s Encrypt Getting certificates(and choosing plugins) 本文索引: 前言 使用 Certbot 管理 Let’s Encrypt 颁发的数字证书 安装 Certbot 获取证书 安装证书 自动更新证书 删除证书 前言基于上一篇文章的介绍，本篇将介绍使用官方推荐的 ACME 客户代理软件Certbot 为 www.frosthe.net 申请 HTTPS 证书。 使用 Certbot 管理 Let’s Encrypt 颁发的数字证书certbot 在各个 *NIX 系统的发行版本都提供了对应的版本，以下以 Ubuntu 16.04 LTS 为例，为 www.frosthe.net 申请单域名证书。 在不支持通配符证书之前，Let&#39;s Encrypt 支持两种证书: 单域名证书: 证书仅包含一个域名 SAN 证书: 证书可包含多个域名(Let&#39;s Encrypt 限制为 20)，例如，一个证书可覆盖 www.example.com、www.example.cn、auth.example.com 等。 本文仅介绍单域名证书的申请。 安装 Certbot按照官方文档给出的 Ubuntu 16.04 LTS 系统的指引，执行以下命令:12345$ sudo apt-get update$ sudo apt-get install software-properties-common$ sudo add-apt-repository ppa:certbot/certbot$ sudo apt-get update$ sudo apt-get install certbot 获取证书certbot 支持一系列「插件」，这些插件主要服务于两种用途: 确认用户对域名的管理权限 dns 插件: 要求用户添加给定 DNS 记录来确认域名管理权 webroot 插件: 要求用户在站点根目录下新增给定资源来确认域名管理权 manual 插件: 自定义插件，通过提供数个脚本的方式满足 certbot 各个认证阶段的要求，这种方式通常适用于内置认证插件不支持的 dns 提供商，也用于自动化 将证书自动安装至指定 Web 服务器: Apache 插件: Nginx 插件: Haproxy 插件: Plesk 插件: 如果使用 certbot certonly 子命令，将以「交互模式」来选择需要使用哪种「插件」来获取证书，该模式有助于理解证书申请过程，但不便于自动化，以下以 certbot certonly 命令及 webroot 插件为 www.frosthe.net 申请数字证书:1234567891011121314151617$ sudo certbot certonlyHow would you like to authenticate with the ACME CA?- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -1: Spin up a temporary webserver (standalone)2: Place files in webroot directory (webroot)- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -Select the appropriate number [1-2] then [enter] (press &apos;c&apos; to cancel): 2Plugins selected: Authenticator webroot, Installer NoneStarting new HTTPS connection (1): acme-v02.api.letsencrypt.orgPlease enter in your domain name(s) (comma and/or space separated) (Enter &apos;c&apos;to cancel): www.frosthe.netObtaining a new certificatePerforming the following challenges:http-01 challenge for www.frosthe.netInput the webroot for www.frosthe.net: (Enter &apos;c&apos; to cancel): 到这里申请人收到 Let’s Encrypt 的挑战，要求申请人指定 www.frosthe.net 域名的 webroot，在进行下一步之前，需要完成以下两件事: 在 frosthe.net 的域名提供商控制台添加一条 DNS 记录将 www 记录值指向当前 Web Server 的 IP 地址。 配置 Web Server 使其能够响应 http 请求，这里我使用了 nginx:1234567server &#123; listen 80; listen [::]:80; server_name www.frosthe.net; root /var/www/html; index index.html;&#125; 需要指出的是，选用 webroot 插件必须保证主机的 80 或 443 端口是可访问的，因为 cerbot 没有提供选项指定目标主机的端口号 接下来，回到刚才的 certbot 流程当中:123456789101112131415161718Please enter in your domain name(s) (comma and/or space separated) (Enter 'c'to cancel): www.frosthe.netObtaining a new certificatePerforming the following challenges:http-01 challenge for www.frosthe.netInput the webroot for www.frosthe.net: (Enter 'c' to cancel): /var/www/htmlWaiting for verification...Cleaning up challengesIMPORTANT NOTES: - Congratulations! Your certificate and chain have been saved at: /etc/letsencrypt/live/www.frosthe.net/fullchain.pem Your key file has been saved at: /etc/letsencrypt/live/www.frosthe.net/privkey.pem Your cert will expire on 2018-12-17. To obtain a new or tweaked version of this certificate in the future, simply run certbot again. To non-interactively renew *all* of your certificates, run "certbot renew" 执行 sudo certbot certificates 可以看到 www.frosthe.net 域名的证书已经申请成功:123456789$ sudo certbot certificates- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -Found the following certs: Certificate Name: www.frosthe.net Domains: www.frosthe.net Expiry Date: 2018-12-17 11:52:22+00:00 (VALID: 89 days) Certificate Path: /etc/letsencrypt/live/www.frosthe.net/fullchain.pem Private Key Path: /etc/letsencrypt/live/www.frosthe.net/privkey.pem- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 上述过程为了便于理解，仅仅是获取证书，接下来需要安装证书。 安装证书成功获取证书之后，还没有任何地方应用它，在浏览器中尝试访问 https://www.frosthe.net 将会报错。certbot 同样提供了一系列「插件」以支持在成功获得证书之后自动安装到对应的 Web Server 配置，例如，nginx 插件，现在手动安装证书，编辑 nginx 的配置文件:12345678910111213server &#123; listen 80; listen [::]:80; server_name www.frosthe.net; root /var/www/html; index index.html; listen 443 ssl; listen [::]:443 ssl; ssl_certificate /etc/letsencrypt/live/www.frosthe.net/fullchain.pem; ssl_certificate_key /etc/letsencrypt/live/www.frosthe.net/privkey.pem;&#125; 再次尝试在浏览器中访问 https://www.frosthe.net，如预期一般显示了页面，查看该站点的证书文件，得到以下信息: 上述过程可由 certbot 的 nginx 插件自动安装，目前 Let’s Encrypt 通过在 webroot 下放置文件来自动验证域名拥有者:1$ sudo certbot --authenticator webroot --installer nginx 插件与 certbot 是分离的 package，在使用指定的插件以前，必须先通过 apt-get install 来安装相应的插件，具体可参考这里 自动更新证书由 Let&#39;s Encrypt 颁发的数字证书有效期仅为 90 天，过期之后 https 将失效。certbot 提供了 renew 子命令以更新证书有效期，可首先使用 sudo certbot --dry-run 进行测试:12345678910111213141516171819202122232425262728$ sudo certbot renew --dry-run- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -Processing /etc/letsencrypt/renewal/www.frosthe.net.conf- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -Cert not due for renewal, but simulating renewal for dry runPlugins selected: Authenticator webroot, Installer NoneStarting new HTTPS connection (1): acme-staging-v02.api.letsencrypt.orgRenewing an existing certificatePerforming the following challenges:http-01 challenge for www.frosthe.netWaiting for verification...Cleaning up challenges- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -new certificate deployed without reload, fullchain is/etc/letsencrypt/live/www.frosthe.net/fullchain.pem- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -** DRY RUN: simulating 'certbot renew' close to cert expiry** (The test certificates below have not been saved.)Congratulations, all renewals succeeded. The following certs have been renewed: /etc/letsencrypt/live/www.frosthe.net/fullchain.pem (success)** DRY RUN: simulating 'certbot renew' close to cert expiry** (The test certificates above have not been saved.)- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 最后，可将该命令以一条 crontab 的方式加入任务管理器，以定期执行更新，注意，如果 certbot 是以 root 用户安装的，则需要首先切换到 root。1234$ (sudo) su -$ crontab -e0 5 * * 1 certbot renew 删除证书执行 certbot delete 来执行删除证书的功能，该命令将列出已安装的证书，按提示选择目标证书:12345678910111213$ (sudo) certbot deleteSaving debug log to /var/log/letsencrypt/letsencrypt.logWhich certificate would you like to delete?-------------------------------------------------------------------------------1: www.frosthe.net-------------------------------------------------------------------------------Press 1 [enter] to confirm the selection (press 'c' to cancel): 1-------------------------------------------------------------------------------Deleted all files relating to certificate www.frosthe.net.------------------------------------------------------------------------------- 执行 certbot delete --cert-name www.frosthe.net 以快速删除证书:1$ (sudo) certbot delete --cert-name www.frosthe.net]]></content>
+    <title><![CDATA[向 Let's Encrypt CA 申请通配符证书]]></title>
+    <url>%2Fsecurity-cert-wildcard-from-letsencrypt%2F</url>
+    <content type="text"><![CDATA[本文索引: 前言 申请通配符证书 更新通配符证书 自动更新通配符证书 前言近期，Let&#39;s Encrypt 开放了通配符数字证书申请。通配符数字证书实现了单个证书绑定多个子域名。为了实现通配符证书，Let’s Encrypt 对 ACME 协议的实现进行了升级，只有 v2 协议才支持通配符证书。用户可自行查看客户代理软件是否支持 ACME v2 版本。官方主推的 Certbot 也需要升级到 0.22.0 版本之后才支持通配符证书。 通配符证书目前仅支持 dns-01 方式的 Challenge: dns-01: 申请人被要求将一串随机字符串以 TXT 记录添加至目标域名。 不同的 DNS 提供商可能提供了对应的「插件」，可能需要单独安装，certbot 第三方 DNS 插件可在此页面查看。如果你注册的域名提供商(例如阿里云)没有提供官方的 DNS 插件，那么只能手动完成验证。 申请通配符证书以下以 *.frosthe.net 为例，使用 manual 插件回应 Challenge。1$ certbot certonly -d *.frosthe.net --manual --preferred-chanllenge dns --server https://acme-v02.api.letsencrypt.org/directory 该命令表明: 仅为 *.frosthe.net 获取通配符证书，无需安装 使用 manual 插件 使用 dns 方式回应 Challenge 告知 certbot 采用 Let&#39;s Encrypt ACME v2 协议的 API 服务器 接下来，命令行显示窗会询问申请人当前主机的 ip 地址将被记录，是否接收，输入 y:12345678- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -NOTE: The IP of this machine will be publicly logged as having requested thiscertificate. If you&apos;re running certbot in manual mode on a machine that is notyour server, please ensure you&apos;re okay with that.Are you OK with your IP being logged?- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -(Y)es/(N)o: y 下一步 certbot 将要求申请人手动添加一条 TXT 的解析:123456789- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -Please deploy a DNS TXT record under the name_acme-challenge.frosthe.net with the following value:h9MFbboNRKqN4_8iDlu4dpIBd9UrXKqRrmP62ZHGhJ8Before continuing, verify the record is deployed.- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -Press Enter to Continue 现在，登录 frosthe.net 域名注册商的后台管理界面，按照上述要求添加一条如下图的解析记录:确认无误后，回车，得到如下信息:12345678910111213IMPORTANT NOTES: - Congratulations! Your certificate and chain have been saved at: /etc/letsencrypt/live/frosthe.net/fullchain.pem Your key file has been saved at: /etc/letsencrypt/live/frosthe.net/privkey.pem Your cert will expire on 2019-03-30. To obtain a new or tweaked version of this certificate in the future, simply run certbot again. To non-interactively renew *all* of your certificates, run "certbot renew" - If you like Certbot, please consider supporting our work by: Donating to ISRG / Let's Encrypt: https://letsencrypt.org/donate Donating to EFF: https://eff.org/donate-le 操作完成，可至对应的目录获取证书以作用后。 更新通配符证书通配符证书同样可由 certbot renew 子命令进行更新，但必须手动完成 challenge:1$ certbot renew --manual --preferred-challenge dns --server https://acme-v02.api.letsencrypt.org/directory 自动更新通配符证书由于通配符证书仅支持 dns 方式的验证，而这种方式要求申请人在其域名管理后台添加新的 TXT 记录，除了某些官方列出的域名提供商以外，其他域名托管商(例如阿里云)的申请人需要外挂脚本来自动化这一过程，参考 Pre and Post Validation Hooks。]]></content>
       <categories>
         <category>Cryptography</category>
       </categories>
       <tags>
         <tag>security</tag>
-        <tag>cryptography</tag>
-        <tag>ssl-certificate</tag>
-        <tag>letsencrypt</tag>
+        <tag>https</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[向 Let's Encrypt CA 申请单域名证书]]></title>
+    <url>%2Fsecurity-cert-from-letsencrypt%2F</url>
+    <content type="text"><![CDATA[参考资料: How its works - Let’s Encrypt Getting certificates(and choosing plugins) 本文索引: 前言 使用 Certbot 管理 Let’s Encrypt 颁发的数字证书 安装 Certbot 获取证书 安装证书 自动更新证书 删除证书 前言基于上一篇文章的介绍，本篇将介绍使用官方推荐的 ACME 客户代理软件Certbot 为 www.frosthe.net 申请 HTTPS 证书。 使用 Certbot 管理 Let’s Encrypt 颁发的数字证书certbot 在各个 *NIX 系统的发行版本都提供了对应的版本，以下以 Ubuntu 16.04 LTS 为例，为 www.frosthe.net 申请单域名证书。 在不支持通配符证书之前，Let&#39;s Encrypt 支持两种证书: 单域名证书: 证书仅包含一个域名 SAN 证书: 证书可包含多个域名(Let&#39;s Encrypt 限制为 20)，例如，一个证书可覆盖 www.example.com、www.example.cn、auth.example.com 等。 本文仅介绍单域名证书的申请。 安装 Certbot按照官方文档给出的 Ubuntu 16.04 LTS 系统的指引，执行以下命令:12345$ sudo apt-get update$ sudo apt-get install software-properties-common$ sudo add-apt-repository ppa:certbot/certbot$ sudo apt-get update$ sudo apt-get install certbot 获取证书certbot 支持一系列「插件」，这些插件主要服务于两种用途: 确认用户对域名的管理权限 dns 插件: 要求用户添加给定 DNS 记录来确认域名管理权 webroot 插件: 要求用户在站点根目录下新增给定资源来确认域名管理权 manual 插件: 手动插件，意即，需要手动操作以完成 challenge 将证书自动安装至指定 Web 服务器: Apache 插件: Nginx 插件: Haproxy 插件: Plesk 插件: 如果使用 certbot certonly 子命令，将以「交互模式」来选择需要使用哪种「插件」来获取证书，该模式有助于理解证书申请过程，但不便于自动化，以下以 certbot certonly 命令及 webroot 插件为 www.frosthe.net 申请数字证书:1234567891011121314151617$ sudo certbot certonlyHow would you like to authenticate with the ACME CA?- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -1: Spin up a temporary webserver (standalone)2: Place files in webroot directory (webroot)- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -Select the appropriate number [1-2] then [enter] (press &apos;c&apos; to cancel): 2Plugins selected: Authenticator webroot, Installer NoneStarting new HTTPS connection (1): acme-v02.api.letsencrypt.orgPlease enter in your domain name(s) (comma and/or space separated) (Enter &apos;c&apos;to cancel): www.frosthe.netObtaining a new certificatePerforming the following challenges:http-01 challenge for www.frosthe.netInput the webroot for www.frosthe.net: (Enter &apos;c&apos; to cancel): 到这里申请人收到 Let’s Encrypt 的挑战，要求申请人指定 www.frosthe.net 域名的 webroot，在进行下一步之前，需要完成以下两件事: 在 frosthe.net 的域名提供商控制台添加一条 DNS 记录将 www 记录值指向当前 Web Server 的 IP 地址。 配置 Web Server 使其能够响应 http 请求，这里我使用了 nginx:1234567server &#123; listen 80; listen [::]:80; server_name www.frosthe.net; root /var/www/html; index index.html;&#125; 需要指出的是，选用 webroot 插件必须保证主机的 80 端口是可访问的，因为 certbot 没有提供选项指定目标主机的端口号 接下来，回到刚才的 certbot 流程当中:123456789101112131415161718Please enter in your domain name(s) (comma and/or space separated) (Enter 'c'to cancel): www.frosthe.netObtaining a new certificatePerforming the following challenges:http-01 challenge for www.frosthe.netInput the webroot for www.frosthe.net: (Enter 'c' to cancel): /var/www/htmlWaiting for verification...Cleaning up challengesIMPORTANT NOTES: - Congratulations! Your certificate and chain have been saved at: /etc/letsencrypt/live/www.frosthe.net/fullchain.pem Your key file has been saved at: /etc/letsencrypt/live/www.frosthe.net/privkey.pem Your cert will expire on 2018-12-17. To obtain a new or tweaked version of this certificate in the future, simply run certbot again. To non-interactively renew *all* of your certificates, run "certbot renew" 执行 sudo certbot certificates 可以看到 www.frosthe.net 域名的证书已经申请成功:123456789$ sudo certbot certificates- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -Found the following certs: Certificate Name: www.frosthe.net Domains: www.frosthe.net Expiry Date: 2018-12-17 11:52:22+00:00 (VALID: 89 days) Certificate Path: /etc/letsencrypt/live/www.frosthe.net/fullchain.pem Private Key Path: /etc/letsencrypt/live/www.frosthe.net/privkey.pem- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 为了便于理解，上述过程为全手动操作的「交互模式」，可用选项指定这些值:1$ certbot certonly -d www.frosthe.net --webroot 安装证书成功获取证书之后，还没有任何地方使用它，在浏览器中尝试访问 https://www.frosthe.net 将会报错。certbot 同样提供了一系列「插件」以支持在成功获得证书之后自动安装到对应的 Web Server 配置，例如，nginx 插件，现在手动安装证书，编辑 nginx 的配置文件:12345678910111213server &#123; listen 80; listen [::]:80; server_name www.frosthe.net; root /var/www/html; index index.html; listen 443 ssl; listen [::]:443 ssl; ssl_certificate /etc/letsencrypt/live/www.frosthe.net/fullchain.pem; ssl_certificate_key /etc/letsencrypt/live/www.frosthe.net/privkey.pem;&#125; 再次尝试在浏览器中访问 https://www.frosthe.net，如预期一般显示了页面，查看该站点的证书文件，得到以下信息: 上述过程可由 certbot 的 nginx 插件自动安装，目前 certbot 通过在 webroot 下放置文件来自动验证域名拥有者:1$ sudo certbot -d www.frosthe.net --authenticator webroot --installer nginx 插件与 certbot 是分离的 package，在使用指定的插件以前，必须先通过 apt-get install 来安装相应的插件，具体可参考这里 自动更新证书由 Let&#39;s Encrypt 颁发的数字证书有效期仅为 90 天，原因可参考这里。过期之后 HTTPS 将失效。certbot 提供了 renew 子命令以更新证书有效期，可首先使用 sudo certbot --dry-run 进行测试:12345678910111213141516171819202122232425262728$ sudo certbot renew --dry-run- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -Processing /etc/letsencrypt/renewal/www.frosthe.net.conf- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -Cert not due for renewal, but simulating renewal for dry runPlugins selected: Authenticator webroot, Installer NoneStarting new HTTPS connection (1): acme-staging-v02.api.letsencrypt.orgRenewing an existing certificatePerforming the following challenges:http-01 challenge for www.frosthe.netWaiting for verification...Cleaning up challenges- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -new certificate deployed without reload, fullchain is/etc/letsencrypt/live/www.frosthe.net/fullchain.pem- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -** DRY RUN: simulating 'certbot renew' close to cert expiry** (The test certificates below have not been saved.)Congratulations, all renewals succeeded. The following certs have been renewed: /etc/letsencrypt/live/www.frosthe.net/fullchain.pem (success)** DRY RUN: simulating 'certbot renew' close to cert expiry** (The test certificates above have not been saved.)- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 最后，可将该命令以一条 crontab 的方式加入任务管理器，以定期执行更新，注意，如果 certbot 是以 root 用户安装的，则需要首先切换到 root。1234$ (sudo) su -$ crontab -e0 5 * * 1 certbot renew 删除证书执行 certbot delete 来执行删除证书的功能，该命令将列出已安装的证书，按提示选择目标证书:12345678910111213$ (sudo) certbot deleteSaving debug log to /var/log/letsencrypt/letsencrypt.logWhich certificate would you like to delete?-------------------------------------------------------------------------------1: www.frosthe.net-------------------------------------------------------------------------------Press 1 [enter] to confirm the selection (press 'c' to cancel): 1-------------------------------------------------------------------------------Deleted all files relating to certificate www.frosthe.net.------------------------------------------------------------------------------- 执行 certbot delete --cert-name www.frosthe.net 以快速删除证书:1$ (sudo) certbot delete --cert-name www.frosthe.net]]></content>
+      <categories>
+        <category>Cryptography</category>
+      </categories>
+      <tags>
+        <tag>security</tag>
+        <tag>https</tag>
       </tags>
   </entry>
   <entry>
@@ -101,8 +138,7 @@
       <tags>
         <tag>security</tag>
         <tag>cryptography</tag>
-        <tag>ssl-certificate</tag>
-        <tag>letsencrypt</tag>
+        <tag>https</tag>
       </tags>
   </entry>
   <entry>
@@ -127,6 +163,7 @@
       </categories>
       <tags>
         <tag>security</tag>
+        <tag>cryptography</tag>
         <tag>netframework</tag>
       </tags>
   </entry>
@@ -256,8 +293,8 @@
       </categories>
       <tags>
         <tag>architecture</tag>
-        <tag>dotnet</tag>
         <tag>mediator-pattern</tag>
+        <tag>dotnet</tag>
       </tags>
   </entry>
   <entry>
@@ -268,34 +305,8 @@
         <category>ASP.NET Core</category>
       </categories>
       <tags>
+        <tag>docker</tag>
         <tag>aspnet-core</tag>
-        <tag>docker</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[在 Dockerfile 中使用多阶段生成(Multi-Stage Builds)]]></title>
-    <url>%2Fdocker-multi-stage-build%2F</url>
-    <content type="text"><![CDATA[Docker 17.05 以上版本开始支持 multi-stage builds，该功能帮助试图优化 Dockerfile 的开发人员将这些文件保持得易读且干净。 在 Multi-Stage Builds 之前生成 Image 的最大的挑战之一便是将其保持在一个合理的大小。Dockerfile 中的每一条指令都向 Image 添加一「层」，在继续下一条指令之前，开发人员需要首先清除掉那些不必要的内容。为了编写一个高效的 Dockerfile，传统的办法是加入 shell 脚本及其他逻辑来确保每一「层」都仅包含其所需的内容。 过去，维护两个 Dockerfile 非常常见，一个用于开发和调试，另一个用于生产环境，但这种方案并不完美，以下是一个例子，分别以 Dockerfile.build 和 Dockerfile 命名:Dockerfile.build12345FROM golang:1.7.3WORKDIR /go/src/github.com/alexellis/href-counter/COPY app.go .RUN go get -d -v golang.org/x/net/html \ &amp;&amp; CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o app . RUN 指令中有意将两个命令通过 &amp;&amp; 合并在同一行，这是为了防止在 Image 中创建额外的「层」，但这非常不易维护，很容易忘记在插入新行时指定 \ 字符。Dockerfile12345FROM alpine:latest RUN apk --no-cache add ca-certificatesWORKDIR /root/COPY app .CMD ["./app"] build.sh1234567891011121314#!/bin/shecho Building alexellis2/href-counter:builddocker build --build-arg https_proxy=$https_proxy --build-arg http_proxy=$http_proxy \ -t alexellis2/href-counter:build . -f Dockerfile.builddocker container create --name extract alexellis2/href-counter:build docker container cp extract:/go/src/github.com/alexellis/href-counter/app ./app docker container rm -f extractecho Building alexellis2/href-counter:latestdocker build --no-cache -t alexellis2/href-counter:latest .rm ./app 当执行 build.sh 时，首先需要生成第一个 Image，从该 Image 创建一个 Container，然后将所需内容拷贝出来，再创建第二个 Image。两个 Image 都会占用系统空间。 Multi-stage builds 极大简化了该解决方案 使用 Multi-Stage Builds通过 multi-stage builds，可在 Dockerfile 中多次使用 FROM 指令，每个 FROM 都可基于不同的 Image，且每个都会开启生成流程中的新阶段(Stage)。可以在各个阶段之间拷贝内容，或是在生成最终 Image 时将所有不需要的内容丢弃，现在将上述例子改造:Dockerfile1234567891011FROM golang:1.7.3WORKDIR /go/src/github.com/alexellis/href-counter/RUN go get -d -v golang.org/x/net/html COPY app.go .RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o app .FROM alpine:latest RUN apk --no-cache add ca-certificatesWORKDIR /root/COPY --from=0 /go/src/github.com/alexellis/href-counter/app .CMD ["./app"] 仅仅需要一个 Dockerfile，也不需要额外的生成脚本，直接执行 docker build。 1$ docker build -t alexellis2/href-counter:latest . 结果与之前一样，省去了大量的中间环节。第二个 FROM 指令开启新的生成阶段并将 alpine:latest 作为其基础 Image，COPY --from=0 将前一阶段的生成内容拷贝到新的阶段，而 Go SDK 和其他所有中间内容都被丢弃。 给生成阶段命名默认情况下，生成阶段不会被命名，仅使用整数值来引用它们，生成阶段从 0 开始计数。第一个 FROM 指令为 0，以后递增。更好的办法是对不同的生成阶段进行命名，通过为 FROM 指令添加 as &lt;NAME&gt; 为阶段命名，以下例子在前一个例子的基础上使用阶段命名和在 COPY 指令中对阶段以命名进行引用优化了可读性，这意味着即使未来 Dockerfile 调整了各个阶段的顺序，那么 COPY 也不会失效。1234567891011FROM golang:1.7.3 as builderWORKDIR /go/src/github.com/alexellis/href-counter/RUN go get -d -v golang.org/x/net/html COPY app.go .RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o app .FROM alpine:latest RUN apk --no-cache add ca-certificatesWORKDIR /root/COPY --from=builder /go/src/github.com/alexellis/href-counter/app .CMD ["./app"] 在特定的生成阶段中止当生成 Image 时，不需要对 Dockerfile 定义的每个阶段都进行生成，可以指定一个目标生成阶段以中止后续阶段的生成。以下命令展示了如何在名为 builder 的生成阶段中止生成:1$ docker build --target builder -t alexellis2/href-counter:latest . 该功能在一些特定场景下非常有用: 调试一个特定的生成阶段 定义了一个包含所有调试工具的调试阶段和一个干净的生产环境阶段 定义了一个包含测试数据的测试阶段，而生产环境阶段使用真实数据 将外部 Image 用作生成阶段当使用 multi-stage builds 时，将不会将复制内容局限在定义在 Dockerfile 中的前序生成阶段，也可以用 COPY --from 复制来自一个外部 Image 的内容，Docker 客户端将拉取该 Image 并赋值其内容:1COPY --from=nginx:latest /etc/nginx/nginx.conf /nginx.conf 最佳实践创建尽可能小的 Container这意味着 Dockerfile 定义的 Image 应该尽可能的轻量，能够随时停止和销毁，并能够以最小配置信息被重建出来。 排除 .dockerignore使用 .dockerignore 文件来排除与生成不相关的文件，该文件支持与 .gitignore 文件相同的模式匹配。详情可参考 .dockerignore 文件。 使用 multi-stage buildsDocker 17.05 以上版本支持 Multi-stage builds，该功能使得最终生成的 Image 大小可显著降低，无需再手动删除所有的中间层和多余文件，由于 Image 是由生成流程的最后阶段生成的，可以利用生成缓存来最小化 Image 的大小。 例如，如果 Dockerfile 定义了很多「层」，可按照拟修改频率调整它们的顺序，修改频率可能性最低的「层」应排在前面，而修改频率可能性较大的「层」放在后面: 安装必须的工具 安装或更新依赖库 生成应用程序 一个 Go 程序的 Dockerfile 可能看上去如下:123456789101112131415161718192021222324FROM golang:1.9.2-alpine3.6 AS build# Install tools required for project# Run `docker build --no-cache .` to update dependenciesRUN apk add --no-cache gitRUN go get github.com/golang/dep/cmd/dep# List project dependencies with Gopkg.toml and Gopkg.lock# These layers are only re-built when Gopkg files are updatedCOPY Gopkg.lock Gopkg.toml /go/src/project/WORKDIR /go/src/project/# Install library dependenciesRUN dep ensure -vendor-only# Copy the entire project and build it# This layer is rebuilt when a file changes in the project directoryCOPY . /go/src/project/RUN go build -o /bin/project# This results in a single layer imageFROM scratchCOPY --from=build /bin/project /bin/projectENTRYPOINT ["/bin/project"]CMD ["--help"] 最小化「层」的数量 在 Docker 1.10 及更高版本中，只有 RUN，COPY，ADD 指令会创建「层」，其他指令只会创建临时 Image 且不会直接增加生成的大小。 在 Docker 17.05 及更高版本中，可使用 multi-stage-builds 并仅将生成最终 Image 所需的内容取出。这样，调试和编译的工具仅作为中间生成环节存在而不会增大最终 Image 的大小。 Dockerfile 指令可参考: Dockerfile Instructions]]></content>
-      <categories>
-        <category>Docker</category>
-      </categories>
-      <tags>
-        <tag>docker</tag>
-        <tag>ops</tag>
-        <tag>docker-multi-stage-build</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[Dockerfile 最佳实践]]></title>
-    <url>%2Fdocker-dockerfile-best-practices%2F</url>
-    <content type="text"><![CDATA[参考资料: Dockerfile Instructions Docker RUN vs CMD vs ENTRYPOINT Building Minimal Docker Containers for Python Applications Docker Image 和 层创建一个 Image 由 Dockerfile 中的一系列指令组成，这些指令从现有 Image 或 OS 之上添加「层」，OS 是每个 Image 的起始点，于其上添加「层」来创建新的 Image。每一「层」参考前一层针对上下文进行修改，就像一个洋葱，OS 位于最内层。考虑以下 Dockerfile:1234FROM ubuntu:15.04COPY . /appRUN make /appCMD python /app/app.py 每一行指令都创建一层: FROM: 创建一层从 ubuntu:15.04 的 Docker Image COPY: 从 Docker 客户端的当前目录添加文件 RUN: 调用 make 生成应用程序 CMD: 指示 Container 应该执行什么命令 当运行 Container 时，实际上是在所有「层」之上添加了一个可写「层」，针对运行 Container 的所有改变，如写入新文件，修改现有文件或删除文件，都在该「层」中进行 理解生成 Context当执行 docker build 命令时，当前的工作目录被称为 build context。命令行工具默认情况下会假设 Dockerfile 位于此目录下，但也可通过 -f 选项来指定文件路径。 RUN，CMD 和 ENTRYPOINT 的区别Shell 形式Shell 形式通常为 &lt;instruction&gt; &lt;command&gt;，例如:123RUN apt-get install python3CMD echo "Hello world"ENTRYPOINT echo "Hello world" 三个指令都可以写为 Shell 形式，当指令以 Shell 形式执行时，实际上指令是以 /bin.sh -c &lt;command&gt; 进行调用的，如果 Dockerfile 中存在如下指令:12ENV name John DowENTRYPOINT echo "Hello, $name" 那么执行 docker run -it &lt;image&gt; 将得到:1Hello, John Dow 可以看到，变量在执行时得到了解析 EXEC 形式EXEC 形式是 CMD 和 ENTRYPOINT 指令推荐的形式，该形式以字符串数组的来传递命令行的每一个 Arg，其形如:12345&lt;instruction&gt; ["executable", "param1", "param2"]RUN ["apt-get", "install", "python3"]CMD ["/bin/echo", "Hello world"]ENTRYPOINT ["/bin/echo", "Hello world"] 指令以这种方式执行时，将绕过 shell 环境直接调用可执行程序，如果在 Dockerfile 中定义如下指令:12ENV name John DowENTRYPOINT ["/bin/echo", "Hello, $name"] 那么执行 docker run -it &lt;image&gt; 将得到:1Hello, $name 此处变量没有被解析，如果希望得到跟前一个例子相同的结果，那么需要在 ENTRYPOINT 中制定 shell 环境的可执行程序:1234ENV name John DowENTRYPOINT ["/bin/bash", "-c", "echo Hello, $name"]Hello John Dow RUNRUN 指令在当前 Image 之上执行命令并创建一个新的「层」，创建新的 Image，并加入 RUN 指令的执行结果。RUN 指令可用 Shell 或 EXEC 形式书写，通常用来安装依赖库，如:123456RUN apt-get update &amp;&amp; apt-get install -y \ bzr \ cvs \ git \ mercurial \ subversion CMDCMD 指令用来指定一个缺省指令，仅当 Docker Container 未指定任何命令时起作用。如:123CMD echo "Hello world" $ docker run -it &lt;image&gt;Hello world 如果执行 docker run -it &lt;image&gt; /bin/bash，那么 CMD 将被忽略，并得到:1root@7de4bed89922:/# ENTRYPOINTENTRYPOINT 用于配置将 Container 以可执行程序的方式执行，该指令与 CMD 很相似，区别在于 ENTRYPOINT 指令不会被忽略。ENTRYPOINT 有两种形式: Shell 和 EXEC 形式。选择不同的形式将导致不一样的结果。 EXEC 形式该形式允许 ENTRYPOINT 指令通过 CMD 指令接收候补参数，例如:123456ENTRYPOINT ["/bin/echo", "Hello"]CMD ["world"]# 当 docker run -it &lt;image&gt; 时得到Hello world# 但当 docker run -it &lt;image&gt; John 时得到Hello John Shell 形式以此形式书写时，ENTRYPOINT 将忽略来自 CMD 和 docker run 命令行的命令。 通用指南 使用 RUN 指令在初始 Image 上添加新的「层」来生成最终的 Image。 通过 CMD 指令来指定缺省命令 通过 ENTRYPOINT 和 CMD 来创建可执行程序的 Image 并提供一个可被覆盖的初始命令。 如果 Dockerfile 定义了多个 CMD 指令，只有最后一个会生效。CMD 有三种形式: CMD [&quot;executable&quot;, &quot;param1&quot;, &quot;param2&quot;]: EXEC 形式，推荐 CMD [&quot;param1&quot;, &quot;param2&quot;]: 作为 ENTRYPOINT 的候补命令参数 CMD command param1 param2: Shell 形式]]></content>
-      <categories>
-        <category>Docker</category>
-      </categories>
-      <tags>
-        <tag>docker</tag>
-        <tag>ops</tag>
-        <tag>dockerfile</tag>
       </tags>
   </entry>
   <entry>
@@ -306,8 +317,8 @@
         <category>Docker</category>
       </categories>
       <tags>
-        <tag>docker</tag>
         <tag>ops</tag>
+        <tag>docker</tag>
       </tags>
   </entry>
   <entry>
@@ -318,8 +329,8 @@
         <category>Docker</category>
       </categories>
       <tags>
-        <tag>docker</tag>
         <tag>ops</tag>
+        <tag>docker</tag>
       </tags>
   </entry>
   <entry>
@@ -330,8 +341,8 @@
         <category>Docker</category>
       </categories>
       <tags>
-        <tag>docker</tag>
         <tag>ops</tag>
+        <tag>docker</tag>
       </tags>
   </entry>
   <entry>
@@ -342,8 +353,8 @@
         <category>Docker</category>
       </categories>
       <tags>
-        <tag>docker</tag>
         <tag>ops</tag>
+        <tag>docker</tag>
       </tags>
   </entry>
   <entry>
@@ -354,8 +365,8 @@
         <category>Docker</category>
       </categories>
       <tags>
-        <tag>docker</tag>
         <tag>ops</tag>
+        <tag>docker</tag>
       </tags>
   </entry>
   <entry>
@@ -366,8 +377,8 @@
         <category>Docker</category>
       </categories>
       <tags>
-        <tag>docker</tag>
         <tag>ops</tag>
+        <tag>docker</tag>
       </tags>
   </entry>
   <entry>
@@ -378,19 +389,8 @@
         <category>Docker</category>
       </categories>
       <tags>
-        <tag>docker</tag>
         <tag>ops</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[家庭网关基础服务 - DHCP, DNS, NAT]]></title>
-    <url>%2Fhomeserver-router-basic-services%2F</url>
-    <content type="text"><![CDATA[本文索引: 前言 DHCP DNS NAT 前言大多数家庭网络，通过一个家庭网关将本地局域网(LAN - Local Area Network，下称 LAN)与广域网(WAN - Wide Area Network，下称 WAN)连接起来，本篇文章将介绍实现这一功能涉及到的一系列软件和硬件基础设施。 家庭网关通常指间于广域网和局域网起桥梁作用的设备:我们最熟悉的家庭网关设备就是路由器，其最基本的功能，是在 LAN 和 WAN 之间路由数据。但在多数时候，它还兼顾了其他对 LAN 有用的功能: DHCP: 提供 LAN 主机 IPv4 地址的服务 DNS: 响应 LAN 主机的名称查询 NAT(Network Address Translation): 将公网 IPv4 地址映射至 LAN 主机 IPv4 地址 DHCPDHCP(Dynamic Host Configuration Protocol) 是一种用于动态分配 IP 地址至 LAN 主机的协议。它为家庭主机用户或网络管理员省去了手动为每台主机配置 IP 地址的工作。同时，它维护一个 IP 地址池，当一台主机与 LAN 断开连接，它之前占用的 IP 地址将回到该池，并在有新的设备连接至 LAN 时重新分配。以 DHCP 获取 IP 地址的过程包含 4 个阶段，其被称为 DORA - discovery, offer, request 和 acknowledgement。如下图所示: 首先，客户主机广播一条 DHCP DISCOVER 消息 DHCP 服务器收到此消息，以一条 DHCP OFFER 单播消息回应，该消息包至少包含一个可用的 IP 地址，或包含网关地址和 DNS 服务器地址。如果 LAN 中有多个 DHCP 服务器，客户主机可能收到多条 OFFER 消息。 客户主机用一条 DHCP REQUEST 消息回复一条 OFFER 消息，该 REQUEST 消息将在 LAN 中广播，如果有其他 DHCP 服务器也发布过 OFFER 消息，在接收到此条 REQUEST 消息后将视为该客户主机已拒绝该 OFFER。 收到 REQUEST 消息的 DHCP 服务器将以一条 ACK 消息发布确认信息。 上述 4 个步骤完成之后，客户主机将被分配一个带有有效期的 IP 地址，在 IP 地址过期之后，客户主机将以一定间隔发布 REQUEST+ACK 消息以续期该 IP 地址。当客户主机与 LAN 断开连接时，将会发送一条 RELEASE 消息以告知 DHCP 服务器放弃该 IP 地址的使用。 通常，家庭网关设备会内置 DHCP 服务，并允许用户指定可分配 IP 地址的范围以及其他一些选项: DNS网络中的主机需要以阅读友好的名称来区分它们，而不是通过 IP 地址(IP 地址太难让人记住)，DNS(Domain Name System) 是一个存储名称 - IP 地址映射记录的系统，并提供查询功能(域名解析)。 许多家庭网关设备同时扮演了 DNS 服务器的角色，用以家庭主机以域名形式定位其他主机的 IP 地址。DNS 服务器同时支持递归查询，这意味着本地 DNS 服务器可链接上游 DNS 服务器，形成递归链。DNS 查询从链中第一个节点开始查找，找不到则查询下一个节点，直到找到或链的尾端。DNS 的解析也以 . 分割进行渐进式查找，假设 LAN 中的主机想要获取 witestlab.poly.edu 域名的 IP 地址。 所有的 DNS 域名在最后都有一个 .，但即便省略该 .，DNS 解析者也能够工作 下图展示了整个过程: LAN 中的 DNS 服务器并没有在本地存储 witestlab.poly.edu 的域名映射记录，则将其委托至上游 DNS 服务器 上游 DNS 服务器从最右边开始解析 witestlab.poly.edu，找到负责解析 . 的根 DNS 服务器 根 DNS 服务器不知道 witestlab.poly.edu 的映射记录，但它会回复一个能够解析 .edu(顶级域名) 的 DNS 服务器列表 .edu DNS 服务器也不知道 witestlab.poly.edu 的映射记录，但它会回复一个能够解析 poly.edu(二级域名) 的 DNS 服务器列表 最终，负责解析 poly.edu 的 DNS 服务器知道 witestlab.poly.edu 的映射记录，并最终返回期望的 IP 地址 因此，任何知道根 DNS 服务器地址的 DNS 服务器最终都能找到对应域名的映射记录(除非本身记录不存在)。 在上述例子中，域名服务器所存储的映射记录如下图所示: NAT家庭网关另一个常见的功能是 NAT(Network Address Translation)。NAT 通过修改穿越网关数据包头部信息将 IP 地址空间映射到另一个 IP 地址空间。由于全局公网 IPv4 地址稀缺，不可能为 LAN 中的每一台主机分配一个公网 IPv4 地址。相反，ISP(Internet Service Provider) 仅将为家庭网络分配一个公网 IPv4 地址。LAN 中的主机将使用一个私有的 IP 地址空间，如 192.168.0.0/16 空间。然而，这些地址无法在直接广域网中路由，因此 NAT 一个常见的功能是映射 LAN 中私有 IP 地址至该公网 IPv4 地址。这样，由 LAN 中主机发起或接收的流量就可被路由至广域网。 下图展示了 NAT 网关如何通过修改数据包头部信息来实现这一功能: LAN 中的主机发起一个指向 WAN 中主机的网络连接，该连接会穿越 NAT 网关。开始发送数据包后，这些数据包的原始 From 地址为 LAN 中的私有 IP 地址。 NAT 网关在其翻译表中添加一条新记录，记下 LAN 主机 IP 地址、TCP 端口号、并尝试在 NAT 主机中开放相同的 TCP 端口并记下，如果该端口已经被占用，则尝试其他端口。 当数据包穿越 NAT 网关时，NAT 根据翻译表中的记录，修改数据包的头部信息，将其 From 地址和端口号分别替换为公网 IPv4 地址及记录中的端口号。所以，当数据包实际抵达目标 WAN 主机时，该主机实际收到的是其公网 IP 及家庭网关设备对应的 TCP 端口号 当远程 WAN 主机回发数据包至 NAT 网关，NAT 检查数据包头部信息中的 Destionation Port，再与翻译表中存储的记录比对，提取该条记录对应的 LAN 主机 IP 地址 NAT 再次修改入站数据包头部信息的 Destionation IP 地址及端口号，最终成功完成数据包的转发。 NAT 仅服务于出站的新网络连接，如果网络连接直接由 WAN 主机发起，但 NAT 维护的翻译表中找不到任何匹配的记录，那么所有数据包将被丢弃。因此，位于 NAT 网关之后的设备无法接收来自 WAN 主机的网络连接。 想要 WAN 主机主动对位于 NAT 网关之后的主机发起连接，可以借助端口转发(Port Forwarding)。很多家庭网关设备同样内置了该功能，下图展示了一个端口转发的案例: 假设家庭网络的公网 IPv4 地址为 128.238.66.220，处于 WAN 中的任何主机都可以对该 IP 地址主动发起连接，并使用 TCP 端口 443。NAT 将检查端口转发表以定位 LAN 主机的 IP 地址，同样修改数据包的头部信息。]]></content>
-      <categories>
-        <category>Home Server</category>
-      </categories>
-      <tags>
-        <tag>network</tag>
+        <tag>docker</tag>
       </tags>
   </entry>
   <entry>
@@ -607,18 +607,6 @@
       </categories>
       <tags>
         <tag>ddd</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title><![CDATA[网件路由器刷 OpenWrt]]></title>
-    <url>%2Fhomeserver-install-openwrt-on-router%2F</url>
-    <content type="text"><![CDATA[OpenWrt 项目官网 到这个页面查看支持的设备 定位到对应路由器设备页面，此处以 Netgear WNDR 4300 为例，注意安装和升级是两个文件 安装固件新版的镜像在 GUI 方面做了很大的改进，几乎所有设置都可以通过在 Web UI 上完成。 通过 TFTP 的方式安装 关闭路由器电源 为本机预设一个固定的 ip 地址，例如 192.168.1.35，用网线连接至路由器 打开路由器电源 当 LED 灯亮起时，按住 RESET 按钮 保持 RESET 按钮按住，直至「电源 LED 灯」由闪烁「黄灯」变为闪烁「绿灯」 执行 tftp 流转:1$ tftp -i 192.168.1.1 PUT ./openwrt-18.06.1-ar71xx-nand-wndr4300-ubi-factory.img PUT 之后的参数跟 image 的路径 通过网件 OEM 方式安装 使用网线连接至路由器，并在浏览器中输入 http://192.168.1.1 导航至 Advanced -&gt; Administration -&gt; Firmware Upgrade 上传 OpenWrt 固件 openwrt-18.06.1-ar71xx-nand-wndr4300-ubi-factory.img，点击开始 等待安装完成 安装完成之后，可能需要重启一次才能正常访问 192.168.1.1 配置 OpenWrt 导航至 192.168.1.1，使用 root(密码为空)，登录页面，修改一个 root 的密码 导航至 System -&gt; System，为路由器主机换一个名字，并更改为对应的时区: 将光猫用网线连接路由器的 WAN 口，导航至 Network -&gt; Interface，编辑 WAN: 使用路由器进行拨号上网，在 Protocol 一栏选择 PPPoE 点击 Switch protocol 确认操作 填写由 ISP 分配的账号与密码: 完成之后点击 Save &amp; Apply 导航至 Network -&gt; Wireless，设置 2.4 GHz 及 5 GHz 的无线网络 接下来，便可开始对路由器针对性的配置诸如 DDNS，端口转发等功能的配置了。]]></content>
-      <categories>
-        <category>Home Server</category>
-      </categories>
-      <tags>
-        <tag>linux</tag>
-        <tag>openwrt</tag>
       </tags>
   </entry>
   <entry>
