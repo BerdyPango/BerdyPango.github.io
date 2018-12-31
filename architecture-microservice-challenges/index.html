@@ -1,0 +1,1266 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next mist" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="K2S73UudyU-JTh9S0U_KnOKgOvE7aW7EpO560okLyUU" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="ddd,architecture,microservices," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="总结了实施微服务架构前应用程序所面临的挑战与可能的可行方案">
+<meta name="keywords" content="ddd,architecture,microservices">
+<meta property="og:type" content="article">
+<meta property="og:title" content="实施微服务架构所面临的挑战">
+<meta property="og:url" content="https://blog.frosthe.net/architecture-microservice-challenges/index.html">
+<meta property="og:site_name" content="FrostHe.Handbook">
+<meta property="og:description" content="总结了实施微服务架构前应用程序所面临的挑战与可能的可行方案">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://blog.frosthe.net/architecture-microservice-challenges/microservice-deployment.png">
+<meta property="og:image" content="https://blog.frosthe.net/architecture-microservice-challenges/microservice-boundry.png">
+<meta property="og:image" content="https://blog.frosthe.net/architecture-microservice-challenges/apigateway-intro.png">
+<meta property="og:image" content="https://blog.frosthe.net/architecture-microservice-challenges/cross-service-db-access-not-allowed.png">
+<meta property="og:image" content="https://blog.frosthe.net/architecture-microservice-challenges/async-communication-cross-microservices.png">
+<meta property="og:updated_time" content="2018-12-31T07:26:40.445Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="实施微服务架构所面临的挑战">
+<meta name="twitter:description" content="总结了实施微服务架构前应用程序所面临的挑战与可能的可行方案">
+<meta name="twitter:image" content="https://blog.frosthe.net/architecture-microservice-challenges/microservice-deployment.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"display":"hide"},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: 'ZL78UP9TUE',
+      apiKey: '',
+      indexName: 'FrostHe.Handbook',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://blog.frosthe.net/architecture-microservice-challenges/"/>
+
+
+
+
+
+  <title>实施微服务架构所面临的挑战 | FrostHe.Handbook</title>
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-125853342-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+
+  <div class="container  page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">FrostHe.Handbook</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Stay hungry, stay foolish</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            时间线
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://blog.frosthe.net/architecture-microservice-challenges/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Frost He">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FrostHe.Handbook">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">实施微服务架构所面临的挑战</h1>
+        
+
+        <div class="post-meta">
+          
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-19T11:52:34+08:00">
+                2018-11-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Architecture-and-Pattern/" itemprop="url" rel="index">
+                    <span itemprop="name">Architecture and Pattern</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                  <span class="post-meta-divider">|</span>
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  4,244
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+              <div class="post-description">
+                  总结了实施微服务架构前应用程序所面临的挑战与可能的可行方案
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>参考资料:</p>
+<ul>
+<li><a href="https://github.com/dotnet-architecture/eShopOnContainers" target="_blank" rel="noopener">Github - eShopOnContainers</a></li>
+</ul>
+<p>本文索引: </p>
+<ul>
+<li><a href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81%E5%BE%AE%E6%9C%8D%E5%8A%A1">为什么需要微服务？</a></li>
+<li><a href="#%E5%BE%AE%E6%9C%8D%E5%8A%A1%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%E7%9A%84%E4%BC%98%E7%82%B9">微服务解决方案的优点:</a></li>
+<li><a href="#%E5%BE%AE%E6%9C%8D%E5%8A%A1%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%E7%9A%84%E7%BC%BA%E7%82%B9">微服务解决方案的缺点:</a></li>
+<li><a href="#%E5%AE%9E%E6%96%BD%E5%BE%AE%E6%9C%8D%E5%8A%A1%E6%9E%B6%E6%9E%84%E6%89%80%E9%9D%A2%E4%B8%B4%E7%9A%84%E6%8C%91%E6%88%98">实施微服务架构所面临的挑战:</a><ul>
+<li><a href="#%E5%A6%82%E4%BD%95%E5%AE%9A%E4%B9%89%E6%AF%8F%E4%B8%AA%E5%BE%AE%E6%9C%8D%E5%8A%A1%E7%9A%84%E8%BE%B9%E7%95%8C">如何定义每个微服务的边界</a></li>
+<li><a href="#%E5%A6%82%E4%BD%95%E5%88%9B%E5%BB%BA%E4%BB%8E%E5%A4%9A%E4%B8%AA%E5%BE%AE%E6%9C%8D%E5%8A%A1%E4%B8%AD%E6%A3%80%E7%B4%A2%E6%95%B0%E6%8D%AE%E7%9A%84%E6%9F%A5%E8%AF%A2">如何创建从多个微服务中检索数据的查询</a></li>
+<li><a href="#%E5%A6%82%E4%BD%95%E8%B7%A8%E5%A4%9A%E4%B8%AA%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AE%9E%E7%8E%B0%E4%B8%80%E8%87%B4%E6%80%A7">如何跨多个微服务实现一致性</a></li>
+<li><a href="#%E5%A6%82%E4%BD%95%E8%AE%BE%E8%AE%A1%E8%B7%A8%E5%BE%AE%E6%9C%8D%E5%8A%A1%E8%BE%B9%E7%95%8C%E7%9A%84%E9%80%9A%E4%BF%A1">如何设计跨微服务边界的通信</a></li>
+<li><a href="#%E5%A6%82%E4%BD%95%E5%AF%B9%E6%9C%8D%E5%8A%A1%E5%AE%9E%E6%96%BD%E7%89%88%E6%9C%AC%E7%AD%96%E7%95%A5tbd">如何对服务实施版本策略？(TBD)</a></li>
+<li><a href="#%E8%B7%A8%E5%BE%AE%E6%9C%8D%E5%8A%A1%E7%9A%84%E8%BF%90%E8%A1%8C%E7%8A%B6%E5%86%B5%E7%AE%A1%E7%90%86%E5%92%8C%E8%AF%8A%E6%96%AD">跨微服务的运行状况管理和诊断</a></li>
+</ul>
+</li>
+<li><a href="#%E6%80%BB%E7%BB%93">总结</a></li>
+</ul>
+<h2 id="为什么需要微服务？"><a href="#为什么需要微服务？" class="headerlink" title="为什么需要微服务？"></a>为什么需要微服务？</h2><p>微服务最大的好处，是它提供了<strong>长期的敏捷性</strong>。微服务可以基于多个可单独测试和部署的服务来创建应用，这些服务通常足够小且拥有独立的生命周期。</p>
+<img src="/architecture-microservice-challenges/microservice-deployment.png" title="单体应用和微服务应用的部署对比">
+<h2 id="微服务解决方案的优点"><a href="#微服务解决方案的优点" class="headerlink" title="微服务解决方案的优点:"></a>微服务解决方案的优点:</h2><ul>
+<li>每个服务覆盖一个独立的业务区域，与其他区域解耦</li>
+<li>每个微服务相对较小，易于管理和改进，特别是:<ul>
+<li>开发人员很容易理解并快速开始</li>
+<li>诸如 Visual Studio 这样的 IDE 可快速加载较小的项目。</li>
+<li>每个微服务都可独立于其他微服务进行设计、开发测试和部署，借此可获得敏捷性。</li>
+</ul>
+</li>
+<li>单独扩展应用程序的特定部分: 相对于单体应用必须作为整体来扩展，微服务可以只扩展特定部分，这样就能按需扩展真正需要更多处理资源或网络带宽的功能，而不是一起将本不需要扩展的其他功能区域也进行扩展。使用的硬件更少了，也意味着节约了成本。</li>
+<li>多个开发团队可以分开工作</li>
+<li>问题的隔离程度更高</li>
+<li>方便使用最新技术</li>
+</ul>
+<h2 id="微服务解决方案的缺点"><a href="#微服务解决方案的缺点" class="headerlink" title="微服务解决方案的缺点:"></a>微服务解决方案的缺点:</h2><ul>
+<li>分布式应用: 开发人员设计和构建服务时，分发应用程序的过程变得更复杂。例如，开发人员必须使用诸如 HTTP 或 AMQP 等协议实现服务间通信，这增加了测试和异常处理的复杂性，还增加了系统的延迟。</li>
+<li>部署的复杂性: 具有数十个微服务并需要高可扩展性的应用程序(需要能为每个服务创建多个实例，并在多个主机间平衡这些服务)，意味着 IT 运维和管理变得更复杂。如果不使用面向微服务的基础架构(如编排引擎和调度器)，那么额外的复杂性可能需要比业务应用程序本身更多的开发工作。</li>
+<li>原子事务: 多个微服务间的原子事务通常是不可能实现的。必须寻求可行的办法包含多个微服务间的最终一致性。</li>
+<li>全局资源需求增加: 在许多情况下，当使用微服务方法替换单体应用程序时，新的微服务应用程序所需的全局资源数量将大于原本的单体应用程序对基础设施的需求。然而，一般来说考虑到资源成本较低，而且在单体应用演进过程中，与长期成本相比，能够将应用程序特定领域的能力扩大等优势，因此资源用量的增加对大规模、长期运行的应用程序来说，通常是一个很好的权衡。</li>
+<li>客户端与微服务的直连通信问题: 当应用程序很大，包含很多微服务时，如果应用程序需要客户端与微服务之间进行直接通信，通常会面临挑战和局限。例如客户端的需求和每个微服务暴露的 API 可能不匹配。在某些情况下，客户端应用程序可能需要通过大量单独的请求来组成用户界面，这在互联网上可能是低效的。因此，客户端应用程序对后端系统的请求应尽可能最少。客户端和服务之间的这种直接通信造成的另一个问题: 难以重构。随着时间推移，开发人员可能会修改系统划分的方式。例如，可能会合并两个服务，或将一个服务拆分为两个或更多服务。但是如果客户端直接与服务通信，则执行此类重构可能会破坏与客户端应用程序的契约。</li>
+<li>如何分割微服务: 最后，无论为微服务架构采取哪种方法，另一个挑战在于: 如何将应用程序分割成多个微服务。</li>
+</ul>
+<h2 id="实施微服务架构所面临的挑战"><a href="#实施微服务架构所面临的挑战" class="headerlink" title="实施微服务架构所面临的挑战:"></a>实施微服务架构所面临的挑战:</h2><p>尽管采用微服务架构利大于弊，但仍有诸多挑战在真正实施之前需要考虑。它们是:</p>
+<h3 id="如何定义每个微服务的边界"><a href="#如何定义每个微服务的边界" class="headerlink" title="如何定义每个微服务的边界"></a>如何定义每个微服务的边界</h3><p>定义微服务边界可能是每位想要实施微服务遇到的第一项挑战。每个微服务必须是应用程序的一部分。但是，如何识别这些边界？</p>
+<p>首先，需要关注应用程序的逻辑域模型和相关数据，不同上下文中所用的术语和实体可能听起来很相似，但你可能会发现在特定上下文中，某个业务概念在另一个上下文中用于不同目的，甚至名称也不同。例如，用户在「会议管理」上下文中称为「用户」，在「订单和注册」上下文中称为「买家」，在「支付」上下文中则称为「付款方」等等。</p>
+<img src="/architecture-microservice-challenges/microservice-boundry.png" title="「用户」在不同上下文中代表不同的含义">
+<p>多个应用程序上下文(各上下文具有不同域)之间的边界识别方法，也可用于识别各业务微服务及其相关域模型和数据的边界。始终尝试最大程度减少这些微服务之间的耦合度。</p>
+<h3 id="如何创建从多个微服务中检索数据的查询"><a href="#如何创建从多个微服务中检索数据的查询" class="headerlink" title="如何创建从多个微服务中检索数据的查询"></a>如何创建从多个微服务中检索数据的查询</h3><p>如何实现从多个微服务获取数据的查询，同时避免远程客户端和微服务之间不必要的通信。例如一个移动 App 需要一个页面来展示由购物篮、产品目录和用户身份微服务包含的用户信<br>息。再比如一个复杂的报表系统涉及到位于多个微服务的多个表。适合的解决方案取决于查询的复杂性。<br>但无论如何都需要一种方式来聚合信息，以提高系统的通信效率。最流行的解决方案如下:</p>
+<ul>
+<li><strong>API 网关模式</strong>: 对于来自多个微服务(拥有不同数据库)的简单数据聚合，推荐方法是称为 API 网关的聚合微服务。然而使用这种模式时需要当心，它可能成为系统瓶颈，也可能违反微服务自治的原则。为了降低这些可能性，可以使用多个细粒度的 API 网关，每个网关主要面向系统的一个<strong>垂直切片</strong>业务领域。</li>
+<li><strong>CQRS 查询/读取表</strong>: 另一种聚合多个微服务数据的方案是<a href="https://docs.microsoft.com/en-us/azure/architecture/patterns/materialized-view" target="_blank" rel="noopener">物化视图模式 Materialized View<br>Pattern</a>，这种方案会提前(在实际查询发生前准备好非规范的数据)生成包含多个微服务数据的只读表，并且这种表会使用适合客户端应用需求的格式。</li>
+<li><strong>中央数据库的「冷数据」</strong>: 对于可能不需要实时数据的复杂报告和查询，常用方法是将「冷数据」作为「热数据」(来自微服务的事务数据)导出到仅用于报告的大型数据库。该中央数据库系统可以是基于大数据的系统(如 Hadoop)、基于 Azure SQL 数据仓库的数据仓库，甚至是仅用于报告的单个 SQL 数据库(如果大小没有问题)。</li>
+</ul>
+<img src="/architecture-microservice-challenges/apigateway-intro.png" title="在微服务架构中使用 API 网关模式">
+<blockquote>
+<p>注意，此集中式数据库仅用于不需要实时数据的查询和报告。作为事实来源的原始更新和事务必须位于微服务数据中。用于同步数据的方法有两种：使用事件驱动的通信，或使用其他数据库基础结构导入/导出工具。 </p>
+</blockquote>
+<h3 id="如何跨多个微服务实现一致性"><a href="#如何跨多个微服务实现一致性" class="headerlink" title="如何跨多个微服务实现一致性"></a>如何跨多个微服务实现一致性</h3><p>每个微服务拥有的数据是该微服务专有的，并且只能通过其本身的微服务 API 访问。因此，面临的挑战是如何在保持多个微服务的一致性的同时实现端到端的业务逻辑。</p>
+<p>「目录微服务」保存所有产品的相关信息，包括它们的库存。「订购微服务」管理订单，并且必须验证新订单是否超过可用目录产品库存。在该应用程序的单片版本中，订购子系统可简单地使用 ACID 事务来检查可用库存、在订单表中创建订单以及更新产品表中的可用库存。</p>
+<p>但是，在基于微服务的应用程序中，订单和产品表属于其各自的微服务。如图所示，微服务不应包含其他微服务在其事务或查询中所拥有的数据库。</p>
+<img src="/architecture-microservice-challenges/cross-service-db-access-not-allowed.png" title="微服务不能直接访问其他微服务中的数据库表">
+<p>订购微服务不应直接更新产品表，因为产品表属于目录微服务。要更新目录微服务，订购微服务应只使用异步通信，如集成事件(消息和基于事件的通信)。需要在可用性和 ACID 一致性之间做出选择。大多数基于微服务的方案都需要高可用性和高可伸缩性，而非一致性。重要应用必须保持随时在线，开发人员可通过弱一致性或最终一致性的技术来做到强一致性。 这是大多数基于微服务的体系结构采用的方法。</p>
+<p>此外，ACID 风格或两步提交事务不仅违背微服务原则，大多数 NoSQL 数据库(如 Azure Cosmos DB、MongoDB 等)不支持两步提交事务。然而，跨服务维护数据的一致性非常重要，这个挑战关系到当某些数据需要实现冗余时，如何跨微服务执行变更的问题，例如需要更新目录微服务和购物篮微服务中的产品名称或描述时。</p>
+<h3 id="如何设计跨微服务边界的通信"><a href="#如何设计跨微服务边界的通信" class="headerlink" title="如何设计跨微服务边界的通信"></a>如何设计跨微服务边界的通信</h3><p>假设客户端应用程序对单个微服务(如订购微服务)进行 HTTP API 调用。如果订购微服务在相同的请求/响应周期内转而使用 HTTP 调用其他微服务，这表示正在创建 HTTP 调用链。刚开始时，这可能听起来很合理。但是，如果继续进行，则需要考虑一些重要问题：</p>
+<ul>
+<li>阻塞和低性能: 由于 HTTP 的同步本质，最初的请求在所有内部 HTTP 请求全部完成前不会获得响应结果。假设这样的请求量在逐步增长，同时某个中间微服务的 HTTP 调用被阻塞，结果就是性能受到影响，并且整体扩展性由于额外 HTTP 请求的增加遇到几何级增长的影响。 </li>
+<li>微服务将与 HTTP 耦合: 业务微服务不应与其他业务微服务耦合。理想情况下，它们不应「知道」其他微服务的存在。如果应用程序依赖于如例所示的耦合微服务，那么几乎不可能实现每个微服务的自治。</li>
+<li>任何微服务引起的宕机: 如果实现由 HTTP 调用链接的微服务链，那么任一微服务宕机(最终所有微服务都可能宕机)，整个微服务链将挂掉。微服务系统应该设计成在部分宕机情况下尽可能地继续正常运行。即使客户端逻辑使用了越来越快和灵敏的重试机制，HTTP 调用链越复杂，实现基于 HTTP 的容错策略过程就越复杂。 </li>
+</ul>
+
+<p>生成基于微服务的应用程序时，重要的是集成微服务的方法。理想情况下，应尝试减少内部微服务之间的通信，微服务间的通信越少越好。但在许多情况下，必须以某种方式集成微服务，当需要执行此操作时，关键的规则是微服务间的通信应为「异步」。这并不代表必须使用特定协议(例如，异步消息传送与同步 HTTP)。这仅代表微服务之间的通信<strong>「应该只通过异步传播数据来完成，但不要依赖其他内部微服务作为初始服务的 HTTP 请求/响应操作的一部分。」</strong></p>
+<img src="/architecture-microservice-challenges/async-communication-cross-microservices.png" title="微服务之间的同步和异步通信">
+<p>微服务通信通常分为两个轴:</p>
+<ol>
+<li>同步还是异步<ul>
+<li>同步协议: HTTP 是同步协议。客户端发送请求并等待服务响应，这与客户端代码执行无关，客户端可能是同步(线程被阻止)或异步的(线程没有被阻止，并且响应最终会到达回调)。重要的是，协议 (HTTP/HTTPS) 是同步的，仅当客户端代码接收到 HTTP 服务器响应时，才可以继续其任务。</li>
+<li>异步协议: AMQP 之类的其他协议（许多操作系统和云环境支持的协议）使用异步消息。客户端代码或消息发件人通常不会等待响应。</li>
+</ul>
+</li>
+<li>单个接收方还是多个接收方<ul>
+<li>单个接收方: 命令模式，具有单个接收者的基于消息的异步通信意味着存在点到点通信，即，仅向正在从该通道读取数据的一个使用者传递消息，并且该消息仅处理一次。但也有一些特殊情况。例如，在试图从故障中自动恢复的云系统中，可以多次发送相同的消息。由于网络或其他故障，客户端必须能够重试发送消息，并且服务器必须实现幂等操作，以便对特定消息仅处理一次。基于消息的单接收者通信特别适用于将异步命令从一个微服务发送到另一个微服务。</li>
+<li>多个接收方: 发布/订阅模式，作为一种更灵活的方法，你可能还需要使用发布/订阅机制，以便其他订阅者微服务或外部应用程序能够收到发送者发送的通信。这样一来，以后无需修改发送者服务也可添加额外的订阅者。使用发布/订阅通信时，你可能会使用事件总线接口向任何订阅者发布事件。</li>
+</ul>
+</li>
+</ol>
+<h3 id="如何对服务实施版本策略？-TBD"><a href="#如何对服务实施版本策略？-TBD" class="headerlink" title="如何对服务实施版本策略？(TBD)"></a>如何对服务实施版本策略？(TBD)</h3><ul>
+<li>HTTP 服务:<ul>
+<li>使用将版本号嵌入 Url 的方式实现</li>
+<li>REST 采用 <a href="https://www.infoq.com/articles/mark-baker-hypermedia" target="_blank" rel="noopener">Hypermedia</a></li>
+</ul>
+</li>
+</ul>
+<h3 id="跨微服务的运行状况管理和诊断"><a href="#跨微服务的运行状况管理和诊断" class="headerlink" title="跨微服务的运行状况管理和诊断"></a>跨微服务的运行状况管理和诊断</h3><p>跨越多个独立服务将诊断事件关联在一起，以及处理机器时钟偏差让事件顺序更合理，这些方面有着不小的挑战。如同微服务间的交互需要统一的协议和数据格式，我们也需要通过标准来规定如何记录运行状况和诊断事件，最终保存在事件存储器中供查询查看。微服务方式下，关键在于不同团队必须采用统一的日志格式。应用中也需要通过一致的方式来查看诊断事件。</p>
+<ul>
+<li>ASP.NET HealthChecks</li>
+</ul>
+<p>在编排引擎或集群中通过多个节点运行多个服务的分布式应用中，要把分布的事件关联起来就成了一个挑战。微服务应用不应该尝试自己存储事件输出流或日志，也不需要管理集中存储的事件路由。它应该是透明的，这意味着每个进程只需要将事件流写入到标准输出，运行进程的底层基础执行环境会收集这些信息。例如 <a href="https://github.com/Azure/diagnostics-eventflow" target="_blank" rel="noopener">Microsoft.Diagnostic.EventFlow</a> 就是这样的一种事件转发器，它会从多个源收集事件流然后发布到输出系统，包括开发环境用到的简单标准输出，或者云上的系统，例如 <a href="https://azure.microsoft.com/en-us/services/monitor/" target="_blank" rel="noopener">Application Insights</a>、<a href="https://github.com/Azure/diagnostics-eventflow#oms-operations-management-suite" target="_blank" rel="noopener">OMS</a>（本地部署使用）和 <a href="https://docs.microsoft.com/zh-cn/azure/azure-monitor/platform/diagnostics-extension-overview" target="_blank" rel="noopener">Azure 诊断</a>。另外还有大量第三方日志分析平台和工具可提供搜索、报警、报表和监控等功能，甚至可以实时进行，例如 <a href="https://www.splunk.com/goto/Splunk_Log_Management?ac=ga_usa_log_analysis_phrase_Mar17&amp;_kk=logs%20analysis&amp;gclid=CNzkzIrex9MCFYGHfgodW5YOtA" target="_blank" rel="noopener">Splunk</a></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>微服务实践涉及太多的细节，在后续的篇幅中，希望通过阅读更多的资料并结合自身实践，逐个攻破这些挑战。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    Frost He
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://blog.frosthe.net/architecture-microservice-challenges/" title="实施微服务架构所面临的挑战">https://blog.frosthe.net/architecture-microservice-challenges/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/ddd/" rel="tag"><i class="fa fa-tag"></i> ddd</a>
+          
+            <a href="/tags/architecture/" rel="tag"><i class="fa fa-tag"></i> architecture</a>
+          
+            <a href="/tags/microservices/" rel="tag"><i class="fa fa-tag"></i> microservices</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/cordova-create-custom-android-plugin/" rel="next" title="Cordova 的 Plugin 及创建自定义 Android Plugin">
+                <i class="fa fa-chevron-left"></i> Cordova 的 Plugin 及创建自定义 Android Plugin
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/architecture-event-driven-communication/" rel="prev" title="跨微服务实现事件驱动的异步通信">
+                跨微服务实现事件驱动的异步通信 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Frost He</p>
+              <p class="site-description motion-element" itemprop="description">Stay hungry, stay foolish</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">66</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">49</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么需要微服务？"><span class="nav-text">为什么需要微服务？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#微服务解决方案的优点"><span class="nav-text">微服务解决方案的优点:</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#微服务解决方案的缺点"><span class="nav-text">微服务解决方案的缺点:</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实施微服务架构所面临的挑战"><span class="nav-text">实施微服务架构所面临的挑战:</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#如何定义每个微服务的边界"><span class="nav-text">如何定义每个微服务的边界</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何创建从多个微服务中检索数据的查询"><span class="nav-text">如何创建从多个微服务中检索数据的查询</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何跨多个微服务实现一致性"><span class="nav-text">如何跨多个微服务实现一致性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何设计跨微服务边界的通信"><span class="nav-text">如何设计跨微服务边界的通信</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何对服务实施版本策略？-TBD"><span class="nav-text">如何对服务实施版本策略？(TBD)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#跨微服务的运行状况管理和诊断"><span class="nav-text">跨微服务的运行状况管理和诊断</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2015 &mdash; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Frost He</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+
+
+
+
+
+        
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//tajs.qq.com/stats?sId=65458438";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === '') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

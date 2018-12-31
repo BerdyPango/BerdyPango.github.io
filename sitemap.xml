@@ -2,6 +2,27 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://blog.frosthe.net/architecture-event-driven-communication/</loc>
+    
+    <lastmod>2018-12-31T08:46:35.307Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://blog.frosthe.net/architecture-microservice-challenges/</loc>
+    
+    <lastmod>2018-12-31T07:26:40.445Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://blog.frosthe.net/architecture-ddd-in-eshopcontainers/</loc>
+    
+    <lastmod>2018-12-31T07:14:39.435Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://blog.frosthe.net/homeserver-router-basic-services/</loc>
     
     <lastmod>2018-12-30T07:48:24.751Z</lastmod>
@@ -121,13 +142,6 @@
   </url>
   
   <url>
-    <loc>https://blog.frosthe.net/microservice-overview/</loc>
-    
-    <lastmod>2018-12-28T06:14:13.982Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://blog.frosthe.net/smarthome-enable-remote-access-to-ha/</loc>
     
     <lastmod>2018-12-28T06:13:22.500Z</lastmod>
@@ -159,13 +173,6 @@
     <loc>https://blog.frosthe.net/hexo-next-customization/</loc>
     
     <lastmod>2018-12-27T04:32:33.987Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://blog.frosthe.net/architecture-ddd-in-eshopcontainers/</loc>
-    
-    <lastmod>2018-12-26T12:28:18.021Z</lastmod>
     
   </url>
   

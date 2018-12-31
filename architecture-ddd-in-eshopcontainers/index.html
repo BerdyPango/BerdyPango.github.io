@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="ddd,architecture,cqrs,mediator-pattern,dotnet,repository-pattern," />
+  <meta name="keywords" content="ddd,architecture,cqrs,dotnet,repository-pattern,mediator-pattern," />
 
 
 
@@ -79,13 +79,13 @@
 
 
 
-<meta name="description" content="本文抽取 eShopOnContainers 参考项目配套的架构设计电子书 182-290 页的 DDD 部分论述，从中吸取和提炼了微软官方示例项目实现 DDD 与 CQRS 背后的思考">
-<meta name="keywords" content="ddd,architecture,cqrs,mediator-pattern,dotnet,repository-pattern">
+<meta name="description" content="本文提取 eShopOnContainers 参考项目配套的架构设计电子书 182-290 页的 DDD 部分论述，从中吸取和提炼了微软官方示例项目实现 DDD 与 CQRS 背后的思考">
+<meta name="keywords" content="ddd,architecture,cqrs,dotnet,repository-pattern,mediator-pattern">
 <meta property="og:type" content="article">
 <meta property="og:title" content="探寻 DDD 在 .NET 生态中的落地实现 - eShopOnContainers">
 <meta property="og:url" content="https://blog.frosthe.net/architecture-ddd-in-eshopcontainers/index.html">
 <meta property="og:site_name" content="FrostHe.Handbook">
-<meta property="og:description" content="本文抽取 eShopOnContainers 参考项目配套的架构设计电子书 182-290 页的 DDD 部分论述，从中吸取和提炼了微软官方示例项目实现 DDD 与 CQRS 背后的思考">
+<meta property="og:description" content="本文提取 eShopOnContainers 参考项目配套的架构设计电子书 182-290 页的 DDD 部分论述，从中吸取和提炼了微软官方示例项目实现 DDD 与 CQRS 背后的思考">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://blog.frosthe.net/architecture-ddd-in-eshopcontainers/high-level-design.png">
 <meta property="og:image" content="https://blog.frosthe.net/architecture-ddd-in-eshopcontainers/cqrs-implementation.png">
@@ -101,10 +101,10 @@
 <meta property="og:image" content="https://blog.frosthe.net/architecture-ddd-in-eshopcontainers/multiple-actions-per-domain-event.png">
 <meta property="og:image" content="https://blog.frosthe.net/architecture-ddd-in-eshopcontainers/domain-event-dispatcher-using-ioc.png">
 <meta property="og:image" content="https://blog.frosthe.net/architecture-ddd-in-eshopcontainers/relationship-between-domain-models.png">
-<meta property="og:updated_time" content="2018-12-26T12:28:18.021Z">
+<meta property="og:updated_time" content="2018-12-31T07:14:39.435Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="探寻 DDD 在 .NET 生态中的落地实现 - eShopOnContainers">
-<meta name="twitter:description" content="本文抽取 eShopOnContainers 参考项目配套的架构设计电子书 182-290 页的 DDD 部分论述，从中吸取和提炼了微软官方示例项目实现 DDD 与 CQRS 背后的思考">
+<meta name="twitter:description" content="本文提取 eShopOnContainers 参考项目配套的架构设计电子书 182-290 页的 DDD 部分论述，从中吸取和提炼了微软官方示例项目实现 DDD 与 CQRS 背后的思考">
 <meta name="twitter:image" content="https://blog.frosthe.net/architecture-ddd-in-eshopcontainers/high-level-design.png">
 
 
@@ -349,8 +349,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-20T20:38:26+08:00">
-                2018-11-20
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-29T20:38:26+08:00">
+                2018-12-29
               </time>
             
 
@@ -405,7 +405,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  6,113
+                  6,073
                 </span>
               
 
@@ -417,7 +417,7 @@
 
           
               <div class="post-description">
-                  本文抽取 eShopOnContainers 参考项目配套的架构设计电子书 182-290 页的 DDD 部分论述，从中吸取和提炼了微软官方示例项目实现 DDD 与 CQRS 背后的思考
+                  本文提取 eShopOnContainers 参考项目配套的架构设计电子书 182-290 页的 DDD 部分论述，从中吸取和提炼了微软官方示例项目实现 DDD 与 CQRS 背后的思考
               </div>
           
 
@@ -438,11 +438,6 @@
 <ul>
 <li><a href="https://github.com/dotnet-architecture/eShopOnContainers" target="_blank" rel="noopener">Github - eShopOnContainers</a></li>
 <li><a href="https://mp.weixin.qq.com/s/sQ8QBKhSIJ6YfX3Ri-NfCA" target="_blank" rel="noopener">eShopOnContainers 知多少[1]：总体概览</a></li>
-<li><a href="https://mp.weixin.qq.com/s/lgOLxtefkyi8XeE38fUJWg" target="_blank" rel="noopener">eShopOnContainers 知多少[2]：Run起来</a></li>
-<li><a href="https://mp.weixin.qq.com/s/tFxOgtIchE-E4yDpSYmUCw" target="_blank" rel="noopener">eShopOnContainers 知多少[3]：Identity Microservice</a></li>
-<li><a href="https://mp.weixin.qq.com/s/rOffxFOQjUp1IYw5JxUluQ" target="_blank" rel="noopener">eShopOnContainers 知多少[4]：Catalog microservice</a></li>
-<li><a href="https://mp.weixin.qq.com/s/LXWmScg7M5f_-X_5NFfLmA" target="_blank" rel="noopener">eShopOnContainers 知多少[5]：EventBus With RabbitMQ</a></li>
-<li><a href="https://www.microsoft.com/net/download/thank-you/microservices-architecture-ebook" target="_blank" rel="noopener">NET-Microservices-Architecture-for-Containerized-NET-Applications-(Microsoft-eBook).pdf</a></li>
 </ul>
 <p>本文索引:</p>
 <ul>
@@ -634,11 +629,11 @@
           
             <a href="/tags/cqrs/" rel="tag"><i class="fa fa-tag"></i> cqrs</a>
           
-            <a href="/tags/mediator-pattern/" rel="tag"><i class="fa fa-tag"></i> mediator-pattern</a>
-          
             <a href="/tags/dotnet/" rel="tag"><i class="fa fa-tag"></i> dotnet</a>
           
             <a href="/tags/repository-pattern/" rel="tag"><i class="fa fa-tag"></i> repository-pattern</a>
+          
+            <a href="/tags/mediator-pattern/" rel="tag"><i class="fa fa-tag"></i> mediator-pattern</a>
           
         </div>
       
@@ -651,8 +646,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/cordova-create-custom-android-plugin/" rel="next" title="Cordova 的 Plugin 及创建自定义 Android Plugin">
-                <i class="fa fa-chevron-left"></i> Cordova 的 Plugin 及创建自定义 Android Plugin
+              <a href="/architecture-event-driven-communication/" rel="next" title="跨微服务实现事件驱动的异步通信">
+                <i class="fa fa-chevron-left"></i> 跨微服务实现事件驱动的异步通信
               </a>
             
           </div>
@@ -736,7 +731,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">65</span>
+                  <span class="site-state-item-count">66</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -758,7 +753,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">47</span>
+                  <span class="site-state-item-count">49</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
