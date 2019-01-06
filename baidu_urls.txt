@@ -32,9 +32,7 @@ https://blog.frosthe.net/docker-services/
 https://blog.frosthe.net/docker-containers/
 https://blog.frosthe.net/docker-setup/
 https://blog.frosthe.net/aspnetcore-notes/
-https://blog.frosthe.net/aspnetcore-viewcomponent/
 https://blog.frosthe.net/aspnetcore-validation/
-https://blog.frosthe.net/aspnetcore-localization/
 https://blog.frosthe.net/aspnetcore-filters/
 https://blog.frosthe.net/aspnetcore-fundamentals-pipelines/
 https://blog.frosthe.net/aspnetcore-fundamentals-logging/

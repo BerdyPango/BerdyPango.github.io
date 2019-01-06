@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://blog.frosthe.net/aspnetcore-validation/</loc>
+    
+    <lastmod>2019-01-06T05:09:28.301Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://blog.frosthe.net/aspnetcore-notes/</loc>
+    
+    <lastmod>2019-01-06T04:54:28.836Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://blog.frosthe.net/architecture-event-driven-communication/</loc>
     
     <lastmod>2018-12-31T08:46:35.307Z</lastmod>
@@ -338,14 +352,14 @@
   </url>
   
   <url>
-    <loc>https://blog.frosthe.net/linux-background-knowledge/</loc>
+    <loc>https://blog.frosthe.net/linux-account-and-group/</loc>
     
     <lastmod>2018-10-13T03:21:29.514Z</lastmod>
     
   </url>
   
   <url>
-    <loc>https://blog.frosthe.net/linux-account-and-group/</loc>
+    <loc>https://blog.frosthe.net/linux-background-knowledge/</loc>
     
     <lastmod>2018-10-13T03:21:29.514Z</lastmod>
     
@@ -362,34 +376,6 @@
     <loc>https://blog.frosthe.net/linux-configure-csf/</loc>
     
     <lastmod>2018-10-13T02:23:14.453Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://blog.frosthe.net/aspnetcore-viewcomponent/</loc>
-    
-    <lastmod>2018-10-13T02:18:49.742Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://blog.frosthe.net/aspnetcore-validation/</loc>
-    
-    <lastmod>2018-10-13T02:18:31.897Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://blog.frosthe.net/aspnetcore-notes/</loc>
-    
-    <lastmod>2018-10-13T02:18:15.868Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://blog.frosthe.net/aspnetcore-localization/</loc>
-    
-    <lastmod>2018-10-13T02:18:08.867Z</lastmod>
     
   </url>
   
