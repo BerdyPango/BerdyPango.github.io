@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="FrostHe.Handbook">
 <meta property="og:description" content="本文汇总了有关 ASP.NET Core 开发的常见问题和具体应用实践，用作快速开始和参考手册，将长期更新并置顶">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-01-06T04:54:28.836Z">
+<meta property="og:updated_time" content="2019-01-09T11:59:38.137Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ASP.NET Core 开发实践汇总">
 <meta name="twitter:description" content="本文汇总了有关 ASP.NET Core 开发的常见问题和具体应用实践，用作快速开始和参考手册，将长期更新并置顶">
@@ -394,7 +394,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  2,833
+                  2,489
                 </span>
               
 
@@ -447,12 +447,6 @@
 <li><a href="#%E9%80%9A%E8%BF%87-attribute-%E5%B0%86-filter-%E5%BA%94%E7%94%A8%E5%88%B0-controller-%E5%92%8C-action-%E7%BA%A7%E5%88%AB">通过 Attribute 将 Filter 应用到 Controller 和 Action 级别</a></li>
 <li><a href="#servicefilter-%E5%92%8C-typefilters-%E5%8F%88%E6%98%AF%E4%BB%80%E4%B9%88">ServiceFilter 和 TypeFilters 又是什么？</a></li>
 <li><a href="#middleware-%E8%BF%98%E6%98%AF-filters">Middleware 还是 Filters？</a></li>
-</ul>
-</li>
-<li><a href="#%E6%88%91%E4%B8%BA%E4%BD%95%E8%A6%81%E7%94%A8-httpclientfactorytbd">我为何要用 HttpClientFactory？（TBD）</a></li>
-<li><a href="#authorization">Authorization</a><ul>
-<li><a href="#%E5%9F%BA%E4%BA%8E%E8%A7%92%E8%89%B2%E7%9A%84%E6%8E%88%E6%9D%83%E6%9C%BA%E5%88%B6">基于角色的授权机制</a></li>
-<li><a href="#%E5%9F%BA%E4%BA%8E-claim-%E7%9A%84%E6%8E%88%E6%9D%83%E6%9C%BA%E5%88%B6">基于 Claim 的授权机制</a></li>
 </ul>
 </li>
 </ul>
@@ -563,23 +557,6 @@
 <li><code>TypeFilterAttribute</code>: 与 <code>ServiceFilterAttribute</code> 类似，但引入的 <code>Filter</code> 无需事先在 <code>Startup</code> 的 <code>ConfigureServices</code> 中注册，且可以部分传入构造函数的参数。</li>
 </ul>
 <h3 id="Middleware-还是-Filters？"><a href="#Middleware-还是-Filters？" class="headerlink" title="Middleware 还是 Filters？"></a>Middleware 还是 Filters？</h3><p>中间件在请求抵达 Mvc 之前对请求进行处理，在这里还访问不到任何有关 Mvc 的内容，所以如果不依赖 Mvc 的组件，如 <code>Routes</code>, <code>Actions</code>, <code>Controllers</code> 等，优先使用 <code>Middleware</code>，反之使用 <code>Filters</code>。另外，<code>ResourceFilter</code> 是抵达 Mvc 之前的最后一种 <code>Filter</code>，此时它具有最完整的 <code>HttpContext</code> <code>信息。ResourceFilter</code> 是将 <code>Middleware</code> 以 <code>Filter</code> 的形式应用到指定 <code>Controller</code> 或 <code>Action</code> 的最佳选择。</p>
-<hr>
-<h2 id="我为何要用-HttpClientFactory？（TBD）"><a href="#我为何要用-HttpClientFactory？（TBD）" class="headerlink" title="我为何要用 HttpClientFactory？（TBD）"></a>我为何要用 HttpClientFactory？（TBD）</h2><p>当应用有对外部 Http 服务有依赖时，通常的做法是在应用内部使用 <code>HttpClient</code>。</p>
-<hr>
-<h2 id="Authorization"><a href="#Authorization" class="headerlink" title="Authorization"></a>Authorization</h2><ul>
-<li><code>Policy</code>: 可基于一个或多个 Requirement 定义的授权策略，以 Name 进行区分</li>
-<li><code>Requirement</code>: 定义授权的要求</li>
-<li><code>Handler</code>: 定义如何处理授权 Requirement<h3 id="基于角色的授权机制"><a href="#基于角色的授权机制" class="headerlink" title="基于角色的授权机制"></a>基于角色的授权机制</h3></li>
-<li>在 <code>Role-Based</code> 授权机制中，如果对某个 <code>Controller</code> 或 <code>Action</code> 应用了两个 <code>[Authorize(Roles = &quot;XXX&quot;)]</code>，表示访问者角色必须同时满足两者才授权访问，而如果只应用一个 <code>[Authorize(Roles = &quot;A, B&quot;)]</code> 则表示访问者角色是 A 或 B 即授权访问。</li>
-<li>如果使用基于 Policy 的 Role-Based 授权机制，那么在 <code>Startup</code> 的 <code>ConfigureServices</code> 方法中，指定多个值以允许任一满足条件的访问者角色。<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">options.AddPolicy(<span class="string">"ElevatedRights"</span>, policy =&gt; policy.RequireRole(<span class="string">"Administrator"</span>, <span class="string">"PowerUser"</span>, <span class="string">"BackupAdministrator"</span>));</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<h3 id="基于-Claim-的授权机制"><a href="#基于-Claim-的授权机制" class="headerlink" title="基于 Claim 的授权机制"></a>基于 Claim 的授权机制</h3><ul>
-<li>Claim 授权与 Policy 一起工作，Claim 通常以名值对的形式出现</li>
-<li>Claim 声明主体是什么，而非主体能够做什么</li>
-<li>如果在 Controller 或 Method 上应用多个授权特性，那么访问者必须满足所有 Policy 才会授权，例如:<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">[Authorize(Policy = &quot;EmployeeOnly&quot;)]</span><br><span class="line">public class SalaryController : Controller</span><br><span class="line">&#123;</span><br><span class="line">    public ActionResult Payslip()</span><br><span class="line">    &#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    [Authorize(Policy = &quot;HumanResources&quot;)]</span><br><span class="line">    public ActionResult UpdateSalary()</span><br><span class="line">    &#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
 
       
     </div>
@@ -638,8 +615,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/docker-setup/" rel="prev" title="Docker 初探 (1) - 搭建 Docker 环境">
-                Docker 初探 (1) - 搭建 Docker 环境 <i class="fa fa-chevron-right"></i>
+              <a href="/aspnetcore-outgoing-httpclient-factory/" rel="prev" title="ASP.NET Core 的出站请求客户端">
+                ASP.NET Core 的出站请求客户端 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -717,7 +694,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">64</span>
+                  <span class="site-state-item-count">65</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -739,7 +716,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">49</span>
+                  <span class="site-state-item-count">50</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -772,7 +749,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#ASP-NET-Core-的入口点在哪？"><span class="nav-text">ASP.NET Core 的入口点在哪？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Startup-从何而来？"><span class="nav-text">Startup 从何而来？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#IStartupFilter-是什么？"><span class="nav-text">IStartupFilter 是什么？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用-ASP-NET-Core-2-1-开发-Api-Controller"><span class="nav-text">使用 ASP.NET Core 2.1 开发 Api Controller</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#自动-HTTP-400-相应"><span class="nav-text">自动 HTTP 400 相应</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自动参数源推定"><span class="nav-text">自动参数源推定</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Route-特性现在是必须的"><span class="nav-text">Route 特性现在是必须的</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ApiBehaviorOptions"><span class="nav-text">ApiBehaviorOptions</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DI-的-Scoped-生存期是什么？"><span class="nav-text">DI 的 Scoped 生存期是什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#你真的了解中间件吗？"><span class="nav-text">你真的了解中间件吗？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#如何定义中间件？"><span class="nav-text">如何定义中间件？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#IMiddleware-接口有什么用？"><span class="nav-text">IMiddleware 接口有什么用？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IFilter-和-Attribute，我该用哪一个？"><span class="nav-text">IFilter 和 Attribute，我该用哪一个？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#通过-Attribute-将-Filter-应用到-Controller-和-Action-级别"><span class="nav-text">通过 Attribute 将 Filter 应用到 Controller 和 Action 级别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ServiceFilter-和-TypeFilters-又是什么？"><span class="nav-text">ServiceFilter 和 TypeFilters 又是什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Middleware-还是-Filters？"><span class="nav-text">Middleware 还是 Filters？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#我为何要用-HttpClientFactory？（TBD）"><span class="nav-text">我为何要用 HttpClientFactory？（TBD）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Authorization"><span class="nav-text">Authorization</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#基于角色的授权机制"><span class="nav-text">基于角色的授权机制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基于-Claim-的授权机制"><span class="nav-text">基于 Claim 的授权机制</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#ASP-NET-Core-的入口点在哪？"><span class="nav-text">ASP.NET Core 的入口点在哪？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Startup-从何而来？"><span class="nav-text">Startup 从何而来？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#IStartupFilter-是什么？"><span class="nav-text">IStartupFilter 是什么？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用-ASP-NET-Core-2-1-开发-Api-Controller"><span class="nav-text">使用 ASP.NET Core 2.1 开发 Api Controller</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#自动-HTTP-400-相应"><span class="nav-text">自动 HTTP 400 相应</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自动参数源推定"><span class="nav-text">自动参数源推定</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Route-特性现在是必须的"><span class="nav-text">Route 特性现在是必须的</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ApiBehaviorOptions"><span class="nav-text">ApiBehaviorOptions</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DI-的-Scoped-生存期是什么？"><span class="nav-text">DI 的 Scoped 生存期是什么？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#你真的了解中间件吗？"><span class="nav-text">你真的了解中间件吗？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#如何定义中间件？"><span class="nav-text">如何定义中间件？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#IMiddleware-接口有什么用？"><span class="nav-text">IMiddleware 接口有什么用？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IFilter-和-Attribute，我该用哪一个？"><span class="nav-text">IFilter 和 Attribute，我该用哪一个？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#通过-Attribute-将-Filter-应用到-Controller-和-Action-级别"><span class="nav-text">通过 Attribute 将 Filter 应用到 Controller 和 Action 级别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ServiceFilter-和-TypeFilters-又是什么？"><span class="nav-text">ServiceFilter 和 TypeFilters 又是什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Middleware-还是-Filters？"><span class="nav-text">Middleware 还是 Filters？</span></a></li></ol></li></ol></div>
             
 
           </div>

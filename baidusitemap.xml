@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://blog.frosthe.net/aspnetcore-validation/</loc>
-    <lastmod>2019-01-06T05:09:28.301Z</lastmod>
+    <loc>https://blog.frosthe.net/aspnetcore-outgoing-httpclient-factory/</loc>
+    <lastmod>2019-01-09T11:59:38.141Z</lastmod>
   </url>  <url>
     <loc>https://blog.frosthe.net/aspnetcore-notes/</loc>
-    <lastmod>2019-01-06T04:54:28.836Z</lastmod>
+    <lastmod>2019-01-09T11:59:38.137Z</lastmod>
+  </url>  <url>
+    <loc>https://blog.frosthe.net/aspnetcore-validation/</loc>
+    <lastmod>2019-01-06T05:09:28.301Z</lastmod>
   </url>  <url>
     <loc>https://blog.frosthe.net/architecture-event-driven-communication/</loc>
     <lastmod>2018-12-31T08:46:35.307Z</lastmod>

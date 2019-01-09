@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Developer, Frost He" />
+  <meta name="keywords" content="aspnet-core,polly," />
 
 
 
@@ -79,16 +79,18 @@
 
 
 
-<meta name="description" content="Stay hungry, stay foolish">
-<meta property="og:type" content="website">
-<meta property="og:title" content="FrostHe.Handbook">
-<meta property="og:url" content="https://blog.frosthe.net/tags/repository-pattern/index.html">
+<meta name="description" content="本文概括了在 ASP.NET Core 中正确使用 HttpClient 的场景">
+<meta name="keywords" content="aspnet-core,polly">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ASP.NET Core 的出站请求客户端">
+<meta property="og:url" content="https://blog.frosthe.net/aspnetcore-outgoing-httpclient-factory/index.html">
 <meta property="og:site_name" content="FrostHe.Handbook">
-<meta property="og:description" content="Stay hungry, stay foolish">
+<meta property="og:description" content="本文概括了在 ASP.NET Core 中正确使用 HttpClient 的场景">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-01-09T11:59:38.141Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="FrostHe.Handbook">
-<meta name="twitter:description" content="Stay hungry, stay foolish">
+<meta name="twitter:title" content="ASP.NET Core 的出站请求客户端">
+<meta name="twitter:description" content="本文概括了在 ASP.NET Core 中正确使用 HttpClient 的场景">
 
 
 
@@ -118,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="https://blog.frosthe.net/tags/repository-pattern/"/>
+  <link rel="canonical" href="https://blog.frosthe.net/aspnetcore-outgoing-httpclient-factory/"/>
 
 
 
 
 
-  <title>标签: repository-pattern | FrostHe.Handbook</title>
+  <title>ASP.NET Core 的出站请求客户端 | FrostHe.Handbook</title>
   
 
 
@@ -150,7 +152,7 @@
   
   
 
-  <div class="container  ">
+  <div class="container  page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -288,82 +290,256 @@
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block tag">
+  <div id="posts" class="posts-expand">
+    
 
-    <div id="posts" class="posts-collapse">
-      <div class="collection-title">
-        <h1>repository-pattern<small>标签</small>
-        </h1>
-      </div>
+  
 
-      
-        
+  
+  
+  
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://blog.frosthe.net/aspnetcore-outgoing-httpclient-factory/">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Frost He">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FrostHe.Handbook">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/architecture-ddd-in-eshopcontainers/" itemprop="url">
-              
-                <span itemprop="name">探寻 DDD 在 .NET 生态中的落地实现 - eShopOnContainers</span>
-              
-            </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline">ASP.NET Core 的出站请求客户端</h1>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-12-29T20:38:26+08:00"
-              content="2018-12-29" >
-          12-29
-        </time>
-      </div>
+        <div class="post-meta">
+          
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-08T15:47:21+08:00">
+                2017-11-08
+              </time>
+            
 
-    </header>
-  </article>
+            
 
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/ASP-NET-Core/" itemprop="url" rel="index">
+                    <span itemprop="name">ASP.NET Core</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                  <span class="post-meta-divider">|</span>
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  963
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+              <div class="post-description">
+                  本文概括了在 ASP.NET Core 中正确使用 HttpClient 的场景
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-        
+      
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/architecture-repository-pattern/" itemprop="url">
-              
-                <span itemprop="name">Repository 模式和工作单元</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-03-18T19:53:19+08:00"
-              content="2017-03-18" >
-          03-18
-        </time>
-      </div>
-
-    </header>
-  </article>
-
+      
+        <p>参考资料:</p>
+<ul>
+<li><a href="https://docs.microsoft.com/zh-cn/aspnet/core/fundamentals/http-requests?view=aspnetcore-2.1" target="_blank" rel="noopener">启动 Htpp 请求</a></li>
+</ul>
+<p>本文索引:</p>
+<ul>
+<li><a href="#%E5%89%8D%E8%A8%80">前言</a></li>
+<li><a href="#%E7%94%A8%E6%B3%95">用法</a></li>
+<li><a href="#%E9%85%8D%E7%BD%AE-httpmessagehandler">配置 HttpMessageHandler</a></li>
+<li><a href="#%E5%87%BA%E7%AB%99%E8%AF%B7%E6%B1%82%E4%B8%AD%E9%97%B4%E4%BB%B6">出站请求中间件</a></li>
+<li><a href="#%E5%9F%BA%E4%BA%8E-polly-%E7%9A%84-handlers">基于 Polly 的 Handlers</a></li>
+<li><a href="#httpclient-%E7%9A%84%E7%94%9F%E5%AD%98%E6%9C%9F">HttpClient 的生存期</a></li>
+<li><a href="#%E6%97%A5%E5%BF%97%E8%AE%B0%E5%BD%95">日志记录</a></li>
+</ul>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>当应用有对外部 Http 服务有依赖时，通常的做法是在应用内部使用 <code>HttpClient</code>。ASP.NET Core 加入了 <code>HttpClientFactory</code>，以集中的方式管理 <code>HttpClient</code> 及其使用的系统资源。</p>
+<h2 id="用法"><a href="#用法" class="headerlink" title="用法"></a>用法</h2><p>这些用法分别对应于 <code>services.AddHttpClient()</code> 方法的几个重载，并且适用于不同的场景:</p>
+<ul>
+<li>基本用法: <code>services.AddHttpClient()</code></li>
+<li>命名 <code>HttpClient</code>: <code>services.AddHttpClient(string name, Action&lt;HttpClient&gt; configureClient)</code></li>
+<li>强类型 <code>HttpClient</code>: 不再以 <code>string</code> 类型参数提供 <code>key</code>，而是以单独的服务类型通过依赖注入的方式提供 <code>HttpClient</code> 实例，<code>services.AddHttpClient&lt;TService&gt;</code></li>
+<li>动态 <code>HttpClient</code></li>
+</ul>
+<h2 id="配置-HttpMessageHandler"><a href="#配置-HttpMessageHandler" class="headerlink" title="配置 HttpMessageHandler"></a>配置 HttpMessageHandler</h2><p>在 <code>services.AddHttpClient</code> 方法重载中，有一些返回 <code>IHttpClientBuilder</code> 实例，该实例可用于进一步对该客户端进行配置:<br><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">services.AddHttpClient(<span class="string">"configured-inner-handler"</span>).ConfigurePrimaryHttpMessageHandler(() =&gt;</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> HttpClientHandler()</span><br><span class="line">        &#123;</span><br><span class="line">            AllowAutoRedirect = <span class="literal">false</span>,</span><br><span class="line">            UseDefaultCredentials = <span class="literal">true</span></span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;);</span><br></pre></td></tr></table></figure></p>
+<p>可借由此功能定制出站请求的 <code>HttpMessageHandler</code> 或使用 Mock 的处理程序以支持测试。</p>
+<h2 id="出站请求中间件"><a href="#出站请求中间件" class="headerlink" title="出站请求中间件"></a>出站请求中间件</h2><p><code>HttpClient</code> 本身其实是将出站请求交给相应的委托进行处理，可以传入继承自 <code>HttpMessageHandler</code> 类型的实例来创建 <code>HttpClient</code> 实例。<code>IHttpClientFactory</code> 简化了为不同命名 <code>HttpClient</code> 注入预期的 <code>HttpMessageHandler</code>。可通过继承 <code>DelegatingHandler</code> 类型并重写 <code>SendAsync</code> 方法来实现 <code>Handler</code> 的处理逻辑:<br><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">MyCustomHandler</span> : <span class="title">DelegatingHandler</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">override</span> <span class="keyword">async</span> Task&lt;HttpResponseMessage&gt; <span class="title">SendAsync</span>(<span class="params">HttpRequestMessage request, CancellationToken cancellationToken</span>)</span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="comment">// ...</span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">await</span> <span class="keyword">base</span>.SendAsync(request, cancellationToken);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这样，在添加 <code>AddHttpClient</code> 服务时可对其配置相应的 <code>Handler</code>:<br><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">services.AddTransient&lt;MyCustomHandler&gt;();</span><br><span class="line">services.AddHttpClient(<span class="string">"Github"</span>).AddHttpMessageHandler&lt;MyCustomHandler&gt;();</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>值得注意的是，<code>MyCustomHandler</code> 必须在 DI 中以瞬时(Transient)生存期注册</p>
+</blockquote>
+<p>可为同一个 <code>IHttpClientFactory</code> 多次调用 <code>AddHttpMessageHandler</code> 方法，<code>Handler</code> 将按照注册的顺序依次执行，这样将形成 <code>Handler</code> 链，一个 <code>Handler</code> 将包装下一个 <code>Handler</code>。与 ASP.NET Core 管道的概念类似，例如:<br><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">services.AddTransient&lt;SecureRequestHandler&gt;();</span><br><span class="line">services.AddTransient&lt;RequestDataHandler&gt;();</span><br><span class="line"></span><br><span class="line">services.AddHttpClient(<span class="string">"clientwithhandlers"</span>)</span><br><span class="line">    .AddHttpMessageHandler&lt;SecureRequestHandler&gt;()     <span class="comment">// This handler is on the outside and called first during the request, last during the response.</span></span><br><span class="line">    .AddHttpMessageHandler&lt;RequestDataHandler&gt;();      <span class="comment">// This handler is on the inside, closest to the request being sent.</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="基于-Polly-的-Handlers"><a href="#基于-Polly-的-Handlers" class="headerlink" title="基于 Polly 的 Handlers"></a>基于 Polly 的 Handlers</h2><p><code>IHttpClientFactory</code> 通过扩展方法支持与 <a href="https://github.com/App-vNext/Polly" target="_blank" rel="noopener">Polly</a> 的 <code>Policy</code> 集成。这些扩展方法定义在 <code>Microsoft.Extensions.Http.Polly</code> 包中。</p>
+<p>例如，用于从临时故障中重试的 <code>AddTransientHttpErrorPolicy</code>，定义了请求失败后最多重试三次，每次尝试间隔 600 ms 的 <code>Policy</code>:<br><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">services.AddHttpClient&lt;UnreliableEndpointCallerService&gt;().AddTransientHttpErrorPolicy(p =&gt; p.WaitAndRetryAsync(<span class="number">3</span>, _ =&gt; TimeSpan.FromMilliseconds(<span class="number">600</span>)));</span><br></pre></td></tr></table></figure></p>
+<p>其他一些扩展方法用于支持 Polly-based 处理程序，例如 <code>AddPolicyHandler()</code> 方法:<br><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> timeout = Policy.TimeoutAsync&lt;HttpResponseMessage&gt;(TimeSpan.FromSeconds(<span class="number">10</span>));</span><br><span class="line"><span class="keyword">var</span> longTimeout = Policy.TimeoutAsync&lt;HttpResponseMessage&gt;(TimeSpan.FromSeconds(<span class="number">30</span>));</span><br><span class="line"></span><br><span class="line"><span class="comment">// Run some code to select a policy based on the request</span></span><br><span class="line">services.AddHttpClient(<span class="string">"conditionalpolicy"</span>).AddPolicyHandler(request =&gt; request.Method == HttpMethod.Get ? timeout : longTimeout);</span><br></pre></td></tr></table></figure></p>
+<p>上述代码中，如果出站请求为 GET，则应用 10 秒超时。其他所有 HTTP 方法应用 30 秒超时。</p>
+<p>嵌套 Polly 策略以增强功能是很常见的:<br><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">services.AddHttpClient(<span class="string">"multiplepolicies"</span>)</span><br><span class="line">    .AddTransientHttpErrorPolicy(p =&gt; p.RetryAsync(<span class="number">3</span>))</span><br><span class="line">    .AddTransientHttpErrorPolicy(p =&gt; p.CircuitBreakerAsync(<span class="number">5</span>, TimeSpan.FromSeconds(<span class="number">30</span>)));</span><br></pre></td></tr></table></figure></p>
+<p>上述示例中，添加了两个 Handler。 第一个使用 <code>AddTransientHttpErrorPolicy</code> 扩展添加重试策略。若请求失败，最多重试三次。第二个调用 <code>AddTransientHttpErrorPolicy</code> 添加断路器策略。如果尝试连续失败了五次，则会阻止后续外部请求 30 秒，并且通过此 <code>HttpClientFactory</code> 进行的所有调用都共享同样的线路状态。</p>
+<h2 id="HttpClient-的生存期"><a href="#HttpClient-的生存期" class="headerlink" title="HttpClient 的生存期"></a>HttpClient 的生存期</h2><p>每次调用 <code>IHttpClientFactory.CreateClient</code> 都会返回一个新的 <code>HttpClient</code> 实例。一个命名 <code>HttpClient</code> 服务关联一个 <code>HttpMessageHandler</code> 实例。<code>IHttpClientFactory</code> 将这些 <code>HttpMessageHandler</code> 实例汇集到池中，以减少资源消耗。</p>
+<h2 id="日志记录"><a href="#日志记录" class="headerlink" title="日志记录"></a>日志记录</h2><p>由 <code>IHttpClientFactory</code> 创建的客户端包含了请求的所有日志消息。单个客户端的管道外部以 <code>LogicalHandler</code> 类别来记录消息，而管道内部以 <code>ClientHandler</code> 类别记录。</p>
 
       
     </div>
+    
+    
+    
 
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    Frost He
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://blog.frosthe.net/aspnetcore-outgoing-httpclient-factory/" title="ASP.NET Core 的出站请求客户端">https://blog.frosthe.net/aspnetcore-outgoing-httpclient-factory/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/aspnet-core/" rel="tag"><i class="fa fa-tag"></i> aspnet-core</a>
+          
+            <a href="/tags/polly/" rel="tag"><i class="fa fa-tag"></i> polly</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/aspnetcore-notes/" rel="next" title="ASP.NET Core 开发实践汇总">
+                <i class="fa fa-chevron-left"></i> ASP.NET Core 开发实践汇总
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/docker-setup/" rel="prev" title="Docker 初探 (1) - 搭建 Docker 环境">
+                Docker 初探 (1) - 搭建 Docker 环境 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -371,6 +547,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -391,8 +571,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -452,6 +641,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#用法"><span class="nav-text">用法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置-HttpMessageHandler"><span class="nav-text">配置 HttpMessageHandler</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#出站请求中间件"><span class="nav-text">出站请求中间件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基于-Polly-的-Handlers"><span class="nav-text">基于 Polly 的 Handlers</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HttpClient-的生存期"><span class="nav-text">HttpClient 的生存期</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#日志记录"><span class="nav-text">日志记录</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -590,6 +795,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
