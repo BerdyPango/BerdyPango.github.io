@@ -58,7 +58,7 @@ https://blog.frosthe.net/linux-directory-configuration/
 https://blog.frosthe.net/linux-document-preset-and-hidden-privilage/
 https://blog.frosthe.net/linux-profile-and-privilege/
 https://blog.frosthe.net/linux-account-and-group/
-https://blog.frosthe.net/linux-background-knowledge/
+https://blog.frosthe.net/linux-partition/
 https://blog.frosthe.net/git-embeded-repository/
 https://blog.frosthe.net/git-push-to-remote-repository/
 https://blog.frosthe.net/hexo-next-customization/

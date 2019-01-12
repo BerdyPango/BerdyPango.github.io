@@ -1,6 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://blog.frosthe.net/linux-partition/</loc>
+    <lastmod>2019-01-12T13:06:28.639Z</lastmod>
+  </url>  <url>
+    <loc>https://blog.frosthe.net/linux-document-search/</loc>
+    <lastmod>2019-01-12T13:05:27.558Z</lastmod>
+  </url>  <url>
+    <loc>https://blog.frosthe.net/linux-document-preset-and-hidden-privilage/</loc>
+    <lastmod>2019-01-12T13:05:23.125Z</lastmod>
+  </url>  <url>
+    <loc>https://blog.frosthe.net/linux-document-management/</loc>
+    <lastmod>2019-01-12T13:05:18.883Z</lastmod>
+  </url>  <url>
+    <loc>https://blog.frosthe.net/linux-document-inspect/</loc>
+    <lastmod>2019-01-12T13:05:13.634Z</lastmod>
+  </url>  <url>
+    <loc>https://blog.frosthe.net/linux-directory-configuration/</loc>
+    <lastmod>2019-01-12T13:05:06.686Z</lastmod>
+  </url>  <url>
+    <loc>https://blog.frosthe.net/linux-directory-operations/</loc>
+    <lastmod>2019-01-12T13:04:52.014Z</lastmod>
+  </url>  <url>
+    <loc>https://blog.frosthe.net/linux-configure-csf/</loc>
+    <lastmod>2019-01-12T13:04:09.362Z</lastmod>
+  </url>  <url>
+    <loc>https://blog.frosthe.net/linux-account-and-group/</loc>
+    <lastmod>2019-01-12T13:04:02.603Z</lastmod>
+  </url>  <url>
+    <loc>https://blog.frosthe.net/homeserver-setup-seafile-on-raspberryr-pi/</loc>
+    <lastmod>2019-01-12T13:00:44.228Z</lastmod>
+  </url>  <url>
     <loc>https://blog.frosthe.net/aspnetcore-outgoing-httpclient-factory/</loc>
     <lastmod>2019-01-09T11:59:38.141Z</lastmod>
   </url>  <url>
@@ -51,24 +81,6 @@
   </url>  <url>
     <loc>https://blog.frosthe.net/linux-profile-and-privilege/</loc>
     <lastmod>2018-12-28T06:18:13.433Z</lastmod>
-  </url>  <url>
-    <loc>https://blog.frosthe.net/linux-document-search/</loc>
-    <lastmod>2018-12-28T06:18:06.236Z</lastmod>
-  </url>  <url>
-    <loc>https://blog.frosthe.net/linux-document-preset-and-hidden-privilage/</loc>
-    <lastmod>2018-12-28T06:17:59.274Z</lastmod>
-  </url>  <url>
-    <loc>https://blog.frosthe.net/linux-document-management/</loc>
-    <lastmod>2018-12-28T06:17:52.927Z</lastmod>
-  </url>  <url>
-    <loc>https://blog.frosthe.net/linux-document-inspect/</loc>
-    <lastmod>2018-12-28T06:17:44.396Z</lastmod>
-  </url>  <url>
-    <loc>https://blog.frosthe.net/linux-directory-operations/</loc>
-    <lastmod>2018-12-28T06:17:37.356Z</lastmod>
-  </url>  <url>
-    <loc>https://blog.frosthe.net/linux-directory-configuration/</loc>
-    <lastmod>2018-12-28T06:17:27.885Z</lastmod>
   </url>  <url>
     <loc>https://blog.frosthe.net/smarthome-enable-remote-access-to-ha/</loc>
     <lastmod>2018-12-28T06:13:22.500Z</lastmod>
@@ -136,9 +148,6 @@
     <loc>https://blog.frosthe.net/git-embeded-repository/</loc>
     <lastmod>2018-11-17T13:14:01.422Z</lastmod>
   </url>  <url>
-    <loc>https://blog.frosthe.net/homeserver-setup-seafile-on-raspberryr-pi/</loc>
-    <lastmod>2018-10-27T11:50:31.924Z</lastmod>
-  </url>  <url>
     <loc>https://blog.frosthe.net/homeserver-setup-nas-on-raspberry-pi/</loc>
     <lastmod>2018-10-25T15:18:36.665Z</lastmod>
   </url>  <url>
@@ -148,17 +157,8 @@
     <loc>https://blog.frosthe.net/smarthome-control-via-siri/</loc>
     <lastmod>2018-10-25T15:17:42.459Z</lastmod>
   </url>  <url>
-    <loc>https://blog.frosthe.net/linux-account-and-group/</loc>
-    <lastmod>2018-10-13T03:21:29.514Z</lastmod>
-  </url>  <url>
-    <loc>https://blog.frosthe.net/linux-background-knowledge/</loc>
-    <lastmod>2018-10-13T03:21:29.514Z</lastmod>
-  </url>  <url>
     <loc>https://blog.frosthe.net/ddd-tactical-domain-service/</loc>
     <lastmod>2018-10-13T02:28:27.562Z</lastmod>
-  </url>  <url>
-    <loc>https://blog.frosthe.net/linux-configure-csf/</loc>
-    <lastmod>2018-10-13T02:23:14.453Z</lastmod>
   </url>  <url>
     <loc>https://blog.frosthe.net/aspnetcore-fundamentals-pipelines/</loc>
     <lastmod>2018-10-13T02:17:55.456Z</lastmod>
