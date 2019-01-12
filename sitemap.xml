@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://blog.frosthe.net/linux-setup-a-new-ubuntu-server/</loc>
+    
+    <lastmod>2019-01-12T13:15:06.999Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://blog.frosthe.net/linux-profile-and-privilege/</loc>
+    
+    <lastmod>2019-01-12T13:15:03.562Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://blog.frosthe.net/linux-partition/</loc>
     
     <lastmod>2019-01-12T13:06:28.639Z</lastmod>
@@ -173,20 +187,6 @@
     <loc>https://blog.frosthe.net/security-all-about-certificates/</loc>
     
     <lastmod>2018-12-30T04:27:26.095Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://blog.frosthe.net/linux-setup-a-new-ubuntu-server/</loc>
-    
-    <lastmod>2018-12-28T06:18:23.901Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://blog.frosthe.net/linux-profile-and-privilege/</loc>
-    
-    <lastmod>2018-12-28T06:18:13.433Z</lastmod>
     
   </url>
   

@@ -10,10 +10,10 @@
       <tags>
         <tag>ddd</tag>
         <tag>architecture</tag>
-        <tag>cqrs</tag>
         <tag>dotnet</tag>
         <tag>repository-pattern</tag>
         <tag>mediator-pattern</tag>
+        <tag>cqrs</tag>
       </tags>
   </entry>
   <entry>
@@ -164,8 +164,8 @@
       </categories>
       <tags>
         <tag>security</tag>
-        <tag>https</tag>
         <tag>cryptography</tag>
+        <tag>https</tag>
       </tags>
   </entry>
   <entry>
@@ -202,9 +202,9 @@
         <category>Smart Home</category>
       </categories>
       <tags>
+        <tag>linux</tag>
         <tag>smart-home</tag>
         <tag>home-assistant</tag>
-        <tag>linux</tag>
         <tag>raspberry-pi</tag>
       </tags>
   </entry>
@@ -253,9 +253,9 @@
         <category>Smart Home</category>
       </categories>
       <tags>
+        <tag>linux</tag>
         <tag>smart-home</tag>
         <tag>home-assistant</tag>
-        <tag>linux</tag>
         <tag>raspberry-pi</tag>
       </tags>
   </entry>
@@ -617,7 +617,7 @@
     <url>%2Flinux-setup-a-new-ubuntu-server%2F</url>
     <content type="text"><![CDATA[最近租用了一台预装 ubuntu 操作系统(这里选择 ubuntu 是因为笔者对其预装的工具集比较熟悉)的服务器之后，还要为这台服务器做一些额外的配置以使其能够在互联网环境中正常运行。很多云服务提供商都提供了适配不同需求的预装环境，但为了对服务器的搭建过程有一个直观的感觉和更多的控制权，决定亲手过一遍这个过程。 本篇文章涉及的所有指令细节可参考Linux 基础 - 用户管理 通常，配置一台裸机至少要完成以下几个步骤 新建群组 新建用户，并为其分配群组 配置 ssh 配置服务器安全策略 准备工作在开始配置之前，我们需要知道该服务器的以下信息： 服务器的公网 ip 地址 确认 22 端口打开 root 用户的初始密码 在 windows 系统下启动 PuTTy，使用 root 用户远程登录到该服务器 主机命名 hostname(可选的)如果不想修改云服务提供商默认分配的主机名，可跳过此步。 执行命令 hostname 显示当前主机名12$ hostnameVM-0-4 执行以下命令进行修改，修改完成后，再次执行命令以查看效果：123$sudo hostname &lt;your-new-hostname&gt;$ hostnameyour-new-hostname 新建群组 - groupadd执行如下命令新建一个带有 &lt;gid&gt; 的群组1$sudo groupadd &lt;your-new-group-name&gt; -g &lt;gid&gt; 新建用户 - useradd1$sudo useradd -u 2500 -m -c "FrostHe" -s -g sudo -G pango pango 该命令创建一个名为 pango 的用户，uid 为 2500，要求为该用户创建 Home 目录，使用预设值设置 shell 环境，加入初始群组 sudo，同时加入次要群组 pango。由于先前已经创建了群组，在创建该用户时就不会再创建与之同名的新的群组，而是将该用户加入到该群组下。 现在，新建用户 pango 还没有密码，设置密码之前是无法登录 shell 的，执行 passwd 来为新用户指定密码：123$sudo passwd pangoEnter new Unix Password:Retype new Unix Password: passwd 指令在不接参数时表示修改当前登录用户的密码 现在，退出 PuTTy 客户端，以新建用户名和密码登录，如果登录成功，则表明新用户创建无误。 配置服务器安全策略将云服务器的 22 端口暴露于互联网并允许 root 用户及一般用户以密码进行登录是不推荐的，特别是 root 帐号，一旦被攻击者破解那么服务器上的资源可任由其修改。为了使服务器免于这些危险，我们需要让这台服务器： 禁用 root 帐号密码登录，仅启用公钥认证 开启防火墙并限定端口 设置 ip 登录策略及 禁用密码登录并启用 ssh 公钥登录以新建用户登录系统，修改 sshd_config 文件：1234$sudo nano /etc/ssh/sshd_configPermitRootLogin noPublicAuthentication yesPasswordAuthentication no 该配置对 ssh 客户端远程登录作出限制：启用公钥认证并禁用密码认证，同时禁止 root 远程登录。 若要修改生效， sshd 进程需要重新读取该配置，但这会让已经通过密码登录的会话中断，并且在 public key 部署前没有任何机会重新进行远程连接，所以这一步放到最后来做。 接下来在新用户 Home 目录下的 .ssh/authorized_keys 文件中复制 openssh 格式的公钥值。 在 /etc/ssh/sshd_config 中有一行 AuthorizedKeyFiles，该行的默认值为 .ssh/authorized_keys，该项配置是 sshd 进程提取 public key 的依据，如果对该值进行了修改，那么这里新建的文件也必须要与之对应。 现在执行 sudo service sshd reload 以使配置生效。此时重新打开一个 PuTTy 客户端，使用新用户密码登录，将收到错误对话框：在 Putty 中设置对应的私钥路径，重试即可登录成功： 至此，一个基本的云服务器配置就完成了，有的云服务提供商推出了「安全组」功能，即从云端配置端口进出通道。更多安全配置查阅 为 Linux 系统配置 CSF。]]></content>
       <categories>
-        <category>Linux</category>
+        <category>Linux Basic</category>
       </categories>
       <tags>
         <tag>linux</tag>
@@ -706,7 +706,7 @@
     <url>%2Flinux-profile-and-privilege%2F</url>
     <content type="text"><![CDATA[参考资料: http://linux.vbird.org/linux_basic/0210filepermission.php#filepermission_perm 本文大纲: 修改档案属性及权限 更改群组 更改档案拥有者 更改权限 权限的意义 当执行 ls -al 后，当前目录下所有档案的详情被列出 12dr-xr-xr-x. 17 root root 4096 May 4 17:56 ..-rw-------. 1 root root 1816 May 4 17:57 anaconda-ks.cfg 第 1 列用一组字符组合来表示其类别和属性，该字符串的第一位标识该档案的类别，详情见后文，而后连续 9 个字符，每 3 个一组，表示该权限的拥有者，同群组的其他用户和其他用户对该档案的权限，例如 -rwxr-xr-- 表示一个档案的权限为： 该档案为文件 拥有者对其拥有读取，修改和执行权限 同一群组中的其他用户对其拥有读取和执行权限 其他用户对其仅有读取权限 第 2 列表示有多少不同的档案名链接到该档案的 i-node，每个档案将会将它的权限与属性记录到档案系统的 i-node 中 第 3 列表示档案的拥有者用户 第 4 列表示该档案所属第群组 第 5 列表示该档案所占用第磁盘空间，预设单位为 bytes 第 6 列表示该档案的创建日期或修改日期 第 7 列为档案名 修改档案属性及权限更改群组chgrp: 该指令为 change group 的缩写，目标群组必须在 /etc/group 中存在，使用 -R 指定递归改变父级目录下的群组:1$sudo chgrp &lt;target-group&gt; -R filename/directory 更改档案拥有者chown 为 change owner 的缩写，目标用户必须在 /etc/passwd 中存在，可使用 -R 选项指定递归更改选项。 该命令还可以顺便修改群组，例如:1$sudo chown user1:group1 filename 可使用 . 或者 : 来隔开用户名和群组名，但如果在用户名中包含 . 字符，则容易造成混淆，所以一般建议使用 : 来隔开用户名和群组。 chown 也可通过 . 直接更改群组,如:1$sudo chown .group1 filename 更改群组一个常见的应用为，当通过 cp 复制一个档案时，也会同时复制命令执行者的属性与权限，此时更改属性和权限就显得尤其必要了 更改权限chmod 为更改档案权限的指令，默认情况下，可使用字符来为三种角色指定权限，首先指定角色: u: 代表拥有者，即 users g: 代表拥有者群组，即 group o: 代表其他，即 others a: 代表所有，即 all 然后使用以下连字符修改权限: =: 代表赋值，指定 +: 代表增加权限 -: 代表移除权限 例如 chmod u=rwx,go=r-x filename 表示设定档案的权限为 rwxr-xr-x，或 chmod g+w filename 在不知道原来权限的基础上增加群组的写入权限。 chmod 可以使用数字或字符来更改档案的权限，数字代表的含义为: r: 4 w: 2 x: 1 -: - 每种身份的权限由三者数字累加起来得到一个数字，例如 chmod 740 filename 表示拥有者具有 rwx 权限，同群组其他用户具有 r-- 权限，其他用户则具有 --- 权限。 权限的意义权限分为三种： r: 读取权限 针对文件：读取文件的实际内容 针对目录：读取目录结构清单，例如使用 ls 指令 w: 写入权限 针对文件: 可编辑，新增或修改文件的内容，但不含删除操作 针对目录: 具有对改动该目录结构的权限，包含： 新建文件与目录 删除已经存在的文件或目录(不受被删除文件和目录的权限限制) 重命名文件或目录 移动文件或目录 x: 执行权限 针对文件: 执行文件(如果该文件可执行) 针对目录: 指示用户能否进入该目录，如执行 cd 指令表格形式如下： 元件 内容 迭代物件 r w x 文件 详细资料 文件夹文件 读取文件内容 修改文件内容 执行文件内容 目录 目录名称 可分类抽屉 读取目录内容 修改目录结构 进入该目录 除了文件和目录两种档案之外，还有其他一些档案类型： 常规文件(regular file)，常规文件档案，权限的第一栏为 -，例如 -rwxrwxrwx，常规文件又可分为三类： 文本文件: 可以直接读取的内如，几乎所有的配置型文件都属于这一类，可执行 cat &lt;filename&gt; 来查看文件内容 二进制文件: Linux 系统仅认知且可执行二进制文件(binary file)，script 脚本及批处理不算，例如，当执行 cat 指令时，cat 就是一个 binary file。 数据文件(data): 供不同的程序自己使用的特殊格式的文件，例如，当使用 Linux 登入时，系统会将登录日志记录在 /var/log/wtmp 文件内，但该文件是一个数据文件，只能通过 last 指令读出来，若使用 cat 读取该文件会显示乱码 目录(directory): 目录档案，权限第一栏为 d，例如 drwxrwxrwx 链接(link): 类似于 windows 系统的快捷方式，第一栏为 l，例如 lrwxrwxrwx 软链接: 见 inode 硬链接: 见 inode 设备与装置档案: 系统周边及存储等相关的档案，通常集中在 /dev 目录下，他们又分为： 区块(block)设备档案: 存储资料，提供系统随机存储的设备，硬盘与软盘都属于这类，第一栏为 b，可查阅 /dev/sda 下的内容。 字符(character)设备档: 亦即外设，如键盘，鼠标等，这些设备的特点是「一次性读取」，不能截断输出，例如，不能让鼠标「跳跃到」另外一个地方，而是「连续滑动」到另一个地方。权限第一栏为 c 数据接口档案(sockets): 主要用于网络数据通信，第一栏为 s，该类型通常位于 /run 或 /tmp 这些目录中 数据传输接口档案(FIFO, pipe): FIFO(first in first out)也是一种特殊的档案类型，它是为了解决多个解决同时存取一个文件所造成的错误问题。第一栏为 p 设备是系统文件，最好不好随意修改。 windows 系统中可执行文件通常带有 .exe .bat 等扩展名，而 Linux 系统中基本没有所谓的「扩展名」概念，一个 Linux 文件能否被执行与它的权限栏 10 个属性有关，与其文件名或扩展名没有任何关系，只要其权限中带有 x 属性，该文件就可以被执行。 为了保持可读性，通常还是会在文件末尾加上扩展名以让用户了解该文件是什么，常用的扩展名有： *.sh: 脚本或批处理文件，因为这些文件基于 shell 写出，所以为其添加了 .sh 扩展名 Z, .tar, .tar.gz, .zip, *.tgz: 压缩包文件，由不同的压缩程序如 gunzip, tar 等输出，所以根据不同的程序命名不同的扩展名 .html, .php: php 语法写成的网页文件等 总之，Linux 的文件名仅仅是为了让用户了解其用途而已，能否执行取决于文件权限，如果 /bin/ls 文件的可执行权限被移除，那么 ls 便无法使用了。 关于档案的几点注意： 单一文件或目录文件名长度不超过 256 字节 名称中不得包含 * ? &gt; &lt; ; &amp; ! [ ] | \ ‘ “ ` ( ) { } 等特殊字符 第一个字符为 . 时，表示该档案为隐藏档案]]></content>
       <categories>
-        <category>Linux</category>
+        <category>Linux Basic</category>
       </categories>
       <tags>
         <tag>linux</tag>
