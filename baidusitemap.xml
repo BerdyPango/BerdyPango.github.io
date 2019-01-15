@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://blog.frosthe.net/homeserver-setup-seafile-on-raspberryr-pi/</loc>
+    <lastmod>2019-01-15T15:23:50.525Z</lastmod>
+  </url>  <url>
+    <loc>https://blog.frosthe.net/homeserver-setup-nas-on-raspberry-pi/</loc>
+    <lastmod>2019-01-15T15:22:46.125Z</lastmod>
+  </url>  <url>
     <loc>https://blog.frosthe.net/linux-setup-a-new-ubuntu-server/</loc>
     <lastmod>2019-01-12T13:15:06.999Z</lastmod>
   </url>  <url>
@@ -33,9 +39,6 @@
   </url>  <url>
     <loc>https://blog.frosthe.net/linux-account-and-group/</loc>
     <lastmod>2019-01-12T13:04:02.603Z</lastmod>
-  </url>  <url>
-    <loc>https://blog.frosthe.net/homeserver-setup-seafile-on-raspberryr-pi/</loc>
-    <lastmod>2019-01-12T13:00:44.228Z</lastmod>
   </url>  <url>
     <loc>https://blog.frosthe.net/aspnetcore-outgoing-httpclient-factory/</loc>
     <lastmod>2019-01-09T11:59:38.141Z</lastmod>
@@ -147,9 +150,6 @@
   </url>  <url>
     <loc>https://blog.frosthe.net/git-embeded-repository/</loc>
     <lastmod>2018-11-17T13:14:01.422Z</lastmod>
-  </url>  <url>
-    <loc>https://blog.frosthe.net/homeserver-setup-nas-on-raspberry-pi/</loc>
-    <lastmod>2018-10-25T15:18:36.665Z</lastmod>
   </url>  <url>
     <loc>https://blog.frosthe.net/smarthome-control-via-alexa/</loc>
     <lastmod>2018-10-25T15:17:48.780Z</lastmod>

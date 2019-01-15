@@ -82,15 +82,19 @@
 <meta name="description" content="树莓派做 SAMBA 服务器是一个常见的应用场景，需要使用 Samba 服务和自动挂载分区">
 <meta name="keywords" content="linux,raspberry-pi,nas,samba">
 <meta property="og:type" content="article">
-<meta property="og:title" content="在树莓派上搭建 SAMBA 服务器">
+<meta property="og:title" content="在树莓派上构建 NAS 存储系统">
 <meta property="og:url" content="https://blog.frosthe.net/homeserver-setup-nas-on-raspberry-pi/index.html">
 <meta property="og:site_name" content="FrostHe.Handbook">
 <meta property="og:description" content="树莓派做 SAMBA 服务器是一个常见的应用场景，需要使用 Samba 服务和自动挂载分区">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-10-25T15:18:36.665Z">
+<meta property="og:image" content="https://blog.frosthe.net/homeserver-setup-nas-on-raspberry-pi/hard-drives.jpg">
+<meta property="og:image" content="https://blog.frosthe.net/homeserver-setup-nas-on-raspberry-pi/driver.jpg">
+<meta property="og:image" content="https://blog.frosthe.net/homeserver-setup-nas-on-raspberry-pi/windows-network-access-prompt.png">
+<meta property="og:updated_time" content="2019-01-15T15:22:46.125Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="在树莓派上搭建 SAMBA 服务器">
+<meta name="twitter:title" content="在树莓派上构建 NAS 存储系统">
 <meta name="twitter:description" content="树莓派做 SAMBA 服务器是一个常见的应用场景，需要使用 Samba 服务和自动挂载分区">
+<meta name="twitter:image" content="https://blog.frosthe.net/homeserver-setup-nas-on-raspberry-pi/hard-drives.jpg">
 
 
 
@@ -126,7 +130,7 @@
 
 
 
-  <title>在树莓派上搭建 SAMBA 服务器 | FrostHe.Handbook</title>
+  <title>在树莓派上构建 NAS 存储系统 | FrostHe.Handbook</title>
   
 
 
@@ -321,7 +325,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">在树莓派上搭建 SAMBA 服务器</h1>
+          <h1 class="post-title" itemprop="name headline">在树莓派上构建 NAS 存储系统</h1>
         
 
         <div class="post-meta">
@@ -390,7 +394,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  818
+                  964
                 </span>
               
 
@@ -421,62 +425,59 @@
       
         <p>参考资料:</p>
 <ul>
-<li><a href="http://linux.vbird.org/linux_basic/0230filesystem.php" target="_blank" rel="noopener">磁碟与档案系统管理</a></li>
-<li><a href="https://howtoraspberrypi.com/create-a-nas-with-your-raspberry-pi-and-samba/" target="_blank" rel="noopener">Create a NAS with your Raspberry Pi and Samba</a></li>
-<li><a href="https://www.raspberrypi.org/forums/viewtopic.php?p=1105501" target="_blank" rel="noopener">Emergency Mode due to fstab</a></li>
 <li><a href="https://elinux.org/R-Pi_NAS" target="_blank" rel="noopener">R-Pi NAS</a></li>
+<li><a href="https://www.raspberrypi.org/forums/viewtopic.php?p=1105501" target="_blank" rel="noopener">Emergency Mode due to fstab</a></li>
 </ul>
-<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>家里的 <code>NAS</code> 外置硬盘之前一直连接 <code>Mac Mini</code>，因为近期出掉 <code>Mac Mini</code> 购入了树莓派 3B+，所以想以更低的成本对 NAS 硬盘里的内容进行局域网家庭共享。</p>
+<p>本文索引:</p>
+<ul>
+<li><a href="#%E8%83%8C%E6%99%AF">背景</a></li>
+<li><a href="#%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C">准备工作</a><ul>
+<li><a href="#%E8%BD%AF%E4%BB%B6%E9%83%A8%E5%88%86">软件部分</a></li>
+<li><a href="#%E7%A1%AC%E4%BB%B6%E9%83%A8%E5%88%86">硬件部分</a></li>
+</ul>
+</li>
+<li><a href="#%E4%BC%A0%E7%BB%9F%E6%96%B9%E5%BC%8F%E6%9E%B6%E8%AE%BE-samba-%E6%9C%8D%E5%8A%A1">传统方式架设 Samba 服务</a><ul>
+<li><a href="#%E6%9B%B4%E6%96%B0%E6%9C%AC%E5%9C%B0%E5%8C%85">更新本地包:</a></li>
+<li><a href="#%E5%AE%89%E8%A3%85-samba-%E6%9C%8D%E5%8A%A1">安装 Samba 服务</a></li>
+<li><a href="#%E5%A4%87%E4%BB%BD%E5%8E%9F%E5%A7%8B-smbconf-%E6%96%87%E4%BB%B6">备份原始 smb.conf 文件</a></li>
+<li><a href="#%E9%85%8D%E7%BD%AE-smbconf">配置 smb.conf</a></li>
+<li><a href="#%E5%88%9B%E5%BB%BA%E7%94%A8%E4%BA%8E%E8%AE%BF%E9%97%AE-samba-%E7%9A%84%E7%94%A8%E6%88%B7">创建用于访问 Samba 的用户</a></li>
+</ul>
+</li>
+<li><a href="#%E4%BB%A5-docker-%E6%9E%B6%E8%AE%BE-samba-%E6%9C%8D%E5%8A%A1tbd">以 Docker 架设 Samba 服务(TBD)</a></li>
+</ul>
+<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>树莓派由于其能耗低、稳定性好的优点，非常适合跑 7*24 小时的长时服务，家庭 NAS 服务器是一个比较常见的需求，那么用树莓派来跑 NAS 服务再合适不过了。</p>
+<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><p>要实现家庭 NAS 服务，硬件和软件设备都需要做准备。</p>
+<h3 id="软件部分"><a href="#软件部分" class="headerlink" title="软件部分"></a>软件部分</h3><p>软件部分指的是实现网络传输和共享的服务程序，可基于以下文件传输协议之一实现网络共享:</p>
+<ul>
+<li>SMB: <a href="https://zh.wikipedia.org/wiki/%E4%BC%BA%E6%9C%8D%E5%99%A8%E8%A8%8A%E6%81%AF%E5%8D%80%E5%A1%8A" target="_blank" rel="noopener">Server Message Block</a></li>
+<li>NFS: <a href="https://zh.wikipedia.org/wiki/%E7%BD%91%E7%BB%9C%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F" target="_blank" rel="noopener">Network File System</a></li>
+<li>FTP: <a href="https://zh.wikipedia.org/wiki/%E6%96%87%E4%BB%B6%E4%BC%A0%E8%BE%93%E5%8D%8F%E8%AE%AE" target="_blank" rel="noopener">File Transfer Protocol</a></li>
+<li>SFTP: <a href="https://zh.wikipedia.org/wiki/SSH%E6%96%87%E4%BB%B6%E4%BC%A0%E8%BE%93%E5%8D%8F%E8%AE%AE" target="_blank" rel="noopener">Secure File Transfer Protocol</a></li>
+</ul>
+<p>无论采用哪种协议进行文件共享，都需要有相应的软件服务的实现，本文采用实现了 SMB 协议的 <code>Sabma</code> 服务。</p>
+<h3 id="硬件部分"><a href="#硬件部分" class="headerlink" title="硬件部分"></a>硬件部分</h3><p>NAS 存储系统主要依赖于高容量的附加存储设备(即硬盘)，可以依据自己的需求投入相应的成本，或直接使用树莓派本身的 SD 卡存储。楼主使用了从旧笔记本电脑上拆机所得的两块硬盘，再买了一个硬盘阵列盒组了个 RAID 1 实现，其中涉及到的硬件有:</p>
+<ul>
+<li>2.5 英寸 500GB HDD * 2</li>
+<li>2.5 英寸双盘位磁盘阵列盒 * 1</li>
+</ul>
+<img src="/homeserver-setup-nas-on-raspberry-pi/hard-drives.jpg" title="笔记本拆机硬盘">
+<img src="/homeserver-setup-nas-on-raspberry-pi/driver.jpg" title="双盘位硬盘阵列盒">
+<p>当然，可以仅使用一块硬盘 + 外置硬盘盒实现，树莓派本身没有 SATA 口，只能通过 USB 接入外置硬盘，并且目前最新的 3b+ 型号上仍然是 USB2.0 接口。</p>
+<h2 id="传统方式架设-Samba-服务"><a href="#传统方式架设-Samba-服务" class="headerlink" title="传统方式架设 Samba 服务"></a>传统方式架设 Samba 服务</h2><p>为简单起见，以演示 Samba 服务搭建为目标，本文以 <code>home/pi/downloads</code> 为目标共享目录作为演示，挂载外接存储设备可参考<a href="/linux-partition/">这里</a>。</p>
+<h3 id="更新本地包"><a href="#更新本地包" class="headerlink" title="更新本地包:"></a>更新本地包:</h3><p>树莓派 <code>Raspbian</code> 系统的镜像已经包含了 <code>Samba</code> 的包，执行:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt update</span><br></pre></td></tr></table></figure></p>
+<h3 id="安装-Samba-服务"><a href="#安装-Samba-服务" class="headerlink" title="安装 Samba 服务"></a>安装 Samba 服务</h3><p>执行以下命令将安装 <code>Samba</code> 服务及其依赖的所有程序:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt install samba samba-common-bin</span><br></pre></td></tr></table></figure></p>
+<h3 id="备份原始-smb-conf-文件"><a href="#备份原始-smb-conf-文件" class="headerlink" title="备份原始 smb.conf 文件"></a>备份原始 smb.conf 文件</h3><p>安装完成后，使用 <code>root</code> 用户权限编辑 <code>/etc/samba/smb.conf</code> 来配置服务，但在此之前，先备份原始配置文件:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo cp /etc/samba/smb.conf /etc/samba/smb.conf.default</span><br></pre></td></tr></table></figure></p>
+<h3 id="配置-smb-conf"><a href="#配置-smb-conf" class="headerlink" title="配置 smb.conf"></a>配置 smb.conf</h3><p>使用喜欢的文件编辑器(树莓派内置了 <code>nano</code>)打开配置文件，并在文件的最下方插入以下内容:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[Share]</span><br><span class="line">Comment = Pi shared folder</span><br><span class="line">Path = /pi/home/downloads</span><br><span class="line">Browseable = yes</span><br><span class="line">Writeable = Yes</span><br><span class="line">only guest = no</span><br><span class="line">create mask = 0777</span><br><span class="line">directory mask = 0777</span><br><span class="line">Public = yes</span><br><span class="line">Guest ok = yes</span><br></pre></td></tr></table></figure></p>
+<p>这表示可通过以 Samba 用户(见下文)或 <code>Guest</code> 身份读取、写入、或执行 <code>/mnt/shared</code> 目录下的内容，如果不想允许 <code>Guest</code> 身份访问，注释掉 <code>Guest ok</code> 一项即可。</p>
 <blockquote>
-<p>外置硬盘的文件系统为 XFS 文件系统。</p>
+<p>关于 <code>smb.conf</code> 的更多选项可自行参考<a href="https://www.cnblogs.com/fatt/p/5856892.html" target="_blank" rel="noopener">这里</a></p>
 </blockquote>
-<h2 id="安装-Samba-服务"><a href="#安装-Samba-服务" class="headerlink" title="安装 Samba 服务"></a>安装 Samba 服务</h2><ol>
-<li><p>树莓派 <code>Raspbian</code> 系统的 package 仓库中已经包含了 Samba 的包，首先升级包:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt update</span><br><span class="line">$ sudo apt upgrade</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>创建要分享的目录:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ sudo mkdir /mnt/shared</span><br><span class="line">$ sudo chown -R root:users /mnt/shared <span class="comment"># 递归更改目录的拥有者和所属群组</span></span><br><span class="line">$ sudo chmod -R ug=rwx,o=rx /mnt/shared <span class="comment"># 递归更改该目录下的权限</span></span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<blockquote>
-<p>因为 pi 用户默认从属于 users 用户组，所以其对该目录有完全权限</p>
-</blockquote>
-<ol start="3">
-<li><p>安装 samba 服务端</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt install samba samba-common-bin</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>备份原始配置文件</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo cp /etc/samba/smb.conf /etc/samba/smb.conf.default</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>编辑配置文件，保存并退出</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#### Authentication ####</span></span><br><span class="line">security = user <span class="comment"># 添加该行以用户认证方式访问 Samba</span></span><br><span class="line">[homes] <span class="comment"># homes 标识用户的 home 目录，给予写入权限</span></span><br><span class="line">    <span class="built_in">read</span> only = no</span><br><span class="line"></span><br><span class="line">[public] <span class="comment"># 分享公开目录，映射到挂载的目录</span></span><br><span class="line">  comment = public storage </span><br><span class="line">  path = /mnt/shared </span><br><span class="line">  valid users = @users </span><br><span class="line">  force group = users </span><br><span class="line">  create mask = 0660 </span><br><span class="line">  directory mask = 0771 </span><br><span class="line">  <span class="built_in">read</span> only = no</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>挂载外置硬盘</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo mount /dev/sda1 /mnt/shared</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>重启 Samba 服务:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo systemctl restart smbd.service</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<h2 id="设置开机自动挂载"><a href="#设置开机自动挂载" class="headerlink" title="设置开机自动挂载"></a>设置开机自动挂载</h2><ol>
-<li><p>首先卸载已通过手动挂载的分区，因为在之后测试 /etc/fstab 时必须要保证其没有被挂载</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo umount /dev/sda1</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>查询设备的 UUID: </p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$ lsblk -f</span><br><span class="line"></span><br><span class="line">NAME        FSTYPE LABEL  UUID                                 MOUNTPOINT</span><br><span class="line">sda</span><br><span class="line">└─sda1      xfs    NT2    fef3c944-4e1e-4aeb-9b79-6f567c50ea6c </span><br><span class="line">mmcblk0</span><br><span class="line">├─mmcblk0p1 vfat   boot   A365-6756                            /boot</span><br><span class="line">└─mmcblk0p2 ext4   rootfs 90a83158-560d-48ee-9de9-40c51d93c287 /</span><br><span class="line"></span><br><span class="line"><span class="comment"># 此处取得想要挂载的文件系统的 UUID</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>查看 /etc/fstab</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ cat /etc/fstab</span><br><span class="line"></span><br><span class="line">proc                            /proc           proc            defaults                0       0</span><br><span class="line">PARTUUID=358ecf74-01            /boot           vfat            defaults                0       2</span><br><span class="line">PARTUUID=358ecf74-02            /               ext4            defaults,noatime        0       1</span><br><span class="line"></span><br><span class="line"><span class="comment"># 六个栏位分别表示:</span></span><br><span class="line"><span class="comment"># [装置/UUID等] [挂载点] [档案系统] [档案系统参数] [dump] [fsck]</span></span><br></pre></td></tr></table></figure>
-</li>
-<li><p>编辑 /etc/fstab 配置以添加自动挂载点</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ sudo nano /etc/fstab</span><br><span class="line"></span><br><span class="line">proc                                            /proc           proc            defaults                0       0</span><br><span class="line">PARTUUID=358ecf74-01                            /boot           vfat            defaults                0       2</span><br><span class="line">PARTUUID=358ecf74-02                            /               ext4            defaults,noatime        0       1</span><br><span class="line">UUID=<span class="string">"fef3c944-4e1e-4aeb-9b79-6f567c50ea6c"</span>     /mnt/shared     xfs             defaults                0       0</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>测试自动挂载(特别重要)，<strong>如果 /etc/fstab 中有语法错误，Linux 系统将无法正常启动</strong>，必须进入紧急模式进行恢复，参考<a href="https://www.raspberrypi.org/forums/viewtopic.php?p=1105501" target="_blank" rel="noopener">Emergency Mode due to fstab</a></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">$ sudo mount -a</span><br><span class="line"></span><br><span class="line">$ df</span><br><span class="line"></span><br><span class="line">Filesystem      1K-blocks      Used  Available Use% Mounted on</span><br><span class="line">/dev/root        15149360   2521740   11979528  18% /</span><br><span class="line">devtmpfs           470116         0     470116   0% /dev</span><br><span class="line">tmpfs              474724         0     474724   0% /dev/shm</span><br><span class="line">tmpfs              474724     12616     462108   3% /run</span><br><span class="line">tmpfs                5120         4       5116   1% /run/lock</span><br><span class="line">tmpfs              474724         0     474724   0% /sys/fs/cgroup</span><br><span class="line">/dev/mmcblk0p1      43436     22142      21295  51% /boot</span><br><span class="line">tmpfs               94944         0      94944   0% /run/user/1000</span><br><span class="line">/dev/sda1      3905085428 577802476 3327282952  15% /mnt/shared</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>如果测试通过，能够自动挂载，则可以再重启一次树莓派以进行验证。至此，局域网内的其他硬件已经可以通过树莓派的 ip 地址访问 NAS 共享了。</p>
-
+<p>执行 <code>testparm</code> 以检查刚刚的更改没有造成错误:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ testparm</span><br></pre></td></tr></table></figure></p>
+<h3 id="创建用于访问-Samba-的用户"><a href="#创建用于访问-Samba-的用户" class="headerlink" title="创建用于访问 Samba 的用户"></a>创建用于访问 Samba 的用户</h3><p>多数情况下，我们不希望任何人在不认证的情况下就随意访问局域网内的 Samba 服务，但又不想为此创建专门的用户帐户(这将增加管理成本)，可告知 Samba 对已有 UNIX 用户授权并设置专属于 SMB 的密码:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ sudo smbpasswd -a pi</span><br><span class="line"></span><br><span class="line">New SMB password:</span><br><span class="line">Retype new SMB password:</span><br></pre></td></tr></table></figure></p>
+<p>接下来，重启 Samba 服务:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ sudo /etc/init.d/samba restart</span><br><span class="line"></span><br><span class="line">or</span><br><span class="line"></span><br><span class="line">$ sudo systemctl restart smbd.service</span><br></pre></td></tr></table></figure></p>
+<p>在 Windows 的 Explorer 中输入 R Pi 的 IP 地址及目录名称 <code>//192.168.1.140/Share</code>，输入要求的用户名和密码:<br><img src="/homeserver-setup-nas-on-raspberry-pi/windows-network-access-prompt.png" title="输入 pi 用户名及密码"></p>
+<h2 id="以-Docker-架设-Samba-服务-TBD"><a href="#以-Docker-架设-Samba-服务-TBD" class="headerlink" title="以 Docker 架设 Samba 服务(TBD)"></a>以 Docker 架设 Samba 服务(TBD)</h2>
       
     </div>
     
@@ -494,7 +495,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://blog.frosthe.net/homeserver-setup-nas-on-raspberry-pi/" title="在树莓派上搭建 SAMBA 服务器">https://blog.frosthe.net/homeserver-setup-nas-on-raspberry-pi/</a>
+    <a href="https://blog.frosthe.net/homeserver-setup-nas-on-raspberry-pi/" title="在树莓派上构建 NAS 存储系统">https://blog.frosthe.net/homeserver-setup-nas-on-raspberry-pi/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>
@@ -705,7 +706,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#背景"><span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装-Samba-服务"><span class="nav-text">安装 Samba 服务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#设置开机自动挂载"><span class="nav-text">设置开机自动挂载</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#背景"><span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#准备工作"><span class="nav-text">准备工作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#软件部分"><span class="nav-text">软件部分</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#硬件部分"><span class="nav-text">硬件部分</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#传统方式架设-Samba-服务"><span class="nav-text">传统方式架设 Samba 服务</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#更新本地包"><span class="nav-text">更新本地包:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-Samba-服务"><span class="nav-text">安装 Samba 服务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#备份原始-smb-conf-文件"><span class="nav-text">备份原始 smb.conf 文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置-smb-conf"><span class="nav-text">配置 smb.conf</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建用于访问-Samba-的用户"><span class="nav-text">创建用于访问 Samba 的用户</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#以-Docker-架设-Samba-服务-TBD"><span class="nav-text">以 Docker 架设 Samba 服务(TBD)</span></a></li></ol></div>
             
 
           </div>
