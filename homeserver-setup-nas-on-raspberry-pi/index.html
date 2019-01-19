@@ -79,21 +79,22 @@
 
 
 
-<meta name="description" content="树莓派做 SAMBA 服务器是一个常见的应用场景，需要使用 Samba 服务和自动挂载分区">
+<meta name="description" content="树莓派做 NAS 服务器是一个常见的应用场景">
 <meta name="keywords" content="linux,raspberry-pi,nas,samba">
 <meta property="og:type" content="article">
 <meta property="og:title" content="在树莓派上构建 NAS 存储系统">
 <meta property="og:url" content="https://blog.frosthe.net/homeserver-setup-nas-on-raspberry-pi/index.html">
 <meta property="og:site_name" content="FrostHe.Handbook">
-<meta property="og:description" content="树莓派做 SAMBA 服务器是一个常见的应用场景，需要使用 Samba 服务和自动挂载分区">
+<meta property="og:description" content="树莓派做 NAS 服务器是一个常见的应用场景">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://blog.frosthe.net/homeserver-setup-nas-on-raspberry-pi/hard-drives.jpg">
 <meta property="og:image" content="https://blog.frosthe.net/homeserver-setup-nas-on-raspberry-pi/driver.jpg">
+<meta property="og:image" content="https://blog.frosthe.net/homeserver-setup-nas-on-raspberry-pi/map-network-drive.png">
 <meta property="og:image" content="https://blog.frosthe.net/homeserver-setup-nas-on-raspberry-pi/windows-network-access-prompt.png">
-<meta property="og:updated_time" content="2019-01-15T15:22:46.125Z">
+<meta property="og:updated_time" content="2019-01-19T08:01:21.380Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="在树莓派上构建 NAS 存储系统">
-<meta name="twitter:description" content="树莓派做 SAMBA 服务器是一个常见的应用场景，需要使用 Samba 服务和自动挂载分区">
+<meta name="twitter:description" content="树莓派做 NAS 服务器是一个常见的应用场景">
 <meta name="twitter:image" content="https://blog.frosthe.net/homeserver-setup-nas-on-raspberry-pi/hard-drives.jpg">
 
 
@@ -394,7 +395,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  964
+                  1,353
                 </span>
               
 
@@ -406,7 +407,7 @@
 
           
               <div class="post-description">
-                  树莓派做 SAMBA 服务器是一个常见的应用场景，需要使用 Samba 服务和自动挂载分区
+                  树莓派做 NAS 服务器是一个常见的应用场景
               </div>
           
 
@@ -442,6 +443,7 @@
 <li><a href="#%E5%A4%87%E4%BB%BD%E5%8E%9F%E5%A7%8B-smbconf-%E6%96%87%E4%BB%B6">备份原始 smb.conf 文件</a></li>
 <li><a href="#%E9%85%8D%E7%BD%AE-smbconf">配置 smb.conf</a></li>
 <li><a href="#%E5%88%9B%E5%BB%BA%E7%94%A8%E4%BA%8E%E8%AE%BF%E9%97%AE-samba-%E7%9A%84%E7%94%A8%E6%88%B7">创建用于访问 Samba 的用户</a></li>
+<li><a href="#%E8%A7%A3%E5%86%B3-windows-%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%97%A0%E6%B3%95%E8%AE%BF%E9%97%AE-share-%E7%9B%AE%E5%BD%95%E7%9A%84%E9%97%AE%E9%A2%98">解决 Windows 系统下无法访问 Share 目录的问题</a></li>
 </ul>
 </li>
 <li><a href="#%E4%BB%A5-docker-%E6%9E%B6%E8%AE%BE-samba-%E6%9C%8D%E5%8A%A1tbd">以 Docker 架设 Samba 服务(TBD)</a></li>
@@ -464,7 +466,7 @@
 <img src="/homeserver-setup-nas-on-raspberry-pi/hard-drives.jpg" title="笔记本拆机硬盘">
 <img src="/homeserver-setup-nas-on-raspberry-pi/driver.jpg" title="双盘位硬盘阵列盒">
 <p>当然，可以仅使用一块硬盘 + 外置硬盘盒实现，树莓派本身没有 SATA 口，只能通过 USB 接入外置硬盘，并且目前最新的 3b+ 型号上仍然是 USB2.0 接口。</p>
-<h2 id="传统方式架设-Samba-服务"><a href="#传统方式架设-Samba-服务" class="headerlink" title="传统方式架设 Samba 服务"></a>传统方式架设 Samba 服务</h2><p>为简单起见，以演示 Samba 服务搭建为目标，本文以 <code>home/pi/downloads</code> 为目标共享目录作为演示，挂载外接存储设备可参考<a href="/linux-partition/">这里</a>。</p>
+<h2 id="传统方式架设-Samba-服务"><a href="#传统方式架设-Samba-服务" class="headerlink" title="传统方式架设 Samba 服务"></a>传统方式架设 Samba 服务</h2><p>为简单起见，以演示 <code>Samba</code> 服务搭建为目标，本文以 <code>home/pi/downloads</code> 为目标共享目录作为演示，挂载外接存储设备可参考<a href="/linux-partition/">这里</a>。</p>
 <h3 id="更新本地包"><a href="#更新本地包" class="headerlink" title="更新本地包:"></a>更新本地包:</h3><p>树莓派 <code>Raspbian</code> 系统的镜像已经包含了 <code>Samba</code> 的包，执行:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt update</span><br></pre></td></tr></table></figure></p>
 <h3 id="安装-Samba-服务"><a href="#安装-Samba-服务" class="headerlink" title="安装 Samba 服务"></a>安装 Samba 服务</h3><p>执行以下命令将安装 <code>Samba</code> 服务及其依赖的所有程序:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt install samba samba-common-bin</span><br></pre></td></tr></table></figure></p>
 <h3 id="备份原始-smb-conf-文件"><a href="#备份原始-smb-conf-文件" class="headerlink" title="备份原始 smb.conf 文件"></a>备份原始 smb.conf 文件</h3><p>安装完成后，使用 <code>root</code> 用户权限编辑 <code>/etc/samba/smb.conf</code> 来配置服务，但在此之前，先备份原始配置文件:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo cp /etc/samba/smb.conf /etc/samba/smb.conf.default</span><br></pre></td></tr></table></figure></p>
@@ -473,10 +475,23 @@
 <blockquote>
 <p>关于 <code>smb.conf</code> 的更多选项可自行参考<a href="https://www.cnblogs.com/fatt/p/5856892.html" target="_blank" rel="noopener">这里</a></p>
 </blockquote>
-<p>执行 <code>testparm</code> 以检查刚刚的更改没有造成错误:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ testparm</span><br></pre></td></tr></table></figure></p>
-<h3 id="创建用于访问-Samba-的用户"><a href="#创建用于访问-Samba-的用户" class="headerlink" title="创建用于访问 Samba 的用户"></a>创建用于访问 Samba 的用户</h3><p>多数情况下，我们不希望任何人在不认证的情况下就随意访问局域网内的 Samba 服务，但又不想为此创建专门的用户帐户(这将增加管理成本)，可告知 Samba 对已有 UNIX 用户授权并设置专属于 SMB 的密码:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ sudo smbpasswd -a pi</span><br><span class="line"></span><br><span class="line">New SMB password:</span><br><span class="line">Retype new SMB password:</span><br></pre></td></tr></table></figure></p>
+<p>希望在 Windows 系统的网络(<code>Network</code>)下看见树莓派主机，需要设置 <code>[global]</code> 节点下的 <code>wins support = yes</code> </p>
+<p>执行 <code>testparm</code> 以检查刚刚的更改没有造成错误:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">$ testparm</span><br><span class="line"></span><br><span class="line">[global]</span><br><span class="line">        <span class="built_in">log</span> file = /var/<span class="built_in">log</span>/samba/<span class="built_in">log</span>.%m</span><br><span class="line">        max <span class="built_in">log</span> size = 1000</span><br><span class="line">        syslog = 0</span><br><span class="line">        panic action = /usr/share/samba/panic-action %d</span><br><span class="line">        usershare allow guests = Yes</span><br><span class="line">        map to guest = Bad User</span><br><span class="line">        obey pam restrictions = Yes</span><br><span class="line">        pam password change = Yes</span><br><span class="line">        passwd chat = *Enter\snew\s*\spassword:* %n\n *Retype\snew\s*\spassword:* %n\n *password\supdated\ssuccessfully* .</span><br><span class="line">        passwd program = /usr/bin/passwd %u</span><br><span class="line">        server role = standalone server</span><br><span class="line">        unix password sync = Yes</span><br><span class="line">        dns proxy = No</span><br><span class="line">        wins support = Yes</span><br><span class="line">        idmap config * : backend = tdb</span><br><span class="line">        </span><br><span class="line">[Share]</span><br><span class="line">        comment = Pi shared folder</span><br><span class="line">        path = /mnt/shared</span><br><span class="line">        create mask = 0777</span><br><span class="line">        directory mask = 0777</span><br><span class="line">        guest ok = Yes</span><br><span class="line">        <span class="built_in">read</span> only = No</span><br></pre></td></tr></table></figure></p>
+<h3 id="创建用于访问-Samba-的用户"><a href="#创建用于访问-Samba-的用户" class="headerlink" title="创建用于访问 Samba 的用户"></a>创建用于访问 Samba 的用户</h3><p>多数情况下，我们不希望任何人在不认证的情况下就随意访问局域网内的 <code>Samba</code> 服务，但又不想为此创建专门的用户帐户(这将增加管理成本)，可告知 <code>Samba</code> 对已有 UNIX 用户授权并设置专属于 SMB 的密码:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ sudo smbpasswd -a pi</span><br><span class="line"></span><br><span class="line">New SMB password:</span><br><span class="line">Retype new SMB password:</span><br></pre></td></tr></table></figure></p>
 <p>接下来，重启 Samba 服务:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ sudo /etc/init.d/samba restart</span><br><span class="line"></span><br><span class="line">or</span><br><span class="line"></span><br><span class="line">$ sudo systemctl restart smbd.service</span><br></pre></td></tr></table></figure></p>
-<p>在 Windows 的 Explorer 中输入 R Pi 的 IP 地址及目录名称 <code>//192.168.1.140/Share</code>，输入要求的用户名和密码:<br><img src="/homeserver-setup-nas-on-raspberry-pi/windows-network-access-prompt.png" title="输入 pi 用户名及密码"></p>
+<h3 id="解决-Windows-系统下无法访问-Share-目录的问题"><a href="#解决-Windows-系统下无法访问-Share-目录的问题" class="headerlink" title="解决 Windows 系统下无法访问 Share 目录的问题"></a>解决 Windows 系统下无法访问 Share 目录的问题</h3><p>由于使用 <code>pi</code> 用户作为访问共享目录的凭证，但 <code>Windows</code> 系统会默认以当前登录 <code>Windows</code> 的本地帐号作为访问共享目录的用户，这会导致无法访问共享目录。为了解决这个问题，需要清除 <code>Windows</code> 记住的网络共享目录的登录凭证。</p>
+<ol>
+<li><p>查看 <code>Windows</code> 当前记住的所有网络共享主机映射，<code>Windows</code> 针对单个 host 记录一条映射:</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">net</span> use </span><br><span class="line"></span><br><span class="line">Status       Local     Remote                    Network</span><br><span class="line"></span><br><span class="line">-------------------------------------------------------------------------------</span><br><span class="line">OK                     \\<span class="number">192</span>.<span class="number">168</span>.<span class="number">1</span>.<span class="number">140</span>\Share     Microsoft Windows Network</span><br><span class="line">OK                     \\raspberrypi3b\share     Microsoft Windows Network</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>清除这些映射记录:</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">net</span> use * /d</span><br><span class="line"></span><br><span class="line">You have these remote connections:</span><br><span class="line"></span><br><span class="line">                    \\<span class="number">192</span>.<span class="number">168</span>.<span class="number">1</span>.<span class="number">140</span>\Share</span><br><span class="line">                    \\raspberrypi3b\share</span><br><span class="line">Continuing will cancel the connections.</span><br><span class="line"></span><br><span class="line"><span class="keyword">Do</span> you want to continue this operation? (Y/N) [N]: y</span><br><span class="line">The command completed successfully.</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>Win + E</code> 在 <code>Explorer</code> 中映射网络驱动器，并在弹出的认证对话框中输入先前创建的 <code>pi</code> 帐号及密码:</p>
+<img src="/homeserver-setup-nas-on-raspberry-pi/map-network-drive.png" title="映射网络驱动器">
+<img src="/homeserver-setup-nas-on-raspberry-pi/windows-network-access-prompt.png" title="输入用户名及密码">
+</li>
+</ol>
 <h2 id="以-Docker-架设-Samba-服务-TBD"><a href="#以-Docker-架设-Samba-服务-TBD" class="headerlink" title="以 Docker 架设 Samba 服务(TBD)"></a>以 Docker 架设 Samba 服务(TBD)</h2>
       
     </div>
@@ -562,8 +577,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/homeserver-setup-raspberry-pi/" rel="next" title="家庭数字化系统 - 准备树莓派">
-                <i class="fa fa-chevron-left"></i> 家庭数字化系统 - 准备树莓派
+              <a href="/homeserver-router-basic-services/" rel="next" title="路由器基础服务详解 - DHCP, DNS, NAT">
+                <i class="fa fa-chevron-left"></i> 路由器基础服务详解 - DHCP, DNS, NAT
               </a>
             
           </div>
@@ -572,8 +587,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/homeserver-setup-seafile-on-raspberryr-pi/" rel="prev" title="在树莓派上搭建 Seafile 私有云服务端">
-                在树莓派上搭建 Seafile 私有云服务端 <i class="fa fa-chevron-right"></i>
+              <a href="/homeserver-setup-isp-device/" rel="prev" title="电信宽带的正确使用姿势">
+                电信宽带的正确使用姿势 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -651,7 +666,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">65</span>
+                  <span class="site-state-item-count">64</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -706,7 +721,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#背景"><span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#准备工作"><span class="nav-text">准备工作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#软件部分"><span class="nav-text">软件部分</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#硬件部分"><span class="nav-text">硬件部分</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#传统方式架设-Samba-服务"><span class="nav-text">传统方式架设 Samba 服务</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#更新本地包"><span class="nav-text">更新本地包:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-Samba-服务"><span class="nav-text">安装 Samba 服务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#备份原始-smb-conf-文件"><span class="nav-text">备份原始 smb.conf 文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置-smb-conf"><span class="nav-text">配置 smb.conf</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建用于访问-Samba-的用户"><span class="nav-text">创建用于访问 Samba 的用户</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#以-Docker-架设-Samba-服务-TBD"><span class="nav-text">以 Docker 架设 Samba 服务(TBD)</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#背景"><span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#准备工作"><span class="nav-text">准备工作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#软件部分"><span class="nav-text">软件部分</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#硬件部分"><span class="nav-text">硬件部分</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#传统方式架设-Samba-服务"><span class="nav-text">传统方式架设 Samba 服务</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#更新本地包"><span class="nav-text">更新本地包:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-Samba-服务"><span class="nav-text">安装 Samba 服务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#备份原始-smb-conf-文件"><span class="nav-text">备份原始 smb.conf 文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置-smb-conf"><span class="nav-text">配置 smb.conf</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建用于访问-Samba-的用户"><span class="nav-text">创建用于访问 Samba 的用户</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解决-Windows-系统下无法访问-Share-目录的问题"><span class="nav-text">解决 Windows 系统下无法访问 Share 目录的问题</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#以-Docker-架设-Samba-服务-TBD"><span class="nav-text">以 Docker 架设 Samba 服务(TBD)</span></a></li></ol></div>
             
 
           </div>
