@@ -1,6 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://blog.frosthe.net/smarthome-control-via-alexa/</loc>
+    <lastmod>2019-01-20T12:02:02.537Z</lastmod>
+  </url>  <url>
+    <loc>https://blog.frosthe.net/smarthome-control-via-siri/</loc>
+    <lastmod>2019-01-20T08:51:51.306Z</lastmod>
+  </url>  <url>
+    <loc>https://blog.frosthe.net/smarthome-ha-configuration-system/</loc>
+    <lastmod>2019-01-20T07:50:34.207Z</lastmod>
+  </url>  <url>
+    <loc>https://blog.frosthe.net/smarthome-setup-ha-on-raspberrypi/</loc>
+    <lastmod>2019-01-20T07:44:10.074Z</lastmod>
+  </url>  <url>
+    <loc>https://blog.frosthe.net/smarthome-ha-basic-configuration/</loc>
+    <lastmod>2019-01-20T07:32:05.297Z</lastmod>
+  </url>  <url>
+    <loc>https://blog.frosthe.net/homeserver-setup-raspberry-pi/</loc>
+    <lastmod>2019-01-20T07:10:05.728Z</lastmod>
+  </url>  <url>
     <loc>https://blog.frosthe.net/homeserver-setup-nas-on-raspberry-pi/</loc>
     <lastmod>2019-01-19T08:01:21.380Z</lastmod>
   </url>  <url>
@@ -9,9 +27,6 @@
   </url>  <url>
     <loc>https://blog.frosthe.net/security-oauth2-and-openid-connect/</loc>
     <lastmod>2019-01-19T07:59:43.717Z</lastmod>
-  </url>  <url>
-    <loc>https://blog.frosthe.net/homeserver-setup-raspberry-pi/</loc>
-    <lastmod>2019-01-19T07:59:43.716Z</lastmod>
   </url>  <url>
     <loc>https://blog.frosthe.net/homeserver-setup-isp-device/</loc>
     <lastmod>2019-01-19T07:59:43.703Z</lastmod>
@@ -103,9 +118,6 @@
     <loc>https://blog.frosthe.net/hexo-next-customization/</loc>
     <lastmod>2018-12-27T04:32:33.987Z</lastmod>
   </url>  <url>
-    <loc>https://blog.frosthe.net/smarthome-setup-ha-on-raspberrypi/</loc>
-    <lastmod>2018-12-22T08:22:47.443Z</lastmod>
-  </url>  <url>
     <loc>https://blog.frosthe.net/ddd-tactical-entity/</loc>
     <lastmod>2018-11-24T14:37:59.084Z</lastmod>
   </url>  <url>
@@ -136,9 +148,6 @@
     <loc>https://blog.frosthe.net/about/index.html</loc>
     <lastmod>2018-11-17T13:14:01.993Z</lastmod>
   </url>  <url>
-    <loc>https://blog.frosthe.net/smarthome-ha-configuration-system/</loc>
-    <lastmod>2018-11-17T13:14:01.781Z</lastmod>
-  </url>  <url>
     <loc>https://blog.frosthe.net/hexo-setup/</loc>
     <lastmod>2018-11-17T13:14:01.634Z</lastmod>
   </url>  <url>
@@ -147,12 +156,6 @@
   </url>  <url>
     <loc>https://blog.frosthe.net/git-embeded-repository/</loc>
     <lastmod>2018-11-17T13:14:01.422Z</lastmod>
-  </url>  <url>
-    <loc>https://blog.frosthe.net/smarthome-control-via-alexa/</loc>
-    <lastmod>2018-10-25T15:17:48.780Z</lastmod>
-  </url>  <url>
-    <loc>https://blog.frosthe.net/smarthome-control-via-siri/</loc>
-    <lastmod>2018-10-25T15:17:42.459Z</lastmod>
   </url>  <url>
     <loc>https://blog.frosthe.net/ddd-tactical-domain-service/</loc>
     <lastmod>2018-10-13T02:28:27.562Z</lastmod>

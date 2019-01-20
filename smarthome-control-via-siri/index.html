@@ -79,21 +79,21 @@
 
 
 
-<meta name="description" content="本文介绍了通过 HA 的 HomeKit 组件实现 Siri 控制智能家居的方法">
+<meta name="description" content="本文介绍通过 HA 的 homekit 组件实现 Siri 控制智能家居的方法">
 <meta name="keywords" content="smart-home,home-assistant,homebridge">
 <meta property="og:type" content="article">
-<meta property="og:title" content="智慧家庭 - 通过 Siri 控制 HomeAssistant">
+<meta property="og:title" content="智慧家庭 - 通过 Siri 控制连接至 HomeAssistant 的智能设备">
 <meta property="og:url" content="https://blog.frosthe.net/smarthome-control-via-siri/index.html">
 <meta property="og:site_name" content="FrostHe.Handbook">
-<meta property="og:description" content="本文介绍了通过 HA 的 HomeKit 组件实现 Siri 控制智能家居的方法">
+<meta property="og:description" content="本文介绍通过 HA 的 homekit 组件实现 Siri 控制智能家居的方法">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://blog.frosthe.net/smarthome-control-via-siri/homekit_card.png">
 <meta property="og:image" content="https://blog.frosthe.net/smarthome-control-via-siri/ios_screenshot.jpg">
 <meta property="og:image" content="https://blog.frosthe.net/smarthome-control-via-siri/diagram.jpg">
-<meta property="og:updated_time" content="2018-10-25T15:17:42.459Z">
+<meta property="og:updated_time" content="2019-01-20T08:51:51.306Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="智慧家庭 - 通过 Siri 控制 HomeAssistant">
-<meta name="twitter:description" content="本文介绍了通过 HA 的 HomeKit 组件实现 Siri 控制智能家居的方法">
+<meta name="twitter:title" content="智慧家庭 - 通过 Siri 控制连接至 HomeAssistant 的智能设备">
+<meta name="twitter:description" content="本文介绍通过 HA 的 homekit 组件实现 Siri 控制智能家居的方法">
 <meta name="twitter:image" content="https://blog.frosthe.net/smarthome-control-via-siri/homekit_card.png">
 
 
@@ -130,7 +130,7 @@
 
 
 
-  <title>智慧家庭 - 通过 Siri 控制 HomeAssistant | FrostHe.Handbook</title>
+  <title>智慧家庭 - 通过 Siri 控制连接至 HomeAssistant 的智能设备 | FrostHe.Handbook</title>
   
 
 
@@ -325,7 +325,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">智慧家庭 - 通过 Siri 控制 HomeAssistant</h1>
+          <h1 class="post-title" itemprop="name headline">智慧家庭 - 通过 Siri 控制连接至 HomeAssistant 的智能设备</h1>
         
 
         <div class="post-meta">
@@ -394,7 +394,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  1,454
+                  2,066
                 </span>
               
 
@@ -406,7 +406,7 @@
 
           
               <div class="post-description">
-                  本文介绍了通过 HA 的 HomeKit 组件实现 Siri 控制智能家居的方法
+                  本文介绍通过 HA 的 homekit 组件实现 Siri 控制智能家居的方法
               </div>
           
 
@@ -428,15 +428,60 @@
 <li><a href="https://github.com/nfarina/homebridge" target="_blank" rel="noopener">Github - Homebridge</a></li>
 <li><a href="https://github.com/home-assistant/homebridge-homeassistant" target="_blank" rel="noopener">Github - Home Assistant Plugin</a></li>
 <li><a href="https://github.com/oznu/docker-homebridge" target="_blank" rel="noopener">Github - HomeBridge Docker</a></li>
+<li><a href="https://www.home-assistant.io/components/homekit/#disable-auto-start" target="_blank" rel="noopener">HomeKit - HomeAssistant</a></li>
+</ul>
+<p>本文索引:</p>
+<ul>
+<li><a href="#%E8%83%8C%E6%99%AF">背景</a></li>
+<li><a href="#%E9%80%9A%E8%BF%87-homekit-%E7%BB%84%E4%BB%B6%E5%AE%9E%E7%8E%B0">通过 HomeKit 组件实现</a><ul>
+<li><a href="#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9">注意事项</a></li>
+</ul>
+</li>
+<li><a href="#%E9%80%9A%E8%BF%87-homebridge-%E5%8F%8A%E5%85%B6%E6%8F%92%E4%BB%B6%E5%AE%9E%E7%8E%B0%E8%80%81%E6%96%B9%E6%B3%95">通过 HomeBridge 及其插件实现(老方法)</a><ul>
+<li><a href="#%E5%AE%89%E8%A3%85-nodejsoptional">安装 NodeJs(Optional)</a></li>
+<li><a href="#%E5%AE%89%E8%A3%85-homebridge">安装 Homebridge</a></li>
+<li><a href="#%E5%AE%89%E8%A3%85-ha-%E6%8F%92%E4%BB%B6">安装 HA 插件</a></li>
+<li><a href="#%E9%85%8D%E7%BD%AE-configjson">配置 config.json</a></li>
+<li><a href="#%E9%85%8D%E7%BD%AE%E5%BC%80%E6%9C%BA%E5%90%AF%E5%8A%A8-homebridge">配置开机启动 Homebridge</a></li>
+</ul>
+</li>
 </ul>
 <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>比起 <code>Alexa</code> ，通过 <code>Siri</code> 联通 <strong>HA</strong> 的优势在于:</p>
 <ul>
 <li>支持中文语音</li>
 <li>至少有一台 iOS 设备就可以实现，无需购买 <strong>Echo</strong> 系列的产品</li>
 </ul>
-<p><code>Siri</code> 通过 <strong>HomeKit</strong> 与 Apple Home 通信，<strong>HomeKit</strong> 扮演了 Apple Home 数据库的角色。只要 <code>HomeAssistant</code> 中暴露的智能能够被 <strong>HomeKit</strong> 识别即可。从 <strong>HA</strong> 0.64 开始，<strong>HA</strong> 已经内置了 HomeKit 组件，不再需要单独运行 HomeBridge 及其 HomeAssistant 插件来实现。</p>
+<p><code>Siri</code> 通过 <code>HomeKit</code> 与 <code>Apple Home</code> 通信，<code>HomeKit</code> 扮演了 <code>Apple Home</code> 数据库的角色。只要 <code>HomeAssistant</code> 中暴露的实体能够被 <code>HomeKit*</code> 识别就可以由 <code>Siri</code> 进行控制。从 <strong>HA 0.64</strong> 开始就内置了 <code>homekit</code> 组件，不再需要单独运行 <code>HomeBridge</code> 及其 <code>HomeAssistant</code> 插件来实现。</p>
 <h2 id="通过-HomeKit-组件实现"><a href="#通过-HomeKit-组件实现" class="headerlink" title="通过 HomeKit 组件实现"></a>通过 HomeKit 组件实现</h2><p>首先安装必要组件:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get install libavahi-compat-libdnssd-dev</span><br></pre></td></tr></table></figure></p>
-<p>找到 <code>configuration.yaml</code> 文件，在其中添加:<br><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">homekit:</span></span><br><span class="line"><span class="attr">  auto_start:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">  port:</span> <span class="number">51827</span></span><br><span class="line"><span class="attr">  name:</span> <span class="string">HA</span> <span class="string">Bridge</span></span><br><span class="line"><span class="attr">  filter:</span></span><br><span class="line"><span class="attr">    include_entities:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">light.lamp</span></span><br><span class="line"></span><br><span class="line"><span class="attr">  entity_config:</span></span><br><span class="line">    <span class="string">light.lamp:</span></span><br><span class="line"><span class="attr">      name:</span> <span class="string">台灯</span></span><br></pre></td></tr></table></figure></p>
+<p>找到 <code>configuration.yaml</code> 文件，添加以下配置信息:<br><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">homekit:</span></span><br><span class="line"><span class="attr">  auto_start:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">  filter:</span></span><br><span class="line"><span class="attr">    include_entities:</span></span><br><span class="line"><span class="bullet">      -</span> <span class="string">light.lamp</span></span><br><span class="line"></span><br><span class="line"><span class="attr">  entity_config:</span></span><br><span class="line">    <span class="string">light.lamp:</span></span><br><span class="line"><span class="attr">      name:</span> <span class="string">台灯</span></span><br></pre></td></tr></table></figure></p>
+<p><code>homekit</code> 组件支持以下参数:</p>
+<ul>
+<li><code>auto_start</code>: 指示 <code>HomeKit Server</code> 是否应该在 <code>HomeAssistant Core</code> 启动完成后重新启动，可选，默认值为 <code>true</code></li>
+<li><code>port</code>: 自定义 <code>HomeKit Server</code> 暴露的端口，可选，默认值为 51827</li>
+<li><code>name</code>: 指定 <code>HomeKit</code> 的名称，同一网络中单个 <code>HomeAssistant</code> 实例必须唯一，可选，默认值为 <em>Home Assistant Bridge</em></li>
+<li><code>ip_address</code>: 显式指定 IP 地址，仅当 <code>Home Assistant</code> 的默认值不起作用时有用，可选</li>
+<li><code>safe_mode</code>: 仅当配对出现问题时设置该值，可选，默认为 <code>false</code></li>
+<li><code>filter</code>: 定义被暴露/隐藏的 <code>HomeAssistant</code> 实体:<ul>
+<li><code>include_domains</code>: 需要包含的域，可选</li>
+<li><code>include_entities</code>: 需要包含的实体，可选</li>
+<li><code>exclude_domains</code>: 需要排除的域，可选</li>
+<li><code>exclude_entities</code>: 需要排除的实体，可选</li>
+</ul>
+</li>
+<li><code>entity_config</code>: 针对实体的单独定义<ul>
+<li><code>&lt;entity_id&gt;</code>: 实体的引用<ul>
+<li><code>name</code>: 在 <code>HomeKit</code> 中用以显示的名称，可选，<code>HomeKit</code> 在首次运行时会缓存名称，当设备发生任何变化时，需要先移除并重新添加</li>
+<li><code>code</code>: 仅针对闹钟设备 <code>arm / disarm</code> 或智能锁设备 <code>lock / unlock</code> 有效，可选</li>
+<li><code>feature_list</code>: 仅针对 <code>media_player</code> 实体有效，以字典形式添加的功能列表，可选<ul>
+<li><code>feature</code>: 添加至实体的功能名称，必填，有效值为 <code>on_off</code>、<code>play_pause</code>、<code>play_stop</code> 和 <code>toogle_mute</code>。且 <code>media_player</code> 实体必须这些功能才能生效</li>
+</ul>
+</li>
+<li><code>type</code>: 仅针对开关(<code>switch</code>) 实体有效。表示在 <code>HomeKit</code> 中的开关类型，可选。有效值有 <code>faucet</code>、<code>outlet</code>、<code>shower</code>、<code>sprinker</code>、<code>switch</code> 和 <code>value</code>，默认值为 <code>switch</code>。<code>HomeKit</code> 在首次运行时会缓存类型，当设备发生任何变化时，需要先移除并重新添加。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
 <p>保存，重启 <strong>HA</strong>，将在主页面看到一个新的 Card:<br><img src="/smarthome-control-via-siri/homekit_card.png" title="HomeKit Card"></p>
 <p>确保 iOS 设备与 <strong>HA</strong> 及智能设备处于同一 wifi 网络，打开 iOS 上的 Home App</p>
 <ol>
@@ -446,18 +491,26 @@
 <li>弹出未认证配件时点击「仍然添加」</li>
 </ol>
 <p>添加完成后的配件如下图所示:<br><img src="/smarthome-control-via-siri/ios_screenshot.jpg" title="第一个配件添加成功"></p>
-<p>现在，通过 iOS 设备呼出 Siri，让 TA 关闭台灯，即可生效。</p>
-<h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><p>内置的 <strong>HomeKit</strong> 组件无法持久化 <strong>Home Assistant Bridge</strong> 桥接设备，但已被添加至该桥接设备的配件会被持久化，这是 <strong>HomeKit</strong> 本身的问题，一个 Workaround 是使用 <strong>Automation</strong> 在重启时触发 HA Bridge 的启动，做法如下:</p>
+<p>现在，通过 iOS 设备呼出 <code>Siri</code>，让 TA 关闭台灯，即可生效。</p>
+<h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><ol>
+<li><code>homekit</code> 组件使用 <code>accessory id(aid)</code> 将连接至 <code>HomeAssistant</code> 的实体 <code>entity_id</code> 绑定起来，<code>homekit</code> 组件使用 <code>aid</code> 来识别设备。因此，一旦改变某个连接至 <code>HomeAssistant</code> 的设备的 <code>entity_id</code>，所有在 <code>Home App</code> 中针对该设备的改动都将丢失。</li>
+<li>单个 <code>HomeKit</code> 最多包含 100 个附件</li>
+<li><p>内置的 <code>homekit</code> 组件无法持久化 <strong>Home Assistant Bridge</strong> 桥接设备，但已被添加至该桥接设备的配件会被持久化，这是 <strong>HomeKit</strong> 本身的问题。为了解决这个问题，可引入一个 <code>Automation</code> - 当 <code>HomeKit</code> 所依赖的实体设置完成后启动 <code>HomeKit</code>。做法如下:</p>
 <ol>
-<li><p>首先禁用 HomeKit 组件的自动启动:</p>
+<li><p>首先禁用 <code>homekit</code> 组件的自动启动:</p>
 <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">homekit:</span></span><br><span class="line"><span class="attr">  auto_start:</span> <span class="literal">false</span></span><br></pre></td></tr></table></figure>
 </li>
-<li><p>定义 Automation:</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">automation:</span> </span><br><span class="line"><span class="attr">  - alias:</span> <span class="string">'Start HomeKit'</span></span><br><span class="line"><span class="attr">    trigger:</span></span><br><span class="line"><span class="attr">      - platform:</span> <span class="string">event</span></span><br><span class="line"><span class="attr">        event_type:</span> <span class="string">homeassistant_start</span></span><br><span class="line"><span class="attr">    action:</span> <span class="string">homekit.start</span></span><br></pre></td></tr></table></figure>
+<li><p>定义用于启动 <code>homekit</code> 组件的 <code>Automation</code>:</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">automation:</span> </span><br><span class="line"><span class="attr">  - alias:</span> <span class="string">'Start HomeKit'</span></span><br><span class="line"><span class="attr">    trigger:</span></span><br><span class="line"><span class="attr">      - platform:</span> <span class="string">event</span></span><br><span class="line"><span class="attr">        event_type:</span> <span class="string">light.lamp.network_ready</span></span><br><span class="line"><span class="attr">    action:</span> <span class="string">homekit.start</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>也可以使用一种更加泛化的判定方式，在 <code>HomeAssistant</code> 启动 5 分钟后再启动 <code>homekit</code> 组件:</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">automation:</span> </span><br><span class="line"><span class="attr">  - alias:</span> <span class="string">'Start HomeKit'</span></span><br><span class="line"><span class="attr">    trigger:</span></span><br><span class="line"><span class="attr">      - platform:</span> <span class="string">event</span></span><br><span class="line"><span class="attr">        event_type:</span> <span class="string">homeassistant_start</span></span><br><span class="line"><span class="attr">    action:</span> </span><br><span class="line"><span class="attr">      - delay:</span> <span class="number">00</span><span class="string">:05</span>  <span class="comment"># Waits 5 minutes</span></span><br><span class="line"><span class="attr">      - service:</span> <span class="string">homekit.start</span></span><br></pre></td></tr></table></figure>
+</li>
+</ol>
 </li>
 </ol>
 <hr>
-<h2 id="使用-HomeBridge-及其插件实现"><a href="#使用-HomeBridge-及其插件实现" class="headerlink" title="使用 HomeBridge 及其插件实现"></a>使用 HomeBridge 及其插件实现</h2><p><code>HomeBridge</code> 是一个发布在 <code>npm</code> 中的包，依赖 <code>NodeJs</code>，并且有各种各样的插件以支持不同的网关系统。</p>
+<h2 id="通过-HomeBridge-及其插件实现-老方法"><a href="#通过-HomeBridge-及其插件实现-老方法" class="headerlink" title="通过 HomeBridge 及其插件实现(老方法)"></a>通过 HomeBridge 及其插件实现(老方法)</h2><p><code>HomeBridge</code> 是一个发布在 <code>npm</code> 中的包，依赖 <code>NodeJs</code>，并且有各种各样的插件以支持不同的网关系统。</p>
 <img src="/smarthome-control-via-siri/diagram.jpg" title="原理示意图">
 <h3 id="安装-NodeJs-Optional"><a href="#安装-NodeJs-Optional" class="headerlink" title="安装 NodeJs(Optional)"></a>安装 NodeJs(Optional)</h3><p>首先安装 <code>NodeJs</code>:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">$ sudo curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -</span><br><span class="line"></span><br><span class="line">## Run `sudo apt-get install -y nodejs` to install Node.js 10.x and npm</span><br><span class="line">## You may also need development tools to build native addons:</span><br><span class="line">     sudo apt-get install gcc g++ make</span><br><span class="line">## To install the Yarn package manager, run:</span><br><span class="line">     curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -</span><br><span class="line">     echo &quot;deb https://dl.yarnpkg.com/debian/ stable main&quot; | sudo tee /etc/apt/sources.list.d/yarn.list</span><br><span class="line">     sudo apt-get update &amp;&amp; sudo apt-get install yarn</span><br><span class="line"></span><br><span class="line">$ sudo apt install -y nodejs</span><br><span class="line"></span><br><span class="line">Reading package lists... Done</span><br><span class="line">Building dependency tree</span><br><span class="line">Reading state information... Done</span><br><span class="line">The following NEW packages will be installed:</span><br><span class="line">  nodejs</span><br><span class="line">0 upgraded, 1 newly installed, 0 to remove and 45 not upgraded.</span><br><span class="line">Need to get 13.4 MB of archives.</span><br><span class="line">After this operation, 66.7 MB of additional disk space will be used.</span><br><span class="line">Get:1 https://deb.nodesource.com/node_10.x stretch/main armhf nodejs armhf 10.9.0-1nodesource1 [13.4 MB]</span><br><span class="line">Fetched 13.4 MB in 6s (2,042 kB/s)</span><br><span class="line">Selecting previously unselected package nodejs.</span><br><span class="line">(Reading database ... 38984 files and directories currently installed.)</span><br><span class="line">Preparing to unpack .../nodejs_10.9.0-1nodesource1_armhf.deb ...</span><br><span class="line">Unpacking nodejs (10.9.0-1nodesource1) ...</span><br><span class="line">Setting up nodejs (10.9.0-1nodesource1) ...</span><br><span class="line">Processing triggers for man-db (2.7.6.1-2) ...</span><br></pre></td></tr></table></figure></p>
 <h3 id="安装-Homebridge"><a href="#安装-Homebridge" class="headerlink" title="安装 Homebridge"></a>安装 Homebridge</h3><p>通过 <code>npm</code> 安装 <code>HomeBridge</code> 包:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ sudo npm install -g --unsafe-perm homebridge</span><br><span class="line"></span><br><span class="line">make: Leaving directory <span class="string">'/usr/lib/node_modules/homebridge/node_modules/ed25519-hap/build'</span></span><br><span class="line">+ homebridge@0.4.44</span><br><span class="line">added 40 packages from 35 contributors <span class="keyword">in</span> 54.124s</span><br></pre></td></tr></table></figure></p>
@@ -510,7 +563,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://blog.frosthe.net/smarthome-control-via-siri/" title="智慧家庭 - 通过 Siri 控制 HomeAssistant">https://blog.frosthe.net/smarthome-control-via-siri/</a>
+    <a href="https://blog.frosthe.net/smarthome-control-via-siri/" title="智慧家庭 - 通过 Siri 控制连接至 HomeAssistant 的智能设备">https://blog.frosthe.net/smarthome-control-via-siri/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>
@@ -575,8 +628,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/smarthome-ha-configuration-system/" rel="next" title="智慧家庭 - 认识 Home Assistant 的配置系统">
-                <i class="fa fa-chevron-left"></i> 智慧家庭 - 认识 Home Assistant 的配置系统
+              <a href="/smarthome-ha-basic-configuration/" rel="next" title="智慧家庭 - 完善 HomeAssistant 的常见基础配置">
+                <i class="fa fa-chevron-left"></i> 智慧家庭 - 完善 HomeAssistant 的常见基础配置
               </a>
             
           </div>
@@ -585,8 +638,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/smarthome-control-via-alexa/" rel="prev" title="智慧家庭 - 通过 Amazon Alexa 控制 HomeAssistant">
-                智慧家庭 - 通过 Amazon Alexa 控制 HomeAssistant <i class="fa fa-chevron-right"></i>
+              <a href="/smarthome-control-via-alexa/" rel="prev" title="智慧家庭 - 通过 Amazon Alexa 控制连接至 HomeAssistant 的智能设备">
+                智慧家庭 - 通过 Amazon Alexa 控制连接至 HomeAssistant 的智能设备 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -664,7 +717,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">64</span>
+                  <span class="site-state-item-count">65</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -686,7 +739,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">50</span>
+                  <span class="site-state-item-count">51</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -719,7 +772,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#背景"><span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#通过-HomeKit-组件实现"><span class="nav-text">通过 HomeKit 组件实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#注意事项"><span class="nav-text">注意事项</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用-HomeBridge-及其插件实现"><span class="nav-text">使用 HomeBridge 及其插件实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-NodeJs-Optional"><span class="nav-text">安装 NodeJs(Optional)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-Homebridge"><span class="nav-text">安装 Homebridge</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-HA-插件"><span class="nav-text">安装 HA 插件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置-config-json"><span class="nav-text">配置 config.json</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置开机启动-Homebridge"><span class="nav-text">配置开机启动 Homebridge</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#背景"><span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#通过-HomeKit-组件实现"><span class="nav-text">通过 HomeKit 组件实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#注意事项"><span class="nav-text">注意事项</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#通过-HomeBridge-及其插件实现-老方法"><span class="nav-text">通过 HomeBridge 及其插件实现(老方法)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-NodeJs-Optional"><span class="nav-text">安装 NodeJs(Optional)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-Homebridge"><span class="nav-text">安装 Homebridge</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-HA-插件"><span class="nav-text">安装 HA 插件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置-config-json"><span class="nav-text">配置 config.json</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置开机启动-Homebridge"><span class="nav-text">配置开机启动 Homebridge</span></a></li></ol></li></ol></div>
             
 
           </div>

@@ -79,22 +79,20 @@
 
 
 
-<meta name="description" content="本文介绍了 Home Assistant 配置驱动模型">
+<meta name="description" content="本文介绍了 Home Assistant 基于 YAML 的配置系统">
 <meta name="keywords" content="smart-home,home-assistant">
 <meta property="og:type" content="article">
 <meta property="og:title" content="智慧家庭 - 认识 Home Assistant 的配置系统">
 <meta property="og:url" content="https://blog.frosthe.net/smarthome-ha-configuration-system/index.html">
 <meta property="og:site_name" content="FrostHe.Handbook">
-<meta property="og:description" content="本文介绍了 Home Assistant 配置驱动模型">
+<meta property="og:description" content="本文介绍了 Home Assistant 基于 YAML 的配置系统">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://blog.frosthe.net/smarthome-ha-configuration-system/entity_id.png">
 <meta property="og:image" content="https://blog.frosthe.net/smarthome-ha-configuration-system/customization.png">
-<meta property="og:image" content="https://blog.frosthe.net/smarthome-ha-configuration-system/find_entity_id.png">
-<meta property="og:image" content="https://blog.frosthe.net/smarthome-ha-configuration-system/illusion.png">
-<meta property="og:updated_time" content="2018-11-17T13:14:01.781Z">
+<meta property="og:updated_time" content="2019-01-20T07:50:34.207Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="智慧家庭 - 认识 Home Assistant 的配置系统">
-<meta name="twitter:description" content="本文介绍了 Home Assistant 配置驱动模型">
+<meta name="twitter:description" content="本文介绍了 Home Assistant 基于 YAML 的配置系统">
 <meta name="twitter:image" content="https://blog.frosthe.net/smarthome-ha-configuration-system/entity_id.png">
 
 
@@ -395,7 +393,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  1,547
+                  1,450
                 </span>
               
 
@@ -407,7 +405,7 @@
 
           
               <div class="post-description">
-                  本文介绍了 Home Assistant 配置驱动模型
+                  本文介绍了 Home Assistant 基于 YAML 的配置系统
               </div>
           
 
@@ -424,13 +422,31 @@
       
 
       
-        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p><strong>HA</strong> 是由「组件」堆砌出的系统，官方提供了海量的组件及其用法的介绍，其中涵盖了使 <strong>HA</strong> 成为「家庭大脑」的方方面面，一个「组件」大致由两部分组成:</p>
+        <p>本文索引:</p>
+<ul>
+<li><a href="#%E5%89%8D%E8%A8%80">前言</a></li>
+<li><a href="#yaml">YAML</a><ul>
+<li><a href="#%E4%BD%BF%E7%94%A8%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F">使用环境变量</a></li>
+<li><a href="#%E4%BD%BF%E7%94%A8%E7%BC%BA%E7%9C%81%E5%80%BC">使用缺省值</a></li>
+<li><a href="#%E5%8C%85%E5%90%AB%E5%85%B6%E4%BB%96%E6%96%87%E4%BB%B6">包含其他文件</a></li>
+</ul>
+</li>
+<li><a href="#%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE%E4%BF%A1%E6%81%AF">基本配置信息</a></li>
+<li><a href="#%E5%90%91-ha-%E6%B7%BB%E5%8A%A0%E8%AE%BE%E5%A4%87">向 HA 添加设备</a><ul>
+<li><a href="#%E9%A3%8E%E6%A0%BC1-%E5%B0%86%E6%89%80%E6%9C%89%E5%AE%9E%E4%BD%93%E4%BB%A5%E7%88%B6%E7%BA%A7%E7%B1%BB%E8%81%9A">风格1: 将所有实体以父级类聚</a></li>
+<li><a href="#%E9%A3%8E%E6%A0%BC2-%E5%8D%95%E7%8B%AC%E5%AE%9A%E4%B9%89%E6%AF%8F%E4%B8%AA%E8%AE%BE%E5%A4%87">风格2: 单独定义每个设备</a></li>
+<li><a href="#%E7%BE%A4%E7%BB%84">群组</a></li>
+</ul>
+</li>
+<li><a href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E5%AE%9E%E4%BD%93%E7%89%B9%E6%80%A7">自定义实体特性</a></li>
+</ul>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p><strong>HA</strong> 是由「组件」堆砌出的系统，官方提供了海量的组件及其用法的介绍，其中涵盖了使 <strong>HA</strong> 成为「家庭大脑」的方方面面，一个「组件」大致由两部分组成:</p>
 <ul>
 <li>组件模块: 提供组件核心功能的逻辑</li>
 <li>配置信息: 使组件能够运行的必要信息，可能包括 <code>platform</code> 信息，用户第三方服务的密钥等</li>
 </ul>
-<p>以下代码展示了一个使用 「pushbullet」 平台的 「notify」组件配置信息:<br><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">notify:</span></span><br><span class="line"><span class="attr">  platform:</span> <span class="string">pushbullet</span></span><br><span class="line"><span class="attr">  api_key:</span> <span class="string">"o.1234abcd"</span></span><br><span class="line"><span class="attr">  name:</span> <span class="string">pushbullet</span></span><br></pre></td></tr></table></figure></p>
-<p><strong>HA</strong> 将所有「组件」通过配置信息定制，因此，配置信息成了描述整个 <strong>HA</strong> 的数据源，虽然 <strong>HA</strong> 社区正致力于实现通过 Web UI 来配置所有内容，但了解其数据模型对于解决问题及理解其运作方式是不可缺少的一环。不同于一般应用程序的配置文件，<strong>HA</strong> 的配置信息会随着接入系统的设备增多而包含越来越多的信息，为了将不同类别的配置信息分开管理，官方推荐的做法是把根配置文件 <code>configuration.yaml</code> 下的不同节点以不同文件的形式进行管理，例如，默认的配置文件就包含了:</p>
+<p>以下代码展示了一个使用 <code>pushbullet platform</code> <code>notify</code>组件配置信息:<br><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">notify:</span></span><br><span class="line"><span class="attr">  platform:</span> <span class="string">pushbullet</span></span><br><span class="line"><span class="attr">  api_key:</span> <span class="string">"o.1234abcd"</span></span><br><span class="line"><span class="attr">  name:</span> <span class="string">pushbullet</span></span><br></pre></td></tr></table></figure></p>
+<p><strong>HA</strong> 将所有「组件」通过配置信息定制，因此，配置信息成了描述整个 <strong>HA</strong> 的数据源，虽然 <strong>HA</strong> 社区正致力于实现通过 Web UI 来配置所有内容，但了解其数据模型对于解决问题及理解其运作方式非常有好处。<strong>HA</strong> 的配置信息会随着接入系统的设备增多而包含越来越多的信息，为了将不同类别的配置信息分开管理，官方推荐的做法是把根配置文件 <code>configuration.yaml</code> 下的不同节点以不同文件的形式进行管理，例如，默认的配置文件就包含了:</p>
 <ul>
 <li><code>configuration.yaml</code><ul>
 <li><code>automations.yaml</code></li>
@@ -442,20 +458,20 @@
 </ul>
 <p>不止于此，由于数据量随时间增大，社区还推荐将配置文件夹作为 <code>Git Repository</code> 与远端进行同步，以防止数据丢失及跟踪历史。</p>
 <blockquote>
-<p>请将 secrets.yaml 文件等包含敏感数据的配置文件添加至 <code>.gitignore</code> 中。</p>
+<p>请将 <code>secrets.yaml</code> 文件等包含敏感数据的配置文件添加至 <code>.gitignore</code> 中。</p>
 </blockquote>
 <h2 id="YAML"><a href="#YAML" class="headerlink" title="YAML"></a>YAML</h2><p><strong>HA</strong> 使用 YAML 语法定义配置信息，几乎每种组件都定义了单独的配置节，YAML 语法需要注意以下细节:</p>
 <ul>
 <li>以 <code>-</code> 开头表示集合元素</li>
 <li>以 <code>:</code> 分割代表键值映射</li>
-<li>默认使用两个空格代表缩进一级，<code>Tab</code> 不能用以缩进</li>
+<li>默认使用两个空格代表一级缩进，<code>Tab</code> 不能用于缩进</li>
 </ul>
 <h3 id="使用环境变量"><a href="#使用环境变量" class="headerlink" title="使用环境变量"></a>使用环境变量</h3><p>以 <code>!env_var {VAR_NAME}</code> 从系统环境变量中取得值:<br><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">http:</span></span><br><span class="line"><span class="attr">  api_password:</span> <span class="string">!env_var</span> <span class="string">PASSWORD</span></span><br></pre></td></tr></table></figure></p>
 <h3 id="使用缺省值"><a href="#使用缺省值" class="headerlink" title="使用缺省值"></a>使用缺省值</h3><p>配置信息可包含缺省值，例如:<br><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">http:</span></span><br><span class="line"><span class="attr">  api_password:</span> <span class="string">!env_var</span> <span class="string">PASSWORD</span> <span class="string">&#123;default_password&#125;</span></span><br></pre></td></tr></table></figure></p>
 <p><code>default_password</code> 代表缺省值</p>
 <h3 id="包含其他文件"><a href="#包含其他文件" class="headerlink" title="包含其他文件"></a>包含其他文件</h3><p>可将同一类别的配置分割到单独的文件中以提高可读性，例如:<br><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">lights:</span> <span class="string">!include</span> <span class="string">lights.yaml</span></span><br></pre></td></tr></table></figure></p>
-<h2 id="基本配置信息"><a href="#基本配置信息" class="headerlink" title="基本配置信息"></a>基本配置信息</h2><p>首先在 <code>configuration.yaml</code> 编辑以下信息:<br><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">homeassistant:</span></span><br><span class="line">  <span class="comment"># Location required to calculate the time the sun rises and sets</span></span><br><span class="line"><span class="attr">  latitude:</span> <span class="number">32.87336</span></span><br><span class="line"><span class="attr">  longitude:</span> <span class="number">117.22743</span></span><br><span class="line">  <span class="comment"># Impacts weather/sunrise data (altitude above sea level in meters)</span></span><br><span class="line"><span class="attr">  elevation:</span> <span class="number">430</span></span><br><span class="line">  <span class="comment"># metric for Metric, imperial for Imperial</span></span><br><span class="line"><span class="attr">  unit_system:</span> <span class="string">metric</span></span><br><span class="line">  <span class="comment"># Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones</span></span><br><span class="line"><span class="attr">  time_zone:</span> <span class="string">America/Los_Angeles</span></span><br><span class="line">  <span class="comment"># Name of the location where Home Assistant is running</span></span><br><span class="line"><span class="attr">  name:</span> <span class="string">Home</span></span><br></pre></td></tr></table></figure></p>
-<h2 id="向-HA-添加设备"><a href="#向-HA-添加设备" class="headerlink" title="向 HA 添加设备"></a>向 HA 添加设备</h2><p>默认情况下，「<a href="https://www.home-assistant.io/components/discovery/" target="_blank" rel="noopener">发现组件</a>」开启，<strong>HA</strong> 会自动查找同一网络中的设备与服务。通常，每种「实体(entity)」都需要在 <code>configuration.yaml</code> 文件中进行手动配置，有两种风格来组织它们。</p>
+<h2 id="基本配置信息"><a href="#基本配置信息" class="headerlink" title="基本配置信息"></a>基本配置信息</h2><p>首先编辑 <code>configuration.yaml</code> 的基本配置信息:<br><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">homeassistant:</span></span><br><span class="line">  <span class="comment"># Location required to calculate the time the sun rises and sets</span></span><br><span class="line"><span class="attr">  latitude:</span> <span class="string">&#123;latitude-for-your-home&#125;</span></span><br><span class="line"><span class="attr">  longitude:</span> <span class="string">&#123;longitude-for-your-home&#125;</span></span><br><span class="line">  <span class="comment"># Impacts weather/sunrise data (altitude above sea level in meters)</span></span><br><span class="line"><span class="attr">  elevation:</span> <span class="string">&#123;elevation-for-your-home&#125;</span></span><br><span class="line">  <span class="comment"># metric for Metric, imperial for Imperial</span></span><br><span class="line"><span class="attr">  unit_system:</span> <span class="string">metric</span></span><br><span class="line">  <span class="comment"># Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones</span></span><br><span class="line"><span class="attr">  time_zone:</span> <span class="string">America/Los_Angeles</span></span><br><span class="line">  <span class="comment"># Name of the location where Home Assistant is running</span></span><br><span class="line"><span class="attr">  name:</span> <span class="string">My</span> <span class="string">Awesome</span> <span class="string">Home</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="向-HA-添加设备"><a href="#向-HA-添加设备" class="headerlink" title="向 HA 添加设备"></a>向 HA 添加设备</h2><p>默认情况下，<a href="https://www.home-assistant.io/components/discovery/" target="_blank" rel="noopener">Discovery</a> 组件开启，<strong>HA</strong> 会自动查找同一网络中的设备与服务。通常，每种「实体(entity)」都需要在 <code>configuration.yaml</code> 文件中进行手动配置，有两种风格来组织它们。</p>
 <h3 id="风格1-将所有实体以父级类聚"><a href="#风格1-将所有实体以父级类聚" class="headerlink" title="风格1: 将所有实体以父级类聚"></a>风格1: 将所有实体以父级类聚</h3><p>例如:<br><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">sensor:</span></span><br><span class="line"><span class="attr">  - platform:</span> <span class="string">mqtt</span></span><br><span class="line"><span class="attr">    state_topic:</span> <span class="string">"home/bedroom/temperature"</span></span><br><span class="line"><span class="attr">    name:</span> <span class="string">"MQTT Sensor 1"</span></span><br><span class="line"><span class="attr">  - platform:</span> <span class="string">mqtt</span></span><br><span class="line"><span class="attr">    state_topic:</span> <span class="string">"home/kitchen/temperature"</span></span><br><span class="line"><span class="attr">    name:</span> <span class="string">"MQTT Sensor 2"</span></span><br><span class="line"><span class="attr">  - platform:</span> <span class="string">rest</span></span><br><span class="line"><span class="attr">    resource:</span> <span class="attr">http://IP_ADDRESS/ENDPOINT</span></span><br><span class="line"><span class="attr">    name:</span> <span class="string">"Weather"</span></span><br><span class="line"></span><br><span class="line"><span class="attr">switch:</span></span><br><span class="line"><span class="attr">  - platform:</span> <span class="string">vera</span></span><br><span class="line"><span class="attr">  - platform:</span> <span class="string">tplink</span></span><br><span class="line"><span class="attr">    host:</span> <span class="string">IP_ADDRESS</span></span><br></pre></td></tr></table></figure></p>
 <h3 id="风格2-单独定义每个设备"><a href="#风格2-单独定义每个设备" class="headerlink" title="风格2: 单独定义每个设备"></a>风格2: 单独定义每个设备</h3><p>为了区分不同的实体，必须在其后跟上数字或名称，并且保持唯一:<br><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">sensor</span> <span class="attr">bedroom:</span></span><br><span class="line"><span class="attr">  platform:</span> <span class="string">mqtt</span></span><br><span class="line"><span class="attr">  state_topic:</span> <span class="string">"home/bedroom/temperature"</span></span><br><span class="line"><span class="attr">  name:</span> <span class="string">"MQTT Sensor 1"</span></span><br><span class="line"></span><br><span class="line"><span class="string">sensor</span> <span class="attr">kitchen:</span></span><br><span class="line"><span class="attr">  platform:</span> <span class="string">mqtt</span></span><br><span class="line"><span class="attr">  state_topic:</span> <span class="string">"home/kitchen/temperature"</span></span><br><span class="line"><span class="attr">  name:</span> <span class="string">"MQTT Sensor 2"</span></span><br><span class="line"></span><br><span class="line"><span class="string">sensor</span> <span class="attr">weather:</span></span><br><span class="line"><span class="attr">  platform:</span> <span class="string">rest</span></span><br><span class="line"><span class="attr">  resource:</span> <span class="attr">http://IP_ADDRESS/ENDPOINT</span></span><br><span class="line"><span class="attr">  name:</span> <span class="string">"Weather"</span></span><br><span class="line"></span><br><span class="line"><span class="string">switch</span> <span class="number">1</span><span class="string">:</span></span><br><span class="line"><span class="attr">  platform:</span> <span class="string">vera</span></span><br><span class="line"></span><br><span class="line"><span class="string">switch</span> <span class="number">2</span><span class="string">:</span></span><br><span class="line"><span class="attr">  platform:</span> <span class="string">tplink</span></span><br><span class="line"><span class="attr">  host:</span> <span class="string">IP_ADDRESS</span></span><br></pre></td></tr></table></figure></p>
 <blockquote>
@@ -484,16 +500,6 @@
 </ul>
 <p>定制化特性可在配置文件夹中的 <code>customize.yaml</code> 指定<br><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">light.yeelight_ct2_7c49eb1551e8:</span></span><br><span class="line"><span class="attr">  friendly_name:</span> <span class="string">Lamp</span></span><br><span class="line"><span class="string">sensor.yr_symbol:</span></span><br><span class="line"><span class="attr">  friendly_name:</span> <span class="string">Wether</span></span><br></pre></td></tr></table></figure></p>
 <p><strong>HA</strong> 社区开发团队正在致力于实现通过 Web UI 来完成所有信息的配置，例如，<code>Customize</code> 的 UI 入口如下:<br><img src="/smarthome-ha-configuration-system/customization.png" title="Web UI 的定制入口"></p>
-<h2 id="添加-HA-所在主机的系统监控组件"><a href="#添加-HA-所在主机的系统监控组件" class="headerlink" title="添加 HA 所在主机的系统监控组件"></a>添加 HA 所在主机的系统监控组件</h2><p>用到的组件:</p>
-<ul>
-<li><a href="https://www.home-assistant.io/components/sensor.fastdotcom/" target="_blank" rel="noopener">Fast.com</a></li>
-<li><a href="https://www.home-assistant.io/components/sensor.systemmonitor/" target="_blank" rel="noopener">System Monitor</a></li>
-</ul>
-<p>在 <code>sensors.yaml</code> 文件中包含「System Monitor」组件的配置代码:<br><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">- platform:</span> <span class="string">systemmonitor</span></span><br><span class="line"><span class="attr">  resources:</span></span><br><span class="line"><span class="attr">    - type:</span> <span class="string">disk_use_percent</span></span><br><span class="line"><span class="attr">      arg:</span> <span class="string">/</span></span><br><span class="line"><span class="attr">    - type:</span> <span class="string">memory_use_percent</span></span><br><span class="line"><span class="attr">    - type:</span> <span class="string">processor_use</span></span><br><span class="line"><span class="attr">    - type:</span> <span class="string">network_in</span></span><br><span class="line"><span class="attr">      arg:</span> <span class="string">eth0</span></span><br><span class="line"><span class="attr">    - type:</span> <span class="string">network_out</span></span><br><span class="line"><span class="attr">      arg:</span> <span class="string">eth0</span></span><br><span class="line"><span class="attr">    - type:</span> <span class="string">last_boot</span></span><br></pre></td></tr></table></figure></p>
-<p>引用实体的 ID 可在 Web UI 的 <code>States</code> 面板找到:<br><img src="/smarthome-ha-configuration-system/find_entity_id.png" title="entity id 所在位置"></p>
-<p>在 <code>groups.yaml</code> 创建一个群组展示这些信息:<br><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">system_monitor:</span></span><br><span class="line"><span class="attr">  entities:</span></span><br><span class="line"><span class="bullet">    -</span> <span class="string">sensor.processor_use</span></span><br><span class="line"><span class="bullet">    -</span> <span class="string">sensor.memory_use_percent</span></span><br><span class="line"><span class="bullet">    -</span> <span class="string">sensor.disk_use_percent_</span></span><br><span class="line"><span class="bullet">    -</span> <span class="string">sensor.network_in_eth0</span></span><br><span class="line"><span class="bullet">    -</span> <span class="string">sensor.network_out_eth0</span></span><br><span class="line"><span class="bullet">    -</span> <span class="string">sensor.last_boot</span></span><br></pre></td></tr></table></figure></p>
-<p>最后，在 <code>customize.yaml</code> 中修改某些实体的自定义信息:<br><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">group.system_monitor:</span></span><br><span class="line"><span class="attr">  friendly_name:</span> <span class="string">System</span> <span class="string">Monitor</span></span><br></pre></td></tr></table></figure></p>
-<p>最终的效果如下图:<br><img src="/smarthome-ha-configuration-system/illusion.png" title="效果图"></p>
 
       
     </div>
@@ -585,8 +591,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/smarthome-control-via-siri/" rel="prev" title="智慧家庭 - 通过 Siri 控制 HomeAssistant">
-                智慧家庭 - 通过 Siri 控制 HomeAssistant <i class="fa fa-chevron-right"></i>
+              <a href="/smarthome-ha-basic-configuration/" rel="prev" title="智慧家庭 - 完善 HomeAssistant 的常见基础配置">
+                智慧家庭 - 完善 HomeAssistant 的常见基础配置 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -664,7 +670,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">64</span>
+                  <span class="site-state-item-count">65</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -686,7 +692,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">50</span>
+                  <span class="site-state-item-count">51</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -719,7 +725,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#YAML"><span class="nav-text">YAML</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#使用环境变量"><span class="nav-text">使用环境变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用缺省值"><span class="nav-text">使用缺省值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#包含其他文件"><span class="nav-text">包含其他文件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基本配置信息"><span class="nav-text">基本配置信息</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#向-HA-添加设备"><span class="nav-text">向 HA 添加设备</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#风格1-将所有实体以父级类聚"><span class="nav-text">风格1: 将所有实体以父级类聚</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#风格2-单独定义每个设备"><span class="nav-text">风格2: 单独定义每个设备</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#群组"><span class="nav-text">群组</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自定义实体特性"><span class="nav-text">自定义实体特性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#添加-HA-所在主机的系统监控组件"><span class="nav-text">添加 HA 所在主机的系统监控组件</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#YAML"><span class="nav-text">YAML</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#使用环境变量"><span class="nav-text">使用环境变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用缺省值"><span class="nav-text">使用缺省值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#包含其他文件"><span class="nav-text">包含其他文件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基本配置信息"><span class="nav-text">基本配置信息</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#向-HA-添加设备"><span class="nav-text">向 HA 添加设备</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#风格1-将所有实体以父级类聚"><span class="nav-text">风格1: 将所有实体以父级类聚</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#风格2-单独定义每个设备"><span class="nav-text">风格2: 单独定义每个设备</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#群组"><span class="nav-text">群组</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自定义实体特性"><span class="nav-text">自定义实体特性</span></a></li></ol></div>
             
 
           </div>
