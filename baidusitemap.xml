@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://blog.frosthe.net/smarthome-ha-device-tracker/</loc>
+    <lastmod>2019-01-24T15:54:46.271Z</lastmod>
+  </url>  <url>
+    <loc>https://blog.frosthe.net/smarthome-setup-ha-on-raspberrypi/</loc>
+    <lastmod>2019-01-20T12:13:07.435Z</lastmod>
+  </url>  <url>
     <loc>https://blog.frosthe.net/smarthome-control-via-alexa/</loc>
     <lastmod>2019-01-20T12:02:02.537Z</lastmod>
   </url>  <url>
@@ -9,9 +15,6 @@
   </url>  <url>
     <loc>https://blog.frosthe.net/smarthome-ha-configuration-system/</loc>
     <lastmod>2019-01-20T07:50:34.207Z</lastmod>
-  </url>  <url>
-    <loc>https://blog.frosthe.net/smarthome-setup-ha-on-raspberrypi/</loc>
-    <lastmod>2019-01-20T07:44:10.074Z</lastmod>
   </url>  <url>
     <loc>https://blog.frosthe.net/smarthome-ha-basic-configuration/</loc>
     <lastmod>2019-01-20T07:32:05.297Z</lastmod>
