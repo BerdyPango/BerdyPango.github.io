@@ -92,7 +92,7 @@
 <meta property="og:image" content="https://blog.frosthe.net/linux-partition/partition-2.png">
 <meta property="og:image" content="https://blog.frosthe.net/linux-partition/gpt_partition_1.jpg">
 <meta property="og:image" content="https://blog.frosthe.net/linux-partition/dir_3.png">
-<meta property="og:updated_time" content="2019-01-12T13:06:28.639Z">
+<meta property="og:updated_time" content="2019-03-02T07:38:19.615Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux 基础 - 磁盘分区(df&#x2F;du&#x2F;lsblk&#x2F;blkid&#x2F;gdisk&#x2F;mkfs&#x2F;mount&#x2F;umount)">
 <meta name="twitter:description" content="本文简要介绍了 Linux 系统关于磁盘分区的基础知识">
@@ -396,7 +396,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  3,933
+                  3,962
                 </span>
               
 
@@ -562,6 +562,7 @@
 <li><code>suid</code>, <code>nosuid</code>: 是否允许此分区包含 <code>suid</code>/<code>sgid</code> 文件格式</li>
 <li><code>exec</code>, <code>noexec</code>: 是否允许可在此分区执行 <code>binary</code> 程序</li>
 <li><code>user</code>, <code>nouser</code>: 是否允许其他用户执行 <code>mount</code>。一般来说，<code>mount</code> 仅有 root 用户能够执行，但添加 <code>user</code> 参数可让其他用户也能对该分区执行 <code>mount</code></li>
+<li><code>nofail</code>: 不进行挂载错误检查，以避免启动挂载错误导致系统无法正常启动</li>
 <li><code>defaults</code>: 预设值为: <code>rw</code>, <code>suid</code>, <code>dev</code>, <code>exec</code>, <code>auto</code>, <code>nouser</code>, <code>async</code></li>
 <li><code>remount</code>: 重新挂载，在系统出错或重新更新参数时，很有用。</li>
 </ul>

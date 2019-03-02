@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://blog.frosthe.net/linux-partition/</loc>
+    
+    <lastmod>2019-03-02T07:38:19.615Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://blog.frosthe.net/smarthome-ha-basic-configuration/</loc>
     
     <lastmod>2019-03-02T04:45:34.519Z</lastmod>
@@ -103,13 +110,6 @@
     <loc>https://blog.frosthe.net/linux-profile-and-privilege/</loc>
     
     <lastmod>2019-01-12T13:15:03.562Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://blog.frosthe.net/linux-partition/</loc>
-    
-    <lastmod>2019-01-12T13:06:28.639Z</lastmod>
     
   </url>
   
