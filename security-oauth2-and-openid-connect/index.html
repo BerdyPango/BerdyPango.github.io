@@ -94,7 +94,7 @@
 <meta property="og:image" content="https://blog.frosthe.net/security-oauth2-and-openid-connect/implicit_flow.png">
 <meta property="og:image" content="https://blog.frosthe.net/security-oauth2-and-openid-connect/auth_code_flow.png">
 <meta property="og:image" content="https://blog.frosthe.net/security-oauth2-and-openid-connect/oidc-flow.png">
-<meta property="og:updated_time" content="2019-01-19T07:59:43.717Z">
+<meta property="og:updated_time" content="2019-03-02T04:17:26.787Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="OAuth 2.0 和 OpenID Connect">
 <meta name="twitter:description" content="本文介绍了 OAuth2.0 和 OpenID Connect 的关注点">
@@ -398,7 +398,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  2,620
+                  2,726
                 </span>
               
 
@@ -436,14 +436,16 @@
 </ul>
 <p>本文索引:</p>
 <ul>
-<li><a href="#%E9%97%AE%E9%A2%98%E8%83%8C%E6%99%AF">问题背景</a></li>
+<li><a href="#%E5%89%8D%E8%A8%80">前言</a></li>
 <li><a href="#oauth-%E7%AE%80%E4%BB%8B">OAuth 简介</a></li>
-<li><a href="#oauth-%E6%9C%AF%E8%AF%AD%E9%87%8A%E4%B9%89">OAuth 术语释义</a></li>
+<li><a href="#oauth-%E8%A7%92%E8%89%B2%E5%AE%9A%E4%B9%89">OAuth 角色定义</a></li>
 <li><a href="#oauth-tokens">OAuth Tokens</a><ul>
 <li><a href="#access-token">Access Token</a></li>
 <li><a href="#refresh-tokens">Refresh Tokens</a></li>
 </ul>
 </li>
+<li><a href="#authorization-grant">Authorization Grant</a></li>
+<li><a href="#oauth-endpoints">OAuth EndPoints</a></li>
 <li><a href="#%E6%8E%88%E6%9D%83%E9%80%9A%E4%BF%A1%E9%80%9A%E9%81%93">授权通信通道</a><ul>
 <li><a href="#front-channel">Front Channel</a></li>
 <li><a href="#back-channel">Back Channel</a></li>
@@ -462,45 +464,45 @@
 <li><a href="#auth-20-%E7%9A%84%E4%BC%AA%E8%AE%A4%E8%AF%81">Auth 2.0 的伪认证</a></li>
 <li><a href="#open-id-connect">Open ID Connect</a></li>
 </ul>
-<h2 id="问题背景"><a href="#问题背景" class="headerlink" title="问题背景"></a>问题背景</h2><p>如何让用户在不提供帐号密码的前提下授权第三方应用程序访问用户的数据？如使用 <code>Google</code>，<code>Facebook</code>，微信帐号登录第三方应用</p>
-<h2 id="OAuth-简介"><a href="#OAuth-简介" class="headerlink" title="OAuth 简介"></a>OAuth 简介</h2><p><code>OAuth</code> 是一种开放标准，任何机构都可以针对 <code>OAuth</code> 开发相应的实现。由于时代原因，<code>OAuth 1.0</code> 已经不适合现代 Web 技术的使用场景，所以本文中谈到的 <code>OAuth</code> 都是指 <code>OAuth 2.0</code>。</p>
-<h2 id="OAuth-术语释义"><a href="#OAuth-术语释义" class="headerlink" title="OAuth 术语释义"></a>OAuth 术语释义</h2><ul>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>经常听到关于 <code>OAuth2</code> 的讨论，但没有一个简单的解释能够将它说明白。本文希望通过笔者查阅的资料结合开发实践经验，阐明 <code>OAuth2</code>、<code>OIDC</code> 和 <code>IdentityServer4</code> 三者关于 <code>what</code>、<code>why</code>、和 <code>how</code> 的问题。</p>
+<h2 id="OAuth-简介"><a href="#OAuth-简介" class="headerlink" title="OAuth 简介"></a>OAuth 简介</h2><p>现在，假设有一个这样的需求: 客户端程序需要访问资源服务器的 API，又不希望每次访问都带上用户名密码做一次认证。面对这样的需求，不同的开发人员有自己的考虑，可能的实现多种多样。在经过长期沉淀和提炼之后，开发先驱们总结出了不同场景下「委托授权」的最佳实践，然后给这一套最佳实践起了个名字 - OAuth。</p>
+<p><code>OAuth</code> 标准化了「委托授权」涉及的各个参与方、数据和 <code>EndPoints</code>，其目的在于为有类似需求的机构提供一套参考标准。由于时代原因，<code>OAuth 1.0</code> 已经不适合现代 Web 技术的使用场景，所以本文中谈到的 <code>OAuth</code> 都是指 <code>OAuth 2.0</code>。</p>
+<h2 id="OAuth-角色定义"><a href="#OAuth-角色定义" class="headerlink" title="OAuth 角色定义"></a>OAuth 角色定义</h2><ul>
 <li><code>Resource Owner</code>: 资源数据的拥有者，绝大多数情况下指用户，例如，我是 <code>Facebook</code> 帐号数据的拥有者</li>
 <li><code>Resource Server</code>: 受保护资源的服务方，通常以 API 形式向外界暴露资源数据，例如，<code>Facebook</code> 的 <code>User Profile</code> 服务</li>
-<li><code>Client</code>: 想要访问 <code>Resource Owner</code> 托管在 <code>Resource Server</code> 数据的第三方应用程序</li>
-<li><code>Authorization Server</code>: 授权服务方，管理 <code>Resource Owner</code> 身份信息和授权列表的服务</li>
-<li><code>Authorization Grant</code>: 授权许可，表示 <code>Authorization Server</code> 在获得用户授权后对 <code>Client</code> 返回的许可载体</li>
-</ul>
-<p>一个简单的 <code>OAuth</code> 流程如下所示:<br><img src="/security-oauth2-and-openid-connect/oauth-actors.png" title="OAuth 流程中的各个参与方"></p>
-<p><code>Client</code> 分为两种:</p>
-<ul>
+<li><code>Client</code>: 想要访问 <code>Resource Owner</code> 托管在 <code>Resource Server</code> 数据的第三方应用程序<ul>
 <li><code>Public Clients</code>: 暴露在公开的分发渠道中的应用程序，诸如 <code>Web App</code>、<code>Mobile App</code> 和 <code>IoT</code> 设备</li>
 <li><code>Confidential Clients</code>: 受信任的机密应用程序，自存储 <code>secret</code>。它们没有公开暴露在互联网中，无法轻易被反向工程</li>
 </ul>
-<img src="/security-oauth2-and-openid-connect/oauth-clients.png" title="OAuth Clients">
+</li>
+<li><code>Authorization Server</code>: 授权服务方，管理 <code>Resource Owner</code> 身份信息和授权列表的服务</li>
+</ul>
+<p>一个简单的 <code>OAuth</code> 流程如下所示:<br><img src="/security-oauth2-and-openid-connect/oauth-actors.png" title="OAuth 流程中的各个参与方"></p>
+<img src="/security-oauth2-and-openid-connect/oauth-clients.png" title="OAuth 的各种 Clients">
 <h2 id="OAuth-Tokens"><a href="#OAuth-Tokens" class="headerlink" title="OAuth Tokens"></a>OAuth Tokens</h2><p><code>OAuth</code> 规范定义了两种 Token: <code>Aceess Token</code> 和 <code>Refresh Token</code>。</p>
 <h3 id="Access-Token"><a href="#Access-Token" class="headerlink" title="Access Token"></a>Access Token</h3><p><code>Access Token</code> 是为 <code>Public Client</code> 用于短期(数小时或数分钟)访问受保护资源(<code>Resource Server</code>)的凭证。由于其相对较短的生存期，可以无需为它们设计撤销方案，等待其自动过期即可。</p>
-<h3 id="Refresh-Tokens"><a href="#Refresh-Tokens" class="headerlink" title="Refresh Tokens"></a>Refresh Tokens</h3><p>当 <code>Resource Owner</code> 撤销某 <code>Client</code> 应用程序的访问权限时，实际是撤销了其 <code>Refresh Token</code>，这意味着当用户再次授权 <code>Client</code> 访问权限时，<code>Client</code> 将使用新的 <code>Refresh Token</code>，是一种强制轮换措施。而每一次通过 <code>Refresh Token</code> 获得的都是一枚新的 <code>Access Token</code>。</p>
+<h3 id="Refresh-Tokens"><a href="#Refresh-Tokens" class="headerlink" title="Refresh Tokens"></a>Refresh Tokens</h3><p>当 <code>Resource Owner</code> 撤销某 <code>Client</code> 应用程序的访问权限时，实际是撤销了其 <code>Refresh Token</code>，这意味着当用户再次授权 <code>Client</code> 访问权限时，<code>Client</code> 将使用新的 <code>Refresh Token</code>，是一种强制过期措施。而每一次通过 <code>Refresh Token</code> 获得的都是一枚新的 <code>Access Token</code>。</p>
 <blockquote>
 <p><code>OAuth</code> 规范中没有对 <code>Token</code> 定义具体内容，它可以是任何格式。由于 JWT 的广泛使用，很容易将这里的 <code>Token</code> 与 JWT 对等起来，在后文的介绍中将区分它们。</p>
 </blockquote>
-<p><code>OAuth</code> 规范为 <code>Authorization Server</code> 定义了标准化的 <code>Endpoint</code> 用于不同的场景:</p>
+<h2 id="Authorization-Grant"><a href="#Authorization-Grant" class="headerlink" title="Authorization Grant"></a>Authorization Grant</h2><p><code>Authorization Grant</code> 是「授权许可」的泛化名称，表示 <code>Authorization Server</code> 在授权用户之后返回给 <code>Client</code> 的许可载体，<code>Client</code> 可借由该载体进一步向 <code>Authorization Server</code> 换取 <code>Access Token</code>。该载体通常以 <code>code</code> 表示，为一段随机生成的字符串，有效期非常短。</p>
+<h2 id="OAuth-EndPoints"><a href="#OAuth-EndPoints" class="headerlink" title="OAuth EndPoints"></a>OAuth EndPoints</h2><p><code>OAuth</code> 规范为 <code>Authorization Server</code> 定义了标准化的 <code>Endpoint</code> 用于不同的场景:</p>
 <ul>
 <li><code>/oauth2/authorize</code>: <code>Authorize Endpoint</code>，认证用户并征求用户授权，返回 <code>Authorization Grant</code></li>
 <li><code>/oauth2/token</code>: <code>Token Endpoint</code>，分发 <code>Refresh Token</code> 和 <code>Access Token</code>，当 <code>Access Token</code> 过期后，可利用 <code>Refresh Token</code> 申请新的 <code>Access Token</code></li>
-<li><code>/oauth2/introspect</code>: </li>
+<li><code>/oauth2/introspect</code>: 用于检视某个 <code>Token</code> 是否仍然有效</li>
 <li><code>/oauth2/revoke</code>: 用于撤销 <code>Refresh Token</code></li>
 </ul>
 <blockquote>
-<p>关于 <code>OAuth</code> 一个显著的争论是，开发人员不得不管理 <code>Refresh Token</code>。这也是开发人员偏爱 <code>API Keys</code> 的原因，虽然 <code>API Keys</code> 方便很多，但存在巨大的安全隐患。</p>
+<p>关于 <code>OAuth</code> 一个显著的争论是，开发人员不得不管理 <code>Refresh Token</code>。这也是开发人员偏爱 <code>API Keys</code> 的原因，虽然 <code>API Keys</code> 方便很多，但任何客户端都必须保存 <code>API Keys</code>，这加大了安全风险。</p>
 </blockquote>
-<h2 id="授权通信通道"><a href="#授权通信通道" class="headerlink" title="授权通信通道"></a>授权通信通道</h2><p>前文谈到了取得 <code>Authorization Grant</code> 和获取 <code>Token</code> 的流程，但它们往往发生在不同的通信通道。</p>
-<h3 id="Front-Channel"><a href="#Front-Channel" class="headerlink" title="Front Channel"></a>Front Channel</h3><p><code>Front Channel</code> 由「用户代理程序」完成授权过程，以浏览器为例，由于浏览器是一个开放的代码执行平台，任何人都可以通过 View Source 查看源代码，其主要数据和信息都用于展示，敏感数据不应选用 <code>Front Channel</code>。其流程如下:</p>
+<h2 id="授权通信通道"><a href="#授权通信通道" class="headerlink" title="授权通信通道"></a>授权通信通道</h2><p><code>OAuth</code> 中将「委托授权」在各个流程中涉及的步骤分成了前后两步: <code>Front Channel</code> 和 <code>Back Channel</code>。</p>
+<h3 id="Front-Channel"><a href="#Front-Channel" class="headerlink" title="Front Channel"></a>Front Channel</h3><p><code>Front Channel</code> 表示发生在开放的互联网中的部分，典型的场景是由「用户代理程序」发起的部分。以浏览器为例，其流程如下:</p>
 <ol>
 <li><code>Resource Owner</code> 委托 <code>Client</code> 访问 <code>Resource Server</code></li>
 <li><code>Client</code> 被重定向至 <code>Authorization Server</code> 的 <code>Authorize Endpoint</code></li>
 <li><code>Authorization Server</code> 认证 <code>Resource Owner</code>，展示对话框征求用户授权</li>
-<li><code>Resource Owner</code> 同意授权后，<code>Authorization Server</code> 返回 <code>Authorization Grant</code> 并通过浏览器重定向至 <code>Client</code> 指定的 <code>redirect_uri</code>。</li>
+<li><code>Resource Owner</code> 认证通过，并同意授权后，<code>Authorization Server</code> 返回 <code>Authorization Grant</code> 并通过浏览器重定向至 <code>Client</code> 指定的 <code>redirect_uri</code>。</li>
 </ol>
 <img src="/security-oauth2-and-openid-connect/front-channel-flow.png" title="Front Channel">
 <p>首先来看 <code>Request</code>:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">GET https://accounts.google.com/o/oauth2/auth?scope=gmail.insert gmail.send</span><br><span class="line">&amp;redirect_uri=https://app.example.com/oauth2/callback</span><br><span class="line">&amp;response_type=code&amp;client_id=812741506391</span><br><span class="line">&amp;state=af0ifjsldkj</span><br></pre></td></tr></table></figure></p>
@@ -517,8 +519,7 @@
 <li><code>code</code>: 代表 <code>Authorization Grant</code> 的字面值</li>
 <li><code>state</code>: 将 <code>request</code> 中的 <code>state</code> 原封不动的传回，以供 <code>Client</code> 应用程序验证请求来源</li>
 </ul>
-<h3 id="Back-Channel"><a href="#Back-Channel" class="headerlink" title="Back Channel"></a>Back Channel</h3><p><code>Back Channel</code> 由系统的后台服务向另一个系统的 API 发起的请求，被认为是 <code>Back Channel</code>，由于开发人员对后台程序代码具有完全的控制权，且外部人员无法轻易取得访问服务器的权限，所以这种方式具有更高的安全性。</p>
-<p>换取 <code>Access Token</code> 也可由受信任的服务端 <code>Client</code> 程序完成，<code>Client</code> 取得 <code>code</code> 后，结合 <code>Client</code> 的 <code>ClientId</code> 和一个 <code>Client Credential</code> 向 <code>Authorization Server</code> 的 <code>Token Endpoint</code> 发起请求以换取 <code>Access Token</code> 以及一个 <code>Refresh Token</code>。<code>Client</code> 再以 <code>Access Token</code> 访问受保护的资源。<br><img src="/security-oauth2-and-openid-connect/back-channel-flow.png" title="Back Channel"></p>
+<h3 id="Back-Channel"><a href="#Back-Channel" class="headerlink" title="Back Channel"></a>Back Channel</h3><p><code>Front Channel</code> 的工作完成之后。<code>Back Channel</code> 开始，<code>Client</code> 接收到由 <code>Authorization Server</code> 的重定向请求后，取得 <code>code</code>，接着使用 <code>code</code>、<code>ClientId</code> 及 <code>Client Credential</code> 向 <code>Authorization Server</code> 请求换取 <code>Access Token</code> 及 <code>Refresh Token</code>(可选)。<code>Client</code> 再以 <code>Access Token</code> 访问受保护的资源。<br><img src="/security-oauth2-and-openid-connect/back-channel-flow.png" title="Back Channel"></p>
 <p><code>Request</code> 的源数据为:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">POST /oauth2/v3/token HTTP/1.1</span><br><span class="line">Host: www.googleapis.com</span><br><span class="line">Content-Type: application/x-www-form-urlencoded</span><br><span class="line"></span><br><span class="line">code=MsCeLvIaQm6bTrgtp7&amp;client_id=812741506391&amp;client_secret=&#123;client_secret&#125;&amp;redirect_uri=https://app.example.com/oauth2/callback&amp;grant_type=authorization_code</span><br></pre></td></tr></table></figure></p>
 <ul>
 <li><code>grant_type</code>: 授权许可的类型，代表了一种 <code>OAuth Flow</code>，此案例中为 <code>authorization_code</code>，这是典型的 <code>OAuth Flow</code></li>
@@ -528,9 +529,9 @@
 <blockquote>
 <p>值得注意的是，<code>access_token</code> 和 <code>refresh_token</code> 不一定是 Jwt。</p>
 </blockquote>
-<h2 id="OAuth-Flows"><a href="#OAuth-Flows" class="headerlink" title="OAuth Flows"></a>OAuth Flows</h2><h3 id="Implicit-Flow"><a href="#Implicit-Flow" class="headerlink" title="Implicit Flow"></a>Implicit Flow</h3><p>上述 <code>Front Channel</code> 的流程也被称为 <code>Implicit Flow</code>，因为没有任何后台服务参与使用 <code>Authorization Grant</code> 换取 <code>Access Token</code> 的流程，整个过程全部由 <code>Browser</code> 完成，它常见于 <code>SPA</code> 应用程序，它们直接由 <code>Browser</code> 渲染，并直接与 <code>Authorization Server</code> 通信。</p>
+<h2 id="OAuth-Flows"><a href="#OAuth-Flows" class="headerlink" title="OAuth Flows"></a>OAuth Flows</h2><h3 id="Implicit-Flow"><a href="#Implicit-Flow" class="headerlink" title="Implicit Flow"></a>Implicit Flow</h3><p><code>Implicit Flow</code> 又称为简化流程，因为没有任何后台服务参与使用 <code>Authorization Grant</code> 换取 <code>Access Token</code> 的流程，整个过程由 <code>Browser</code> 直接与 <code>Authorization Server</code> 通信。</p>
 <img src="/security-oauth2-and-openid-connect/implicit_flow.png" title="Implicit Flow">
-<p><code>Implicit Flow</code> 为 <code>browser-only</code> 的 <code>Public Client</code> 优化，<code>Access Token</code> 直接由 <code>Authorization Server</code> 返回，并且不支持 <code>Refresh Token</code>，它假定 <code>Resource Owner</code> 和 <code>Public Client</code> 运行在同一设备上，但这是一种不太安全的策略。</p>
+<p><code>Implicit Flow</code> 常见于 <code>SPA</code> 应用程序，<code>Access Token</code> 由 <code>Authorization Server</code> 直接返回给浏览器，并且不支持 <code>Refresh Token</code>，它假定 <code>Resource Owner</code> 和 <code>Public Client</code> 运行在同一设备上。由于所有流程发生在浏览器，它是最脆弱的一种流程。</p>
 <h3 id="Authorization-Code-Flow"><a href="#Authorization-Code-Flow" class="headerlink" title="Authorization Code Flow"></a>Authorization Code Flow</h3><p>简称为 <code>Code Flow</code>，也是 <code>OAuth</code> 推崇的方案，该 <code>Flow</code> 同时采用了 <code>Front Channel</code> 和 <code>Back Channel</code>。它常见于 <code>Web App</code> 的场景。<code>Client</code> 应用程序通过 <code>Front Channel</code> 向 <code>Authorization Server</code> 申请 <code>Authorization Grant</code>，再通过 <code>Back Channel</code> 用 <code>Authorization Grant</code> 换取 <code>Access Token</code>。它假定 <code>Resource Owner</code> 和 <code>Client</code> 应用程序运行在不同的设备上，<code>Access Token</code> 始终不会传输到「用户代理应用程序」。</p>
 <img src="/security-oauth2-and-openid-connect/auth_code_flow.png" title="Authorization Code Flow">
 <h3 id="Client-Credential-Flow"><a href="#Client-Credential-Flow" class="headerlink" title="Client Credential Flow"></a>Client Credential Flow</h3><p><code>Client Credential Flow</code> 适用于 <code>server-to-server</code> 的场景。在这种场景中，<code>Client</code> 须是 <code>Confidential Client</code>，利用 <code>Client Credential</code> 作为 <code>Client</code> 的凭证完成授权流程，整个过程全部发生在 <code>Back Channel</code>，可使用对称或非对称加密算法对 <code>Client Credential</code> 进行加密。</p>
@@ -758,7 +759,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#问题背景"><span class="nav-text">问题背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OAuth-简介"><span class="nav-text">OAuth 简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OAuth-术语释义"><span class="nav-text">OAuth 术语释义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OAuth-Tokens"><span class="nav-text">OAuth Tokens</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Access-Token"><span class="nav-text">Access Token</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Refresh-Tokens"><span class="nav-text">Refresh Tokens</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#授权通信通道"><span class="nav-text">授权通信通道</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Front-Channel"><span class="nav-text">Front Channel</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Back-Channel"><span class="nav-text">Back Channel</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OAuth-Flows"><span class="nav-text">OAuth Flows</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Implicit-Flow"><span class="nav-text">Implicit Flow</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Authorization-Code-Flow"><span class="nav-text">Authorization Code Flow</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Client-Credential-Flow"><span class="nav-text">Client Credential Flow</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Resource-Owner-Password-Flow"><span class="nav-text">Resource Owner Password Flow</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Device-Flow"><span class="nav-text">Device Flow</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安全提醒"><span class="nav-text">安全提醒</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OAuth-不是认证协议"><span class="nav-text">OAuth 不是认证协议</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Auth-2-0-的伪认证"><span class="nav-text">Auth 2.0 的伪认证</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Open-ID-Connect"><span class="nav-text">Open ID Connect</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OAuth-简介"><span class="nav-text">OAuth 简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OAuth-角色定义"><span class="nav-text">OAuth 角色定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OAuth-Tokens"><span class="nav-text">OAuth Tokens</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Access-Token"><span class="nav-text">Access Token</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Refresh-Tokens"><span class="nav-text">Refresh Tokens</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Authorization-Grant"><span class="nav-text">Authorization Grant</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OAuth-EndPoints"><span class="nav-text">OAuth EndPoints</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#授权通信通道"><span class="nav-text">授权通信通道</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Front-Channel"><span class="nav-text">Front Channel</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Back-Channel"><span class="nav-text">Back Channel</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OAuth-Flows"><span class="nav-text">OAuth Flows</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Implicit-Flow"><span class="nav-text">Implicit Flow</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Authorization-Code-Flow"><span class="nav-text">Authorization Code Flow</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Client-Credential-Flow"><span class="nav-text">Client Credential Flow</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Resource-Owner-Password-Flow"><span class="nav-text">Resource Owner Password Flow</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Device-Flow"><span class="nav-text">Device Flow</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安全提醒"><span class="nav-text">安全提醒</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OAuth-不是认证协议"><span class="nav-text">OAuth 不是认证协议</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Auth-2-0-的伪认证"><span class="nav-text">Auth 2.0 的伪认证</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Open-ID-Connect"><span class="nav-text">Open ID Connect</span></a></li></ol></div>
             
 
           </div>
