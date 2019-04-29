@@ -90,7 +90,7 @@
 <meta property="og:image" content="https://blog.frosthe.net/homeserver-install-openwrt-on-router/first-login.png">
 <meta property="og:image" content="https://blog.frosthe.net/homeserver-install-openwrt-on-router/hostname-and-timezone.png">
 <meta property="og:image" content="https://blog.frosthe.net/homeserver-install-openwrt-on-router/wan-interface.png">
-<meta property="og:updated_time" content="2019-01-19T07:59:43.685Z">
+<meta property="og:updated_time" content="2019-04-29T14:06:18.777Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="网件路由器刷 OpenWrt">
 <meta name="twitter:description" content="本文记录了使用 OpenWrt 官方提供的 Image 刷网件路由器的全过程">
@@ -394,7 +394,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  578
+                  617
                 </span>
               
 
@@ -433,6 +433,8 @@
 </ul>
 </li>
 <li><a href="#%E9%85%8D%E7%BD%AE-openwrt">配置 OpenWrt</a></li>
+<li><a href="#%E5%AE%89%E8%A3%85-usb-%E9%A9%B1%E5%8A%A8">安装 USB 驱动</a></li>
+<li><a href="#%E5%90%AF%E7%94%A8-smb-%E6%9C%8D%E5%8A%A1">启用 SMB 服务</a></li>
 </ul>
 <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>路由器是家庭网络必不可少的基础设施，而路由器运行的系统也决定了家庭网络功能的边界。OpenWrt 是一个开源的路由器项目</p>
 <h2 id="检查兼容性"><a href="#检查兼容性" class="headerlink" title="检查兼容性"></a>检查兼容性</h2><ol>
@@ -475,6 +477,8 @@
 <li>导航至 Network -&gt; Wireless，设置 2.4 GHz 及 5 GHz 的无线网络</li>
 </ol>
 <p>接下来，便可开始对路由器针对性的配置诸如 DDNS，端口转发等功能的配置了。</p>
+<h2 id="安装-USB-驱动"><a href="#安装-USB-驱动" class="headerlink" title="安装 USB 驱动"></a>安装 USB 驱动</h2><p>See <a href="https://openwrt.org/docs/guide-user/storage/usb-installing" target="_blank" rel="noopener">Installing and troubleshooting USB Drivers</a> and <a href="https://openwrt.org/docs/guide-user/storage/usb-drives" target="_blank" rel="noopener">Using storage devices</a></p>
+<h2 id="启用-SMB-服务"><a href="#启用-SMB-服务" class="headerlink" title="启用 SMB 服务"></a>启用 SMB 服务</h2><p>See <a href="https://openwrt.org/docs/guide-user/services/nas/samba_configuration" target="_blank" rel="noopener">SMB Samba share overview (aka Windows file sharing)</a></p>
 
       
     </div>
@@ -700,7 +704,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#检查兼容性"><span class="nav-text">检查兼容性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装固件"><span class="nav-text">安装固件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#通过-TFTP-的方式安装"><span class="nav-text">通过 TFTP 的方式安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#通过网件-OEM-方式安装"><span class="nav-text">通过网件 OEM 方式安装</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置-OpenWrt"><span class="nav-text">配置 OpenWrt</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#检查兼容性"><span class="nav-text">检查兼容性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装固件"><span class="nav-text">安装固件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#通过-TFTP-的方式安装"><span class="nav-text">通过 TFTP 的方式安装</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#通过网件-OEM-方式安装"><span class="nav-text">通过网件 OEM 方式安装</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置-OpenWrt"><span class="nav-text">配置 OpenWrt</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装-USB-驱动"><span class="nav-text">安装 USB 驱动</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#启用-SMB-服务"><span class="nav-text">启用 SMB 服务</span></a></li></ol></div>
             
 
           </div>
