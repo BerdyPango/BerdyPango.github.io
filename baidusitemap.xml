@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://blog.frosthe.net/homeserver-setup-seafile-on-raspberryr-pi/</loc>
-    <lastmod>2019-04-29T14:10:57.151Z</lastmod>
+    <loc>https://blog.frosthe.net/security-oauth2-and-openid-connect/</loc>
+    <lastmod>2019-05-10T02:46:51.863Z</lastmod>
+  </url>  <url>
+    <loc>https://blog.frosthe.net/homeserver-setup-seafile-on-raspberry-pi/</loc>
+    <lastmod>2019-05-10T02:45:56.007Z</lastmod>
   </url>  <url>
     <loc>https://blog.frosthe.net/homeserver-install-openwrt-on-router/</loc>
-    <lastmod>2019-04-29T14:06:18.777Z</lastmod>
+    <lastmod>2019-05-10T02:14:39.899Z</lastmod>
   </url>  <url>
     <loc>https://blog.frosthe.net/security-cert-wildcard-from-letsencrypt/</loc>
     <lastmod>2019-03-31T02:44:55.875Z</lastmod>
@@ -18,9 +21,6 @@
   </url>  <url>
     <loc>https://blog.frosthe.net/smarthome-ha-configuration-system/</loc>
     <lastmod>2019-03-02T04:21:50.953Z</lastmod>
-  </url>  <url>
-    <loc>https://blog.frosthe.net/security-oauth2-and-openid-connect/</loc>
-    <lastmod>2019-03-02T04:17:26.787Z</lastmod>
   </url>  <url>
     <loc>https://blog.frosthe.net/smarthome-ha-device-tracker/</loc>
     <lastmod>2019-01-24T15:54:46.271Z</lastmod>

@@ -83,18 +83,18 @@
 <meta name="keywords" content="linux,raspberry-pi,seafile">
 <meta property="og:type" content="article">
 <meta property="og:title" content="在树莓派上搭建 Seafile 私有云服务端">
-<meta property="og:url" content="https://blog.frosthe.net/homeserver-setup-seafile-on-raspberryr-pi/index.html">
+<meta property="og:url" content="https://blog.frosthe.net/homeserver-setup-seafile-on-raspberry-pi/index.html">
 <meta property="og:site_name" content="FrostHe.Handbook">
 <meta property="og:description" content="Seafile 是一个免费开源的私有云项目，本文介绍了如何在树莓派上搭建 Seafile">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://blog.frosthe.net/homeserver-setup-seafile-on-raspberryr-pi/seafile-sync-arch.png">
-<meta property="og:image" content="https://blog.frosthe.net/homeserver-setup-seafile-on-raspberryr-pi/mobile-arch.png">
-<meta property="og:image" content="https://blog.frosthe.net/homeserver-setup-seafile-on-raspberryr-pi/01.png">
-<meta property="og:updated_time" content="2019-04-29T14:10:57.151Z">
+<meta property="og:image" content="https://blog.frosthe.net/homeserver-setup-seafile-on-raspberry-pi/seafile-sync-arch.png">
+<meta property="og:image" content="https://blog.frosthe.net/homeserver-setup-seafile-on-raspberry-pi/mobile-arch.png">
+<meta property="og:image" content="https://blog.frosthe.net/homeserver-setup-seafile-on-raspberry-pi/01.png">
+<meta property="og:updated_time" content="2019-05-10T02:45:56.007Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="在树莓派上搭建 Seafile 私有云服务端">
 <meta name="twitter:description" content="Seafile 是一个免费开源的私有云项目，本文介绍了如何在树莓派上搭建 Seafile">
-<meta name="twitter:image" content="https://blog.frosthe.net/homeserver-setup-seafile-on-raspberryr-pi/seafile-sync-arch.png">
+<meta name="twitter:image" content="https://blog.frosthe.net/homeserver-setup-seafile-on-raspberry-pi/seafile-sync-arch.png">
 
 
 
@@ -124,7 +124,7 @@
 
 
 
-  <link rel="canonical" href="https://blog.frosthe.net/homeserver-setup-seafile-on-raspberryr-pi/"/>
+  <link rel="canonical" href="https://blog.frosthe.net/homeserver-setup-seafile-on-raspberry-pi/"/>
 
 
 
@@ -308,7 +308,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://blog.frosthe.net/homeserver-setup-seafile-on-raspberryr-pi/">
+    <link itemprop="mainEntityOfPage" href="https://blog.frosthe.net/homeserver-setup-seafile-on-raspberry-pi/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Frost He">
@@ -476,8 +476,8 @@
 <li><code>FileServer</code>: 由于 <code>gunicorn</code> 处理大文件非常吃力，<code>FileServer</code> 用于处理 <code>Seahub</code> 源文件上传与下载的功能。</li>
 <li><code>Controller</code>: 监控 <code>ccnet</code> 与 <code>seafile</code> 守护进程，在适当的时候重启它们。</li>
 </ul>
-<p>下图展示了 <code>seafile</code> 桌面客户端与服务端同步文件的过程:<br><img src="/homeserver-setup-seafile-on-raspberryr-pi/seafile-sync-arch.png" title="PC 客户端文件同步流程示意图"></p>
-<p>下图展示了移动客户端与服务端同步文件的过程:<br><img src="/homeserver-setup-seafile-on-raspberryr-pi/mobile-arch.png" title="移动客户端文件同步流程示意图"></p>
+<p>下图展示了 <code>seafile</code> 桌面客户端与服务端同步文件的过程:<br><img src="/homeserver-setup-seafile-on-raspberry-pi/seafile-sync-arch.png" title="PC 客户端文件同步流程示意图"></p>
+<p>下图展示了移动客户端与服务端同步文件的过程:<br><img src="/homeserver-setup-seafile-on-raspberry-pi/mobile-arch.png" title="移动客户端文件同步流程示意图"></p>
 <hr>
 <h2 id="数据模型"><a href="#数据模型" class="headerlink" title="数据模型"></a>数据模型</h2><p><code>seafile</code> 内部使用一种类似于 <code>git</code> 的数据模型，由 <code>Repo</code>，<code>Branch</code>，<code>Commit</code>，<code>FS</code> 和 <code>Block</code> 组成。</p>
 <ul>
@@ -580,7 +580,7 @@
 <p>现在，目录结构已变为:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">$ tree FrostHub -L 2</span><br><span class="line">FrostHub</span><br><span class="line">├── ccnet               <span class="comment"># configuration files</span></span><br><span class="line">│   ├── mykey.peer</span><br><span class="line">│   ├── PeerMgr</span><br><span class="line">│   └── seafile.ini</span><br><span class="line">├── conf</span><br><span class="line">│   └── ccnet.conf</span><br><span class="line">│   └── seafile.conf</span><br><span class="line">│   └── seahub_settings.py</span><br><span class="line">├── installed</span><br><span class="line">│   └── seafile-server_6.3.4_stable_pi.tar.gz</span><br><span class="line">├── seafile-data</span><br><span class="line">├── seafile-server_6.3.4  <span class="comment"># active version</span></span><br><span class="line">│   ├── reset-admin.sh</span><br><span class="line">│   ├── runtime</span><br><span class="line">│   ├── seafile</span><br><span class="line">│   ├── seafile.sh</span><br><span class="line">│   ├── seahub</span><br><span class="line">│   ├── seahub.sh</span><br><span class="line">│   ├── setup-seafile.sh</span><br><span class="line">│   └── upgrade</span><br><span class="line">├── seafile-server-latest  <span class="comment"># symbolic link to seafile-server_6.3.4</span></span><br><span class="line">├── seahub-data</span><br><span class="line">│   └── avatars</span><br></pre></td></tr></table></figure></p>
 <p><code>seafile-server-latest</code> 是一个指向当前最新版本服务端包的引用。</p>
 <h2 id="开始使用"><a href="#开始使用" class="headerlink" title="开始使用"></a>开始使用</h2><p>执行命令启动 <code>seafile</code> 和 <code>seahub</code> 服务:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ ./seafile.sh start</span><br><span class="line">$ ./seahub.sh start</span><br></pre></td></tr></table></figure></p>
-<img src="/homeserver-setup-seafile-on-raspberryr-pi/01.png" title="开始使用">
+<img src="/homeserver-setup-seafile-on-raspberry-pi/01.png" title="开始使用">
 <h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h2><p>在使用 Seafile 的过程中，某些参数的值设置不正确可能会影响客户端的正常访问，例如</p>
 <ul>
 <li><code>SERVICE_URL</code>: Internet 上 Seahub 的基础地址，例如: <a href="https://seafile.example.com" target="_blank" rel="noopener">https://seafile.example.com</a></li>
@@ -611,7 +611,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://blog.frosthe.net/homeserver-setup-seafile-on-raspberryr-pi/" title="在树莓派上搭建 Seafile 私有云服务端">https://blog.frosthe.net/homeserver-setup-seafile-on-raspberryr-pi/</a>
+    <a href="https://blog.frosthe.net/homeserver-setup-seafile-on-raspberry-pi/" title="在树莓派上搭建 Seafile 私有云服务端">https://blog.frosthe.net/homeserver-setup-seafile-on-raspberry-pi/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>
