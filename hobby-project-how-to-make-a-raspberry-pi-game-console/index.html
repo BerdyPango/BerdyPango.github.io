@@ -93,13 +93,17 @@
 <meta property="og:image" content="https://blog.frosthe.net/hobby-project-how-to-make-a-raspberry-pi-game-console/DSCF6074.jpg">
 <meta property="og:image" content="https://blog.frosthe.net/hobby-project-how-to-make-a-raspberry-pi-game-console/DSCF6075.jpg">
 <meta property="og:image" content="https://blog.frosthe.net/hobby-project-how-to-make-a-raspberry-pi-game-console/DSCF6078.jpg">
+<meta property="og:image" content="https://blog.frosthe.net/hobby-project-how-to-make-a-raspberry-pi-game-console/DSCF6081.jpg">
 <meta property="og:image" content="https://blog.frosthe.net/hobby-project-how-to-make-a-raspberry-pi-game-console/DSCF6079.jpg">
 <meta property="og:image" content="https://blog.frosthe.net/hobby-project-how-to-make-a-raspberry-pi-game-console/DSCF6080.jpg">
 <meta property="og:image" content="https://blog.frosthe.net/hobby-project-how-to-make-a-raspberry-pi-game-console/DSCF6083.jpg">
 <meta property="og:image" content="https://blog.frosthe.net/hobby-project-how-to-make-a-raspberry-pi-game-console/DSCF6094.jpg">
 <meta property="og:image" content="https://blog.frosthe.net/hobby-project-how-to-make-a-raspberry-pi-game-console/dock.jpg">
 <meta property="og:image" content="https://blog.frosthe.net/hobby-project-how-to-make-a-raspberry-pi-game-console/DSCF6086.jpg">
-<meta property="og:updated_time" content="2019-05-18T06:53:51.423Z">
+<meta property="og:image" content="https://blog.frosthe.net/hobby-project-how-to-make-a-raspberry-pi-game-console/DSCF6092.jpg">
+<meta property="og:image" content="https://blog.frosthe.net/hobby-project-how-to-make-a-raspberry-pi-game-console/DSCF6093.jpg">
+<meta property="og:image" content="https://blog.frosthe.net/hobby-project-how-to-make-a-raspberry-pi-game-console/DSCF6094.jpg">
+<meta property="og:updated_time" content="2019-05-18T09:07:36.381Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="DIY - 自制树莓派便携游戏机">
 <meta name="twitter:description" content="本文探索了通过树莓派加 UPS 模块的组合实现自制便携性游戏机">
@@ -403,7 +407,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  933
+                  1,128
                 </span>
               
 
@@ -432,13 +436,13 @@
       
 
       
-        <h2 id="初衷"><a href="#初衷" class="headerlink" title="初衷"></a>初衷</h2><p>在树莓派社区广大极客的浸染下，笔者决定利用市面上能够现成买到的配件，自行组装一个便携的复古游戏机。这款游戏机应该:</p>
+        <h2 id="初衷"><a href="#初衷" class="headerlink" title="初衷"></a>初衷</h2><p>在树莓派社区广大极客的浸染下，了解到了各种大神的新奇玩法。经过一番研究之后，笔者决定利用市面上能够现成买到的配件，自行组装一个便携式复古游戏机。这款游戏机应该:</p>
 <ul>
 <li>自带电源</li>
 <li>自带屏幕</li>
 <li>即拿即用</li>
 </ul>
-<h2 id="硬件部分"><a href="#硬件部分" class="headerlink" title="硬件部分"></a>硬件部分</h2><p>在经过很长一段时间的调查和试错之后，终于组合出了一个靠谱的解决方案，下面先从硬件部分说起:</p>
+<h2 id="硬件部分"><a href="#硬件部分" class="headerlink" title="硬件部分"></a>硬件部分</h2><p>经过一段时间的调查和试错之后，终于组合出了一个靠谱的解决方案，下面先从硬件部分说起:</p>
 <h3 id="树莓派-3b"><a href="#树莓派-3b" class="headerlink" title="树莓派 3b+"></a>树莓派 3b+</h3><p>3B+ 是目前为止树莓派性能最好的型号，既然要用来跑游戏，自然性能越强越好:</p>
 <img src="/hobby-project-how-to-make-a-raspberry-pi-game-console/DSCF6067.jpg" title="树莓派 3B+ SBC"> 
 <h3 id="Micro-SD-卡-TF-卡"><a href="#Micro-SD-卡-TF-卡" class="headerlink" title="Micro-SD 卡(TF 卡)"></a>Micro-SD 卡(TF 卡)</h3><p>用于跑系统和存储游戏 ROM，容量自选:</p>
@@ -450,15 +454,27 @@
 <img src="/hobby-project-how-to-make-a-raspberry-pi-game-console/DSCF6073.jpg" title="树莓派官方 7 英寸触控屏"> 
 <img src="/hobby-project-how-to-make-a-raspberry-pi-game-console/DSCF6074.jpg" title="背面"> 
 <img src="/hobby-project-how-to-make-a-raspberry-pi-game-console/DSCF6075.jpg" title="适配板"> 
-<h3 id="UPS-模块"><a href="#UPS-模块" class="headerlink" title="UPS 模块"></a>UPS 模块</h3><p>为游戏机提供便携电源一度成为最头疼的问题，树莓派机身需要 5.1V/2.5A 的电源，大神们给出了各种各样 diy 的供电解决方案，比如:</p>
+<p>适配板左侧为 DSI 接口，接受 3 种类型的供电接口:</p>
+<ol>
+<li>左上角，GPIO 杜邦线供电</li>
+<li>左下角，Micro-USB 接口</li>
+<li>右侧，USB Type-A 接口</li>
+</ol>
+<h3 id="UPS-模块"><a href="#UPS-模块" class="headerlink" title="UPS 模块"></a>UPS 模块</h3><p>为游戏机提供便携电源一度成为最头疼的问题，树莓派机身需要 5.1V/2.5A 的电源，网友们给出了各种各样 diy 的供电解决方案，比如:</p>
 <ul>
 <li>充电宝: 最简单但也是最简陋的方案，但大多数充电宝的输出电流都达不到 2.5A，美亚上找到一款专门为树莓派设计的移动电源 <a href="https://www.amazon.com/dp/B07BSG7V3J/?coliid=I51AG6BSQZU3Y&amp;colid=T1IGTU2GG2TB&amp;psc=0&amp;ref_=lv_ov_lig_dp_it" target="_blank" rel="noopener">Battery Pack for Raspberry Pi 3 B+, 4000mAh, Suction</a></li>
-<li>自制电池盒: 使用 GPIO 为树莓派供电的模块，后接 AA 电池盒，模块仅供电，没有充电管理功能，类似于充电宝，只是连接形式从 usb 接口换到了杜邦线。</li>
-<li>锂电池模块(UPS 模块): 最理想的移动供电方式，通过杜邦线与树莓派连接的锂电池充放电管理模块，国外论坛上最流行的是 <a href="https://uk.pi-supply.com/products/pijuice-standard" target="_blank" rel="noopener">PiJuice HAT</a>，高端型号还带太阳能充电板，价格偏贵，单模块的价格都可以买两个树莓派了，有点 Overkill。在搜遍了某宝，eBay 和亚马逊之后，最终选择了一款国内厂商做的 UPS 模块，带 3800 毫安锂电池，开关和电量指示。</li>
+<li>自制电池盒: 使用 GPIO 为树莓派供电的模块，后接 AA 电池盒，模块仅供电，没有充电管理功能，类似于充电宝，只是连接形式从 usb 接口换到了杜邦线</li>
+<li>锂电池模块(UPS 模块): 最理想的移动供电方式，通过杜邦线与树莓派连接的锂电池充放电管理模块，当前最流行的貌似是 <a href="https://uk.pi-supply.com/products/pijuice-standard" target="_blank" rel="noopener">PiJuice HAT</a>，高端型号还带太阳能充电板，价格偏贵，单模块的价格都可以买两个树莓派了，有点 Overkill。在搜遍了某宝，eBay 和亚马逊之后，最终选择了一款国内厂商做的 UPS 模块，带 3800 毫安锂电池，开关和电量指示</li>
 </ul>
 <img src="/hobby-project-how-to-make-a-raspberry-pi-game-console/DSCF6078.jpg" title="UPS 模块">
+<img src="/hobby-project-how-to-make-a-raspberry-pi-game-console/DSCF6081.jpg" title="UPS 模块背面"> 
 <img src="/hobby-project-how-to-make-a-raspberry-pi-game-console/DSCF6079.jpg" title="UPS 模块开关"> 
 <img src="/hobby-project-how-to-make-a-raspberry-pi-game-console/DSCF6080.jpg" title="UPS 双输出口及充电口">
+<p>实装 UPS 模块之后，单 USB 输出要同时为树莓派和 7 寸屏幕供电，导致屏幕右上角时不时出现闪电符号，即电压低。跟卖家沟通之后，有两种解决方案</p>
+<ol>
+<li>采用两根 Micro-USB 线对屏幕和树莓派分别供电，笔者试过之后情况大有改善</li>
+<li>不用 Micro-USB 线，自行焊上排针，改用杜邦线供电以减少线损，这个方案需自己有焊排针的能力，未曾尝试</li>
+</ol>
 <h3 id="Micro-USB-弯头线"><a href="#Micro-USB-弯头线" class="headerlink" title="Micro-USB 弯头线"></a>Micro-USB 弯头线</h3><p>树莓派通过 Micro-USB 线连接至 UPS 输出口进行供电，而常规的安卓手机充电线都是直头且长度较长。为了一体化和美观考虑，单独购买了这根 25cm 的双弯头充电线。事实上 25 cm 仍然长了一点，但从正面看已经没有露出的线头了。</p>
 <img src="/hobby-project-how-to-make-a-raspberry-pi-game-console/DSCF6083.jpg" title="25cm Micro-USB 充电线">
 <img src="/hobby-project-how-to-make-a-raspberry-pi-game-console/DSCF6094.jpg" title="正面看，无线头露出">
@@ -469,6 +485,9 @@
 <p>准备就绪，开始组装:</p>
 <iframe height="290" width="510" src="http://player.youku.com/embed/XNDE4NjM0NDM0OA==" frameborder="0" 'allowfullscreen'=""></iframe>
 
+<img src="/hobby-project-how-to-make-a-raspberry-pi-game-console/DSCF6092.jpg" title="上支架背面">
+<img src="/hobby-project-how-to-make-a-raspberry-pi-game-console/DSCF6093.jpg" title="背面">
+<img src="/hobby-project-how-to-make-a-raspberry-pi-game-console/DSCF6094.jpg" title="组装完成后">
 <h2 id="软件部分"><a href="#软件部分" class="headerlink" title="软件部分"></a>软件部分</h2><h3 id="RetroPie"><a href="#RetroPie" class="headerlink" title="RetroPie"></a>RetroPie</h3><p>RetroPie 是一款模拟器系统，参考其<a href="https://retropie.org.uk/" target="_blank" rel="noopener">官方文档</a>直接使用现成 Image 或基于已有 Raspbian 系统安装。如果选择直接下载 RetroPie 的 Image 进行安装，请参考<a href="/homeserver-setup-raspberry-pi">家庭数字化系统 - 准备树莓派</a>烧写系统镜像。</p>
 <h3 id="游戏-ROM"><a href="#游戏-ROM" class="headerlink" title="游戏 ROM"></a>游戏 ROM</h3><p>视频的演示中涉及了 PS1 的游戏，目前 3B+ 的性能只能稳定运行 PS1 及以前平台的游戏，PSP 等需要更高性能的计算机。由于众所周知的原因，游戏的 ROM 请自行准备。</p>
 <h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>完工的游戏机从成本来看并不低，但折腾的乐趣就在于过程，对于喜欢折腾也想随时在家有个小游戏机玩的人来说，这提供了一种新思路。</p>
