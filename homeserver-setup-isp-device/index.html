@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="network,router,ddns," />
+  <meta name="keywords" content="network,router," />
 
 
 
@@ -79,13 +79,13 @@
 
 
 
-<meta name="description" content="本文介绍了以电信宽带为基础的其他应用">
-<meta name="keywords" content="network,router,ddns">
+<meta name="description" content="本文介绍了如何正确初始化电信宽带">
+<meta name="keywords" content="network,router">
 <meta property="og:type" content="article">
 <meta property="og:title" content="电信宽带的正确使用姿势">
 <meta property="og:url" content="https://blog.frosthe.net/homeserver-setup-isp-device/index.html">
 <meta property="og:site_name" content="FrostHe.Handbook">
-<meta property="og:description" content="本文介绍了以电信宽带为基础的其他应用">
+<meta property="og:description" content="本文介绍了如何正确初始化电信宽带">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://blog.frosthe.net/homeserver-setup-isp-device/enable-telnet.jpg">
 <meta property="og:image" content="https://blog.frosthe.net/homeserver-setup-isp-device/login-with-telecomadmin.jpg">
@@ -93,11 +93,10 @@
 <meta property="og:image" content="https://blog.frosthe.net/homeserver-setup-isp-device/setup-wan-pppoe.png">
 <meta property="og:image" content="https://blog.frosthe.net/homeserver-setup-isp-device/ip-from-baidu.png">
 <meta property="og:image" content="https://blog.frosthe.net/homeserver-setup-isp-device/ip-from-wan.png">
-<meta property="og:image" content="https://blog.frosthe.net/homeserver-setup-isp-device/port-forwarding.png">
-<meta property="og:updated_time" content="2019-01-19T07:59:43.703Z">
+<meta property="og:updated_time" content="2019-05-19T04:30:57.605Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="电信宽带的正确使用姿势">
-<meta name="twitter:description" content="本文介绍了以电信宽带为基础的其他应用">
+<meta name="twitter:description" content="本文介绍了如何正确初始化电信宽带">
 <meta name="twitter:image" content="https://blog.frosthe.net/homeserver-setup-isp-device/enable-telnet.jpg">
 
 
@@ -398,7 +397,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  1,357
+                  904
                 </span>
               
 
@@ -410,7 +409,7 @@
 
           
               <div class="post-description">
-                  本文介绍了以电信宽带为基础的其他应用
+                  本文介绍了如何正确初始化电信宽带
               </div>
           
 
@@ -437,13 +436,6 @@
 </ul>
 </li>
 <li><a href="#%E7%A1%AE%E8%AE%A4%E5%85%AC%E7%BD%91-ip-%E5%9C%B0%E5%9D%80%E6%AD%A3%E7%A1%AE%E5%8F%AF%E7%94%A8">确认公网 IP 地址正确可用</a></li>
-<li><a href="#%E5%88%A9%E7%94%A8-ddns-%E5%AE%9E%E7%8E%B0%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F">利用 DDNS 实现内网穿透</a><ul>
-<li><a href="#%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86">实现原理</a></li>
-<li><a href="#%E5%89%8D%E6%8F%90%E6%9D%A1%E4%BB%B6">前提条件</a></li>
-<li><a href="#%E5%AE%9E%E7%8E%B0">实现</a></li>
-<li><a href="#%E5%9C%A8%E8%B7%AF%E7%94%B1%E5%99%A8%E4%B8%AD%E9%85%8D%E7%BD%AE%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91">在路由器中配置端口转发</a></li>
-</ul>
-</li>
 </ul>
 <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>99 或 199 块钱一个月接入的电信宽带，除了其基础的 100M 或 300M 带宽上网之外，还可以做很多事</p>
 <h2 id="获取光猫超级管理员权限"><a href="#获取光猫超级管理员权限" class="headerlink" title="获取光猫超级管理员权限"></a>获取光猫超级管理员权限</h2><p>首先，将任意一台 PC 直连光猫 LAN 口，打开浏览器，输入 <code>http://192.168.1.1</code> ，用 <code>useradmin</code> 账号登陆(密码位于光猫背面贴纸)。将地址栏中的连接 <code>http://192.168.1.1/cgi-bin/content.asp</code> 改为 <code>http://192.168.1.1/cgi-bin/telnet.asp</code>，进入如下的界面：<br><img src="/homeserver-setup-isp-device/enable-telnet.jpg" title="启用光猫 Telnet"><br>勾选 <code>Telnet 设置: 启用</code>，点击确定。</p>
@@ -457,20 +449,7 @@
 <blockquote>
 <p>如何设置无线网络此处不赘述</p>
 </blockquote>
-<h2 id="确认公网-IP-地址正确可用"><a href="#确认公网-IP-地址正确可用" class="headerlink" title="确认公网 IP 地址正确可用"></a>确认公网 IP 地址正确可用</h2><p>完成上一步操作之后，PC 应该已经可以正常上网了，在百度中输入 <code>ip</code> 得到一个公网 ip 地址，在路由器管理界面中，查看当前 WAN 口获取到的 ip 地址:<br><img src="/homeserver-setup-isp-device/ip-from-baidu.png" title="从百度获取的 ip 地址"><br><img src="/homeserver-setup-isp-device/ip-from-wan.png" title="从路由器 WAN 获取的 ip 地址"><br>从百度获取的 ip 地址是从外网检测到的 ip 地址，WAN 口的 ip 地址是由电信分配的 ip 地址，两者可能会不一样，WAN 口获取的 ip 地址可能是某个大区域的子网 ip 地址，虽然不影响上网，但无法实现「内网穿透」等功能。如果遇到类似情况，拨打 10000 号申诉通常都会解决。</p>
-<h2 id="利用-DDNS-实现内网穿透"><a href="#利用-DDNS-实现内网穿透" class="headerlink" title="利用 DDNS 实现内网穿透"></a>利用 DDNS 实现内网穿透</h2><h3 id="实现原理"><a href="#实现原理" class="headerlink" title="实现原理"></a>实现原理</h3><p>家庭网络中的主机不断检测本地网络的公共 IP 地址变化，并不断向指定的域名更新记录。这样，当从外网通过域名解析主机时，将始终指向同一个主机。</p>
-<h3 id="前提条件"><a href="#前提条件" class="headerlink" title="前提条件"></a>前提条件</h3><p>为了实现 DDNS，至少应该准备:</p>
-<ol>
-<li>可远程管理的注册域名: 本文以阿里云万网域名为例</li>
-<li>路由器具备端口转发功能</li>
-<li>确保本地网络的公网 IP 可由外网访问</li>
-</ol>
-<h3 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h3><p>国内市场上有诸如<a href="https://www.oray.com/" target="_blank" rel="noopener">花生壳</a>，国外市场上有诸如 <a href="https://www.duckdns.org/" target="_blank" rel="noopener">DuckDns</a> 的 DDNS 服务商，他们为用户提供二级域名使用权和相应的客户端软件用以更新 DNS 记录。为了争取最大的自由度，本文将绕过第三方通过开源手段来实现。</p>
-<p>假设我在阿里云(也可能是腾讯云，重要的是其提供相应的域名管理 API)注册了 <code>example.com</code>，阿里云负责提供全网都可访问该域名的 <code>dns</code> 服务。然后在家庭网络中的某台主机(最好是服务器)安装 Git，从 <a href="https://github.com/rfancn/aliyun-ddns-client" target="_blank" rel="noopener">aliyun-ddns-client</a> 拉取用于更新阿里云域名记录的 ddns 客户端，配置 <code>ha.example.com</code> 并运行。</p>
-<h3 id="在路由器中配置端口转发"><a href="#在路由器中配置端口转发" class="headerlink" title="在路由器中配置端口转发"></a>在路由器中配置端口转发</h3><p>路由器没有能力或并不知道从外网入站的网络访问需要什么样的服务，它需要将入站请求转发至提供该种服务的内网主机，并映射相应的端口号。<br><img src="/homeserver-setup-isp-device/port-forwarding.png" title="端口转发配置"></p>
-<blockquote>
-<p>由于众所周知的原因，国内 ISP 屏蔽了家庭网络的 80 及 443 端口，如果需要提供 http(s) 服务，需要选择其他端口。</p>
-</blockquote>
+<h2 id="确认公网-IP-地址正确可用"><a href="#确认公网-IP-地址正确可用" class="headerlink" title="确认公网 IP 地址正确可用"></a>确认公网 IP 地址正确可用</h2><p>完成上一步操作之后，PC 应该已经可以正常上网了，在百度中输入 <code>ip</code> 得到一个公网 ip 地址，在路由器管理界面中，查看当前 WAN 口获取到的 ip 地址:<br><img src="/homeserver-setup-isp-device/ip-from-baidu.png" title="从百度获取的 ip 地址"><br><img src="/homeserver-setup-isp-device/ip-from-wan.png" title="从路由器 WAN 获取的 ip 地址"><br>从百度获取的 ip 地址是从外网检测到的 ip 地址，WAN 口的 ip 地址是由电信分配的 ip 地址，两者可能会不一样，WAN 口获取的 ip 地址可能是某个大区域的子网 ip 地址，虽然不影响上网，但无法实现「内网穿透」等功能。如果遇到类似情况，拨打 10000 号申诉通常都会解决。有了正确的公网 ip 地址，才能实施下一步的内网穿透功能。</p>
 
       
     </div>
@@ -541,8 +520,6 @@
           
             <a href="/tags/router/" rel="tag"><i class="fa fa-tag"></i> router</a>
           
-            <a href="/tags/ddns/" rel="tag"><i class="fa fa-tag"></i> ddns</a>
-          
         </div>
       
 
@@ -564,8 +541,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/smarthome-setup-ha-on-raspberrypi/" rel="prev" title="智慧家庭 - 架设 HomeAssistant">
-                智慧家庭 - 架设 HomeAssistant <i class="fa fa-chevron-right"></i>
+              <a href="/homeserver-perform-ddns/" rel="prev" title="通过 DDNS 实现稳定内网穿透">
+                通过 DDNS 实现稳定内网穿透 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -643,7 +620,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">67</span>
+                  <span class="site-state-item-count">68</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -698,7 +675,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#获取光猫超级管理员权限"><span class="nav-text">获取光猫超级管理员权限</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#由光猫拨号改为路由器拨号"><span class="nav-text">由光猫拨号改为路由器拨号</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#将电信光猫设为桥接模式"><span class="nav-text">将电信光猫设为桥接模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在路由器中设置拨号上网"><span class="nav-text">在路由器中设置拨号上网</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#确认公网-IP-地址正确可用"><span class="nav-text">确认公网 IP 地址正确可用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#利用-DDNS-实现内网穿透"><span class="nav-text">利用 DDNS 实现内网穿透</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#实现原理"><span class="nav-text">实现原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#前提条件"><span class="nav-text">前提条件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实现"><span class="nav-text">实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在路由器中配置端口转发"><span class="nav-text">在路由器中配置端口转发</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#获取光猫超级管理员权限"><span class="nav-text">获取光猫超级管理员权限</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#由光猫拨号改为路由器拨号"><span class="nav-text">由光猫拨号改为路由器拨号</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#将电信光猫设为桥接模式"><span class="nav-text">将电信光猫设为桥接模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在路由器中设置拨号上网"><span class="nav-text">在路由器中设置拨号上网</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#确认公网-IP-地址正确可用"><span class="nav-text">确认公网 IP 地址正确可用</span></a></li></ol></div>
             
 
           </div>

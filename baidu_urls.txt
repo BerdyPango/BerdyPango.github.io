@@ -20,6 +20,7 @@ https://blog.frosthe.net/smarthome-control-via-siri/
 https://blog.frosthe.net/smarthome-ha-basic-configuration/
 https://blog.frosthe.net/smarthome-ha-configuration-system/
 https://blog.frosthe.net/smarthome-setup-ha-on-raspberrypi/
+https://blog.frosthe.net/homeserver-perform-ddns/
 https://blog.frosthe.net/homeserver-setup-isp-device/
 https://blog.frosthe.net/homeserver-setup-nas-on-raspberry-pi/
 https://blog.frosthe.net/homeserver-router-basic-services/

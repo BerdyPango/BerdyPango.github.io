@@ -82,17 +82,19 @@
 <meta name="description" content="Seafile 是一个免费开源的私有云项目，本文介绍了如何在树莓派上搭建 Seafile">
 <meta name="keywords" content="linux,raspberry-pi,seafile">
 <meta property="og:type" content="article">
-<meta property="og:title" content="在树莓派上搭建 Seafile 私有云服务端">
+<meta property="og:title" content="在树莓派上通过 Docker 搭建 Seafile 私有云服务">
 <meta property="og:url" content="https://blog.frosthe.net/homeserver-setup-seafile-on-raspberry-pi/index.html">
 <meta property="og:site_name" content="FrostHe.Handbook">
 <meta property="og:description" content="Seafile 是一个免费开源的私有云项目，本文介绍了如何在树莓派上搭建 Seafile">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://blog.frosthe.net/homeserver-setup-seafile-on-raspberry-pi/seafile-sync-arch.png">
 <meta property="og:image" content="https://blog.frosthe.net/homeserver-setup-seafile-on-raspberry-pi/mobile-arch.png">
-<meta property="og:image" content="https://blog.frosthe.net/homeserver-setup-seafile-on-raspberry-pi/01.png">
-<meta property="og:updated_time" content="2019-05-10T02:45:56.007Z">
+<meta property="og:image" content="https://blog.frosthe.net/homeserver-setup-seafile-on-raspberry-pi/url-parameters.png">
+<meta property="og:image" content="https://blog.frosthe.net/homeserver-setup-seafile-on-raspberry-pi/login-page.png">
+<meta property="og:image" content="https://blog.frosthe.net/homeserver-setup-seafile-on-raspberry-pi/ios-client-settings.jpg">
+<meta property="og:updated_time" content="2019-05-19T05:30:36.061Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="在树莓派上搭建 Seafile 私有云服务端">
+<meta name="twitter:title" content="在树莓派上通过 Docker 搭建 Seafile 私有云服务">
 <meta name="twitter:description" content="Seafile 是一个免费开源的私有云项目，本文介绍了如何在树莓派上搭建 Seafile">
 <meta name="twitter:image" content="https://blog.frosthe.net/homeserver-setup-seafile-on-raspberry-pi/seafile-sync-arch.png">
 
@@ -130,7 +132,7 @@
 
 
 
-  <title>在树莓派上搭建 Seafile 私有云服务端 | FrostHe.Handbook</title>
+  <title>在树莓派上通过 Docker 搭建 Seafile 私有云服务 | FrostHe.Handbook</title>
   
 
 
@@ -325,7 +327,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">在树莓派上搭建 Seafile 私有云服务端</h1>
+          <h1 class="post-title" itemprop="name headline">在树莓派上通过 Docker 搭建 Seafile 私有云服务</h1>
         
 
         <div class="post-meta">
@@ -394,7 +396,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  2,358
+                  1,210
                 </span>
               
 
@@ -435,36 +437,15 @@
 <li><a href="#%E8%83%8C%E6%99%AF">背景</a></li>
 <li><a href="#seafile-%E7%AE%80%E4%BB%8B">Seafile 简介</a></li>
 <li><a href="#%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B">数据模型</a></li>
-<li><a href="#%E6%90%AD%E5%BB%BA-seafile-%E6%9C%8D%E5%8A%A1%E7%AB%AF">搭建 Seafile 服务端</a><ul>
-<li><a href="#%E4%B8%8B%E8%BD%BD-seafile-%E6%9C%8D%E5%8A%A1%E7%AB%AF%E5%8C%85">下载 Seafile 服务端包</a></li>
-<li><a href="#%E9%83%A8%E7%BD%B2%E4%B8%8E%E7%9B%AE%E5%BD%95%E5%B8%83%E5%B1%80">部署与目录布局</a></li>
-<li><a href="#%E5%87%86%E5%A4%87-mysql-%E6%95%B0%E6%8D%AE%E5%BA%93">准备 MySQL 数据库</a><ul>
-<li><a href="#%E4%BD%BF%E7%94%A8%E8%84%9A%E6%9C%AC%E5%87%86%E5%A4%87-mysql-%E6%95%B0%E6%8D%AE%E5%BA%93">使用脚本准备 MySQL 数据库</a></li>
-<li><a href="#%E6%89%8B%E5%8A%A8%E5%88%9B%E5%BB%BA%E6%95%B0%E6%8D%AE%E5%BA%93">手动创建数据库</a></li>
-</ul>
-</li>
-<li><a href="#%E5%AE%89%E8%A3%85%E4%BE%9D%E8%B5%96%E5%BA%93">安装依赖库</a></li>
-<li><a href="#%E6%90%AD%E5%BB%BA">搭建</a></li>
-</ul>
-</li>
-<li><a href="#%E5%BC%80%E5%A7%8B%E4%BD%BF%E7%94%A8">开始使用</a></li>
-<li><a href="#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9">注意事项</a></li>
-<li><a href="#%E9%85%8D%E7%BD%AE%E5%BC%80%E6%9C%BA%E5%90%AF%E5%8A%A8-seafile">配置开机启动 Seafile</a><ul>
-<li><a href="#%E5%88%9B%E5%BB%BA%E4%B8%93%E7%94%A8%E4%BA%8E%E6%89%A7%E8%A1%8C-seafile-%E6%9C%8D%E5%8A%A1%E7%9A%84%E5%B8%90%E6%88%B7%E5%92%8C%E7%BE%A4%E7%BB%84">创建专用于执行 Seafile 服务的帐户和群组</a></li>
-<li><a href="#%E5%88%9B%E5%BB%BA-seafile-%E7%9A%84%E4%B8%A4%E4%B8%AA-service-unit">创建 Seafile 的两个 Service Unit</a><ul>
-<li><a href="#seafile-service">Seafile Service</a></li>
-<li><a href="#seahub-service">Seahub Service</a></li>
-</ul>
-</li>
-<li><a href="#%E5%90%AF%E7%94%A8%E5%BC%80%E6%9C%BA%E6%9C%8D%E5%8A%A1">启用开机服务</a></li>
-</ul>
-</li>
+<li><a href="#%E4%BD%BF%E7%94%A8-docker-%E6%90%AD%E5%BB%BA-seafile-%E6%9C%8D%E5%8A%A1">使用 Docker 搭建 Seafile 服务</a></li>
+<li><a href="#%E8%AE%BE%E7%BD%AE%E5%BC%80%E6%9C%BA%E5%90%AF%E5%8A%A8-seafiletbd">设置开机启动 Seafile(TBD)</a></li>
+<li><a href="#%E4%BD%BF%E7%94%A8%E5%90%84%E5%B9%B3%E5%8F%B0%E5%AE%A2%E6%88%B7%E7%AB%AF">使用各平台客户端</a></li>
 <li><a href="#%E8%BF%81%E7%A7%BB%E6%95%B0%E6%8D%AE">迁移数据</a></li>
 </ul>
-<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>手机和 Mac 里存的照片和视频越来越多，而 iCloud 的免费存储空间只有 5G，更重要的是，国行 iCloud 上了云上贵州。于是萌生了在家里搭建私有云盘的想法。搭建私有云主要解决了以下几个问题:</p>
+<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>手机和 Mac 里存的照片和视频越来越多，而 iCloud 的免费存储空间只有 5GB，更重要的是，国行 iCloud 上了云上贵州。于是萌生了在家里搭建私有云盘的想法。搭建私有云主要解决了以下几个问题:</p>
 <ul>
 <li>突破 iCloud，百度网盘等的容量限制，自己想买多大的硬盘都可以</li>
-<li>将个人数据隐私与任何第三方隔离，不用担心数据被第三方窃取</li>
+<li>将个人数据隐私与任何第三方隔离，不用担心数据被第三方 Spy</li>
 <li>提升上传下载的速度，如果用过百度网盘，都懂的。</li>
 </ul>
 <p><code>seafile</code> 是目前发现的口碑最好的开源私有云项目，完备的<a href="https://manual.seafile.com/" target="_blank" rel="noopener">官网文档</a>和配套的各平台的客户端，决定一试。</p>
@@ -506,93 +487,26 @@
 <li><code>Block</code>: 一个文件被分割至数个不定长度的 <code>Block</code> 中，系统使用 <a href="http://pdos.csail.mit.edu/papers/lbfs:sosp01/lbfs.pdf" target="_blank" rel="noopener">Content Defined Chunking</a> 算法将文件切分至 <code>Block</code>。平均来说，一个 <code>Block</code> 大小约为 1MB。</li>
 </ul>
 <hr>
-<h2 id="搭建-Seafile-服务端"><a href="#搭建-Seafile-服务端" class="headerlink" title="搭建 Seafile 服务端"></a>搭建 Seafile 服务端</h2><p><code>seafile docker</code> 暂时不支持树莓派的 <code>arm</code> 架构，这里按照一般安装流程进行。<code>seafile</code> 依赖的本地数据库可以是 <code>sqlite</code> 或 <code>mySql</code>，这里选择了 <code>mysql</code>。</p>
-<h3 id="下载-Seafile-服务端包"><a href="#下载-Seafile-服务端包" class="headerlink" title="下载 Seafile 服务端包"></a>下载 Seafile 服务端包</h3><p>至<a href="https://www.seafile.com/en/download/" target="_blank" rel="noopener">官方下载页面</a>下载服务端包。</p>
-<h3 id="部署与目录布局"><a href="#部署与目录布局" class="headerlink" title="部署与目录布局"></a>部署与目录布局</h3><p>假设组织名称为 <code>FrostHub</code>，并且下载了 <code>seafile-server_6.3.4_stable_pi.tar.gz</code> 包并将其拷贝至用户的 <code>home</code> 目录下，执行以下操作:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ mkdir FrostHub</span><br><span class="line">$ mv seafile-server_6.3.4_stable_pi.tar.gz FrostHub</span><br><span class="line">$ <span class="built_in">cd</span> FrostHub</span><br><span class="line"><span class="comment"># 移动完成之后</span></span><br><span class="line">$ tar -xzf seafile-server_6.3.4_stable_pi.tar.gz</span><br><span class="line">$ mkdir installed</span><br><span class="line">$ mv seafile-server_* installed</span><br></pre></td></tr></table></figure></p>
-<p>现在，可以看到如下的目录结构:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">$ tree FrostHub -L 2</span><br><span class="line"></span><br><span class="line">FrostHub</span><br><span class="line">├── installed</span><br><span class="line">│   └── seafile-server_6.3.4_stable_pi.tar.gz</span><br><span class="line">└── seafile-server_6.3.4</span><br><span class="line">    ├── reset-admin.sh</span><br><span class="line">    ├── runtime</span><br><span class="line">    ├── seafile</span><br><span class="line">    ├── seafile.sh</span><br><span class="line">    ├── seahub</span><br><span class="line">    ├── seahub.sh</span><br><span class="line">    ├── setup-seafile.sh</span><br><span class="line">    └── upgrade</span><br></pre></td></tr></table></figure></p>
-<p>这样布局的好处在于:</p>
+<h2 id="使用-Docker-搭建-Seafile-服务"><a href="#使用-Docker-搭建-Seafile-服务" class="headerlink" title="使用 Docker 搭建 Seafile 服务"></a>使用 Docker 搭建 Seafile 服务</h2><p><code>seafile docker</code> 针对 <code>x86</code> 和 <code>amd64</code> 架构都推出了官方的 Docker Image，网友从官方 Repo 分叉了 <code>arm</code> 架构的 <a href="https://github.com/domenukk/seafile-docker-pi" target="_blank" rel="noopener">Docker Image Repo</a>，确保 Docker 引擎安装好之后，执行以下命令:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --name seafile \</span><br><span class="line">-e SEAFILE_SERVER_HOSTNAME=&#123;your-domain-name&#125; \</span><br><span class="line">-e SEAFILE_ADMIN_EMAIL=&#123;your-admin-email&#125; \</span><br><span class="line">-e SEAFILE_ADMIN_PASSWORD=&#123;your-admin-password&#125; \</span><br><span class="line">-v /mnt/sda1/seafile:/shared \</span><br><span class="line">-p 8000:80 \</span><br><span class="line">-p 8443:443 \</span><br><span class="line">seafileltd/seafile:pi</span><br></pre></td></tr></table></figure></p>
+<p><code>--name</code> 的值可自行修改，它会作为 <code>container</code> 的别名，<code>-v</code> 代表映射的本地目录，此例为 <code>/mnt/sda1/seafile</code>，包括所有配置信息和数据，最好指定一个大容量硬盘的挂载目录。<code>SEAFILE_SERVER_HOSTNAME</code> 的值将直接应用到系统设置的 URL 两个参数中，如下图:</p>
+<img src="/homeserver-setup-seafile-on-raspberry-pi/url-parameters.png" title="Url 的两个参数">
 <ul>
-<li>可将所有配置信息放在 <code>FrostHub</code> 目录下，便于管理</li>
-<li>当需要将 <code>seafile</code> 升级高更高版本时，只需要下载最新版本的服务端包，解压至 <code>FrostHub</code>，可重用所有现有的配置文件</li>
+<li><code>SERVICE_URL</code>: Internet 上 Seahub 的基础地址，如果是非 80，443 等默认端口号，则需要带上，例如此处的 <code>https://cloud.frosthe.net:8443</code></li>
+<li><code>FILE_SERVER_ROOT</code>: 文件服务器根地址，用于向客户端提供上传和下载文件的地址，通常为 <code>{SERVICE_URL}/seafhttp</code>，端口问题同上，<code>https://cloud.frosthe.net:8443/seafhttp</code></li>
 </ul>
-<h3 id="准备-MySQL-数据库"><a href="#准备-MySQL-数据库" class="headerlink" title="准备 MySQL 数据库"></a>准备 MySQL 数据库</h3><p>以下三种组件都需要单独的数据库:</p>
-<ul>
-<li>ccnet server</li>
-<li>seafile server</li>
-<li>seahub server</li>
-</ul>
-<p>初始化数据库有两种方式:</p>
-<ul>
-<li>执行 <code>seafile-server_6.3.4/setup-seafile-mysql.sh</code> 脚本来创建数据库。</li>
-<li>用户自行创建数据库</li>
-</ul>
-<h4 id="使用脚本准备-MySQL-数据库"><a href="#使用脚本准备-MySQL-数据库" class="headerlink" title="使用脚本准备 MySQL 数据库"></a>使用脚本准备 MySQL 数据库</h4><p>脚本首先会安装 MySQL 服务，并会以交互模式要求用户设置 MySQL root 的密码，然后创建:</p>
-<ul>
-<li>ccnet/seafile/seahub 各自的数据库</li>
-<li>可以访问这些数据库的一个数据库用户</li>
-</ul>
-<h4 id="手动创建数据库"><a href="#手动创建数据库" class="headerlink" title="手动创建数据库"></a>手动创建数据库</h4><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">database</span> <span class="string">`ccnet-db`</span> <span class="built_in">character</span> <span class="keyword">set</span> = <span class="string">'utf8'</span>;</span><br><span class="line"><span class="keyword">create</span> <span class="keyword">database</span> <span class="string">`seafile-db`</span> <span class="built_in">character</span> <span class="keyword">set</span> = <span class="string">'utf8'</span>;</span><br><span class="line"><span class="keyword">create</span> <span class="keyword">database</span> <span class="string">`seahub-db`</span> <span class="built_in">character</span> <span class="keyword">set</span> = <span class="string">'utf8'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">user</span> <span class="string">'seafile'</span>@<span class="string">'localhost'</span> <span class="keyword">identified</span> <span class="keyword">by</span> <span class="string">'seafile'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">GRANT</span> ALL <span class="keyword">PRIVILEGES</span> <span class="keyword">ON</span> <span class="string">`ccnet-db`</span>.* <span class="keyword">to</span> <span class="string">`seafile`</span>@localhost;</span><br><span class="line"><span class="keyword">GRANT</span> ALL <span class="keyword">PRIVILEGES</span> <span class="keyword">ON</span> <span class="string">`seafile-db`</span>.* <span class="keyword">to</span> <span class="string">`seafile`</span>@localhost;</span><br><span class="line"><span class="keyword">GRANT</span> ALL <span class="keyword">PRIVILEGES</span> <span class="keyword">ON</span> <span class="string">`seahub-db`</span>.* <span class="keyword">to</span> <span class="string">`seafile`</span>@localhost;</span><br></pre></td></tr></table></figure>
-<h3 id="安装依赖库"><a href="#安装依赖库" class="headerlink" title="安装依赖库"></a>安装依赖库</h3><p><code>seafile</code> 服务端要求宿主机器已经安装了以下这些库:</p>
-<ul>
-<li>python2.7</li>
-<li>python-setuptools</li>
-<li>python-ldap</li>
-<li>python-mysqldb</li>
-<li>python-urllib3</li>
-<li>python-memcache (or python-memcached)</li>
-<li>python-requests</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get update</span><br><span class="line">$ sudo apt-get install python2.7 libpython2.7 python-setuptools python-imaging   python-ldap python-mysqldb python-memcache python-urllib3 python-requests</span><br><span class="line">$ pip install Pillow==4.3.0</span><br></pre></td></tr></table></figure>
-<h3 id="搭建"><a href="#搭建" class="headerlink" title="搭建"></a>搭建</h3><p>准备就绪后，执行搭建 <code>seafile</code> 服务端的脚本 <code>setup-seafile-mysql.sh</code>，注意，该脚本同时包含创建数据库的逻辑，该脚本会指导用户设置以下选项:</p>
-<table>
-<thead>
-<tr>
-<th>Option</th>
-<th>Description</th>
-<th>Note</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>服务器名称</td>
-<td>seafile 服务端的名称</td>
-<td>3-15 字符，仅英文字符、数字和下划线</td>
-</tr>
-<tr>
-<td>服务端 ip 地址或域名</td>
-<td>由服务端使用的 ip 地址或域名</td>
-<td>seafile 客户端将以此作为访问服务端的地址</td>
-</tr>
-<tr>
-<td>seafile 数据目录</td>
-<td>seafile 存储数据的目录，默认值为当前目录</td>
-<td>随着时间推移，该目录下的数据将会越来越多，请确保该目录有足够的空间</td>
-</tr>
-<tr>
-<td>文件服务器端口</td>
-<td>seafile 文件服务器使用的 TCP 端口</td>
-<td>默认值为 8082，如果该端口已被占用，可指定另外的端口</td>
-</tr>
-</tbody>
-</table>
-<p>完成这些设置之后，脚本将会询问:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">-------------------------------------------------------</span><br><span class="line">Please choose a way to initialize Seafile databases:</span><br><span class="line">-------------------------------------------------------</span><br><span class="line"></span><br><span class="line">[1] Create new ccnet/seafile/seahub databases</span><br><span class="line">[2] Use existing ccnet/seafile/seahub databases</span><br></pre></td></tr></table></figure></p>
-<p>选择哪一个取决于你是否拥有 MySQL root 用户的密码。如果准备就绪，那么将看到如下输出:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">---------------------------------</span><br><span class="line">This is your configuration</span><br><span class="line">---------------------------------</span><br><span class="line"></span><br><span class="line">    server name:            Aiur</span><br><span class="line">    server ip/domain:       192.168.1.140</span><br><span class="line"></span><br><span class="line">    seafile data dir:       /mnt/shared/seafile-data</span><br><span class="line">    fileserver port:        8082</span><br><span class="line"></span><br><span class="line">    database:               create new</span><br><span class="line">    ccnet database:         ccnet-db</span><br><span class="line">    seafile database:       seafile-db</span><br><span class="line">    seahub database:        seahub-db</span><br><span class="line">    database user:          seafile</span><br><span class="line"></span><br><span class="line">---------------------------------</span><br><span class="line">Press ENTER to <span class="built_in">continue</span>, or Ctrl-C to abort</span><br><span class="line">---------------------------------</span><br><span class="line"></span><br><span class="line">-----------------------------------------------------------------</span><br><span class="line">Your seafile server configuration has been finished successfully.</span><br><span class="line">-----------------------------------------------------------------</span><br><span class="line"></span><br><span class="line">run seafile server:     ./seafile.sh &#123; start | stop | restart &#125;</span><br><span class="line">run seahub  server:     ./seahub.sh  &#123; start &lt;port&gt; | stop | restart &lt;port&gt; &#125;</span><br><span class="line"></span><br><span class="line">-----------------------------------------------------------------</span><br><span class="line">If you are behind a firewall, remember to allow input/output of these tcp ports:</span><br><span class="line">-----------------------------------------------------------------</span><br><span class="line"></span><br><span class="line">port of seafile fileserver:   8082</span><br><span class="line">port of seahub:               8000</span><br><span class="line"></span><br><span class="line">When problems occur, Refer to</span><br><span class="line"></span><br><span class="line">        https://github.com/haiwen/seafile/wiki</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> information.</span><br></pre></td></tr></table></figure></p>
-<p>现在，目录结构已变为:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">$ tree FrostHub -L 2</span><br><span class="line">FrostHub</span><br><span class="line">├── ccnet               <span class="comment"># configuration files</span></span><br><span class="line">│   ├── mykey.peer</span><br><span class="line">│   ├── PeerMgr</span><br><span class="line">│   └── seafile.ini</span><br><span class="line">├── conf</span><br><span class="line">│   └── ccnet.conf</span><br><span class="line">│   └── seafile.conf</span><br><span class="line">│   └── seahub_settings.py</span><br><span class="line">├── installed</span><br><span class="line">│   └── seafile-server_6.3.4_stable_pi.tar.gz</span><br><span class="line">├── seafile-data</span><br><span class="line">├── seafile-server_6.3.4  <span class="comment"># active version</span></span><br><span class="line">│   ├── reset-admin.sh</span><br><span class="line">│   ├── runtime</span><br><span class="line">│   ├── seafile</span><br><span class="line">│   ├── seafile.sh</span><br><span class="line">│   ├── seahub</span><br><span class="line">│   ├── seahub.sh</span><br><span class="line">│   ├── setup-seafile.sh</span><br><span class="line">│   └── upgrade</span><br><span class="line">├── seafile-server-latest  <span class="comment"># symbolic link to seafile-server_6.3.4</span></span><br><span class="line">├── seahub-data</span><br><span class="line">│   └── avatars</span><br></pre></td></tr></table></figure></p>
-<p><code>seafile-server-latest</code> 是一个指向当前最新版本服务端包的引用。</p>
-<h2 id="开始使用"><a href="#开始使用" class="headerlink" title="开始使用"></a>开始使用</h2><p>执行命令启动 <code>seafile</code> 和 <code>seahub</code> 服务:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ ./seafile.sh start</span><br><span class="line">$ ./seahub.sh start</span><br></pre></td></tr></table></figure></p>
-<img src="/homeserver-setup-seafile-on-raspberry-pi/01.png" title="开始使用">
-<h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h2><p>在使用 Seafile 的过程中，某些参数的值设置不正确可能会影响客户端的正常访问，例如</p>
-<ul>
-<li><code>SERVICE_URL</code>: Internet 上 Seahub 的基础地址，例如: <a href="https://seafile.example.com" target="_blank" rel="noopener">https://seafile.example.com</a></li>
-<li><code>FILE_SERVER_ROOT</code>: 文件服务器根地址，用于向客户端提供上传和下载文件的地址，通常为 <code>{SERVICE_URL}/seafhttp</code>，例如: <a href="https://seafile.example.com/seafhttp" target="_blank" rel="noopener">https://seafile.example.com/seafhttp</a></li>
-</ul>
-<h2 id="配置开机启动-Seafile"><a href="#配置开机启动-Seafile" class="headerlink" title="配置开机启动 Seafile"></a>配置开机启动 Seafile</h2><h3 id="创建专用于执行-Seafile-服务的帐户和群组"><a href="#创建专用于执行-Seafile-服务的帐户和群组" class="headerlink" title="创建专用于执行 Seafile 服务的帐户和群组"></a>创建专用于执行 Seafile 服务的帐户和群组</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo useradd --system seafile</span><br></pre></td></tr></table></figure>
-<h3 id="创建-Seafile-的两个-Service-Unit"><a href="#创建-Seafile-的两个-Service-Unit" class="headerlink" title="创建 Seafile 的两个 Service Unit"></a>创建 Seafile 的两个 Service Unit</h3><h4 id="Seafile-Service"><a href="#Seafile-Service" class="headerlink" title="Seafile Service"></a>Seafile Service</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">$ </span><br><span class="line">sudo nano /etc/systemd/system/seafile.service</span><br><span class="line"></span><br><span class="line">[Unit]</span><br><span class="line">Description=Seafile</span><br><span class="line"># add mysql.service or postgresql.service depending on your database to</span><br><span class="line"># the line below</span><br><span class="line">After=network.target</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">Type=forking</span><br><span class="line">ExecStart=$&#123;seafile_dir&#125;/seafile-server-latest/seafile.sh start</span><br><span class="line">ExecStop=$&#123;seafile_dir&#125;/seafile-server-latest/seafile.sh stop</span><br><span class="line">User=seafile Group=seafile</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br></pre></td></tr></table></figure>
-<h4 id="Seahub-Service"><a href="#Seahub-Service" class="headerlink" title="Seahub Service"></a>Seahub Service</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">sudo nano /etc/systemd/system/seahub.service</span><br><span class="line"></span><br><span class="line">[Unit]</span><br><span class="line">Description=Seafile hub</span><br><span class="line">After=network.target seafile.service</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">Type=forking</span><br><span class="line"># change start to start-fastcgi if you want to run fastcgi</span><br><span class="line">ExecStart=$&#123;seafile_dir&#125;/seafile-server-latest/seahub.sh start</span><br><span class="line">ExecStop=$&#123;seafile_dir&#125;/seafile-server-latest/seahub.sh stop</span><br><span class="line">User=seafile</span><br><span class="line">Group=seafile</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br></pre></td></tr></table></figure>
-<h3 id="启用开机服务"><a href="#启用开机服务" class="headerlink" title="启用开机服务"></a>启用开机服务</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ sudo systemctl enable seafile.service</span><br><span class="line">$ sudo systemctl enable seahub.service</span><br><span class="line"></span><br><span class="line">$ sudo systemctl start seafile.service</span><br><span class="line">$ sudo systemctl start seahub.service</span><br><span class="line"></span><br><span class="line">$ sudo systemctl status seafile.service</span><br><span class="line">$ sudo systemctl status seahub.service</span><br></pre></td></tr></table></figure>
-<h2 id="迁移数据"><a href="#迁移数据" class="headerlink" title="迁移数据"></a>迁移数据</h2><p>假设，原先 <code>seafile</code> 利用的 seafile-data 目录空间不足了，希望将数据迁移到新的目录中。首先分别停止 <code>seahub</code> 和 <code>seafile</code> 服务:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ sudo systemctl stop seafile</span><br><span class="line">$ sudo systemctl stop seahub</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>Seafile 的 Docker Image 包含了 Nginx 实例，直接由外部主机访问树莓派的 8000 或 8443 端口即可</p>
+</blockquote>
+<p>至此，访问 <code>seafile</code> 在 LAN 下的 URL 即可开始使用:</p>
+<img src="/homeserver-setup-seafile-on-raspberry-pi/login-page.png" title="开始使用 Seafile">
+<blockquote>
+<p>通过外网访问 Seafile 的设置属于另外一个 topic，可参考 <a href="/homeserver-setup-isp-device">电信宽带的正确使用姿势</a> 和 <a href="/homeserver-perform-ddns">通过 DDNS 实现稳定内网穿透</a> 两篇文章</p>
+</blockquote>
+<h2 id="设置开机启动-Seafile-TBD"><a href="#设置开机启动-Seafile-TBD" class="headerlink" title="设置开机启动 Seafile(TBD)"></a>设置开机启动 Seafile(TBD)</h2><h2 id="使用各平台客户端"><a href="#使用各平台客户端" class="headerlink" title="使用各平台客户端"></a>使用各平台客户端</h2><p>移步官方给出的<a href="https://www.seafile.com/download/" target="_blank" rel="noopener">下载地址</a>下载想要的客户端，值得一提的是，iOS 客户端可以通过设置页面同步照片:</p>
+<img src="/homeserver-setup-seafile-on-raspberry-pi/ios-client-settings.jpg" title="iOS 客户端照片同步设置">
+<h2 id="迁移数据"><a href="#迁移数据" class="headerlink" title="迁移数据"></a>迁移数据</h2><p>假设先前为 <code>seafile</code> 指定的目录空间不足了，需要迁移至更多空间的目录，先停止或删除 <code>seafile</code> 的 Docker container:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ docker stop seafile</span><br><span class="line">$ docker rm seafile</span><br></pre></td></tr></table></figure></p>
 <p>移动原先指定的目录至新的目录:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ rsync -avH [seafile-data-source-path] [seafile-data-destination-path]</span><br></pre></td></tr></table></figure></p>
-<p>数据量越大，迁移时间越长。数据迁移完成后，修改 <code>seafile-server-latest/ccnet/seafile.ini</code> 中的路径为 destination 的路径。然后重新启动 <code>seafile</code> 和 <code>seahub</code> 服务即可。</p>
+<p>数据量越大，迁移时间越长。数据迁移完成后，重新执行 <code>docker</code> 命令并指向新的映射目录即可。</p>
 
       
     </div>
@@ -611,7 +525,7 @@
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://blog.frosthe.net/homeserver-setup-seafile-on-raspberry-pi/" title="在树莓派上搭建 Seafile 私有云服务端">https://blog.frosthe.net/homeserver-setup-seafile-on-raspberry-pi/</a>
+    <a href="https://blog.frosthe.net/homeserver-setup-seafile-on-raspberry-pi/" title="在树莓派上通过 Docker 搭建 Seafile 私有云服务">https://blog.frosthe.net/homeserver-setup-seafile-on-raspberry-pi/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>
@@ -765,7 +679,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">67</span>
+                  <span class="site-state-item-count">68</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -820,7 +734,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#背景"><span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Seafile-简介"><span class="nav-text">Seafile 简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据模型"><span class="nav-text">数据模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#搭建-Seafile-服务端"><span class="nav-text">搭建 Seafile 服务端</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#下载-Seafile-服务端包"><span class="nav-text">下载 Seafile 服务端包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#部署与目录布局"><span class="nav-text">部署与目录布局</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#准备-MySQL-数据库"><span class="nav-text">准备 MySQL 数据库</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#使用脚本准备-MySQL-数据库"><span class="nav-text">使用脚本准备 MySQL 数据库</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#手动创建数据库"><span class="nav-text">手动创建数据库</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装依赖库"><span class="nav-text">安装依赖库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#搭建"><span class="nav-text">搭建</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#开始使用"><span class="nav-text">开始使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#注意事项"><span class="nav-text">注意事项</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置开机启动-Seafile"><span class="nav-text">配置开机启动 Seafile</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#创建专用于执行-Seafile-服务的帐户和群组"><span class="nav-text">创建专用于执行 Seafile 服务的帐户和群组</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建-Seafile-的两个-Service-Unit"><span class="nav-text">创建 Seafile 的两个 Service Unit</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Seafile-Service"><span class="nav-text">Seafile Service</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Seahub-Service"><span class="nav-text">Seahub Service</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#启用开机服务"><span class="nav-text">启用开机服务</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#迁移数据"><span class="nav-text">迁移数据</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#背景"><span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Seafile-简介"><span class="nav-text">Seafile 简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据模型"><span class="nav-text">数据模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用-Docker-搭建-Seafile-服务"><span class="nav-text">使用 Docker 搭建 Seafile 服务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#设置开机启动-Seafile-TBD"><span class="nav-text">设置开机启动 Seafile(TBD)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用各平台客户端"><span class="nav-text">使用各平台客户端</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#迁移数据"><span class="nav-text">迁移数据</span></a></li></ol></div>
             
 
           </div>

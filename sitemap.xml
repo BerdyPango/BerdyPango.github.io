@@ -2,6 +2,41 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://blog.frosthe.net/homeserver-setup-seafile-on-raspberry-pi/</loc>
+    
+    <lastmod>2019-05-19T05:30:36.061Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://blog.frosthe.net/homeserver-setup-nas-on-raspberry-pi/</loc>
+    
+    <lastmod>2019-05-19T04:35:21.444Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://blog.frosthe.net/homeserver-perform-ddns/</loc>
+    
+    <lastmod>2019-05-19T04:33:46.583Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://blog.frosthe.net/homeserver-setup-isp-device/</loc>
+    
+    <lastmod>2019-05-19T04:30:57.605Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://blog.frosthe.net/homeserver-install-openwrt-on-router/</loc>
+    
+    <lastmod>2019-05-19T03:33:20.981Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://blog.frosthe.net/hobby-project-how-to-make-a-raspberry-pi-game-console/</loc>
     
     <lastmod>2019-05-18T09:07:36.381Z</lastmod>
@@ -19,20 +54,6 @@
     <loc>https://blog.frosthe.net/homeserver-setup-raspberry-pi/</loc>
     
     <lastmod>2019-05-18T06:21:23.863Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://blog.frosthe.net/homeserver-setup-seafile-on-raspberry-pi/</loc>
-    
-    <lastmod>2019-05-10T02:45:56.007Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://blog.frosthe.net/homeserver-install-openwrt-on-router/</loc>
-    
-    <lastmod>2019-05-10T02:14:39.899Z</lastmod>
     
   </url>
   
@@ -89,20 +110,6 @@
     <loc>https://blog.frosthe.net/smarthome-control-via-siri/</loc>
     
     <lastmod>2019-01-20T08:51:51.306Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://blog.frosthe.net/homeserver-setup-nas-on-raspberry-pi/</loc>
-    
-    <lastmod>2019-01-19T08:01:21.380Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://blog.frosthe.net/homeserver-setup-isp-device/</loc>
-    
-    <lastmod>2019-01-19T07:59:43.703Z</lastmod>
     
   </url>
   

@@ -91,7 +91,7 @@
 <meta property="og:image" content="https://blog.frosthe.net/homeserver-setup-nas-on-raspberry-pi/driver.jpg">
 <meta property="og:image" content="https://blog.frosthe.net/homeserver-setup-nas-on-raspberry-pi/map-network-drive.png">
 <meta property="og:image" content="https://blog.frosthe.net/homeserver-setup-nas-on-raspberry-pi/windows-network-access-prompt.png">
-<meta property="og:updated_time" content="2019-01-19T08:01:21.380Z">
+<meta property="og:updated_time" content="2019-05-19T04:35:21.444Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="在树莓派上构建 NAS 存储系统">
 <meta name="twitter:description" content="树莓派做 NAS 服务器是一个常见的应用场景">
@@ -395,7 +395,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  1,353
+                  1,337
                 </span>
               
 
@@ -446,7 +446,6 @@
 <li><a href="#%E8%A7%A3%E5%86%B3-windows-%E7%B3%BB%E7%BB%9F%E4%B8%8B%E6%97%A0%E6%B3%95%E8%AE%BF%E9%97%AE-share-%E7%9B%AE%E5%BD%95%E7%9A%84%E9%97%AE%E9%A2%98">解决 Windows 系统下无法访问 Share 目录的问题</a></li>
 </ul>
 </li>
-<li><a href="#%E4%BB%A5-docker-%E6%9E%B6%E8%AE%BE-samba-%E6%9C%8D%E5%8A%A1tbd">以 Docker 架设 Samba 服务(TBD)</a></li>
 </ul>
 <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>树莓派由于其能耗低、稳定性好的优点，非常适合跑 7*24 小时的长时服务，家庭 NAS 服务器是一个比较常见的需求，那么用树莓派来跑 NAS 服务再合适不过了。</p>
 <h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><p>要实现家庭 NAS 服务，硬件和软件设备都需要做准备。</p>
@@ -489,10 +488,9 @@
 </li>
 <li><p><code>Win + E</code> 在 <code>Explorer</code> 中映射网络驱动器，并在弹出的认证对话框中输入先前创建的 <code>pi</code> 帐号及密码:</p>
 <img src="/homeserver-setup-nas-on-raspberry-pi/map-network-drive.png" title="映射网络驱动器">
-<img src="/homeserver-setup-nas-on-raspberry-pi/windows-network-access-prompt.png" title="输入用户名及密码">
-</li>
+<img src="/homeserver-setup-nas-on-raspberry-pi/windows-network-access-prompt.png" title="输入用户名及密码"></li>
 </ol>
-<h2 id="以-Docker-架设-Samba-服务-TBD"><a href="#以-Docker-架设-Samba-服务-TBD" class="headerlink" title="以 Docker 架设 Samba 服务(TBD)"></a>以 Docker 架设 Samba 服务(TBD)</h2>
+
       
     </div>
     
@@ -666,7 +664,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">67</span>
+                  <span class="site-state-item-count">68</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -721,7 +719,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#背景"><span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#准备工作"><span class="nav-text">准备工作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#软件部分"><span class="nav-text">软件部分</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#硬件部分"><span class="nav-text">硬件部分</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#传统方式架设-Samba-服务"><span class="nav-text">传统方式架设 Samba 服务</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#更新本地包"><span class="nav-text">更新本地包:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-Samba-服务"><span class="nav-text">安装 Samba 服务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#备份原始-smb-conf-文件"><span class="nav-text">备份原始 smb.conf 文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置-smb-conf"><span class="nav-text">配置 smb.conf</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建用于访问-Samba-的用户"><span class="nav-text">创建用于访问 Samba 的用户</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解决-Windows-系统下无法访问-Share-目录的问题"><span class="nav-text">解决 Windows 系统下无法访问 Share 目录的问题</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#以-Docker-架设-Samba-服务-TBD"><span class="nav-text">以 Docker 架设 Samba 服务(TBD)</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#背景"><span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#准备工作"><span class="nav-text">准备工作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#软件部分"><span class="nav-text">软件部分</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#硬件部分"><span class="nav-text">硬件部分</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#传统方式架设-Samba-服务"><span class="nav-text">传统方式架设 Samba 服务</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#更新本地包"><span class="nav-text">更新本地包:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-Samba-服务"><span class="nav-text">安装 Samba 服务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#备份原始-smb-conf-文件"><span class="nav-text">备份原始 smb.conf 文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置-smb-conf"><span class="nav-text">配置 smb.conf</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建用于访问-Samba-的用户"><span class="nav-text">创建用于访问 Samba 的用户</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解决-Windows-系统下无法访问-Share-目录的问题"><span class="nav-text">解决 Windows 系统下无法访问 Share 目录的问题</span></a></li></ol></li></ol></div>
             
 
           </div>
