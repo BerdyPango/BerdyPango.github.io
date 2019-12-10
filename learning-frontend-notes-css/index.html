@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="javascript,css," />
+  <meta name="keywords" content="javascript,css,css-preprocessor," />
 
 
 
@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="Three Pillars of Writing Good HTML and CSSResponse Design Fluid layout: Float Layout Flex Box Layout Grid Box Layout   Media queries Responsive images Correct units Desktop-first vs. mobile-first  Mai">
-<meta name="keywords" content="javascript,css">
+<meta name="description" content="Learning notes of CSS/SASS based on Jonas&apos; courses">
+<meta name="keywords" content="javascript,css,css-preprocessor">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Web Frontend Learning Notes - CSS">
+<meta property="og:title" content="Web Development Learning Notes - CSS&#x2F;SASS">
 <meta property="og:url" content="https://blog.frosthe.net/learning-frontend-notes-css/index.html">
 <meta property="og:site_name" content="FrostHe.Handbook">
-<meta property="og:description" content="Three Pillars of Writing Good HTML and CSSResponse Design Fluid layout: Float Layout Flex Box Layout Grid Box Layout   Media queries Responsive images Correct units Desktop-first vs. mobile-first  Mai">
+<meta property="og:description" content="Learning notes of CSS/SASS based on Jonas&apos; courses">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-12-10T15:19:00.767Z">
+<meta property="og:updated_time" content="2019-12-10T15:34:45.296Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Web Frontend Learning Notes - CSS">
-<meta name="twitter:description" content="Three Pillars of Writing Good HTML and CSSResponse Design Fluid layout: Float Layout Flex Box Layout Grid Box Layout   Media queries Responsive images Correct units Desktop-first vs. mobile-first  Mai">
+<meta name="twitter:title" content="Web Development Learning Notes - CSS&#x2F;SASS">
+<meta name="twitter:description" content="Learning notes of CSS/SASS based on Jonas&apos; courses">
 
 
 
@@ -126,7 +126,7 @@
 
 
 
-  <title>Web Frontend Learning Notes - CSS | FrostHe.Handbook</title>
+  <title>Web Development Learning Notes - CSS/SASS | FrostHe.Handbook</title>
   
 
 
@@ -321,7 +321,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Web Frontend Learning Notes - CSS</h1>
+          <h1 class="post-title" itemprop="name headline">Web Development Learning Notes - CSS/SASS</h1>
         
 
         <div class="post-meta">
@@ -401,6 +401,10 @@
           
 
           
+              <div class="post-description">
+                  Learning notes of CSS/SASS based on Jonas' courses
+              </div>
+          
 
         </div>
       </header>
@@ -415,7 +419,7 @@
       
 
       
-        <h2 id="Three-Pillars-of-Writing-Good-HTML-and-CSS"><a href="#Three-Pillars-of-Writing-Good-HTML-and-CSS" class="headerlink" title="Three Pillars of Writing Good HTML and CSS"></a>Three Pillars of Writing Good HTML and CSS</h2><h3 id="Response-Design"><a href="#Response-Design" class="headerlink" title="Response Design"></a>Response Design</h3><ul>
+        <h2 id="3-Pillars-of-Writing-Good-HTML-and-CSS"><a href="#3-Pillars-of-Writing-Good-HTML-and-CSS" class="headerlink" title="3 Pillars of Writing Good HTML and CSS"></a>3 Pillars of Writing Good HTML and CSS</h2><h3 id="Response-Design"><a href="#Response-Design" class="headerlink" title="Response Design"></a>Response Design</h3><ul>
 <li>Fluid layout:<ul>
 <li>Float Layout</li>
 <li>Flex Box Layout</li>
@@ -445,7 +449,7 @@
 <li>Compress images</li>
 </ul>
 <hr>
-<h2 id="How-CSS-works-behind-scenes"><a href="#How-CSS-works-behind-scenes" class="headerlink" title="How CSS works behind scenes"></a>How CSS works behind scenes</h2><h3 id="Cascade-Resolving-conflicting-CSS-declarations"><a href="#Cascade-Resolving-conflicting-CSS-declarations" class="headerlink" title="Cascade(Resolving conflicting CSS declarations)"></a>Cascade(Resolving conflicting CSS declarations)</h3><p>The cascade is the process of combining different stylesheets and resolving conflicts between different CSS rules and declarations when more than one rule applies to a certain element.</p>
+<h2 id="How-CSS-works-behind-the-scenes"><a href="#How-CSS-works-behind-the-scenes" class="headerlink" title="How CSS works behind the scenes"></a>How CSS works behind the scenes</h2><h3 id="Cascade-Resolving-conflicting-CSS-declarations"><a href="#Cascade-Resolving-conflicting-CSS-declarations" class="headerlink" title="Cascade(Resolving conflicting CSS declarations)"></a>Cascade(Resolving conflicting CSS declarations)</h3><p>Cascade is the process of combining different stylesheets and resolving conflicts between different CSS rules and declarations when more than one rule applies to a certain element.</p>
 <p>CSS styles can come from different sources:</p>
 <ul>
 <li>Author: writen by developers</li>
@@ -524,7 +528,7 @@
 <li>The <code>inherit</code> keyword forces inheritance on a certain property.</li>
 <li>The <code>initial</code> keyword forces to reset a property to its initial value.</li>
 </ul>
-<h3 id="Visual-Formating-Model"><a href="#Visual-Formating-Model" class="headerlink" title="Visual Formating Model"></a>Visual Formating Model</h3><p>Visual Formating Model is an algorithm that calculates boxes and determines the layout of these boxes, for each element in the render tree, in order to determine the final layout of the page.</p>
+<h3 id="Visual-Formating-Model"><a href="#Visual-Formating-Model" class="headerlink" title="Visual Formating Model"></a>Visual Formating Model</h3><p><strong>Visual Formating Model</strong> is an algorithm that calculates boxes and determines the layout of these boxes, for each element in the render tree, in order to determine the final layout of the page.</p>
 <h4 id="Dimensions-of-boxes-the-box-model"><a href="#Dimensions-of-boxes-the-box-model" class="headerlink" title="Dimensions of boxes: the box model"></a>Dimensions of boxes: the box model</h4><ul>
 <li>Content: text, image, etc;</li>
 <li>Padding: transparent area around the content, inside of the box;</li>
@@ -582,14 +586,14 @@
 </blockquote>
 <p>Sass provides:</p>
 <ul>
-<li>Variables: for reusable values such as colors, font-size, spacing, etc;</li>
-<li>Nesting: to nest selectors inside of one another, allowing us to write less code;</li>
-<li>Operations: for mathematical operations right inside of CSS;</li>
-<li>Partials and imports: to write CSS in different files and importing them all into one single file;</li>
-<li>Mixins: to write reusable pieces of CSS code;</li>
-<li>Functions: similar to mixins, with difference that they produce a value that can be used later;</li>
-<li>Extends: to make different selectors inherit declarations that are common to all of them;</li>
-<li>Control directives: for writing complex code using conditionals and loops;</li>
+<li><code>Variables</code>: for reusable values such as colors, font-size, spacing, etc;</li>
+<li><code>Nesting</code>: to nest selectors inside of one another, allowing us to write less code;</li>
+<li><code>Operations</code>: for mathematical operations right inside of CSS;</li>
+<li><code>Partials and imports</code>: to write CSS in different files and importing them all into one single file;</li>
+<li><code>Mixins</code>: to write reusable pieces of CSS code;</li>
+<li><code>Functions</code>: similar to mixins, with difference that they produce a value that can be used later;</li>
+<li><code>Extends</code>: to make different selectors inherit declarations that are common to all of them;</li>
+<li><code>Control directives</code>: for writing complex code using conditionals and loops;</li>
 </ul>
 <h3 id="Sass-amp-SCSS"><a href="#Sass-amp-SCSS" class="headerlink" title="Sass &amp; SCSS"></a>Sass &amp; SCSS</h3><p>SCSS stands for Sassy CSS. Sass is indentation sensitive and doesn’t use any curly braces and semicolons.</p>
 <h4 id="Nesting"><a href="#Nesting" class="headerlink" title="Nesting"></a>Nesting</h4><figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// SCSS</span></span><br><span class="line"><span class="selector-class">.navigation</span> &#123;</span><br><span class="line">    <span class="attribute">list-style</span>: none;</span><br><span class="line"></span><br><span class="line">    <span class="selector-tag">li</span> &#123;</span><br><span class="line">        <span class="attribute">display</span>: inline-block;</span><br><span class="line">        <span class="attribute">margin-left</span>: <span class="number">30px</span>;</span><br><span class="line"></span><br><span class="line">        &amp;:first-child &#123;</span><br><span class="line">            <span class="attribute">margin</span>: <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// CSS</span></span><br><span class="line"><span class="selector-class">.navigation</span> <span class="selector-tag">li</span>:first-child &#123;</span><br><span class="line">    <span class="attribute">margin</span>: <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -601,13 +605,13 @@
 <h3 id="Install-Sass-Locally"><a href="#Install-Sass-Locally" class="headerlink" title="Install Sass Locally"></a>Install Sass Locally</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install node-sass --save-dev</span><br></pre></td></tr></table></figure>
 <h3 id="7-1-Pattern"><a href="#7-1-Pattern" class="headerlink" title="7-1 Pattern"></a>7-1 Pattern</h3><p>7 different folders for partial Sass files:</p>
 <ul>
-<li>base/: basic product definitions</li>
-<li>components/: 1 file for each component</li>
-<li>layout/: define the overall layout of the project</li>
-<li>pages/: styles for specific pages of the project</li>
-<li>themes/: to implement different visual themes</li>
-<li>abstracts/: code that doesn’t output any CSS such as variables or mix-ins.</li>
-<li>vendors/: where all 3rd-party CSS goes</li>
+<li><code>base/</code>: basic product definitions</li>
+<li><code>components/</code>: 1 file for each component</li>
+<li><code>layout/</code>: define the overall layout of the project</li>
+<li><code>pages/</code>: styles for specific pages of the project</li>
+<li><code>themes/</code>: to implement different visual themes</li>
+<li><code>abstracts/</code>: code that doesn’t output any CSS such as variables or mix-ins.</li>
+<li><code>vendors/</code>: where all 3rd-party CSS goes</li>
 </ul>
 <p>and 1 main Sass file to import all other files into a compiled CSS stylesheet.</p>
 <blockquote>
@@ -703,7 +707,7 @@ url(../img/nat-10.jpg);` to make a skewed splitter effect.
   </li>
   <li class="post-copyright-link">
     <strong>本文链接：</strong>
-    <a href="https://blog.frosthe.net/learning-frontend-notes-css/" title="Web Frontend Learning Notes - CSS">https://blog.frosthe.net/learning-frontend-notes-css/</a>
+    <a href="https://blog.frosthe.net/learning-frontend-notes-css/" title="Web Development Learning Notes - CSS/SASS">https://blog.frosthe.net/learning-frontend-notes-css/</a>
   </li>
   <li class="post-copyright-license">
     <strong>版权声明： </strong>
@@ -723,6 +727,8 @@ url(../img/nat-10.jpg);` to make a skewed splitter effect.
             <a href="/tags/javascript/" rel="tag"><i class="fa fa-tag"></i> javascript</a>
           
             <a href="/tags/css/" rel="tag"><i class="fa fa-tag"></i> css</a>
+          
+            <a href="/tags/css-preprocessor/" rel="tag"><i class="fa fa-tag"></i> css-preprocessor</a>
           
         </div>
       
@@ -744,6 +750,10 @@ url(../img/nat-10.jpg);` to make a skewed splitter effect.
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/learning-frontend-notes-responsive-design/" rel="prev" title="Web Development Learning Notes - Responsive Design">
+                Web Development Learning Notes - Responsive Design <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -820,7 +830,7 @@ url(../img/nat-10.jpg);` to make a skewed splitter effect.
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">69</span>
+                  <span class="site-state-item-count">70</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -842,7 +852,7 @@ url(../img/nat-10.jpg);` to make a skewed splitter effect.
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">61</span>
+                  <span class="site-state-item-count">62</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -875,7 +885,7 @@ url(../img/nat-10.jpg);` to make a skewed splitter effect.
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Three-Pillars-of-Writing-Good-HTML-and-CSS"><span class="nav-text">Three Pillars of Writing Good HTML and CSS</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Response-Design"><span class="nav-text">Response Design</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Maintainable-and-Scalable-Code"><span class="nav-text">Maintainable and Scalable Code</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Web-Performance"><span class="nav-text">Web Performance</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#How-CSS-works-behind-scenes"><span class="nav-text">How CSS works behind scenes</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Cascade-Resolving-conflicting-CSS-declarations"><span class="nav-text">Cascade(Resolving conflicting CSS declarations)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CSS-Parsing-Phases-Process-final-CSS-values"><span class="nav-text">CSS Parsing Phases(Process final CSS values)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#How-CSS-Engine-Calculate-Relative-Units-in-Detail"><span class="nav-text">How CSS Engine Calculate Relative Units in Detail</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CSS-Inheritance"><span class="nav-text">CSS Inheritance</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Visual-Formating-Model"><span class="nav-text">Visual Formating Model</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Dimensions-of-boxes-the-box-model"><span class="nav-text">Dimensions of boxes: the box model</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Box-Type"><span class="nav-text">Box Type</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Positioning-Schemes"><span class="nav-text">Positioning Schemes</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Stacking-Contexts"><span class="nav-text">Stacking Contexts</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Sass-amp-NPM"><span class="nav-text">Sass &amp; NPM</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Sass-amp-SCSS"><span class="nav-text">Sass &amp; SCSS</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Nesting"><span class="nav-text">Nesting</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Mix-ins"><span class="nav-text">Mix-ins</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Functions"><span class="nav-text">Functions</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Extends"><span class="nav-text">Extends</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Install-Sass-Locally"><span class="nav-text">Install Sass Locally</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-1-Pattern"><span class="nav-text">7-1 Pattern</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SCSS-CSS-Reminders"><span class="nav-text">SCSS/CSS Reminders</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#CSS-Reminders"><span class="nav-text">CSS Reminders</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Global-Reset"><span class="nav-text">Global Reset</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#box-sizing-border-box"><span class="nav-text">box-sizing: border-box</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Selectors"><span class="nav-text">Selectors</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Pseudo-Class-Elements"><span class="nav-text">Pseudo Class/Elements</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CSS-Native-Functions"><span class="nav-text">CSS Native Functions</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#How-the-clearfix-come-and-Why-we-need-it"><span class="nav-text">How the clearfix come and Why we need it</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Browser-Supports"><span class="nav-text">Browser Supports</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Others"><span class="nav-text">Others</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-Pillars-of-Writing-Good-HTML-and-CSS"><span class="nav-text">3 Pillars of Writing Good HTML and CSS</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Response-Design"><span class="nav-text">Response Design</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Maintainable-and-Scalable-Code"><span class="nav-text">Maintainable and Scalable Code</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Web-Performance"><span class="nav-text">Web Performance</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#How-CSS-works-behind-the-scenes"><span class="nav-text">How CSS works behind the scenes</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Cascade-Resolving-conflicting-CSS-declarations"><span class="nav-text">Cascade(Resolving conflicting CSS declarations)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CSS-Parsing-Phases-Process-final-CSS-values"><span class="nav-text">CSS Parsing Phases(Process final CSS values)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#How-CSS-Engine-Calculate-Relative-Units-in-Detail"><span class="nav-text">How CSS Engine Calculate Relative Units in Detail</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CSS-Inheritance"><span class="nav-text">CSS Inheritance</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Visual-Formating-Model"><span class="nav-text">Visual Formating Model</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Dimensions-of-boxes-the-box-model"><span class="nav-text">Dimensions of boxes: the box model</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Box-Type"><span class="nav-text">Box Type</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Positioning-Schemes"><span class="nav-text">Positioning Schemes</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Stacking-Contexts"><span class="nav-text">Stacking Contexts</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Sass-amp-NPM"><span class="nav-text">Sass &amp; NPM</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Sass-amp-SCSS"><span class="nav-text">Sass &amp; SCSS</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Nesting"><span class="nav-text">Nesting</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Mix-ins"><span class="nav-text">Mix-ins</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Functions"><span class="nav-text">Functions</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Extends"><span class="nav-text">Extends</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Install-Sass-Locally"><span class="nav-text">Install Sass Locally</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-1-Pattern"><span class="nav-text">7-1 Pattern</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SCSS-CSS-Reminders"><span class="nav-text">SCSS/CSS Reminders</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#CSS-Reminders"><span class="nav-text">CSS Reminders</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Global-Reset"><span class="nav-text">Global Reset</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#box-sizing-border-box"><span class="nav-text">box-sizing: border-box</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Selectors"><span class="nav-text">Selectors</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Pseudo-Class-Elements"><span class="nav-text">Pseudo Class/Elements</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CSS-Native-Functions"><span class="nav-text">CSS Native Functions</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#How-the-clearfix-come-and-Why-we-need-it"><span class="nav-text">How the clearfix come and Why we need it</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Browser-Supports"><span class="nav-text">Browser Supports</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Others"><span class="nav-text">Others</span></a></li></ol></div>
             
 
           </div>
