@@ -87,10 +87,12 @@
 <meta property="og:site_name" content="FrostHe.Handbook">
 <meta property="og:description" content="关于密码信息的概念及工作原理笔记，不间断更新">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-12-30T07:37:04.570Z">
+<meta property="og:image" content="https://blog.frosthe.net/security-encryption/aes-cbc-mode.png">
+<meta property="og:updated_time" content="2019-09-27T14:03:12.382Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="加解密笔记及 .NET 实现">
 <meta name="twitter:description" content="关于密码信息的概念及工作原理笔记，不间断更新">
+<meta name="twitter:image" content="https://blog.frosthe.net/security-encryption/aes-cbc-mode.png">
 
 
 
@@ -390,7 +392,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  1,879
+                  1,998
                 </span>
               
 
@@ -421,6 +423,7 @@
       
         <p>参考资料: </p>
 <ul>
+<li><a href="https://tools.ietf.org/html/rfc3602" target="_blank" rel="noopener">RFC3602 规范</a></li>
 <li><a href="https://proandroiddev.com/security-best-practices-symmetric-encryption-with-aes-in-java-7616beaaade9" target="_blank" rel="noopener">Security Best Practices: Symmetric Encryption with AES in Java and Android</a></li>
 <li><a href="https://docs.microsoft.com/en-us/dotnet/standard/security/cryptographic-services" target="_blank" rel="noopener">Cryptographic Services</a></li>
 </ul>
@@ -437,12 +440,22 @@
 <li>消息认证码: 消息认证码 Message Authentication Code(Mac) 是提供给消息接收方以验证消息来源及确保消息完整性的额外信息</li>
 <li>数字签名</li>
 </ul>
-<h2 id="AES-Advanced-Encryption-Standard-CBC-Cipher-Block-Chaining"><a href="#AES-Advanced-Encryption-Standard-CBC-Cipher-Block-Chaining" class="headerlink" title="AES(Advanced Encryption Standard) CBC(Cipher Block Chaining)"></a>AES(Advanced Encryption Standard) CBC(Cipher Block Chaining)</h2><p>原理: 加解密双方使用同一个密钥(secret key)及 <code>IV</code> 加解密信息，<code>CBC</code> 将明文按<strong>固定字节大小</strong>切割，得到的每一块称为一个 <code>Block</code>，每个 <code>Block</code> 将前一个密文 <code>Block</code> 与当前 <code>Block</code> 进行 <code>XOR</code> 运算。这样，每一个 <code>Block</code> 都依赖前序所有的 <code>Block</code>。而第一个 <code>Block</code> 使用一个与 <code>Block</code> 长度相同的随机生成的「初始化向量 IV(Initialization Vector)」进行 <code>XOR</code> 运算。鉴于倍加密消息不一定能够被切割为 <code>Block</code> 长度的整数倍，于是引入「补齐 Padding」算法进行填充。</p>
+<h2 id="AES-Advanced-Encryption-Standard-CBC-Cipher-Block-Chaining"><a href="#AES-Advanced-Encryption-Standard-CBC-Cipher-Block-Chaining" class="headerlink" title="AES(Advanced Encryption Standard) CBC(Cipher Block Chaining)"></a>AES(Advanced Encryption Standard) CBC(Cipher Block Chaining)</h2><p>原理: 加解密双方使用同一个密钥(secret key)加解密信息，<code>CBC</code> 将明文按<strong>固定字节大小</strong>切割，得到的每一块称为一个 <code>Block</code>，每个 <code>Block</code> 将前一个密文 <code>Block</code> 与当前 <code>Block</code> 进行 <code>XOR</code> 运算。这样，每一个 <code>Block</code> 都依赖前序所有的 <code>Block</code>。而第一个 <code>Block</code> 使用一个相同长度的随机生成的 <code>Block</code>(初始化向量 IV(Initialization Vector))进行 <code>XOR</code> 运算。鉴于被加密消息不一定能够被切割为 <code>Block</code> 长度的整数倍，于是引入「补齐 Padding」算法在尾部进行填充，具体来说，其加密经历以下过程:</p>
+<ol>
+<li><code>plainText</code> 被分割为 <code>length / block-size</code> 个 <code>block</code>，如果最后一个 <code>block</code> 不足 <code>block-size</code>，使用 <code>Padding</code> 补齐</li>
+<li>随机生成一个 <code>IV</code> 与首个 <code>block</code> 进行 XOR 运算得到 <code>cipherText</code></li>
+<li>上一个 <code>cipherText</code> 与下一个 <code>plainText</code> 进行 XOR 运算得到 <code>cipherText</code></li>
+</ol>
+<img src="/security-encryption/aes-cbc-mode.png" title="AES CBC 模式示意图">
+<blockquote>
+<p>通常每份明文加密前都会随机生成 IV，以防止多次加密后得到相同的结果</p>
+</blockquote>
 <ul>
 <li>AES 支持 128 位，192 位及 256 位大小的密文块</li>
 <li>因为 IV 的长度总是与 <code>Block</code> 的长度相同，在传输或持久化数据时，常见的做法是将 IV 直接作为前缀 <code>Prepend</code> 到密文前面</li>
 <li>在过程中 <code>Key</code> 的长度与 <code>Block</code> 的长度没有直接关系，只会影响循环加密的次数，128 位的密钥有 10 个加密循环，192 位密钥有 12 个加密循环，256 位密钥有 14 个加密循环</li>
 </ul>
+<p>具体参考 <a href="https://tools.ietf.org/html/rfc3602" target="_blank" rel="noopener">RFC3602 规范</a></p>
 <p>.NET 提供了以下类型实现对称加密算法:</p>
 <ul>
 <li>AesManaged (.NET Framework 3.5 时引入)</li>
@@ -643,7 +656,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">68</span>
+                  <span class="site-state-item-count">69</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -654,7 +667,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-count">21</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -665,7 +678,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">53</span>
+                  <span class="site-state-item-count">61</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

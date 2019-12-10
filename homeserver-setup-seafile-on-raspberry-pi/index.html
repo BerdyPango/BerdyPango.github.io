@@ -92,7 +92,7 @@
 <meta property="og:image" content="https://blog.frosthe.net/homeserver-setup-seafile-on-raspberry-pi/url-parameters.png">
 <meta property="og:image" content="https://blog.frosthe.net/homeserver-setup-seafile-on-raspberry-pi/login-page.png">
 <meta property="og:image" content="https://blog.frosthe.net/homeserver-setup-seafile-on-raspberry-pi/ios-client-settings.jpg">
-<meta property="og:updated_time" content="2019-05-19T05:30:36.061Z">
+<meta property="og:updated_time" content="2019-09-27T14:28:57.461Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="在树莓派上通过 Docker 搭建 Seafile 私有云服务">
 <meta name="twitter:description" content="Seafile 是一个免费开源的私有云项目，本文介绍了如何在树莓派上搭建 Seafile">
@@ -396,7 +396,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  1,210
+                  1,416
                 </span>
               
 
@@ -435,10 +435,11 @@
 <p>本文索引:</p>
 <ul>
 <li><a href="#%E8%83%8C%E6%99%AF">背景</a></li>
-<li><a href="#seafile-%E7%AE%80%E4%BB%8B">Seafile 简介</a></li>
+<li><a href="#Seafile-%E7%AE%80%E4%BB%8B">Seafile 简介</a></li>
 <li><a href="#%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B">数据模型</a></li>
-<li><a href="#%E4%BD%BF%E7%94%A8-docker-%E6%90%AD%E5%BB%BA-seafile-%E6%9C%8D%E5%8A%A1">使用 Docker 搭建 Seafile 服务</a></li>
-<li><a href="#%E8%AE%BE%E7%BD%AE%E5%BC%80%E6%9C%BA%E5%90%AF%E5%8A%A8-seafiletbd">设置开机启动 Seafile(TBD)</a></li>
+<li><a href="#Seafile-%E7%BB%84%E6%88%90">Seafile 组成</a></li>
+<li><a href="#%E4%BD%BF%E7%94%A8-Docker-%E6%90%AD%E5%BB%BA-Seafile-%E6%9C%8D%E5%8A%A1">使用 Docker 搭建 Seafile 服务</a></li>
+<li><a href="#%E8%AE%BE%E7%BD%AE%E5%BC%80%E6%9C%BA%E5%90%AF%E5%8A%A8-Seafile">设置开机启动 Seafile</a></li>
 <li><a href="#%E4%BD%BF%E7%94%A8%E5%90%84%E5%B9%B3%E5%8F%B0%E5%AE%A2%E6%88%B7%E7%AB%AF">使用各平台客户端</a></li>
 <li><a href="#%E8%BF%81%E7%A7%BB%E6%95%B0%E6%8D%AE">迁移数据</a></li>
 </ul>
@@ -487,6 +488,7 @@
 <li><code>Block</code>: 一个文件被分割至数个不定长度的 <code>Block</code> 中，系统使用 <a href="http://pdos.csail.mit.edu/papers/lbfs:sosp01/lbfs.pdf" target="_blank" rel="noopener">Content Defined Chunking</a> 算法将文件切分至 <code>Block</code>。平均来说，一个 <code>Block</code> 大小约为 1MB。</li>
 </ul>
 <hr>
+<h2 id="Seafile-组成"><a href="#Seafile-组成" class="headerlink" title="Seafile 组成"></a>Seafile 组成</h2><p>依赖于 SQLite 或 Mysql 数据库，Ccnet，Seafile 和 Seahub 均需要单独的数据库。</p>
 <h2 id="使用-Docker-搭建-Seafile-服务"><a href="#使用-Docker-搭建-Seafile-服务" class="headerlink" title="使用 Docker 搭建 Seafile 服务"></a>使用 Docker 搭建 Seafile 服务</h2><p><code>seafile docker</code> 针对 <code>x86</code> 和 <code>amd64</code> 架构都推出了官方的 Docker Image，网友从官方 Repo 分叉了 <code>arm</code> 架构的 <a href="https://github.com/domenukk/seafile-docker-pi" target="_blank" rel="noopener">Docker Image Repo</a>，确保 Docker 引擎安装好之后，执行以下命令:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --name seafile \</span><br><span class="line">-e SEAFILE_SERVER_HOSTNAME=&#123;your-domain-name&#125; \</span><br><span class="line">-e SEAFILE_ADMIN_EMAIL=&#123;your-admin-email&#125; \</span><br><span class="line">-e SEAFILE_ADMIN_PASSWORD=&#123;your-admin-password&#125; \</span><br><span class="line">-v /mnt/sda1/seafile:/shared \</span><br><span class="line">-p 8000:80 \</span><br><span class="line">-p 8443:443 \</span><br><span class="line">seafileltd/seafile:pi</span><br></pre></td></tr></table></figure></p>
 <p><code>--name</code> 的值可自行修改，它会作为 <code>container</code> 的别名，<code>-v</code> 代表映射的本地目录，此例为 <code>/mnt/sda1/seafile</code>，包括所有配置信息和数据，最好指定一个大容量硬盘的挂载目录。<code>SEAFILE_SERVER_HOSTNAME</code> 的值将直接应用到系统设置的 URL 两个参数中，如下图:</p>
 <img src="/homeserver-setup-seafile-on-raspberry-pi/url-parameters.png" title="Url 的两个参数">
@@ -502,7 +504,14 @@
 <blockquote>
 <p>通过外网访问 Seafile 的设置属于另外一个 topic，可参考 <a href="/homeserver-setup-isp-device">电信宽带的正确使用姿势</a> 和 <a href="/homeserver-perform-ddns">通过 DDNS 实现稳定内网穿透</a> 两篇文章</p>
 </blockquote>
-<h2 id="设置开机启动-Seafile-TBD"><a href="#设置开机启动-Seafile-TBD" class="headerlink" title="设置开机启动 Seafile(TBD)"></a>设置开机启动 Seafile(TBD)</h2><h2 id="使用各平台客户端"><a href="#使用各平台客户端" class="headerlink" title="使用各平台客户端"></a>使用各平台客户端</h2><p>移步官方给出的<a href="https://www.seafile.com/download/" target="_blank" rel="noopener">下载地址</a>下载想要的客户端，值得一提的是，iOS 客户端可以通过设置页面同步照片:</p>
+<h2 id="设置开机启动-Seafile"><a href="#设置开机启动-Seafile" class="headerlink" title="设置开机启动 Seafile"></a>设置开机启动 Seafile</h2><p>创建 service.unit 文件，此处以 <code>seafile.service</code> 为例:<br><figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[Unit]</span></span><br><span class="line"><span class="attr">Description</span>=Seafile Service</span><br><span class="line"><span class="attr">After</span>=mnt-sda1.mount</span><br><span class="line"></span><br><span class="line"><span class="section">[Service]</span></span><br><span class="line"><span class="attr">Type</span>=forking</span><br><span class="line"><span class="attr">ExecStart</span>=/home/pi/seafile-server/seafile-server-latest/seafile.sh start</span><br><span class="line"><span class="attr">ExecStop</span>=/home/pi/seafile-server/seafile-server-latest/seafile.sh stop</span><br><span class="line"><span class="attr">StandardOutput</span>=inherit</span><br><span class="line"><span class="attr">StandardError</span>=inherit</span><br><span class="line"><span class="attr">Restart</span>=<span class="literal">on</span>-failure</span><br><span class="line"><span class="attr">User</span>=pi</span><br><span class="line"></span><br><span class="line"><span class="section">[Install]</span></span><br><span class="line"><span class="attr">WantedBy</span>=multi-user.target</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>注意，因为使用到了外部存储单元，故在 <code>After</code> 一项处填写了 <code>mnt-sda1.mount</code>，意即在 sda1 挂载成功之后再启动该服务。</p>
+</blockquote>
+<p>之后，复制该文件至 <code>systemd</code> 配置目录下:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo cp seafile.service /etc/systemd/system/seafile.service</span><br></pre></td></tr></table></figure></p>
+<p>使用 <code>systemctl start</code> 和 <code>systemctl stop</code> 测试服务，紧接着启用服务托管:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo systemctl <span class="built_in">enable</span> seafile.service</span><br></pre></td></tr></table></figure></p>
+<p>此部分参考了<a href="https://www.raspberrypi.org/documentation/linux/usage/systemd.md" target="_blank" rel="noopener">树莓派官方文档</a></p>
+<h2 id="使用各平台客户端"><a href="#使用各平台客户端" class="headerlink" title="使用各平台客户端"></a>使用各平台客户端</h2><p>移步官方给出的<a href="https://www.seafile.com/download/" target="_blank" rel="noopener">下载地址</a>下载想要的客户端，值得一提的是，iOS 客户端可以通过设置页面同步照片:</p>
 <img src="/homeserver-setup-seafile-on-raspberry-pi/ios-client-settings.jpg" title="iOS 客户端照片同步设置">
 <h2 id="迁移数据"><a href="#迁移数据" class="headerlink" title="迁移数据"></a>迁移数据</h2><p>假设先前为 <code>seafile</code> 指定的目录空间不足了，需要迁移至更多空间的目录，先停止或删除 <code>seafile</code> 的 Docker container:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ docker stop seafile</span><br><span class="line">$ docker rm seafile</span><br></pre></td></tr></table></figure></p>
 <p>移动原先指定的目录至新的目录:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ rsync -avH [seafile-data-source-path] [seafile-data-destination-path]</span><br></pre></td></tr></table></figure></p>
@@ -679,7 +688,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">68</span>
+                  <span class="site-state-item-count">69</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -690,7 +699,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-count">21</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -701,7 +710,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">53</span>
+                  <span class="site-state-item-count">61</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -734,7 +743,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#背景"><span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Seafile-简介"><span class="nav-text">Seafile 简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据模型"><span class="nav-text">数据模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用-Docker-搭建-Seafile-服务"><span class="nav-text">使用 Docker 搭建 Seafile 服务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#设置开机启动-Seafile-TBD"><span class="nav-text">设置开机启动 Seafile(TBD)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用各平台客户端"><span class="nav-text">使用各平台客户端</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#迁移数据"><span class="nav-text">迁移数据</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#背景"><span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Seafile-简介"><span class="nav-text">Seafile 简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据模型"><span class="nav-text">数据模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Seafile-组成"><span class="nav-text">Seafile 组成</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用-Docker-搭建-Seafile-服务"><span class="nav-text">使用 Docker 搭建 Seafile 服务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#设置开机启动-Seafile"><span class="nav-text">设置开机启动 Seafile</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用各平台客户端"><span class="nav-text">使用各平台客户端</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#迁移数据"><span class="nav-text">迁移数据</span></a></li></ol></div>
             
 
           </div>

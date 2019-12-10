@@ -1,3 +1,4 @@
+https://blog.frosthe.net/learning-frontend-notes-css/
 https://blog.frosthe.net/hobby-project-how-to-make-a-raspberry-pi-game-console/
 https://blog.frosthe.net/architecture-ddd-in-eshopcontainers/
 https://blog.frosthe.net/architecture-event-driven-communication/

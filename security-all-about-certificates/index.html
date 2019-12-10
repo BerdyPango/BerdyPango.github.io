@@ -89,7 +89,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://blog.frosthe.net/security-all-about-certificates/ssl.png">
 <meta property="og:image" content="https://blog.frosthe.net/security-all-about-certificates/01.png">
-<meta property="og:updated_time" content="2018-12-30T04:27:26.095Z">
+<meta property="og:updated_time" content="2019-09-27T14:03:12.381Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="X.509 数字证书">
 <meta name="twitter:description" content="本文简要整理了有关数字证书的一系列概念">
@@ -393,7 +393,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  1,237
+                  1,251
                 </span>
               
 
@@ -449,12 +449,12 @@
 <h2 id="Web-HTTPS-的工作原理"><a href="#Web-HTTPS-的工作原理" class="headerlink" title="Web HTTPS 的工作原理"></a>Web HTTPS 的工作原理</h2><p><code>Web HTTPS</code> 是典型的使用数字证书建立安全通信的应用场景，在此场景中，Web 服务器是「证书持有方」，浏览器是「证书检验方」，对 Web 服务器签发证书的机构为「签发机构」，双方在建立安全的通信连接前，首先要进行以下通信，以求互相信任，证书以文件的形式存储在服务器端。</p>
 <img src="/security-all-about-certificates/ssl.png" title="浏览器和服务器建立 ssl 连接的过程">
 <ol>
-<li>浏览器首先向服务器发送一个 HTTPS 请求，要求服务器自证</li>
-<li>服务器向浏览器发送 SSL 证书，该证书包含 Web 服务器的「公钥」</li>
-<li>浏览器将该证书与本地受信任 CA 的列表进行对比，检查其是否有效(包括是否过期，是否被撤销，是否与域名匹配)</li>
-<li>如果检查结果有效，浏览器从证书中提取 Web 服务器的「公钥」，生成一个临时的「对称密钥」，再使用「公钥」加密「对称密钥」，随后将「密文」发送给服务器。</li>
-<li>服务器收到「密文」并用其「私钥」解密得到「对称密钥」，之后，便使用「对称密钥」对返回值进行加密</li>
-<li>浏览器和服务器全程使用临时「对称密钥」进行通信</li>
+<li>Client 向 Server 发起 TLS 握手消息 <code>Client Hello</code>，包含期望的 TLS 协议版本，Cipher Suite 列表和一个 <code>client random</code> 的字符串</li>
+<li>Server 回应 Client 一条 <code>Server Hello</code> 的消息，包括 SSL 证书，选定的 Cipher Suite 和一个 <code>server random</code> 的字符串，该证书包含 Web 服务器的「公钥」。</li>
+<li>Client 将 Server 的证书与本地受信 CA 列表确认，检查其是否有效(包括是否过期，是否被撤销，是否与域名匹配)</li>
+<li>如果检查结果有效，Client 从证书中提取 Server 的「公钥」，生成一个临时的「对称密钥」，再使用「公钥」加密「对称密钥」，随后将「密文」发送给 Server。</li>
+<li>Server 收到「密文」并用其「私钥」解密得到「对称密钥」，之后，便使用「对称密钥」对返回值进行加密</li>
+<li>随后，Client 和 Server 全程使用临时「对称密钥」进行通信</li>
 </ol>
 <p>使用 <code>Chrome</code> 访问 <code>https://www.google.com</code>，点击地址栏左侧的「绿色锁」按钮，再点击「证书」按钮，便可查看 <code>www.google.com</code> 所使用的数字证书，其中包括 <code>Version</code>, <code>Issuer</code>, <code>Valid From</code>, <code>Valid To</code>, <code>Subject</code>, <code>Publick Key</code> 等细节: </p>
 <img src="/security-all-about-certificates/01.png" title="Google 数字证书">
@@ -599,7 +599,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">68</span>
+                  <span class="site-state-item-count">69</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -610,7 +610,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-count">21</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -621,7 +621,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">53</span>
+                  <span class="site-state-item-count">61</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
