@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://blog.frosthe.net/learning-frontend-notes-responsive-design/</loc>
-    <lastmod>2019-12-10T15:35:08.380Z</lastmod>
-  </url>  <url>
     <loc>https://blog.frosthe.net/learning-frontend-notes-css/</loc>
-    <lastmod>2019-12-10T15:34:45.296Z</lastmod>
+    <lastmod>2019-12-15T04:50:48.142Z</lastmod>
+  </url>  <url>
+    <loc>https://blog.frosthe.net/learning-frontend-notes-responsive-design/</loc>
+    <lastmod>2019-12-15T04:50:41.016Z</lastmod>
+  </url>  <url>
+    <loc>https://blog.frosthe.net/learning-frontend-notes-es5/</loc>
+    <lastmod>2019-12-15T04:50:29.663Z</lastmod>
   </url>  <url>
     <loc>https://blog.frosthe.net/homeserver-setup-seafile-on-raspberry-pi/</loc>
     <lastmod>2019-09-27T14:28:57.461Z</lastmod>

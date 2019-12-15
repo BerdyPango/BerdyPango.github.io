@@ -1,0 +1,1253 @@
+<!DOCTYPE html>
+
+
+
+
+<html class="theme-next mist" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="google-site-verification" content="K2S73UudyU-JTh9S0U_KnOKgOvE7aW7EpO560okLyUU" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="javascript,es5," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="Notes of ES5 based on Jonas&apos; courses">
+<meta name="keywords" content="javascript,es5">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Web Development Notes - ES5">
+<meta property="og:url" content="https://blog.frosthe.net/learning-frontend-notes-es5/index.html">
+<meta property="og:site_name" content="FrostHe.Handbook">
+<meta property="og:description" content="Notes of ES5 based on Jonas&apos; courses">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://blog.frosthe.net/learning-frontend-notes-es5/event-loop.png">
+<meta property="og:updated_time" content="2019-12-15T04:50:29.663Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Web Development Notes - ES5">
+<meta name="twitter:description" content="Notes of ES5 based on Jonas&apos; courses">
+<meta name="twitter:image" content="https://blog.frosthe.net/learning-frontend-notes-es5/event-loop.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"display":"hide"},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":false},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: 'ZL78UP9TUE',
+      apiKey: '',
+      indexName: 'FrostHe.Handbook',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://blog.frosthe.net/learning-frontend-notes-es5/"/>
+
+
+
+
+
+  <title>Web Development Notes - ES5 | FrostHe.Handbook</title>
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-125853342-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+
+  <div class="container  page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">FrostHe.Handbook</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Stay hungry, stay foolish</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            时间线
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://blog.frosthe.net/learning-frontend-notes-es5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Frost He">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FrostHe.Handbook">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Web Development Notes - ES5</h1>
+        
+
+        <div class="post-meta">
+          
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-10-14T09:21:58+08:00">
+                2019-10-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/WebFrontend/" itemprop="url" rel="index">
+                    <span itemprop="name">WebFrontend</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+                
+                  <span class="post-meta-divider">|</span>
+                
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-file-word-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">字数统计&#58;</span>
+                
+                <span title="字数统计">
+                  1,036
+                </span>
+              
+
+              
+
+              
+            </div>
+          
+
+          
+              <div class="post-description">
+                  Notes of ES5 based on Jonas' courses
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="ES-History"><a href="#ES-History" class="headerlink" title="ES History"></a>ES History</h2><ul>
+<li>1997: ES1 became the first version of the Javascript language standard.</li>
+<li>2009: ES5, fully supported in all browers.</li>
+<li>2015: ES2015/ES6 released in 2015. Changed to annual release cycle.<ul>
+<li>Asynchronouse Javascript</li>
+<li>AJAX and API calls</li>
+<li>Modern dev setups(Webpack and Babel)</li>
+</ul>
+</li>
+<li>2016/2017/2018/2019/…: ES2016/ES2017/ES2018/ES2019/…</li>
+</ul>
+<p>Using transpiling and polyfilling to convert to ES5.</p>
+<hr>
+<h2 id="Javascript-Basics"><a href="#Javascript-Basics" class="headerlink" title="Javascript Basics"></a>Javascript Basics</h2><h3 id="Falsy-and-Truthy-Values"><a href="#Falsy-and-Truthy-Values" class="headerlink" title="Falsy and Truthy Values"></a>Falsy and Truthy Values</h3><p>The following 5 expressions in <code>javascript</code> always return <code>false</code>:</p>
+<ul>
+<li><code>undefined</code></li>
+<li><code>null</code></li>
+<li><code>0</code>: Even if a variable is assigned <code>0</code>, but it still tells it’s undefined when testing with <code>if</code>, it’s a common pattern in javascript to test a variable whether it’s undefined by using <code>if(variable || variable === 0)</code>. See more <a href="https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/10788426?start=187#bookmarks" target="_blank" rel="noopener">here</a></li>
+<li><code>&#39;&#39;</code>: empty string value.</li>
+<li><code>NaN</code>: Not a number</li>
+</ul>
+<blockquote>
+<p>Truthy values are values that not Falsy。</p>
+</blockquote>
+<h3 id="Equal-Operations"><a href="#Equal-Operations" class="headerlink" title="Equal Operations"></a>Equal Operations</h3><p>Always use <code>===/!==</code> to compare in javascript, see <a href="https://dorey.github.io/JavaScript-Equality-Table/" target="_blank" rel="noopener">here</a>.</p>
+<h3 id="Function-Expression-and-Function-Declaration"><a href="#Function-Expression-and-Function-Declaration" class="headerlink" title="Function Expression and Function Declaration"></a>Function Expression and Function Declaration</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Function declaration</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">doSometing</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Function Expression</span></span><br><span class="line"><span class="keyword">var</span> doSomething = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Arrays"><a href="#Arrays" class="headerlink" title="Arrays"></a>Arrays</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// could store elements of different data types</span></span><br><span class="line"><span class="keyword">var</span> john = [<span class="string">'John'</span>, <span class="string">'Smith'</span>, <span class="number">1990</span>, <span class="string">'Teacher'</span>, <span class="literal">false</span>];</span><br><span class="line"><span class="comment">// push method add element to the last of an array.</span></span><br><span class="line">john.push(<span class="string">'blue'</span>);</span><br><span class="line"><span class="comment">// unshift method add element to the first of an array.</span></span><br><span class="line">john.unshift(<span class="string">'Mr.'</span>);</span><br><span class="line"><span class="comment">// pop method pop the last element of an array.</span></span><br><span class="line"><span class="keyword">var</span> lastElement = john.pop();</span><br><span class="line"><span class="comment">// shift method pop the first element of an array.</span></span><br><span class="line"><span class="keyword">var</span> firstElement = john.shift();</span><br><span class="line"><span class="comment">// retrieve the index of a given element. If the given element can not found, returns -1.</span></span><br><span class="line"><span class="keyword">var</span> index = john.indexOf(<span class="number">1990</span>);</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="Javascript-Engine"><a href="#Javascript-Engine" class="headerlink" title="Javascript Engine"></a>Javascript Engine</h2><h3 id="Execution-Context"><a href="#Execution-Context" class="headerlink" title="Execution Context"></a>Execution Context</h3><p>A new execution context is created on top of the current execution context every time a function gets called. There’re 2 phases for an execution context to be put on the execution stack:</p>
+<ol>
+<li>Creation phase:<ul>
+<li>Creation of the <strong>Variable Object(VO)</strong>: <ul>
+<li>The argument object is created, containing all the arguments that were passed into the function</li>
+<li>Function declarations are scanned: for each function, a property is created in the Variable Object, pointig to the function.</li>
+<li>Variable declarations are scanned: for each variable, a property is created in the Variable Object, and set to <code>undefined</code>.</li>
+</ul>
+</li>
+<li>Creation of the <strong>Scoping Chain</strong>: Each new function creates a scope, it stores all the Variable Object up to global scope. The only way to create a new scope is to write a new function.<ul>
+<li>Lexical scoping(作用域继承)): A function that is lexically within another function gets access to the scope of the outer function.</li>
+</ul>
+</li>
+<li>Determine value of the <code>this</code> variable<ul>
+<li>Regular function call: <code>this</code> keyword points to the global object(the <code>window</code> object in browser)</li>
+<li>Method call: <code>this</code> keyword points to the object that is calling the method.<ul>
+<li>Inner function defined inside a method, <code>this</code> keyword still points to the global object!</li>
+<li><code>this</code> keyword only gets assigned when the function is called, which means the value of <code>this</code> keyword is determined instantly at runtime.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Execution phase: run the function that generated the current execution context line by line.</li>
+</ol>
+<p>Global Context: for variables and functions not inside of any function. Associated with <code>window</code> object.</p>
+<p>A function like below may cause a series of changes like below:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">calculate</span>(<span class="params">year</span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(year);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">window</span> object(execution context)</span><br><span class="line">  - calculate <span class="function"><span class="keyword">function</span> <span class="title">object</span>(<span class="params">execution context</span>)</span></span><br><span class="line"><span class="function">    - <span class="title">argument</span> <span class="title">object</span>: <span class="title">contains</span> <span class="title">function</span> <span class="title">arguments</span></span></span><br><span class="line"><span class="function">    - <span class="title">variable</span> <span class="title">object</span></span></span><br><span class="line"><span class="function">        - <span class="title">all</span> <span class="title">functions</span></span></span><br><span class="line"><span class="function">        - <span class="title">all</span> <span class="title">variables</span> <span class="title">set</span> <span class="title">to</span> <span class="title">undefined</span></span></span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>Anonymouse functions’ scoping chain remains the same as the declared functions.</p>
+</blockquote>
+<h3 id="Hoisting-提升"><a href="#Hoisting-提升" class="headerlink" title="Hoisting(提升)"></a>Hoisting(提升)</h3><p>Functions and variables are available before the execution actually get started. They are hoisted in different ways:</p>
+<ul>
+<li>Functions: functions are already defined before the execution phase starts. Hositing only works for <strong>Function Declarations</strong> over <strong>Function Expressions</strong>.</li>
+<li>Variables: available are set to <code>undefined</code> and will be defined in the execution phase.</li>
+</ul>
+<h3 id="Event-amp-Event-Loop"><a href="#Event-amp-Event-Loop" class="headerlink" title="Event &amp; Event Loop"></a>Event &amp; Event Loop</h3><ul>
+<li><code>Execution Stack</code>: stores a set of execution context, the first execution context is the <code>Global Execution Context</code>. Each time a function is executed, a new execution context bound to that function is created and pushed into the execution stack. </li>
+<li><code>Message Queue</code>: Stores all functions that are to be executed. Event handler functions or async functions are all stored here. They are in form of <code>callback</code> functions.</li>
+<li><code>Event Loop</code>: The job of the event loop, is to constantly monitor the <code>Message Queue</code> and <code>Execution Stack</code>, and to push the first callback function in line onto the execution stack as soon as the stack is empty(the <code>Global Execution Context</code> is idle).</li>
+<li><code>Event Listener</code>: The event listener is normally a function, which also has its own execution context.</li>
+</ul>
+<img src="/learning-frontend-notes-es5/event-loop.png" title="Event Loop">
+<hr>
+<h2 id="Prototype-Inheritance"><a href="#Prototype-Inheritance" class="headerlink" title="Prototype Inheritance"></a>Prototype Inheritance</h2><p>Every javascript object has a property called <code>prototype</code>. The <code>Object</code> object is the root constructor of every other object. This is also known as <code>Prototype Chain</code>. </p>
+<ul>
+<li><code>new</code> operator will create an new empty object and call the function constructor with <code>this</code> keyword points to the empty object. Which means <code>this</code> keyword will be set as the object’s scope.</li>
+<li><code>instandOf</code>: </li>
+<li><code>object.create()</code>: receive an object parameter as the new object’s prototype, and another arguments object describing the properties.</li>
+</ul>
+<blockquote>
+<p>Variables that associated with an object contains the reference to that object in memory.</p>
+</blockquote>
+<hr>
+<h2 id="Functions"><a href="#Functions" class="headerlink" title="Functions"></a>Functions</h2><h3 id="Passing-Functions-as-Arguments"><a href="#Passing-Functions-as-Arguments" class="headerlink" title="Passing Functions as Arguments"></a>Passing Functions as Arguments</h3><p>Behaves like delegates.</p>
+<h3 id="Functions-Returning-Functions"><a href="#Functions-Returning-Functions" class="headerlink" title="Functions Returning Functions"></a>Functions Returning Functions</h3><p>Returns a delegate from functions.</p>
+<h3 id="Immediately-Invoked-Funtion-Expression-IIFE"><a href="#Immediately-Invoked-Funtion-Expression-IIFE" class="headerlink" title="Immediately Invoked Funtion Expression(IIFE)"></a>Immediately Invoked Funtion Expression(IIFE)</h3><p>An IIFE looks something like below:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">(<span class="function"><span class="keyword">function</span> (<span class="params">goodLuck</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">var</span> score = <span class="built_in">Math</span>.random() * <span class="number">10</span>;</span><br><span class="line">  <span class="built_in">console</span>.log(score &gt;= <span class="number">5</span> - goodLuck);</span><br><span class="line">&#125;)(<span class="number">5</span>);</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>IIFE creates a new function scope and variables defiend inside an IIFE will not be visible outside the function.</p>
+</blockquote>
+<h3 id="Closures"><a href="#Closures" class="headerlink" title="Closures"></a>Closures</h3><p>An inner function has always access to the variables and parameters of its outer function, even after the outer function has returned. What makes it happen is the scope chain always stay <strong>intact</strong> despite the execution context.</p>
+<h3 id="Bind-Call-and-Apply"><a href="#Bind-Call-and-Apply" class="headerlink" title="Bind, Call and Apply"></a>Bind, Call and Apply</h3><p><code>function.call({target-object}, params...)</code> actually is borrowing method from other objects.<br><code>function.apply({target-object}, [params])</code> works the same way as <code>call</code> but accepts the arguments as array.</p>
+<p><code>function.bind()</code> returns a function copy with preset arguments:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> johnFriendly = john.presentation.bind(john, <span class="string">'friendly'</span>);</span><br><span class="line">johnFriendly(<span class="string">'morning'</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> emilyFormal = john.presentation.bind(emily, <span class="string">'formal'</span>);</span><br><span class="line">emilyFormal(<span class="string">'afternoon'</span>);</span><br></pre></td></tr></table></figure></p>
+<p>This is called <code>function carrying</code>.</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+      <div>
+        <ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者：</strong>
+    Frost He
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="https://blog.frosthe.net/learning-frontend-notes-es5/" title="Web Development Notes - ES5">https://blog.frosthe.net/learning-frontend-notes-es5/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>
+    本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/3.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 3.0</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/javascript/" rel="tag"><i class="fa fa-tag"></i> javascript</a>
+          
+            <a href="/tags/es5/" rel="tag"><i class="fa fa-tag"></i> es5</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/hobby-project-how-to-make-a-raspberry-pi-game-console/" rel="next" title="DIY - 自制树莓派便携游戏机">
+                <i class="fa fa-chevron-left"></i> DIY - 自制树莓派便携游戏机
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/learning-frontend-notes-css/" rel="prev" title="Web Development Notes - CSS/SASS">
+                Web Development Notes - CSS/SASS <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Frost He</p>
+              <p class="site-description motion-element" itemprop="description">Stay hungry, stay foolish</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">71</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">62</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#ES-History"><span class="nav-text">ES History</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Javascript-Basics"><span class="nav-text">Javascript Basics</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Falsy-and-Truthy-Values"><span class="nav-text">Falsy and Truthy Values</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Equal-Operations"><span class="nav-text">Equal Operations</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Function-Expression-and-Function-Declaration"><span class="nav-text">Function Expression and Function Declaration</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Arrays"><span class="nav-text">Arrays</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Javascript-Engine"><span class="nav-text">Javascript Engine</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Execution-Context"><span class="nav-text">Execution Context</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hoisting-提升"><span class="nav-text">Hoisting(提升)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Event-amp-Event-Loop"><span class="nav-text">Event &amp; Event Loop</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Prototype-Inheritance"><span class="nav-text">Prototype Inheritance</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Functions"><span class="nav-text">Functions</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Passing-Functions-as-Arguments"><span class="nav-text">Passing Functions as Arguments</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Functions-Returning-Functions"><span class="nav-text">Functions Returning Functions</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Immediately-Invoked-Funtion-Expression-IIFE"><span class="nav-text">Immediately Invoked Funtion Expression(IIFE)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Closures"><span class="nav-text">Closures</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Bind-Call-and-Apply"><span class="nav-text">Bind, Call and Apply</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2015 &mdash; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Frost He</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+
+
+
+
+
+        
+
+
+
+
+  <script type="text/javascript">
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//tajs.qq.com/stats?sId=65458438";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === '') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
