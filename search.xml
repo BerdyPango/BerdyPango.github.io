@@ -140,8 +140,8 @@
       </categories>
       <tags>
         <tag>security</tag>
-        <tag>https</tag>
         <tag>cryptography</tag>
+        <tag>https</tag>
       </tags>
   </entry>
   <entry>
@@ -669,8 +669,8 @@
         <category>Linux Basic</category>
       </categories>
       <tags>
-        <tag>security</tag>
         <tag>linux</tag>
+        <tag>security</tag>
       </tags>
   </entry>
   <entry>
