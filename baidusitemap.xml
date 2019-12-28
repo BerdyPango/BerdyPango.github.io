@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://blog.frosthe.net/about/index.html</loc>
+    <lastmod>2019-12-28T15:31:06.071Z</lastmod>
+  </url>  <url>
     <loc>https://blog.frosthe.net/smarthome-setup-ha-on-raspberrypi/</loc>
     <lastmod>2019-12-28T13:12:43.992Z</lastmod>
   </url>  <url>
@@ -153,9 +156,6 @@
   </url>  <url>
     <loc>https://blog.frosthe.net/ddd-tactical-value-object/</loc>
     <lastmod>2018-11-20T12:38:24.994Z</lastmod>
-  </url>  <url>
-    <loc>https://blog.frosthe.net/about/index.html</loc>
-    <lastmod>2018-11-17T13:14:01.993Z</lastmod>
   </url>  <url>
     <loc>https://blog.frosthe.net/hexo-setup/</loc>
     <lastmod>2018-11-17T13:14:01.634Z</lastmod>
