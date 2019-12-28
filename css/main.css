@@ -852,8 +852,7 @@ pre .javascript .function {
 .pagination .next {
   margin-right: 0;
 }
-.pagination .page-number.current,
-.algolia-pagination .current .page-number {
+.pagination .page-number.current {
   background: #ccc;
   border-top-color: #ccc;
   color: #fff;
@@ -2222,76 +2221,6 @@ ul.breadcrumb li + li:last-child {
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
   padding: 5px;
-}
-.search-input {
-  display: inline-block;
-  width: calc(90% - 30px);
-}
-.search-input input {
-  background: transparent;
-  border: 0;
-  outline: 0;
-  padding: 5px 0;
-  width: 100%;
-}
-.search-input .ais-search-box--magnifier svg,
-.search-input .ais-search-box--reset svg {
-  display: none;
-}
-.algolia-powered {
-  float: right;
-}
-.algolia-powered img {
-  display: inline-block;
-  height: 18px;
-  vertical-align: middle;
-}
-.algolia-results {
-  height: calc(100% - 55px);
-  overflow: auto;
-  padding: 5px 30px;
-  position: relative;
-}
-.algolia-results hr {
-  margin: 10px 0;
-}
-.algolia-results .highlight {
-  color: #f00;
-  font-size: inherit;
-  font-style: normal;
-  margin: 0;
-  padding: 0 2px;
-}
-.algolia-hits {
-  margin-top: 20px;
-}
-.algolia-hit-item {
-  margin: 15px 0;
-}
-.algolia-hit-item-link {
-  border-bottom: 1px dashed #ccc;
-  display: block;
-  transition-delay: 0s;
-  transition-duration: 0.2s;
-  transition-timing-function: ease-in-out;
-}
-.algolia-pagination .pagination {
-  border-top: none;
-  margin: 40px 0;
-  opacity: 1;
-  padding: 0;
-}
-.algolia-pagination .pagination-item {
-  display: inline-block;
-}
-.algolia-pagination .page-number {
-  border-top: none;
-}
-.algolia-pagination .page-number:hover {
-  border-bottom: 1px solid #222;
-}
-.algolia-pagination .disabled-item {
-  visibility: hidden;
 }
 .search-loading-icon {
   margin: 20% auto 0 auto;
