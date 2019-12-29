@@ -41,7 +41,7 @@
       hits: {"per_page":10},
       labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
     },
-    localsearch: {"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
     path: 'search.xml',
     motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
   };
@@ -71,7 +71,7 @@
 <meta property="og:image" content="https://blog.frosthe.net/hobby-project-how-to-make-a-raspberry-pi-game-console/DSCF6092.jpg">
 <meta property="og:image" content="https://blog.frosthe.net/hobby-project-how-to-make-a-raspberry-pi-game-console/DSCF6093.jpg">
 <meta property="og:image" content="https://blog.frosthe.net/hobby-project-how-to-make-a-raspberry-pi-game-console/DSCF6094.jpg">
-<meta property="og:updated_time" content="2019-05-18T09:07:36.381Z">
+<meta property="og:updated_time" content="2019-12-29T12:24:45.832Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="DIY - 自制树莓派便携游戏机">
 <meta name="twitter:description" content="本文探索了通过树莓派加 UPS 模块的组合实现自制便携性游戏机">
@@ -149,7 +149,7 @@
     <div>
       <a href="/" class="brand" rel="start">
         <h1 class="site-title">FrostHe.Handbook</h1>
-            <p class="site-subtitle">Stay hungry, stay foolish</p>
+            <p class="site-subtitle">Talk less, do more</p>
       </a>
     </div>
   </div>
@@ -192,34 +192,9 @@
     <a href="/about" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
 
   </li>
-      <li class="menu-item menu-item-search">
-        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
-        </a>
-      </li>
   </ul>
 
 </nav>
-  <div class="site-search">
-    <div class="popup search-popup">
-    <div class="search-header">
-  <span class="search-icon">
-    <i class="fa fa-search"></i>
-  </span>
-  <div class="search-input-container">
-    <input autocomplete="off" autocorrect="off" autocapitalize="none"
-           placeholder="搜索..." spellcheck="false"
-           type="text" id="search-input">
-  </div>
-  <span class="popup-btn-close">
-    <i class="fa fa-times-circle"></i>
-  </span>
-</div>
-<div id="search-result"></div>
-
-</div>
-<div class="search-pop-overlay"></div>
-
-  </div>
 </div>
     </header>
 
@@ -312,10 +287,16 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2019-05-18 14:32:58 / 修改时间：17:07:36" itemprop="dateCreated datePublished" datetime="2019-05-18T14:32:58+08:00">2019-05-18</time>
+              <time title="创建时间：2019-05-18 14:32:58" itemprop="dateCreated datePublished" datetime="2019-05-18T14:32:58+08:00">2019-05-18</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2019-12-29 20:24:45" itemprop="dateModified" datetime="2019-12-29T20:24:45+08:00">2019-12-29</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
@@ -393,9 +374,7 @@
 <img src="/hobby-project-how-to-make-a-raspberry-pi-game-console/dock.jpg" title="支架">
 <p>硬件汇总:</p>
 <img src="/hobby-project-how-to-make-a-raspberry-pi-game-console/DSCF6086.jpg" title="硬件汇总">
-<p>准备就绪，开始组装:</p>
-<iframe height="290" width="510" src="http://player.youku.com/embed/XNDE4NjM0NDM0OA==" frameborder="0" 'allowfullscreen'></iframe>
-
+<p>准备就绪，开始组装:<br><iframe src="//player.bilibili.com/player.html?aid=81177840&cid=138921351&page=1" width="100%" height="300" frameborder="0" allowfullscreen></iframe></p>
 <img src="/hobby-project-how-to-make-a-raspberry-pi-game-console/DSCF6092.jpg" title="上支架背面">
 <img src="/hobby-project-how-to-make-a-raspberry-pi-game-console/DSCF6093.jpg" title="背面">
 <img src="/hobby-project-how-to-make-a-raspberry-pi-game-console/DSCF6094.jpg" title="组装完成后">
@@ -519,8 +498,6 @@
 
 
 
-
-  <script src="/js/local-search.js"></script>
 
 
 
