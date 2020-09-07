@@ -1,8 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://blog.frosthe.net/web-frontend-devnotes-responsive-design/</loc>
+    <lastmod>2020-09-07T14:08:50.417Z</lastmod>
+  </url>  <url>
+    <loc>https://blog.frosthe.net/web-frontend-devnotes-nodejs-backend/</loc>
+    <lastmod>2020-09-07T14:08:43.927Z</lastmod>
+  </url>  <url>
+    <loc>https://blog.frosthe.net/web-frontend-devnotes-modern-javascript/</loc>
+    <lastmod>2020-09-07T14:08:35.842Z</lastmod>
+  </url>  <url>
+    <loc>https://blog.frosthe.net/web-frontend-devnotes-es6/</loc>
+    <lastmod>2020-09-07T14:08:29.233Z</lastmod>
+  </url>  <url>
+    <loc>https://blog.frosthe.net/web-frontend-devnotes-es5/</loc>
+    <lastmod>2020-09-07T14:08:07.104Z</lastmod>
+  </url>  <url>
+    <loc>https://blog.frosthe.net/web-frontend-devnotes-css-modern-layouts/</loc>
+    <lastmod>2020-09-07T14:07:56.916Z</lastmod>
+  </url>  <url>
+    <loc>https://blog.frosthe.net/web-frontend-devnotes-css/</loc>
+    <lastmod>2020-09-07T14:07:48.189Z</lastmod>
+  </url>  <url>
+    <loc>https://blog.frosthe.net/web-frontend-devnotes-angularjs/</loc>
+    <lastmod>2020-09-07T14:07:35.046Z</lastmod>
+  </url>  <url>
+    <loc>https://blog.frosthe.net/git-notes/</loc>
+    <lastmod>2020-09-07T13:24:33.020Z</lastmod>
+  </url>  <url>
+    <loc>https://blog.frosthe.net/hexo-next-customization/</loc>
+    <lastmod>2020-02-05T15:44:57.916Z</lastmod>
+  </url>  <url>
     <loc>https://blog.frosthe.net/hobby-project-how-to-make-a-raspberry-pi-game-console/</loc>
-    <lastmod>2019-12-29T12:24:45.832Z</lastmod>
+    <lastmod>2019-12-30T13:40:03.374Z</lastmod>
   </url>  <url>
     <loc>https://blog.frosthe.net/about/index.html</loc>
     <lastmod>2019-12-28T15:31:06.071Z</lastmod>
@@ -126,9 +156,6 @@
   </url>  <url>
     <loc>https://blog.frosthe.net/architecture-mediator-pattern/</loc>
     <lastmod>2018-12-27T05:26:51.547Z</lastmod>
-  </url>  <url>
-    <loc>https://blog.frosthe.net/hexo-next-customization/</loc>
-    <lastmod>2018-12-27T04:32:33.987Z</lastmod>
   </url>  <url>
     <loc>https://blog.frosthe.net/ddd-tactical-entity/</loc>
     <lastmod>2018-11-24T14:37:59.084Z</lastmod>

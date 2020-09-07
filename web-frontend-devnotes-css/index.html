@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="K2S73UudyU-JTh9S0U_KnOKgOvE7aW7EpO560okLyUU">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('https://blog.frosthe.net').hostname,
+    root: '/',
+    scheme: 'Mist',
+    version: '7.6.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"remove","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: 'BT5SWZNUIG',
+      apiKey: '7aa3fedb7b30411323b0cc8d7f90e05c',
+      indexName: 'FrostHe.Handbook',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="Notes of CSS/SASS">
+<meta name="keywords" content="javascript,css,css-preprocessor">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Web Front-end Development Notes - CSS&#x2F;SASS">
+<meta property="og:url" content="https://blog.frosthe.net/web-frontend-devnotes-css/index.html">
+<meta property="og:site_name" content="FrostHe.Handbook">
+<meta property="og:description" content="Notes of CSS/SASS">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2020-09-07T14:07:48.189Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Web Front-end Development Notes - CSS&#x2F;SASS">
+<meta name="twitter:description" content="Notes of CSS/SASS">
+
+<link rel="canonical" href="https://blog.frosthe.net/web-frontend-devnotes-css/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>Web Front-end Development Notes - CSS/SASS | FrostHe.Handbook</title>
+  
+    <script>
+      function sendPageView() {
+        if (CONFIG.hostname !== location.hostname) return;
+        var uid = localStorage.getItem('uid') || (Math.random() + '.' + Math.random());
+        localStorage.setItem('uid', uid);
+        navigator.sendBeacon('https://www.google-analytics.com/collect', new URLSearchParams({
+          v  : 1,
+          tid: 'UA-125853342-1',
+          cid: uid,
+          t  : 'pageview',
+          dp : encodeURIComponent(location.pathname)
+        }));
+      }
+      document.addEventListener('pjax:complete', sendPageView);
+      sendPageView();
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <h1 class="site-title">FrostHe.Handbook</h1>
+            <p class="site-subtitle">Talk less, do more</p>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-film"></i>时间线</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="sidebar-profile-container">
+          <div class="sidebar-profile">
+<div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Frost He"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Frost He</p>
+  <div class="site-description" itemprop="description">
+    <i class="fa fa-fw fa-map-marker"></i>
+    <span>Chengdu, China</span>
+  </div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">77</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">67</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/BerdyPango" title="GitHub → https://github.com/BerdyPango" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.linkedin.com/in/frosthe0419/" title="Linkedin → https://www.linkedin.com/in/frosthe0419/" rel="noopener" target="_blank"><i class="fa fa-fw fa-linkedin"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://steamcommunity.com/profiles/76561198049061021/" title="Steam → https://steamcommunity.com/profiles/76561198049061021/" rel="noopener" target="_blank"><i class="fa fa-fw fa-steam-square"></i></a>
+      </span>
+  </div>
+</div>
+        </div>
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blog.frosthe.net/web-frontend-devnotes-css/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Frost He">
+      <meta itemprop="description" content="Chengdu, China">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FrostHe.Handbook">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Web Front-end Development Notes - CSS/SASS
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-11-02 16:21:58" itemprop="dateCreated datePublished" datetime="2019-11-02T16:21:58+08:00">2019-11-02</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-09-07 22:07:48" itemprop="dateModified" datetime="2020-09-07T22:07:48+08:00">2020-09-07</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/WebFrontend/" itemprop="url" rel="index">
+                    <span itemprop="name">WebFrontend</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>17k</span>
+            </span>
+            <div class="post-description">Notes of CSS/SASS</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <ul>
+<li><a href="#3-pillars-of-writing-good-html-and-css">3 Pillars of Writing Good HTML and CSS</a><ul>
+<li><a href="#response-design">Response Design</a></li>
+<li><a href="#maintainable-and-scalable-code">Maintainable and Scalable Code</a></li>
+<li><a href="#web-performance">Web Performance</a></li>
+</ul>
+</li>
+<li><a href="#how-css-works-behind-the-scenes">How CSS works behind the scenes</a><ul>
+<li><a href="#cascaderesolving-conflicting-css-declarations">Cascade(Resolving conflicting CSS declarations)</a></li>
+<li><a href="#css-parsing-phasesprocess-final-css-values">CSS Parsing Phases(Process final CSS values)</a><ul>
+<li><a href="#how-css-engine-calculate-relative-units-in-detail">How CSS Engine Calculate Relative Units in Detail</a></li>
+<li><a href="#css-inheritance">CSS Inheritance</a></li>
+</ul>
+</li>
+<li><a href="#visual-formating-model">Visual Formating Model</a><ul>
+<li><a href="#dimensions-of-boxes-the-box-model">Dimensions of boxes: the box model</a></li>
+<li><a href="#box-type">Box Type</a></li>
+<li><a href="#positioning-schemes">Positioning Schemes</a></li>
+<li><a href="#stacking-contexts">Stacking Contexts</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#sass--npm">Sass &amp; NPM</a><ul>
+<li><a href="#sass--scss">Sass &amp; SCSS</a><ul>
+<li><a href="#nesting">Nesting</a></li>
+<li><a href="#mix-ins">Mix-ins</a></li>
+<li><a href="#functions">Functions</a></li>
+<li><a href="#extends">Extends</a></li>
+</ul>
+</li>
+<li><a href="#install-sass-locally">Install Sass Locally</a></li>
+<li><a href="#7-1-pattern">7-1 Pattern</a></li>
+</ul>
+</li>
+<li><a href="#scsscss-reminders">SCSS/CSS Reminders</a><ul>
+<li><a href="#css-reminders">CSS Reminders</a><ul>
+<li><a href="#global-reset">Global Reset</a></li>
+<li><a href="#box-sizing-border-box">box-sizing: border-box</a></li>
+<li><a href="#selectors">Selectors</a></li>
+<li><a href="#pseudo-classelements">Pseudo Class/Elements</a></li>
+<li><a href="#css-native-functions">CSS Native Functions</a></li>
+<li><a href="#how-the-clearfix-come-and-why-we-need-it">How the clearfix come and Why we need it</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#browser-supports">Browser Supports</a></li>
+<li><a href="#others">Others</a></li>
+</ul>
+<h2 id="3-Pillars-of-Writing-Good-HTML-and-CSS"><a href="#3-Pillars-of-Writing-Good-HTML-and-CSS" class="headerlink" title="3 Pillars of Writing Good HTML and CSS"></a>3 Pillars of Writing Good HTML and CSS</h2><h3 id="Response-Design"><a href="#Response-Design" class="headerlink" title="Response Design"></a>Response Design</h3><ul>
+<li>Fluid layout:<ul>
+<li>Float Layout</li>
+<li>Flex Box Layout</li>
+<li>Grid Box Layout</li>
+</ul>
+</li>
+<li>Media queries</li>
+<li>Responsive images</li>
+<li>Correct units</li>
+<li>Desktop-first vs. mobile-first</li>
+</ul>
+<h3 id="Maintainable-and-Scalable-Code"><a href="#Maintainable-and-Scalable-Code" class="headerlink" title="Maintainable and Scalable Code"></a>Maintainable and Scalable Code</h3><ul>
+<li>Clean</li>
+<li>Easy-to-understand</li>
+<li>Growth</li>
+<li>Reusable</li>
+<li>How to organize files</li>
+<li>How to name classes</li>
+<li>How to structure HTML</li>
+</ul>
+<h3 id="Web-Performance"><a href="#Web-Performance" class="headerlink" title="Web Performance"></a>Web Performance</h3><ul>
+<li>Less HTTP requests</li>
+<li>Less code</li>
+<li>Compress code</li>
+<li>Use a CSS preprocessor</li>
+<li>Less images</li>
+<li>Compress images</li>
+</ul>
+<hr>
+<h2 id="How-CSS-works-behind-the-scenes"><a href="#How-CSS-works-behind-the-scenes" class="headerlink" title="How CSS works behind the scenes"></a>How CSS works behind the scenes</h2><h3 id="Cascade-Resolving-conflicting-CSS-declarations"><a href="#Cascade-Resolving-conflicting-CSS-declarations" class="headerlink" title="Cascade(Resolving conflicting CSS declarations)"></a>Cascade(Resolving conflicting CSS declarations)</h3><p>Cascade is the process of combining different stylesheets and resolving conflicts between different CSS rules and declarations when more than one rule applies to a certain element.</p>
+<p>CSS styles can come from different sources:</p>
+<ul>
+<li>Author: writen by developers</li>
+<li>User: customized by user, like font-size and font-family</li>
+<li>Browser(user agent): browsers have default styles for some certain elements.</li>
+</ul>
+<p>How does the cascade resolve conflicts of different sources? It goes from 1-3 phases and each of them takes some aspects for precedence.</p>
+<ol>
+<li>First, decide <code>Importance</code>:<ol>
+<li>User <code>!important</code> declarations</li>
+<li>Author <code>!important</code> declarations</li>
+<li>Author declarations</li>
+<li>User declarations</li>
+<li>Default browser declarations</li>
+</ol>
+</li>
+<li>If <code>Importance</code> is a tie, consider <code>Specificity</code>:<ol>
+<li>Inline styles: writen in HTML</li>
+<li>IDs</li>
+<li>Classes, pseudo-classes, attribute</li>
+<li>Element, pseudo-elements</li>
+</ol>
+</li>
+<li>If <code>Specificity</code> is also a tie, consider <code>Source Order</code>: The last declaration in the code will override all other declarations and will be applied.</li>
+</ol>
+<p>To summarize:</p>
+<ul>
+<li>CSS declarations marked with <code>!important</code> have the highest priority;</li>
+<li>But, only use <code>!important</code> as a last resource. It’s better to use correct specificities</li>
+<li>Inline styles will always have priority over styles in external stylesheets;</li>
+<li>A selector that contains 1 <code>ID</code> is more specific than one with 1000 <code>classes</code>;</li>
+<li>A selector that contains 1 <code>class</code> is more specific than one with 1000 <code>elements</code>;</li>
+<li>The universal select <code>*</code> has no specificity value (0, 0, 0, 0);</li>
+<li>Rely more on <code>Specificity</code> than on the <code>order</code> of selectors;</li>
+<li>But, rely on order when using 3rd-party stylesheets - always put your author stylesheets last.</li>
+</ul>
+<h3 id="CSS-Parsing-Phases-Process-final-CSS-values"><a href="#CSS-Parsing-Phases-Process-final-CSS-values" class="headerlink" title="CSS Parsing Phases(Process final CSS values)"></a>CSS Parsing Phases(Process final CSS values)</h3><ol>
+<li>Declared value(author declarations): Gathering all declaration values for a single CSS property.<ol>
+<li>For <code>font-size</code>, browsers usually have a default value of 16 pixels. This is the <code>user-agent</code> declaration, not a CSS <code>initial value</code>.</li>
+</ol>
+</li>
+<li>Cascaded value(after the cascade): Determine a final value that will take precedence.</li>
+<li>Specified value(defaulting if there is no cascaded value): In each element of the page, every CSS property needs to have value even if there’s no declaration at all. Each CSS property has something called an <code>inital value</code>.</li>
+<li>Computed value(converting relative values to absolute):Value with relative units like <strong>rem</strong>, <strong>em</strong> are computed to pixels, and CSS key words like <strong>orange</strong>, <strong>oral</strong>, <strong>boulder</strong> will be computed and replaced here in this step.<ol>
+<li><code>rem</code> is calculated in this step by multiplying <code>16</code>. <code>rem</code> is <strong>always relative to the root font-size</strong>.</li>
+<li>Some properties like the ones related to text, such as font-size inherit the computed value of their parent elements.</li>
+</ol>
+</li>
+<li>Used value(final calculations, based on layout): The css engines uses the rendered layout to figure out some of the remaining values like <strong>percentage</strong> values that depend on the layout. Because percentage value is in relation to its parent element and the parser needs to know that width in order to calculate a pixel width.</li>
+<li>Actual value(browser and device restrictions): Browsers usually cannot really display like <code>184.8</code> pixels, a value with a comma is simply rounded.</li>
+</ol>
+<h4 id="How-CSS-Engine-Calculate-Relative-Units-in-Detail"><a href="#How-CSS-Engine-Calculate-Relative-Units-in-Detail" class="headerlink" title="How CSS Engine Calculate Relative Units in Detail"></a>How CSS Engine Calculate Relative Units in Detail</h4><p>Percentage-based units:</p>
+<ul>
+<li><code>%(fonts)</code>: Percentage on fonts are explained by <code>x% * parent&#39;s computed font-size</code></li>
+<li><code>%(lengths)</code>: Percentage on lengths(such as width, height, padding, margin) always reference their parent’s computed <strong>width</strong> property value. <code>x% * parent&#39;s computed width</code></li>
+</ul>
+<p>Font-based units:</p>
+<ul>
+<li><code>em(font)</code>: For fonts, use the <strong>parent</strong> element as the reference. <code>x * parent computed font-size</code></li>
+<li><code>em(lengths)</code>: For lengths, use the <strong>current</strong> element as the reference. <code>x * current element computed font-size</code></li>
+<li><code>rem</code>: Works the same way for both fonts and length. Uses the root font-size as the reference. <code>x * root element computed font-size</code>. Root font-size is defined in <code>HTML</code> element.</li>
+</ul>
+<blockquote>
+<p>By changing font-sizes, we will automatically change length since it depend on a font-size and that gives us a lot of flexibility.</p>
+</blockquote>
+<p>Viewport-based units:</p>
+<ul>
+<li><code>vh</code>: Percentage of viewport <strong>height</strong>. <code>x * 1% of viewport height</code>.</li>
+<li><code>vw</code>: Percentage of viewport <strong>width</strong>. <code>x * 1% of viewport width</code>.</li>
+</ul>
+<h4 id="CSS-Inheritance"><a href="#CSS-Inheritance" class="headerlink" title="CSS Inheritance"></a>CSS Inheritance</h4><ul>
+<li>Inheritance passes the values for some specific properties from parents to children - more maintainable code</li>
+<li>Properties related to text are inherited: <code>font-family</code>, <code>font-size</code>, <code>color</code>, etc;</li>
+<li>The <strong>computed value</strong> of a property is what gets inherited, <strong>NOT</strong> the declared value.</li>
+<li>Inheritance of a property only works if no one declares a value for that property.</li>
+<li>The <code>inherit</code> keyword forces inheritance on a certain property.</li>
+<li>The <code>initial</code> keyword forces to reset a property to its initial value.</li>
+</ul>
+<h3 id="Visual-Formating-Model"><a href="#Visual-Formating-Model" class="headerlink" title="Visual Formating Model"></a>Visual Formating Model</h3><p><strong>Visual Formating Model</strong> is an algorithm that calculates boxes and determines the layout of these boxes, for each element in the render tree, in order to determine the final layout of the page.</p>
+<h4 id="Dimensions-of-boxes-the-box-model"><a href="#Dimensions-of-boxes-the-box-model" class="headerlink" title="Dimensions of boxes: the box model"></a>Dimensions of boxes: the box model</h4><ul>
+<li>Content: text, image, etc;</li>
+<li>Padding: transparent area around the content, inside of the box;</li>
+<li>Border: goes around the padding and the content;</li>
+<li>Margin: space between boes;</li>
+<li>Fill area: area that gets filled with background color or background image. The fill area does not include <strong>Margin</strong>.</li>
+</ul>
+<p>For a default block level box, the visual formating model calculates:</p>
+<ul>
+<li>total width = right border + right padding + specified width + left padding + left border</li>
+<li>total height = top border + top padding + specified height + bottom padding + bottom border<br>To fix this problem, we use <code>box-sizing: border-box</code> property for box level boxes.</li>
+</ul>
+<h4 id="Box-Type"><a href="#Box-Type" class="headerlink" title="Box Type"></a>Box Type</h4><p>The type of a box is always defined by <code>display</code> property. Usually by specifying <code>display: block</code>, but</p>
+<ul>
+<li><code>display: flex</code></li>
+<li><code>display: list-item</code></li>
+<li><code>display: table</code></li>
+</ul>
+<p>also produce block-level boxes; Elements such as <code>&lt;p&gt;</code>, <code>&lt;div&gt;</code> which are usually formatted visually as blocks have their <code>display</code> property set to <code>block</code> by default. Box level elements will occupy as much as possible of their parent element like 100% width and create line breaks after and before it.</p>
+<p>Inline elements(like <code>&lt;span&gt;</code>, <code>&lt;img&gt;</code>) which have <code>display: inline</code> by default only occupy the space that its <strong>content</strong> actually needs. They don’t create line breaks before or after them. Inline elements work a bit different:</p>
+<ol>
+<li><code>width</code> and <code>height</code> properties <strong>DO NOT</strong> apply, meaning we are not able to use these properties for inline elements.</li>
+<li>We can only specify horizontal(left and right) <code>padding</code> and <code>margin</code> on inline elements.</li>
+</ol>
+<p>Inline block boxes(<code>display: inline-block</code>) is there to apply block level box modelling to inline elements.</p>
+<h4 id="Positioning-Schemes"><a href="#Positioning-Schemes" class="headerlink" title="Positioning Schemes"></a>Positioning Schemes</h4><ul>
+<li>Normal flow:<ul>
+<li>Default positioning scheme;</li>
+<li><strong>NOT</strong> floated;</li>
+<li><strong>NOT</strong> absolutely positioned;</li>
+<li>Elements laid out according to their source order;</li>
+<li><code>position: relative</code></li>
+</ul>
+</li>
+<li>Floats:<ul>
+<li><strong>Element is removed from the normal flow;</strong></li>
+<li>Text and inline elements will wrap around the floated element;</li>
+<li>The container will not adjust its height to the element;</li>
+<li><code>float: left/right</code>;</li>
+</ul>
+</li>
+<li>Absolute positioning:<ul>
+<li><strong>Element is removed from the normal flow;</strong></li>
+<li>No impact on surrounding content or elements, they can even overlap them</li>
+<li>We use <code>top</code>, <code>bottom</code>, <code>left</code> and <code>right</code> to offset the element from its relatively positioned container;</li>
+<li><code>position: absolute/fixed</code></li>
+</ul>
+</li>
+</ul>
+<h4 id="Stacking-Contexts"><a href="#Stacking-Contexts" class="headerlink" title="Stacking Contexts"></a>Stacking Contexts</h4><p>Stacking contexts are what determine in which order elements are rendered on the page. With <code>z-index</code>, <code>opacity</code> and <code>transform</code> properties they will create new stacking contexts.</p>
+<hr>
+<h2 id="Sass-amp-NPM"><a href="#Sass-amp-NPM" class="headerlink" title="Sass &amp; NPM"></a>Sass &amp; NPM</h2><p>Sass is CSS preprocessor.</p>
+<blockquote>
+<p>Sass Source Code -&gt; Compiled CSS Code</p>
+</blockquote>
+<p>Sass provides:</p>
+<ul>
+<li><code>Variables</code>: for reusable values such as colors, font-size, spacing, etc;</li>
+<li><code>Nesting</code>: to nest selectors inside of one another, allowing us to write less code;</li>
+<li><code>Operations</code>: for mathematical operations right inside of CSS;</li>
+<li><code>Partials and imports</code>: to write CSS in different files and importing them all into one single file;</li>
+<li><code>Mixins</code>: to write reusable pieces of CSS code;</li>
+<li><code>Functions</code>: similar to mixins, with difference that they produce a value that can be used later;</li>
+<li><code>Extends</code>: to make different selectors inherit declarations that are common to all of them;</li>
+<li><code>Control directives</code>: for writing complex code using conditionals and loops;</li>
+</ul>
+<h3 id="Sass-amp-SCSS"><a href="#Sass-amp-SCSS" class="headerlink" title="Sass &amp; SCSS"></a>Sass &amp; SCSS</h3><p>SCSS stands for Sassy CSS. Sass is indentation sensitive and doesn’t use any curly braces and semicolons.</p>
+<h4 id="Nesting"><a href="#Nesting" class="headerlink" title="Nesting"></a>Nesting</h4><figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// SCSS</span></span><br><span class="line"><span class="selector-class">.navigation</span> &#123;</span><br><span class="line">  <span class="attribute">list-style</span>: none;</span><br><span class="line"></span><br><span class="line">  <span class="selector-tag">li</span> &#123;</span><br><span class="line">    <span class="attribute">display</span>: inline-block;</span><br><span class="line">    <span class="attribute">margin-left</span>: <span class="number">30px</span>;</span><br><span class="line"></span><br><span class="line">    &amp;:first-child &#123;</span><br><span class="line">      <span class="attribute">margin</span>: <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// CSS</span></span><br><span class="line"><span class="selector-class">.navigation</span> <span class="selector-tag">li</span>:first-child &#123;</span><br><span class="line">  <span class="attribute">margin</span>: <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>The <code>&amp;</code> basically writes out the selector at this current point here.</p>
+<h4 id="Mix-ins"><a href="#Mix-ins" class="headerlink" title="Mix-ins"></a>Mix-ins</h4><p>Mix-ins are a bunch of codes that can be applied in many places. Typically, a <code>mix-in</code> looks like below:</p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">@<span class="keyword">mixin</span> clearfix &#123;</span><br><span class="line">  &amp;::after &#123;</span><br><span class="line">    <span class="attribute">content</span>: <span class="string">""</span>;</span><br><span class="line">    <span class="attribute">clear</span>: both;</span><br><span class="line">    <span class="attribute">display</span>: table;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// use the mix-in</span></span><br><span class="line">@<span class="keyword">include</span> clearfix;</span><br></pre></td></tr></table></figure>
+<p>We could also pass arguments to a <code>mix-in</code>:</p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// declare min-xins</span></span><br><span class="line">@<span class="keyword">mixin</span> style-link-text(<span class="variable">$color</span>) &#123;</span><br><span class="line">  <span class="attribute">text-decoration</span>: none;</span><br><span class="line">  <span class="attribute">text-transform</span>: uppercase;</span><br><span class="line">  <span class="attribute">color</span>: <span class="variable">$color</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// use mixins</span></span><br><span class="line">@<span class="keyword">include</span> style-link-text(<span class="number">#eee</span>);</span><br></pre></td></tr></table></figure>
+<h4 id="Functions"><a href="#Functions" class="headerlink" title="Functions"></a>Functions</h4><figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// declare functions</span></span><br><span class="line">@function divide(<span class="variable">$a</span>, <span class="variable">$b</span>) &#123;</span><br><span class="line">  @return <span class="variable">$a</span> / <span class="variable">$b</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// use functions</span></span><br><span class="line"><span class="attribute">margin</span>: divide(<span class="number">60</span>, <span class="number">2</span>) * <span class="number">1px</span>; <span class="comment">// 30px</span></span><br></pre></td></tr></table></figure>
+<h4 id="Extends"><a href="#Extends" class="headerlink" title="Extends"></a>Extends</h4><p>Bascially we write a placeholder and put a bunch of styles in there, then have other selectors extend that placeholder.</p>
+<h3 id="Install-Sass-Locally"><a href="#Install-Sass-Locally" class="headerlink" title="Install Sass Locally"></a>Install Sass Locally</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install node-sass --save-dev</span><br></pre></td></tr></table></figure>
+<h3 id="7-1-Pattern"><a href="#7-1-Pattern" class="headerlink" title="7-1 Pattern"></a>7-1 Pattern</h3><p>7 different folders for partial Sass files:</p>
+<ul>
+<li><code>base/</code>: basic product definitions</li>
+<li><code>components/</code>: 1 file for each component</li>
+<li><code>layout/</code>: define the overall layout of the project</li>
+<li><code>pages/</code>: styles for specific pages of the project</li>
+<li><code>themes/</code>: to implement different visual themes</li>
+<li><code>abstracts/</code>: code that doesn’t output any CSS such as variables or mix-ins.</li>
+<li><code>vendors/</code>: where all 3rd-party CSS goes</li>
+</ul>
+<p>and 1 main Sass file to import all other files into a compiled CSS stylesheet.</p>
+<blockquote>
+<p>SCSS uses <code>@import</code> to import partial SCSS files, SCSS files named with <code>_</code> prefix are by convention recognised as partial SCSS files by SCSS compiler</p>
+</blockquote>
+<hr>
+<h2 id="SCSS-CSS-Reminders"><a href="#SCSS-CSS-Reminders" class="headerlink" title="SCSS/CSS Reminders"></a>SCSS/CSS Reminders</h2><h3 id="CSS-Reminders"><a href="#CSS-Reminders" class="headerlink" title="CSS Reminders"></a>CSS Reminders</h3><h4 id="Global-Reset"><a href="#Global-Reset" class="headerlink" title="Global Reset"></a>Global Reset</h4><p>By default, browsers apply a certain <code>margin</code>, or <code>padding</code> to some elements like <code>&lt;h1&gt;</code>. We don’t want that, so we usually have a <code>global reset</code> declaration, like:</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">*,</span><br><span class="line">*<span class="selector-pseudo">::after</span>,</span><br><span class="line">*<span class="selector-pseudo">::before</span> &#123;</span><br><span class="line">  <span class="attribute">margin</span>: <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">padding</span>: <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="box-sizing-border-box"><a href="#box-sizing-border-box" class="headerlink" title="box-sizing: border-box"></a>box-sizing: border-box</h4><p><code>box-sizing: border-box</code> is to change the box model so that the borders and the paddings are no longer added to the total width or height that we specify for a box. If you set an element’s width to 100 pixels, that 100 pixels will include any border or padding you added, and the content box will shrink to absorb that extra width. This typically makes it much easier to size elements. By default the <code>box-sizing</code> property is not inherited, we can specify <code>box-sizing: inherit</code> in <code>*</code> selector to make better practice.</p>
+<h4 id="Selectors"><a href="#Selectors" class="headerlink" title="Selectors"></a>Selectors</h4><p><strong>Atrribute Selector</strong> <code>[class^=&quot;col-&quot;]</code> means to select all elements where they have a class name starting with <code>col-</code>, there are also <code>*</code> and <code>$</code> symbols:</p>
+<ul>
+<li><code>[{attribute}^=&quot;{value}&quot;]</code> means to select elements which have <code>attribute</code> <strong>start with</strong> <code>value</code>.</li>
+<li><code>[{attribute}*=&quot;{value}&quot;]</code> means to select elements which have <code>attribute</code> <strong>contains</strong> <code>value</code>.</li>
+<li><code>[{attribute}$=&quot;{value}&quot;]</code> means to select elements which have <code>attribute</code> <strong>end with</strong> <code>value</code>.</li>
+</ul>
+<p><strong>Sibling Selectors</strong> is used to select elements adjusent to the element, we have:</p>
+<ul>
+<li><code>div + p</code>: to select <code>p</code> element which is exact next to the <code>div</code> element.</li>
+<li><code>div ~ p</code>: to select all <code>p</code> elements that are sibling of the <code>div</code> element.</li>
+</ul>
+<h4 id="Pseudo-Class-Elements"><a href="#Pseudo-Class-Elements" class="headerlink" title="Pseudo Class/Elements"></a>Pseudo Class/Elements</h4><p>Pseudo classes are special states of a selector. We use pseudo classes to select elements under a special condition. Pseudo elements with 2 <code>:</code> are elements that are actually on the web page.</p>
+<ul>
+<li><code>::before</code>/<code>::after</code> pseudo element creates a pseudo-element that is the first/last child of the selected element. By using this we can fully control what to render in CSS instead of declaring elements in HTML.</li>
+<li><code>::-webkit-input-placeholder</code> pseudo element is used to select the inputs’ placeholder element. This class only works on Safari and Chrome currently.</li>
+<li><code>:placeholder-shown</code> is the pseudo class to select a the state where the placeholder is shown.</li>
+<li><code>:not(:last-child)</code> pseudo selector means to choose all elements except <code>:last-child</code>.</li>
+<li><code>:checked</code> pseudo class is helpful for <code>radio</code> and <code>checkbox</code> element select the state when they are checked.</li>
+<li><code>::selection</code> pseudo class is to select text that are selected by the cursor.</li>
+</ul>
+<h4 id="CSS-Native-Functions"><a href="#CSS-Native-Functions" class="headerlink" title="CSS Native Functions"></a>CSS Native Functions</h4><ul>
+<li><code>calc</code> function can mix units. Different from <code>SASS</code>, it’s evaluated during the webpage is rendered, which means it depends on the layout. To use a <code>SASS</code> variable, we need to wrap the variable with <code>#{}</code>. e.g, <code>calc((100% - #{$gutter-horizontal}))</code></li>
+</ul>
+<h4 id="How-the-clearfix-come-and-Why-we-need-it"><a href="#How-the-clearfix-come-and-Why-we-need-it" class="headerlink" title="How the clearfix come and Why we need it"></a>How the clearfix come and Why we need it</h4><p>Since there are 3 different kinds of positioning, the <code>normal flow</code>, <code>floats</code>, and <code>absolute positioning</code>. <code>floats</code> and <code>absolute positioning</code> will take the element out of the natural flow. If all children elements are taken out of the natural flow, the parent element’s width will collapse. To fix it, we have different solutions for <code>floats</code> and <code>absolute positioning</code>.</p>
+<p>For <code>floats</code>, we can add a <code>clearfix</code> to <code>::after</code> pseudo element:</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&amp;<span class="selector-pseudo">::after</span> &#123;</span><br><span class="line">  <span class="attribute">content</span>: <span class="string">""</span>,</span><br><span class="line">  clear: both,</span><br><span class="line">  display: table;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Which means to append a child element with empty content and clear it for both sides.</p>
+<p>For <code>absolute positioning</code>, we can not use the <code>clearfix</code> as we use for <code>floats</code>, what we can do is to add a same height of the tallest child element to make it work.</p>
+<h2 id="Browser-Supports"><a href="#Browser-Supports" class="headerlink" title="Browser Supports"></a>Browser Supports</h2><p>Feature query:</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">@<span class="keyword">supports</span> (-webkit-backdrop-filter: blur(<span class="number">10px</span>)) or (backdrop-filter: blur(<span class="number">10px</span>)) &#123;</span><br><span class="line">  <span class="selector-tag">-webkit-backdrop-filter</span>: <span class="selector-tag">blur</span>(10<span class="selector-tag">px</span>);</span><br><span class="line">  <span class="selector-tag">backdrop-filter</span>: <span class="selector-tag">blur</span>(10<span class="selector-tag">px</span>);</span><br><span class="line">  background-color: rgba($color-black, 0.3);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Use <a href="https://caniuse.com" target="_blank" rel="noopener">Can I Use</a> to check how a property is supported in different browsers.</p>
+<h2 id="Others"><a href="#Others" class="headerlink" title="Others"></a>Others</h2><ul>
+<li><code>line-height: 1.7</code> means 1.7 times bigger than the predefined line height.</li>
+<li><code>height: 95vh</code>: <code>vh</code> means viewport height, at every point the height of this element should be 95% of the viewport height.</li>
+<li><code>background-size: cover;</code> means whatever the width or height of the element is, it’ll always try to fit.</li>
+<li><code>object-fit: cover;</code> is to tell the element to fill the entire parent while still maintaining its aspect ratio. Unlike <code>background-size: cover</code>, this property works with HTML elements instead of just background images.</li>
+<li><code>&lt;img/&gt;</code> is an in-line element by default. <code>alt</code> attribute is the description for SEO(search engine optimization). Also in case the image failed to load, the text will appear.</li>
+<li>only <code>background-image</code> property can be applied with <code>linear-gradient()</code>, not <code>background-color</code>. And <code>background-size: cover;</code> is to fit the content to the element’s width and height. <code>background-size</code> also accepts values like <code>100%</code>, <code>25%</code> and <code>150%</code>, <code>100%</code> has the same effect with <code>cover</code> value;</li>
+<li><code>background-blend-mode</code> describes how the element’s background image should blend. We could specify a linear gradient and a background image together to <code>background-image</code> property, which looks like <code>background-image: linear-gradient(...) url(...);</code>. This is often useful to blend multiple background stuff while <code>&lt;img&gt;</code> can be applied only one element.</li>
+<li><code>background-image: linear-gradient()</code> has further more functionality like gradient point, we can specify something like <code>background-image: linear-gradient( 105deg, rgba($color-white, 0.9) 0%, rgba($color-white, 0.9) 50%, transparent 50%, transparent 100% ), url(../img/nat-10.jpg);</code> to make a skewed splitter effect.</li>
+<li><code>overflow</code> property tells what to do when the content is too big to fit in its block formating context. The <code>margin-top</code> pushes the outer element down, set <code>overflow:auto</code> to fix it. See <a href="https://stackoverflow.com/questions/1394724/css-margin-top-when-parents-got-no-border" target="_blank" rel="noopener">here</a>. This is something called margin collapse, only happens to vertical margins.</li>
+<li><code>position: absolute</code> needs to have a reference, the reference is the first element with the relative position that it can find. To make it easier, we often explicit specify the parent element <code>position: relative;</code> property. When an element is specified <code>position: absolute</code>, the width will fit its content, a <code>width: 100%</code> is often following the absolute positioning.</li>
+<li><code>top: 40px</code> and <code>left: 40px</code> are in relation to the parent element.</li>
+<li><code>transform: translate()</code> is in relation to the element itself.</li>
+<li><code>&lt;h1&gt;&lt;/h1&gt;</code> is a single important to search engines to capture the website’s title.</li>
+<li><code>bakcface-visibility</code>: determines the back part of an element when we transform it is visible or hidden for the user. It can be used to fix animation shaking at some point.</li>
+<li><code>display:inline-block</code> applies box model to inline elements, this will allow paddings, width or height to take the space as it worked as a block.</li>
+<li><code>text-align: center;</code> is perfect for centralizing <code>inline</code> or <code>inline-block</code> elements for they are treated as texts. Sometimes, we need to wrap a <code>inline</code> element and give the wrapper parent element a utility class like <code>u-center-text</code> to center the child inline element.</li>
+<li><code>margin: 0 auto;</code> is widely used to center block elements inside of another block element.</li>
+<li>Use <code>position: absolute; top:50%; left: 50%;</code> to vertically and horizontally center a block box within a block box.</li>
+<li>Use <code>transition</code> property to quickly apply animations between pseudo classes.</li>
+<li><code>animation-fill-mode: backwards</code> is to keep the element state the same as the effect specifies before animation starts.</li>
+<li><code>lorem</code> in vs code just enter some random text.</li>
+<li>Use percentage unit for images for responsive design purpose.</li>
+<li>We can use <code>outline-offset</code> property to give space between the element and outline, which makes outline different from <code>border</code> property.</li>
+<li><code>.feature-box &gt; *</code> means to select all the direct children of <code>.feature-box</code>. <code>&gt;</code> is a selector that only picks direct child.</li>
+<li><code>clip-path</code> property in Google Chrome would break the <code>overflow</code> property. This can be fixed by manually setting the <code>border-radius</code> property.</li>
+<li>In HTML5, we have <code>&lt;figure&gt;</code> element we can put an image and some caption with a <code>&lt;figcaption&gt;</code> element</li>
+<li><code>shape-outside</code> property is to define a vectorized shape of the element. It is effective only when the element’s width and height is set and floated.</li>
+<li>The best to move around with floated element is not mess with <code>margin</code> or <code>left</code> but using <code>transform: translate()</code></li>
+<li><code>opacity</code> to 0 just keep the element to be invisible, but the element still remains on the page. While <code>visibility: hidden</code> will move away the element. The reason why we set both of them sometimes is that we can not animate on <code>visibility</code> while we can for <code>opacity</code>.</li>
+<li><code>display: table</code> and <code>display: table-cell</code> is used to make a elements like table cells in a table in order to use properties like <code>vertical-align: middle</code></li>
+<li><code>:target</code> pseudo class is triigered when a link is to trigger a target anchor. Then the element of that id becomes the anchor and the target.</li>
+<li><code>input</code> elements DO NOT automatically inherit text-related properties like <code>font-family</code>, <code>font-size</code> and <code>color</code>, we need to explicitly specify thoese properties to <code>inherit</code> or other value we want.</li>
+<li><code>transition</code> property receives multiple property settings seperated by <code>,</code>, e.g. <code>transition: transform .2s, width .4s .2s;</code> means <code>transform</code> property transition takes 0.2 seconds and with 0.2 seconds delay, <code>width</code> property transition begins and takes 0.4 seconds.</li>
+<li><code>z-index</code> property only works with a specified <code>position</code> property</li>
+<li><code>fill: currentColor</code> just references the current element or parent element’s color.</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/javascript/" rel="tag"><i class="fa fa-tag"></i> javascript</a>
+              <a href="/tags/css/" rel="tag"><i class="fa fa-tag"></i> css</a>
+              <a href="/tags/css-preprocessor/" rel="tag"><i class="fa fa-tag"></i> css-preprocessor</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/web-frontend-devnotes-angularjs/" rel="prev" title="Web Front-end Development Notes - AngularJs">
+      <i class="fa fa-chevron-left"></i> Web Front-end Development Notes - AngularJs
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/web-frontend-devnotes-responsive-design/" rel="next" title="Web Front-end Development Notes - Responsive Design">
+      Web Front-end Development Notes - Responsive Design <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 2015 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Frost He</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">372k</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script>
+<script src="/js/schemes/muse.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

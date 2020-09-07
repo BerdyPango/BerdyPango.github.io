@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.9.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="K2S73UudyU-JTh9S0U_KnOKgOvE7aW7EpO560okLyUU">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('https://blog.frosthe.net').hostname,
+    root: '/',
+    scheme: 'Mist',
+    version: '7.6.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"remove","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    comments: {"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},
+    algolia: {
+      appID: 'BT5SWZNUIG',
+      apiKey: '7aa3fedb7b30411323b0cc8d7f90e05c',
+      indexName: 'FrostHe.Handbook',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: 'search.xml',
+    motion: {"enable":false,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="Notes of Nodejs backend development">
+<meta name="keywords" content="javascript,nodejs">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Web Front-end Development Notes - Nodejs">
+<meta property="og:url" content="https://blog.frosthe.net/web-frontend-devnotes-nodejs-backend/index.html">
+<meta property="og:site_name" content="FrostHe.Handbook">
+<meta property="og:description" content="Notes of Nodejs backend development">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2020-09-07T14:08:43.927Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Web Front-end Development Notes - Nodejs">
+<meta name="twitter:description" content="Notes of Nodejs backend development">
+
+<link rel="canonical" href="https://blog.frosthe.net/web-frontend-devnotes-nodejs-backend/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true
+  };
+</script>
+
+  <title>Web Front-end Development Notes - Nodejs | FrostHe.Handbook</title>
+  
+    <script>
+      function sendPageView() {
+        if (CONFIG.hostname !== location.hostname) return;
+        var uid = localStorage.getItem('uid') || (Math.random() + '.' + Math.random());
+        localStorage.setItem('uid', uid);
+        navigator.sendBeacon('https://www.google-analytics.com/collect', new URLSearchParams({
+          v  : 1,
+          tid: 'UA-125853342-1',
+          cid: uid,
+          t  : 'pageview',
+          dp : encodeURIComponent(location.pathname)
+        }));
+      }
+      document.addEventListener('pjax:complete', sendPageView);
+      sendPageView();
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <h1 class="site-title">FrostHe.Handbook</h1>
+            <p class="site-subtitle">Talk less, do more</p>
+      </a>
+    </div>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-film"></i>时间线</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about" rel="section"><i class="fa fa-fw fa-user"></i>关于</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="sidebar-profile-container">
+          <div class="sidebar-profile">
+<div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Frost He"
+      src="/images/avatar.jpg">
+  <p class="site-author-name" itemprop="name">Frost He</p>
+  <div class="site-description" itemprop="description">
+    <i class="fa fa-fw fa-map-marker"></i>
+    <span>Chengdu, China</span>
+  </div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">77</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">67</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/BerdyPango" title="GitHub → https://github.com/BerdyPango" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://www.linkedin.com/in/frosthe0419/" title="Linkedin → https://www.linkedin.com/in/frosthe0419/" rel="noopener" target="_blank"><i class="fa fa-fw fa-linkedin"></i></a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://steamcommunity.com/profiles/76561198049061021/" title="Steam → https://steamcommunity.com/profiles/76561198049061021/" rel="noopener" target="_blank"><i class="fa fa-fw fa-steam-square"></i></a>
+      </span>
+  </div>
+</div>
+        </div>
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blog.frosthe.net/web-frontend-devnotes-nodejs-backend/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Frost He">
+      <meta itemprop="description" content="Chengdu, China">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FrostHe.Handbook">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Web Front-end Development Notes - Nodejs
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2019-11-10 09:21:58" itemprop="dateCreated datePublished" datetime="2019-11-10T09:21:58+08:00">2019-11-10</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-09-07 22:08:43" itemprop="dateModified" datetime="2020-09-07T22:08:43+08:00">2020-09-07</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/WebFrontend/" itemprop="url" rel="index">
+                    <span itemprop="name">WebFrontend</span>
+                  </a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-file-word-o"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>14k</span>
+            </span>
+            <div class="post-description">Notes of Nodejs backend development</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <ul>
+<li><a href="#how-modules-work-behind-the-scenes">How modules work behind the scenes</a></li>
+<li><a href="#event-loop">Event loop</a><ul>
+<li><a href="#tricks">Tricks</a></li>
+</ul>
+</li>
+<li><a href="#streams">Streams</a></li>
+<li><a href="#notes">Notes:</a></li>
+<li><a href="#environment-variables-in-nodejs-development">Environment Variables in Nodejs Development</a></li>
+<li><a href="#express">Express</a><ul>
+<li><a href="#middlewares">Middlewares</a></li>
+<li><a href="#routing">Routing</a></li>
+</ul>
+</li>
+<li><a href="#mongodb">MongoDB</a></li>
+<li><a href="#mongoose">Mongoose</a><ul>
+<li><a href="#schema">Schema</a></li>
+<li><a href="#model">Model</a><ul>
+<li><a href="#virtual-properties">Virtual Properties</a></li>
+<li><a href="#query">Query</a></li>
+<li><a href="#aggregation-pipeline">Aggregation Pipeline</a></li>
+</ul>
+</li>
+<li><a href="#mongoose-middleware">Mongoose Middleware</a></li>
+<li><a href="#validation">Validation</a></li>
+</ul>
+</li>
+<li><a href="#error-handling-in-nodejs-applications">Error handling in Nodejs Applications</a><ul>
+<li><a href="#central-error-handling-middleware">Central error handling middleware</a></li>
+<li><a href="#how-developers-should-handle-errors">How developers should handle errors</a></li>
+</ul>
+</li>
+<li><a href="#security-summary">Security Summary</a><ul>
+<li><a href="#compromised-database">Compromised Database</a></li>
+<li><a href="#brute-forces-attacks">Brute Forces Attacks</a></li>
+<li><a href="#cross-site-scripting-attack">Cross-site Scripting Attack</a></li>
+<li><a href="#denial-of-servicedos-attacks">Denial-Of-Service(DOS) Attacks</a></li>
+<li><a href="#no-sql-query-injection-attacks">NO-SQL Query Injection Attacks</a></li>
+<li><a href="#other-best-practices-and-suggestions">Other Best Practices and Suggestions</a></li>
+</ul>
+</li>
+<li><a href="#data-modelling">Data Modelling</a><ul>
+<li><a href="#types-of-relations">Types of Relations</a></li>
+<li><a href="#referencing-vs-embedding">Referencing vs. Embedding</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="How-modules-work-behind-the-scenes"><a href="#How-modules-work-behind-the-scenes" class="headerlink" title="How modules work behind the scenes"></a>How modules work behind the scenes</h2><ul>
+<li>In nodejs, every single file is treated as a <code>module</code>.</li>
+<li>Use <code>module.exports =</code> to specify the stuff to export from a module. <code>module</code> object is available to all nodejs modules.</li>
+</ul>
+<p>NodeJs do the following phases to load a module:</p>
+<ul>
+<li>File path resolving: resolve the file from the path in <code>require</code> function</li>
+<li>Wrapping: wrap the user code in a IFIE function with following arguments:<ul>
+<li><code>exports</code>: reference to <code>module.exports</code>, used to export object from a module.</li>
+<li><code>require</code>: function to require modules</li>
+<li><code>module</code>: reference to the current module object</li>
+<li><code>__filename</code>: absolute path of the file where the module is defined</li>
+<li><code>__dirname</code>: Absolute path of the directory where the module is defined</li>
+</ul>
+</li>
+<li>Execution: Simply execute the IIFE function</li>
+<li>Returning Exports:<ul>
+<li><code>require</code> function returns <code>exports</code> of the required module</li>
+<li><code>module.exports</code> is the returned object for <code>require</code> function</li>
+<li>use <code>module.exports</code> when exporting only one single variable like class or function</li>
+<li>use <code>exports.{XYZ}</code> to add as properties when exporting multiple named variables</li>
+</ul>
+</li>
+<li>Caching: Cache the module after first time load it.</li>
+</ul>
+<p>Nodejs engine:</p>
+<ul>
+<li><code>v8 engine</code>: written in C++ and javascript</li>
+<li><code>libuv</code>: Written in C++ event loop and thread pool</li>
+</ul>
+<p>nodejs is a c++ process running in a single thread.</p>
+<ul>
+<li>Initialize program</li>
+<li>Execute “top-level” code</li>
+<li>Require modules</li>
+<li>Register event callbacks</li>
+<li>Start event loop</li>
+</ul>
+<p><code>libuv</code> provides the nodejs single thread a thread pool with multiple(4 or more) threads. The event loop can offload heavy work(IO operations like read/write files, cryptograpyh, hashing passwords, etc) from the event loop to the thread pool.</p>
+<h2 id="Event-loop"><a href="#Event-loop" class="headerlink" title="Event loop"></a>Event loop</h2><ul>
+<li>All application codes that are inside callback functions will run in the event loop.</li>
+<li>Event-driven architecture: The event loop receive the events each time something happened and call the corresponding callback functions, offloads the heavy tasks to thread pool.</li>
+<li>Event loop has multiple phases, each phase has a callback queue:<ol>
+<li>Expired timer callbacks</li>
+<li>I/O polling and callbacks</li>
+<li>setImmediate callbacks</li>
+<li>Close callbacks</li>
+<li><code>Process.NextTick()</code> queue and other mircotasks queue will be processed right after each of the 4 phases</li>
+</ol>
+</li>
+</ul>
+<h3 id="Tricks"><a href="#Tricks" class="headerlink" title="Tricks"></a>Tricks</h3><ul>
+<li>It’s usually a common better practice to use <code>__dirname</code>, it always translate to the directory in which the script that is currently executing is located. While <code>./</code> points to the working directory where the command is issued. <code>./</code> in <code>requie(&#39;./&#39;)</code> locates the directory where the current module is.</li>
+<li><code>JSON.parse()</code> is a javascript built-in function to parse a json string value into a javascript object.</li>
+<li><code>JSON.stringify()</code> is the method to convert a JSON object to string.</li>
+<li><code>let error = {...err}</code> would only declared properties, not copying inherited properties.</li>
+</ul>
+<h2 id="Streams"><a href="#Streams" class="headerlink" title="Streams"></a>Streams</h2><ul>
+<li>Readable Streams<ul>
+<li><code>pipe</code> method to fix backpressure problem. Like <code>readableStream.pipe(writeableDest)</code></li>
+</ul>
+</li>
+</ul>
+<h2 id="Notes"><a href="#Notes" class="headerlink" title="Notes:"></a>Notes:</h2><ul>
+<li><code>Object.assign()</code> is to merge 2 objects into 1.</li>
+</ul>
+<h2 id="Environment-Variables-in-Nodejs-Development"><a href="#Environment-Variables-in-Nodejs-Development" class="headerlink" title="Environment Variables in Nodejs Development"></a>Environment Variables in Nodejs Development</h2><p><code>process</code> variable is a nodejs core module, and available everywhere in nodejs application. We can use <code>process.env</code> to access nodejs environment variables. There are multiple ways of setting these environment variables:</p>
+<ul>
+<li>terminal: specify <code>{ENV_NAME}= nodemon server.js</code> to set environment variables before the command of running a node application.</li>
+<li>configuration file: create a file named <code>config.env</code>, which is also by convention. Use <code>npm dotenv</code> module to connect the config file, like <code>dotenv.config({path: &#39;./config.env&#39;})</code></li>
+</ul>
+<blockquote>
+<p><code>NODE_{variableName}</code> is by convention read by express</p>
+</blockquote>
+<h2 id="Express"><a href="#Express" class="headerlink" title="Express"></a>Express</h2><h3 id="Middlewares"><a href="#Middlewares" class="headerlink" title="Middlewares"></a>Middlewares</h3><p>Middlewares are used to handle:</p>
+<ul>
+<li>Parsing body<ul>
+<li><code>express.json()</code></li>
+</ul>
+</li>
+<li>Logging<ul>
+<li><code>morgan</code> middleware writes dev logs to the console</li>
+</ul>
+</li>
+<li>Setting headers</li>
+<li>Routing</li>
+</ul>
+<p>We use <code>express.use({function(req, res, next)})</code> to add a middleware into middleware stack, the function have 3 arguments:</p>
+<ul>
+<li><code>request</code></li>
+<li><code>response</code></li>
+<li><code>next</code>: next middleware delegate. every middleware function(except the last one) must call the <code>next()</code> function, otherwise the pipeline will get stuck.</li>
+</ul>
+<h3 id="Routing"><a href="#Routing" class="headerlink" title="Routing"></a>Routing</h3><p>Routes are actually middlewares mapped to certain urls.</p>
+<ul>
+<li><code>app.get(&#39;/api/tours/:id&#39;)</code> to specify a <code>id</code> parameter</li>
+<li><code>app.get(&#39;/api/tours/:id?&#39;)</code> to specify an optional <code>id</code> parameter</li>
+<li><code>app.route(&#39;/api/tours&#39;).get()</code> defines a route.</li>
+<li><code>app.post(middleware1, middleware2)</code> allows us to pass in multiple middlewares side by side, <code>middleware1</code> will first be executed before <code>middleware2</code></li>
+<li>use <code>app.use(express.static({rootFolder}))</code> to serve static files.</li>
+<li><code>app.all(&#39;*&#39;)</code> match all http methods with all routes, this is often used for undefined routes handler.</li>
+</ul>
+<p>We use <code>express.Router()</code> to define a router middleware, and then use it for express apps:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> toursRouter = express.Router();</span><br><span class="line">toursRouter.route(<span class="string">"/"</span>).get(getAllTours).post(createTour);</span><br><span class="line"></span><br><span class="line">toursRouter.route(<span class="string">"/:id"</span>).get(getTour).patch(updateTour).delete(deleteTour);</span><br><span class="line">app.use(<span class="string">"/api/v1/tours"</span>, toursRouter);</span><br></pre></td></tr></table></figure>
+<p>With <code>router.param(&#39;{param}&#39;, (req, res, next, val)=&gt;{})</code> middleware, we can have AOP enabled with middlewares in express.</p>
+<ul>
+<li>By default, each router only has access to the parameters of its own routes, to enable router to have access to parameters of routes that belong to other router, we need to specify <code>express.router({ mergeParams: true })</code> when creating the router.</li>
+</ul>
+<p><code>npm i eslint prettier eslint-config-prettier eslint-plugin-prettier eslint-config-airbnb eslint-plugin-node eslint-plugin-import eslint-plugin-jsx-a11y eslint-plugin-react --save-dev</code></p>
+<h2 id="MongoDB"><a href="#MongoDB" class="headerlink" title="MongoDB"></a>MongoDB</h2><ul>
+<li>Collections -&gt; Tables</li>
+<li>Documents -&gt; Rows</li>
+</ul>
+<p>Mongo shell commands:</p>
+<ul>
+<li><code>use {DB_NAME}</code>: create new db if not existing, otherwise switch to the db.</li>
+<li><code>show dbs</code>: list all databases</li>
+<li><code>show collections</code>: list all collections of current db.</li>
+<li><code>db.{COLLECTION_NAME}.insertOne({})</code>: insert one BSON document into <code>{COLLECTION_NAME}</code> of current db.</li>
+<li><code>db.{COLLECTION_NAME}.insertMany([{}, {}])</code>: insert an array of BSON documents into <code>{COLLECTION_NAME}</code> of current db.</li>
+<li><code>db.{COLLECTION_NAME}.find()</code>: list all BSON documents of <code>{COLLECTION_NAME}</code> in current db.<ul>
+<li><code>find({ name: &quot;XXX&quot;})</code>: find documents that match the criteria</li>
+<li><code>find({ name: &quot;XXX&quot;, price: {$lte: 500} })</code>: find documents match the name and price less than 500</li>
+<li><code>find({ $or [{price: {$lt: 500}}, {rating: {$gte: 4.8}}]})</code> find documents whose price is less than 500 or rating is greater than or equal to 4.8</li>
+</ul>
+</li>
+<li><code>db.{COLLECTION_NAME}.updateOne({name: &quot;XXX&quot;}, {$set: {price: 597}})</code>: update the first document match the name “XXX”</li>
+<li><code>db.{COLLECTION_NAME}.updateMany({price: {$gt: 500}, rating: {$gte:4.8}}, {$set: {premium: true}})</code>: update all documents that match price &gt; 500 and rating &gt;= 4.8, adding a new field <code>premiun</code> to be true</li>
+<li><code>db.{COLLECTION_NAME}.replaceOne()</code> and <code>db.{COLLECTION_NAME}.replaceMany()</code> to perform entire document replacement</li>
+<li><code>db.{COLLECTION_NAME}.deleteOne()</code> and <code>db.{COLLECTION_NAME}.deleteMany()</code> to delete documents with same criteria pattern, <code>db.{COLLECTION_NAME}.replaceMany({})</code> is used to delete all documents without any filtering, be careful to use it.</li>
+</ul>
+<h2 id="Mongoose"><a href="#Mongoose" class="headerlink" title="Mongoose"></a>Mongoose</h2><h3 id="Schema"><a href="#Schema" class="headerlink" title="Schema"></a>Schema</h3><p><code>mongoose.Schema({})</code> returns a schema object:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">mongoose.Schema(&#123;</span><br><span class="line">  name: &#123;</span><br><span class="line">    type: <span class="built_in">String</span>,</span><br><span class="line">    required: [<span class="literal">true</span>, <span class="string">"customized error message"</span>],</span><br><span class="line">    unique: [<span class="literal">true</span>, <span class="string">"customized error message"</span>],</span><br><span class="line">    trim: <span class="literal">true</span>, <span class="comment">// trim spaces at both ends</span></span><br><span class="line">    select: <span class="literal">false</span>, <span class="comment">// exclude the field from querying</span></span><br><span class="line">  &#125;,</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h3 id="Model"><a href="#Model" class="headerlink" title="Model"></a>Model</h3><p><code>mongoose.model(&#39;Tour&#39;, {schemaObject})</code> return a blueprint of the data object, which is also responsible for perform database access operations like CRUD.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">coust Tour = mongoose.model(<span class="string">'Tour'</span>, &#123;schemaObject&#125;);</span><br><span class="line"><span class="keyword">const</span> numTours = Tour.countDocuments(); <span class="comment">// return the amount of documents.</span></span><br></pre></td></tr></table></figure>
+<h4 id="Virtual-Properties"><a href="#Virtual-Properties" class="headerlink" title="Virtual Properties"></a>Virtual Properties</h4><p>Virtual properties are fields that can be defined on the schema,but will not be persisted. They are often used for properties that can be easily converted from real properties.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tourSchema.virtual(<span class="string">"durationWeeks"</span>).get(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">this</span>.duration / <span class="number">7</span>;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h4 id="Query"><a href="#Query" class="headerlink" title="Query"></a>Query</h4><p>Query object for filtering data before returning the data.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> query1 = Model.find(&#123;&#125;); <span class="comment">// traditional way of querying data.</span></span><br><span class="line"><span class="keyword">const</span> query2 = Model.find(); <span class="comment">// API way of querying data.</span></span><br><span class="line">query.where(<span class="string">'price'</span>).equal().lt()..</span><br><span class="line">query.sort(<span class="string">'price'</span>).(<span class="string">'-createdAt'</span>); <span class="comment">// with "-" means to sort desc</span></span><br><span class="line">query.sort(<span class="string">'price duration'</span>) <span class="comment">// sort by multiple fields is seperated by space</span></span><br><span class="line">query.select(<span class="string">'name description price duration'</span>) <span class="comment">// project a subset of fields of one collection</span></span><br><span class="line">query.select(<span class="string">'-__v'</span>) <span class="comment">// project a subset of fields exclude "__v" field</span></span><br><span class="line">query.skip(&#123;amount&#125;).limit(&#123;amont&#125;) <span class="comment">// used to do pagination</span></span><br></pre></td></tr></table></figure>
+<h4 id="Aggregation-Pipeline"><a href="#Aggregation-Pipeline" class="headerlink" title="Aggregation Pipeline"></a>Aggregation Pipeline</h4><p>Use <code>Model.aggregate([{}, {}])</code> to define aggregation pipelines.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> stats = <span class="keyword">await</span> Tour.aggregate([</span><br><span class="line">  &#123;</span><br><span class="line">    $match: &#123; <span class="attr">ratingsAverage</span>: &#123; <span class="attr">$gte</span>: <span class="number">4.5</span> &#125; &#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">  &#123;</span><br><span class="line">    $group: &#123;</span><br><span class="line">      _id: &#123; <span class="attr">$toUpper</span>: <span class="string">"$difficulty"</span> &#125;,</span><br><span class="line">      numTours: &#123; <span class="attr">$sum</span>: <span class="number">1</span> &#125;,</span><br><span class="line">      numRatings: &#123; <span class="attr">$sum</span>: <span class="string">"$ratingsQuantity"</span> &#125;,</span><br><span class="line">      avgRating: &#123; <span class="attr">$avg</span>: <span class="string">"$ratingsAverage"</span> &#125;,</span><br><span class="line">      avgPrice: &#123; <span class="attr">$avg</span>: <span class="string">"$price"</span> &#125;,</span><br><span class="line">      minPrice: &#123; <span class="attr">$min</span>: <span class="string">"$price"</span> &#125;,</span><br><span class="line">      maxPrice: &#123; <span class="attr">$max</span>: <span class="string">"$price"</span> &#125;,</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">  &#123;</span><br><span class="line">    $sort: &#123;</span><br><span class="line">      avgPrice: <span class="number">1</span>,</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">  &#123;</span><br><span class="line">    $match: &#123; <span class="attr">_id</span>: &#123; <span class="attr">$ne</span>: <span class="string">"EASY"</span> &#125; &#125;,</span><br><span class="line">  &#125;,</span><br><span class="line">]);</span><br></pre></td></tr></table></figure>
+<h3 id="Mongoose-Middleware"><a href="#Mongoose-Middleware" class="headerlink" title="Mongoose Middleware"></a>Mongoose Middleware</h3><p>Like triggers in RDS, middlewares are executed at certain hooks, there 4 types of mongoose middleware:</p>
+<ul>
+<li>document middleware:</li>
+<li>query middleware:</li>
+<li>aggregate middleware:</li>
+<li>model middleware:</li>
+</ul>
+<p>document middleware:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// document middleware, runs before .save() and .create() command</span></span><br><span class="line">tourSchema.pre(<span class="string">"save"</span>, <span class="function"><span class="keyword">function</span> (<span class="params">next</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="keyword">this</span>);</span><br><span class="line">  next();</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h3 id="Validation"><a href="#Validation" class="headerlink" title="Validation"></a>Validation</h3><p>NOTE: validator in <code>validate</code> attribute of mongoose schema, <code>this</code> keyword only works when executing <code>model.save() and model.create()</code>, it will not work when executing <code>model.update()</code> documents.</p>
+<h2 id="Error-handling-in-Nodejs-Applications"><a href="#Error-handling-in-Nodejs-Applications" class="headerlink" title="Error handling in Nodejs Applications"></a>Error handling in Nodejs Applications</h2><p>use npm package <code>ndb</code> to be installed as dev dependency to debug a nodejs application.</p>
+<p>Distinguish errors first:</p>
+<ul>
+<li>Operational Errors: Problems that we can predict will happen at some point, so we just need to handle them in advance. For example:<ul>
+<li>Invalid path accessed;</li>
+<li>Invalid user input(validator error from mongoose)</li>
+<li>Failed to connect to server;</li>
+<li>Failed to connect to database;</li>
+<li>Request timeout;</li>
+</ul>
+</li>
+<li><p>Programming Errors: Bugs that developers introduce into our code. Difficult to find and handle. Foe example:</p>
+<ul>
+<li>Reading properties on undefined;</li>
+<li>Passing a number where an object is expected;</li>
+<li>Using <code>await</code> without <code>async</code>;</li>
+<li>Using <code>req.query</code> instead of <code>req.body</code>;</li>
+</ul>
+</li>
+</ul>
+<h3 id="Central-error-handling-middleware"><a href="#Central-error-handling-middleware" class="headerlink" title="Central error handling middleware"></a>Central error handling middleware</h3><ul>
+<li><code>express</code> will assume anything we passed into <code>next()</code> method as an error, and skip all middlewares and jump to error handling middleware if there is one defined.</li>
+<li>Use <code>Error.captureStackTrace(this, this.constructor);</code> to capture stacktrace of a customized Error class.</li>
+<li>Remenber to <code>return next(err)</code> in express for error handling, otherwise it will continue to process the remaining codes.</li>
+</ul>
+<h3 id="How-developers-should-handle-errors"><a href="#How-developers-should-handle-errors" class="headerlink" title="How developers should handle errors"></a>How developers should handle errors</h3><ul>
+<li>have different message sent to client per environment</li>
+<li>log all non-operational errors into logs</li>
+<li>recognise other types of error as operational errors and handle them, like errors thrown by express, mongoose:<ul>
+<li>invalid id error: CastError</li>
+<li>duplicate error:</li>
+<li>validation error</li>
+</ul>
+</li>
+<li>errors outside <code>express</code>: unhandled promise rejections. We use <code>process.on(&#39;unhanldedRejection&#39;, function)</code> to register a global handler for unhandled rejections.</li>
+<li>catching uncaught exceptions:</li>
+</ul>
+<h2 id="Security-Summary"><a href="#Security-Summary" class="headerlink" title="Security Summary"></a>Security Summary</h2><h3 id="Compromised-Database"><a href="#Compromised-Database" class="headerlink" title="Compromised Database"></a>Compromised Database</h3><ul>
+<li>Strongly encrypted passwords with salt and hash(bcrypt)</li>
+<li>Strongly encrypted password reset tokens(SHA256)</li>
+</ul>
+<h3 id="Brute-Forces-Attacks"><a href="#Brute-Forces-Attacks" class="headerlink" title="Brute Forces Attacks"></a>Brute Forces Attacks</h3><ul>
+<li>Use <code>bcrypt</code>(make the login request really slow)</li>
+<li>Implement rate limiting(express-rate-limit): limits the number of requests coming from one single IP.<ul>
+<li>Status Code 429 for too many requests</li>
+</ul>
+</li>
+<li>Implement maximum login attemps for each user.</li>
+</ul>
+<h3 id="Cross-site-Scripting-Attack"><a href="#Cross-site-Scripting-Attack" class="headerlink" title="Cross-site Scripting Attack"></a>Cross-site Scripting Attack</h3><ul>
+<li>Store jwt in HTTPOnly cookies: Never ever store jwt in local storage. Instead, we should store jwt in an HTTPOnly cookie that makes it so the browsers can only receive and send the cookie but can not access it or modify it in any way.<ul>
+<li>A cookie is just a small piece of text that the server can send to the client. When the client receives the cookie, it will automatically store it and then automatically send it back along with all future requests to the server where it come from.</li>
+<li>Use <code>res.cookie(&#39;jwt&#39;, {value}, {options-object})</code> to define how a cookie should be sent in <code>express</code>.<ul>
+<li><code>expires</code> option: decides how long the browser will store it before deleting it.</li>
+<li><code>secure</code> option: if <code>true</code>, the cookie will only be sent in a encrypted connection.</li>
+<li><code>httpOnly</code> option: if <code>true</code>, the cookie can not be accessed or modified by the browser in any way.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Sanitize user input data</li>
+<li>Set special HTTP headers(<code>helmet</code> package):</li>
+</ul>
+<h3 id="Denial-Of-Service-DOS-Attacks"><a href="#Denial-Of-Service-DOS-Attacks" class="headerlink" title="Denial-Of-Service(DOS) Attacks"></a>Denial-Of-Service(DOS) Attacks</h3><p>It happens when attackers send so many requests to a server that it breaks down and the application becomes unavailable</p>
+<ul>
+<li>Implement rate limiting(express-rate-limit): limits the number of requests coming from one single IP.</li>
+<li>Limit body payload(in body-parser): limits the amount of data that can be sent in a body of a post or a patch request.</li>
+<li>Avoid evil regular expressions: regular expressions that take an expotential time to run for non-matching inputs, they can bring the entire application down.</li>
+</ul>
+<h3 id="NO-SQL-Query-Injection-Attacks"><a href="#NO-SQL-Query-Injection-Attacks" class="headerlink" title="NO-SQL Query Injection Attacks"></a>NO-SQL Query Injection Attacks</h3><p>It happens when an attacker instead of inputting valid data, injects some query in order to create query expressions that are gonna translated to true</p>
+<ul>
+<li>Use mongoose for MongoDB(because of SchemaTypes)</li>
+<li>Sanitize user input data<ul>
+<li>use <code>express-mongo-sanitize</code> npm package, which will look at the <code>req.body</code>, <code>req.query</code> and <code>req.params</code> to filter out all the <code>$</code> and <code>.</code></li>
+<li>use <code>xss-clean</code> npm package, which will clean any user input from HTML code.</li>
+</ul>
+</li>
+</ul>
+<h3 id="Other-Best-Practices-and-Suggestions"><a href="#Other-Best-Practices-and-Suggestions" class="headerlink" title="Other Best Practices and Suggestions"></a>Other Best Practices and Suggestions</h3><ul>
+<li>Always use HTTPS</li>
+<li>Create random reset password tokens with expire dates</li>
+<li>Deny access to JWT after password change</li>
+<li>Don’t commit sensitive config data to Git</li>
+<li>Don’t send error details to clients</li>
+<li>Prevent Cross-site Request Forgery(csurf package)</li>
+<li>Require re-authentication before a high-value action</li>
+<li>Implement a blacklist of untrusted JWT</li>
+<li>Confirm user email address after first creating account</li>
+<li>Keep user logged in with refresh tokens</li>
+<li>Implement two factor authentication</li>
+<li>Prevent parameter pollution causing unhandled exceptions<ul>
+<li>use npm <code>hpp</code> package, which will clean up the query string for duplicate fields.</li>
+</ul>
+</li>
+</ul>
+<h2 id="Data-Modelling"><a href="#Data-Modelling" class="headerlink" title="Data Modelling"></a>Data Modelling</h2><h3 id="Types-of-Relations"><a href="#Types-of-Relations" class="headerlink" title="Types of Relations"></a>Types of Relations</h3><ul>
+<li>1:1: Movie -&gt; Name</li>
+<li>1:Many: based on relative amount of many, we have:<ul>
+<li>1 to a few: 1 moive could win a few awards</li>
+<li>1 to many: 1 moive can have hundreds/thousands of reviews</li>
+<li>1 to a ton: 1 app could have millions of logs.</li>
+</ul>
+</li>
+<li>Many:Many: 1 movie can have mutilple actors while 1 actor can play in many moives</li>
+</ul>
+<p>We have multiple different referencing types:</p>
+<ul>
+<li>Child Referencing: Parent document holds an array of ids pointing to the documents, the child documents know nothing about its parent document. Best used in 1:few relationships.</li>
+<li>Parent Referencing: Child docuent holds the id of the parent document, the parent document knows nothing about its children. Best used in 1:Many and 1:Ton relationships.</li>
+<li>Two way Referencing: Combined with child and parent referencing. Best used in Many:Many relationships.</li>
+</ul>
+<h3 id="Referencing-vs-Embedding"><a href="#Referencing-vs-Embedding" class="headerlink" title="Referencing vs. Embedding"></a>Referencing vs. Embedding</h3><p>Referencing/Normailized:</p>
+<ul>
+<li>Easier to query documents on its own.</li>
+<li>Need additional queries to get data from referenced document</li>
+</ul>
+<p>Embedding/Denormalized:</p>
+<ul>
+<li>Able to get all data in one query</li>
+<li>Impossible to query the embedded documents on its won</li>
+</ul>
+<p>When to reference and when to embed?</p>
+<ul>
+<li>Relationship Type: How 2 datasets are related to each other</li>
+<li>Data Access Pattern: How often data is read or written, read/write radio</li>
+<li>Data Closeness: How much data is related, how we want query data from db</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          
+          <div class="post-tags">
+              <a href="/tags/javascript/" rel="tag"><i class="fa fa-tag"></i> javascript</a>
+              <a href="/tags/nodejs/" rel="tag"><i class="fa fa-tag"></i> nodejs</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/web-frontend-devnotes-modern-javascript/" rel="prev" title="Web Front-end Development Notes - Modern Javascript">
+      <i class="fa fa-chevron-left"></i> Web Front-end Development Notes - Modern Javascript
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let activeClass = CONFIG.comments.activeClass;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 2015 – 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Frost He</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-area-chart"></i>
+    </span>
+    <span title="站点总字数">372k</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script>
+<script src="/js/schemes/muse.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
