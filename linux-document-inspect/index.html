@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="K2S73UudyU-JTh9S0U_KnOKgOvE7aW7EpO560okLyUU">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css" integrity="sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{&quot;hostname&quot;:&quot;blog.frosthe.net&quot;,&quot;root&quot;:&quot;&#x2F;&quot;,&quot;images&quot;:&quot;&#x2F;images&quot;,&quot;scheme&quot;:&quot;Mist&quot;,&quot;version&quot;:&quot;8.5.0&quot;,&quot;exturl&quot;:false,&quot;sidebar&quot;:{&quot;position&quot;:&quot;left&quot;,&quot;display&quot;:&quot;always&quot;,&quot;padding&quot;:18,&quot;offset&quot;:12,&quot;width&quot;:300},&quot;copycode&quot;:false,&quot;bookmark&quot;:{&quot;enable&quot;:false,&quot;color&quot;:&quot;#222&quot;,&quot;save&quot;:&quot;auto&quot;},&quot;fancybox&quot;:false,&quot;mediumzoom&quot;:false,&quot;lazyload&quot;:false,&quot;pangu&quot;:false,&quot;comments&quot;:{&quot;style&quot;:&quot;tabs&quot;,&quot;active&quot;:null,&quot;storage&quot;:true,&quot;lazyload&quot;:false,&quot;nav&quot;:null},&quot;motion&quot;:{&quot;enable&quot;:false,&quot;async&quot;:false,&quot;transition&quot;:{&quot;post_block&quot;:&quot;fadeIn&quot;,&quot;post_header&quot;:&quot;fadeInDown&quot;,&quot;post_body&quot;:&quot;fadeInDown&quot;,&quot;coll_header&quot;:&quot;fadeInLeft&quot;,&quot;sidebar&quot;:&quot;fadeInUp&quot;}},&quot;prism&quot;:false,&quot;i18n&quot;:{&quot;placeholder&quot;:&quot;搜索...&quot;,&quot;empty&quot;:&quot;没有找到任何搜索结果：${query}&quot;,&quot;hits_time&quot;:&quot;找到 ${hits} 个搜索结果（用时 ${time} 毫秒）&quot;,&quot;hits&quot;:&quot;找到 ${hits} 个搜索结果&quot;}}</script><script src="/js/config.js"></script>
+<meta name="description" content="本文介绍了 Linux 系统与档案内容查阅相关的指令">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux 基础 - 档案内容查阅(cat&#x2F;tac&#x2F;nl&#x2F;more&#x2F;less&#x2F;head&#x2F;tail&#x2F;od&#x2F;touch)">
+<meta property="og:url" content="https://blog.frosthe.net/linux-document-inspect/index.html">
+<meta property="og:site_name" content="FrostHe.Handbook">
+<meta property="og:description" content="本文介绍了 Linux 系统与档案内容查阅相关的指令">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2016-04-30T10:25:41.000Z">
+<meta property="article:modified_time" content="2019-01-12T13:05:13.634Z">
+<meta property="article:author" content="Frost He">
+<meta property="article:tag" content="linux">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://blog.frosthe.net/linux-document-inspect/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{&quot;sidebar&quot;:&quot;&quot;,&quot;isHome&quot;:false,&quot;isPost&quot;:true,&quot;lang&quot;:&quot;zh-CN&quot;,&quot;comments&quot;:true,&quot;permalink&quot;:&quot;https:&#x2F;&#x2F;blog.frosthe.net&#x2F;linux-document-inspect&#x2F;&quot;,&quot;path&quot;:&quot;linux-document-inspect&#x2F;&quot;,&quot;title&quot;:&quot;Linux 基础 - 档案内容查阅(cat&#x2F;tac&#x2F;nl&#x2F;more&#x2F;less&#x2F;head&#x2F;tail&#x2F;od&#x2F;touch)&quot;}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">&quot;&quot;</script>
+<title>Linux 基础 - 档案内容查阅(cat/tac/nl/more/less/head/tail/od/touch) | FrostHe.Handbook</title>
+  
+  <script class="next-config" data-name="google_analytics" type="application/json">{&quot;tracking_id&quot;:&quot;UA-125853342-1&quot;,&quot;only_pageview&quot;:true}</script>
+  <script src="/js/third-party/analytics/google-analytics.js"></script>
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+  <div class="site-meta">
+      <a
+        href="/" class="brand" rel="start">
+        
+        <h1 class="site-title">FrostHe.Handbook</h1>
+          <p class="site-subtitle">Talk less, do more</p>
+        
+      </a>
+      </div>
+      <div class="site-nav-right">
+        <div class="toggle popup-trigger">
+        </div>
+      </div>
+    </div>
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-film fa-fw"></i>时间线</a></li>
+        <li class="menu-item menu-item-about"><a href="/about" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar sidebar-active">
+
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Frost He" src="/images/avatar.jpg">
+    <p class="site-author-name" itemprop="name">Frost He</p>
+    <p>Full-stack web developer<p>
+        <div class="site-description" itemprop="description">
+          <i class="fa fa-fw fa-map-marker-alt"></i>
+          <span>Chengdu, China</span>
+        </div>
+      </div>
+                <div class="links-of-author site-overview-item animated">
+                    <span class="links-of-author-item">
+                      <a href="https://github.com/BerdyPango" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;BerdyPango" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+                    </span>
+                    <span class="links-of-author-item">
+                      <a href="https://plus.google.com/yourname" title="Google → https:&#x2F;&#x2F;plus.google.com&#x2F;yourname" rel="noopener" target="_blank"><i class="fab fa-google fa-fw"></i></a>
+                    </span>
+                    <span class="links-of-author-item">
+                      <a href="https://www.linkedin.com/in/frosthe0419/" title="Linkedin → https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;frosthe0419&#x2F;" rel="noopener" target="_blank"><i class="fab fa-linkedin fa-fw"></i></a>
+                    </span>
+                    <span class="links-of-author-item">
+                      <a href="https://www.instagram.com/frosthe_pro/" title="Instagram → https:&#x2F;&#x2F;www.instagram.com&#x2F;frosthe_pro&#x2F;" rel="noopener" target="_blank"><i class="fab fa-instagram fa-fw"></i></a>
+                    </span>
+                    <span class="links-of-author-item">
+                      <a href="https://steamcommunity.com/profiles/76561198049061021/" title="Steam → https:&#x2F;&#x2F;steamcommunity.com&#x2F;profiles&#x2F;76561198049061021&#x2F;" rel="noopener" target="_blank"><i class="fab fa-steam-square fa-fw"></i></a>
+                    </span>
+                </div>
+              
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blog.frosthe.net/linux-document-inspect/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Frost He">
+      <meta itemprop="description" content="Chengdu, China">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FrostHe.Handbook">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Linux 基础 - 档案内容查阅(cat/tac/nl/more/less/head/tail/od/touch)
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2016-04-30 18:25:41" itemprop="dateCreated datePublished" datetime="2016-04-30T18:25:41+08:00">2016-04-30</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2019-01-12 21:05:13" itemprop="dateModified" datetime="2019-01-12T21:05:13+08:00">2019-01-12</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Linux-Basic/" itemprop="url" rel="index"><span itemprop="name">Linux Basic</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>2.6k</span>
+    </span>
+</div>
+
+            <div class="post-description">本文介绍了 Linux 系统与档案内容查阅相关的指令</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="cat-concatenate"><a href="#cat-concatenate" class="headerlink" title="cat(concatenate)"></a>cat(concatenate)</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat [-AbEnTv] 档案名</span><br></pre></td></tr></table></figure>
+<p>参数与选项:</p>
+<ul>
+<li><code>-A</code>: 忽略空白字符，列出不可见的特殊字符</li>
+<li><code>-b</code>: 列出行号，仅针对非空白行</li>
+<li><code>-E</code>: 将结尾的换行字符 <code>$</code> 显示出来</li>
+<li><code>-n</code>: 列出行号，包括空白行</li>
+<li><code>-T</code>: 将 <code>Tab</code> 以 <code>^|</code> 显示</li>
+<li><code>-v</code>: 列出不可见的特殊字符</li>
+</ul>
+<blockquote>
+<p>在使用 <code>cat -A</code> 指令后，Tab 以 <code>^|</code> 显示，而换行符以 <code>$</code> 显示，这样有助于查看空白部分到底是什么字符。</p>
+</blockquote>
+<h1 id="tac-反向串联"><a href="#tac-反向串联" class="headerlink" title="tac(反向串联)"></a>tac(反向串联)</h1><p><code>tac</code> 命令恰好是 <code>cat</code> 命令反写，<code>cat</code> 从第一行输出至最后一行，而 <code>tac</code> 从最后一行输出到第一行。</p>
+<h1 id="nl-添加行号"><a href="#nl-添加行号" class="headerlink" title="nl(添加行号)"></a>nl(添加行号)</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nl [-bnw] 档案名</span><br></pre></td></tr></table></figure>
+<p>参数与选项:</p>
+<ul>
+<li><code>-b</code>: 指定行号的方式，主要有两种:<ul>
+<li><code>-ba</code>: 类似 <code>cat -n</code>，空行也列出行号</li>
+<li><code>-bt</code>: 忽略空白行的行号，预设值</li>
+</ul>
+</li>
+<li><code>-n</code>: 列出行号表示方法，主要三种:<ul>
+<li><code>-n ln</code>: 行号位于左侧</li>
+<li><code>-n rn</code>: 行号位于右侧</li>
+<li><code>-n rz</code>: 行号位于右侧，且添零补齐</li>
+</ul>
+</li>
+<li><code>-w</code>: 行号占位字符数<br>举例:<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">nl -ba -n rz -w 3 /etc/issue</span><br><span class="line">001 \S</span><br><span class="line">002 Kernel \r on an \m</span><br><span class="line">003</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h1 id="翻页-more-和-less"><a href="#翻页-more-和-less" class="headerlink" title="翻页(more 和 less)"></a>翻页(more 和 less)</h1><p><code>ln</code>, <code>cat</code> 和 <code>tac</code> 都是将档案的全部内容一次性输出到屏幕上，<code>more</code> 与 <code>less</code> 指令提供了翻页功能。</p>
+<h2 id="more"><a href="#more" class="headerlink" title="more"></a>more</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">more /etc/man_db.conf</span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># This file is used by the man-db package to configure the man and cat paths.</span></span><br><span class="line"><span class="comment"># It is also used to provide a manpath for those without one by examining</span></span><br><span class="line"><span class="comment"># their PATH environment variable. For details see the manpath(5) man page.</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line">--More--(28%) </span><br></pre></td></tr></table></figure>
+<p>使用 <code>more</code> 指令后，可以注意到最下端一行多出了一个百分比，此时如果按下:</p>
+<ul>
+<li><code>Space</code>: 下一页</li>
+<li><code>b</code>: 上一页</li>
+<li><code>Enter</code>: 下一行</li>
+<li><code>q</code>: 退出 <code>more</code> 指令</li>
+<li><code>/&#123;字符串&#125;</code>: 向下查找 「字符串」 匹配的文本，按下 <code>Enter</code> 开始查找，按下 <code>n</code> 查找下一个，</li>
+<li><code>:f</code>: 显示档案名及当前显示的行数<h2 id="less"><a href="#less" class="headerlink" title="less"></a>less</h2><code>less</code> 在 <code>more</code> 的基础上做了改进，less 使用 <code>PGUp</code> 和 <code>PGDown</code> 来翻页。并且多出了一些选项:</li>
+<li><code>Space</code>: 下一页</li>
+<li><code>pagedown</code>: 下一页</li>
+<li><code>pageup</code>: 上一页</li>
+<li><code>/&#123;字符串&#125;</code>: 向下查找 「字符串」 匹配的文本</li>
+<li><code>?&#123;字符串&#125;</code>: 向上查找 「字符串」 匹配的文本</li>
+<li><code>n</code>: 重复前一个查找</li>
+<li><code>N</code>: 反向重复前一个查找</li>
+<li><code>g</code>: 跳转至第一行</li>
+<li><code>G</code>: 跳转至最后一行</li>
+<li><code>q</code>: 退出 <code>less</code> 指令</li>
+</ul>
+<blockquote>
+<p><code>man</code> 指令是执行 <code>less</code> 指令产生的结果，所以两者在用法上是相通的</p>
+</blockquote>
+<h1 id="文本截取-head-和-tail"><a href="#文本截取-head-和-tail" class="headerlink" title="文本截取(head 和 tail)"></a>文本截取(head 和 tail)</h1><h2 id="head"><a href="#head" class="headerlink" title="head"></a>head</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">head [-n number] 档案名</span><br></pre></td></tr></table></figure>
+<p>选项与参数:</p>
+<ul>
+<li><code>-n</code>: 后接数字，代表显示前 n 行，如果不指定 <code>-n</code> 参数，默认情况下该指令显示前 10 行，如果指定为 <code>-100</code>，则表示显示最后 100 行之前的所有行<br>举例: <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">head /etc/man_db.conf <span class="comment"># 输出前 10 行</span></span><br><span class="line">head /etc/man_db.conf -n 20 <span class="comment"># 输出前 20 行</span></span><br><span class="line">head /etc/man_db.conf -n -100 <span class="comment"># 输出最后 100 行前的所有行</span></span><br></pre></td></tr></table></figure>
+<h2 id="tail"><a href="#tail" class="headerlink" title="tail"></a>tail</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tail [-n number] 档案名</span><br></pre></td></tr></table></figure>
+选项与参数:</li>
+<li><code>-n</code>: 后接数字，表示输出最后 n 行，默认值为 10，</li>
+<li><code>-f</code>: 表示实时侦测文档，<code>Ctrl + C</code> 来取消<br>举例:<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">tail /etc/man_db.conf <span class="comment"># 输出最后 10 行</span></span><br><span class="line">tail -n 20 /etc/man_db.conf <span class="comment"># 输出最后 20 行</span></span><br><span class="line">tail -n +100 /etc/man_db.conf <span class="comment"># 输出 100 行后的所有行</span></span><br><span class="line">tail -f /var/<span class="built_in">log</span>/messages  <span class="comment"># 实时监测该文档的内容，可与 -n 并用</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>如果希望输出某个文档的第 10-20 行，那么可以执行 <code>head -n 20 /etc/man_db.conf | tail -n 10</code>，意为先去前 20 行，再将其结果交给 <code>tail</code> 指令输出最后 10 行。</p>
+</blockquote>
+</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat -n /etc/man_db.conf | head -n 20 | tail -n 10 <span class="comment"># 取 /etc/man_db.conf 的 10-20 行，并显示行号</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="非纯文本档案-od"><a href="#非纯文本档案-od" class="headerlink" title="非纯文本档案: od"></a>非纯文本档案: od</h1><p>上述的所有指令都是针对纯文本的档案读取，对非纯文本档案的读取使用 od 指令:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">od [-t TYPE] 档案名</span><br></pre></td></tr></table></figure>
+<p>选项与参数:</p>
+<ul>
+<li><code>-t</code>: 接档案类型，类型有:<ul>
+<li>a: 使用预设的字符输出</li>
+<li>c: 使用 ASCII 输出</li>
+<li>d[size]: 使用十进制(decimal)输出资料，每个整数占用 [size] 字节</li>
+<li>f[size]: 使用浮点数(floating)输出资料，每个数占用 [size] 字节</li>
+<li>o[size]: 利用八进(octal)制输出资料，每个整数占用 [size] 字节</li>
+<li>x[size]: 利用十六进制(hexadecimal)来输出资料，每个整数占用 [size] 字节</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>该命令可用于快速定位字符的 ASCII 编码，例如: echo password | od -t oCc</p>
+</blockquote>
+<h1 id="修改档案时间或新建档案-touch"><a href="#修改档案时间或新建档案-touch" class="headerlink" title="修改档案时间或新建档案: touch"></a>修改档案时间或新建档案: touch</h1><p>对于某个档案，其主要有 3 个时间变动的入口:</p>
+<ul>
+<li>modification time(mtime): 档案的「内容」更改时，会更新该时间</li>
+<li>status time(ctime): 档案的「状态」改变时，会更新该时间，例如权限和属性被更改</li>
+<li>access time(atime): 「档案的内容被读取」时，会更新该时间，例如用 <code>cat</code> 指令读取某个档案</li>
+</ul>
+<p>默认情况下，当使用 <code>ls</code> 指令时，得到的时间是 <code>mtime</code>，即该档案内容上次被修改的时间，如果发现时间不对，可 <code>touch</code> 指令修改时间:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">touch [-acdmt] 档案名</span><br></pre></td></tr></table></figure>
+<p>选项和参数:</p>
+<ul>
+<li><code>-a</code>: 仅修改 aceess time</li>
+<li><code>-c</code>: 仅修改档案时间，若档案不存在则不建立新档案</li>
+<li><code>-d</code>: 修改 atime 和 mtime，后接目标时间，可用 –date=”日期或时间”代替</li>
+<li><code>-m</code>: 仅修改 mtime</li>
+<li><code>-t</code>: 修改 atime 和 mtime，后接目标时间，格式为 [YYYYMMDDhhmm]<br>举例:<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">touch testtouch <span class="comment"># 建立新的空档案，三个时间都会更新会当前时间</span></span><br><span class="line">date; ll bashrc; ll - -time=atime bashrc; ll --time=ctime bashrc</span><br><span class="line">touch -d <span class="string">&quot;2 days ago&quot;</span> bashrc <span class="comment"># 修改</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><code>;</code> 用于分割连续下达的指令，这些指令会依次执行，<code>ctime</code> 是无法通过指令修改的，即便是完全复制一条档案，也无法复制 <code>ctime</code>，该属性记录了档案的状态变化时间。</p>
+</blockquote>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/linux/" rel="tag"><i class="fa fa-tag"></i> linux</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/linux-document-management/" rel="prev" title="Linux 基础 - 档案与目录管理(ls/cp/rm/mv/basename/dirname)">
+                  <i class="fa fa-chevron-left"></i> Linux 基础 - 档案与目录管理(ls/cp/rm/mv/basename/dirname)
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/linux-document-search/" rel="next" title="Linux 基础 - 指令与档案的搜索(which/whereis/locate/updatedb/find)">
+                  Linux 基础 - 指令与档案的搜索(which/whereis/locate/updatedb/find) <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2015 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Frost He</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">381k</span>
+  </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

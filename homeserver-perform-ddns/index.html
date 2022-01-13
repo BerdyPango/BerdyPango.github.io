@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="K2S73UudyU-JTh9S0U_KnOKgOvE7aW7EpO560okLyUU">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css" integrity="sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{&quot;hostname&quot;:&quot;blog.frosthe.net&quot;,&quot;root&quot;:&quot;&#x2F;&quot;,&quot;images&quot;:&quot;&#x2F;images&quot;,&quot;scheme&quot;:&quot;Mist&quot;,&quot;version&quot;:&quot;8.5.0&quot;,&quot;exturl&quot;:false,&quot;sidebar&quot;:{&quot;position&quot;:&quot;left&quot;,&quot;display&quot;:&quot;always&quot;,&quot;padding&quot;:18,&quot;offset&quot;:12,&quot;width&quot;:300},&quot;copycode&quot;:false,&quot;bookmark&quot;:{&quot;enable&quot;:false,&quot;color&quot;:&quot;#222&quot;,&quot;save&quot;:&quot;auto&quot;},&quot;fancybox&quot;:false,&quot;mediumzoom&quot;:false,&quot;lazyload&quot;:false,&quot;pangu&quot;:false,&quot;comments&quot;:{&quot;style&quot;:&quot;tabs&quot;,&quot;active&quot;:null,&quot;storage&quot;:true,&quot;lazyload&quot;:false,&quot;nav&quot;:null},&quot;motion&quot;:{&quot;enable&quot;:false,&quot;async&quot;:false,&quot;transition&quot;:{&quot;post_block&quot;:&quot;fadeIn&quot;,&quot;post_header&quot;:&quot;fadeInDown&quot;,&quot;post_body&quot;:&quot;fadeInDown&quot;,&quot;coll_header&quot;:&quot;fadeInLeft&quot;,&quot;sidebar&quot;:&quot;fadeInUp&quot;}},&quot;prism&quot;:false,&quot;i18n&quot;:{&quot;placeholder&quot;:&quot;搜索...&quot;,&quot;empty&quot;:&quot;没有找到任何搜索结果：${query}&quot;,&quot;hits_time&quot;:&quot;找到 ${hits} 个搜索结果（用时 ${time} 毫秒）&quot;,&quot;hits&quot;:&quot;找到 ${hits} 个搜索结果&quot;}}</script><script src="/js/config.js"></script>
+<meta name="description" content="本文介绍了如何通过 DDNS 技术现实内网穿透">
+<meta property="og:type" content="article">
+<meta property="og:title" content="通过 DDNS 实现稳定内网穿透">
+<meta property="og:url" content="https://blog.frosthe.net/homeserver-perform-ddns/index.html">
+<meta property="og:site_name" content="FrostHe.Handbook">
+<meta property="og:description" content="本文介绍了如何通过 DDNS 技术现实内网穿透">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2018-05-23T08:28:57.000Z">
+<meta property="article:modified_time" content="2019-12-28T13:12:05.980Z">
+<meta property="article:author" content="Frost He">
+<meta property="article:tag" content="network">
+<meta property="article:tag" content="router">
+<meta property="article:tag" content="ddns">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://blog.frosthe.net/homeserver-perform-ddns/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{&quot;sidebar&quot;:&quot;&quot;,&quot;isHome&quot;:false,&quot;isPost&quot;:true,&quot;lang&quot;:&quot;zh-CN&quot;,&quot;comments&quot;:true,&quot;permalink&quot;:&quot;https:&#x2F;&#x2F;blog.frosthe.net&#x2F;homeserver-perform-ddns&#x2F;&quot;,&quot;path&quot;:&quot;homeserver-perform-ddns&#x2F;&quot;,&quot;title&quot;:&quot;通过 DDNS 实现稳定内网穿透&quot;}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">&quot;&quot;</script>
+<title>通过 DDNS 实现稳定内网穿透 | FrostHe.Handbook</title>
+  
+  <script class="next-config" data-name="google_analytics" type="application/json">{&quot;tracking_id&quot;:&quot;UA-125853342-1&quot;,&quot;only_pageview&quot;:true}</script>
+  <script src="/js/third-party/analytics/google-analytics.js"></script>
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+  <div class="site-meta">
+      <a
+        href="/" class="brand" rel="start">
+        
+        <h1 class="site-title">FrostHe.Handbook</h1>
+          <p class="site-subtitle">Talk less, do more</p>
+        
+      </a>
+      </div>
+      <div class="site-nav-right">
+        <div class="toggle popup-trigger">
+        </div>
+      </div>
+    </div>
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-film fa-fw"></i>时间线</a></li>
+        <li class="menu-item menu-item-about"><a href="/about" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar sidebar-active">
+
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Frost He" src="/images/avatar.jpg">
+    <p class="site-author-name" itemprop="name">Frost He</p>
+    <p>Full-stack web developer<p>
+        <div class="site-description" itemprop="description">
+          <i class="fa fa-fw fa-map-marker-alt"></i>
+          <span>Chengdu, China</span>
+        </div>
+      </div>
+                <div class="links-of-author site-overview-item animated">
+                    <span class="links-of-author-item">
+                      <a href="https://github.com/BerdyPango" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;BerdyPango" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+                    </span>
+                    <span class="links-of-author-item">
+                      <a href="https://plus.google.com/yourname" title="Google → https:&#x2F;&#x2F;plus.google.com&#x2F;yourname" rel="noopener" target="_blank"><i class="fab fa-google fa-fw"></i></a>
+                    </span>
+                    <span class="links-of-author-item">
+                      <a href="https://www.linkedin.com/in/frosthe0419/" title="Linkedin → https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;frosthe0419&#x2F;" rel="noopener" target="_blank"><i class="fab fa-linkedin fa-fw"></i></a>
+                    </span>
+                    <span class="links-of-author-item">
+                      <a href="https://www.instagram.com/frosthe_pro/" title="Instagram → https:&#x2F;&#x2F;www.instagram.com&#x2F;frosthe_pro&#x2F;" rel="noopener" target="_blank"><i class="fab fa-instagram fa-fw"></i></a>
+                    </span>
+                    <span class="links-of-author-item">
+                      <a href="https://steamcommunity.com/profiles/76561198049061021/" title="Steam → https:&#x2F;&#x2F;steamcommunity.com&#x2F;profiles&#x2F;76561198049061021&#x2F;" rel="noopener" target="_blank"><i class="fab fa-steam-square fa-fw"></i></a>
+                    </span>
+                </div>
+              
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blog.frosthe.net/homeserver-perform-ddns/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Frost He">
+      <meta itemprop="description" content="Chengdu, China">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FrostHe.Handbook">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          通过 DDNS 实现稳定内网穿透
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2018-05-23 16:28:57" itemprop="dateCreated datePublished" datetime="2018-05-23T16:28:57+08:00">2018-05-23</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2019-12-28 21:12:05" itemprop="dateModified" datetime="2019-12-28T21:12:05+08:00">2019-12-28</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Home-Server/" itemprop="url" rel="index"><span itemprop="name">Home Server</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>817</span>
+    </span>
+</div>
+
+            <div class="post-description">本文介绍了如何通过 DDNS 技术现实内网穿透</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>本文索引: </p>
+<ul>
+<li><a href="#%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F">内网穿透</a><ul>
+<li><a href="#%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86">实现原理</a></li>
+<li><a href="#%E5%89%8D%E6%8F%90%E6%9D%A1%E4%BB%B6">前提条件</a></li>
+<li><a href="#%E5%AE%9E%E7%8E%B0">实现</a></li>
+<li><a href="#%E5%9C%A8%E8%B7%AF%E7%94%B1%E5%99%A8%E4%B8%AD%E9%85%8D%E7%BD%AE%E7%AB%AF%E5%8F%A3%E8%BD%AC%E5%8F%91">在路由器中配置端口转发</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="内网穿透"><a href="#内网穿透" class="headerlink" title="内网穿透"></a>内网穿透</h2><p>ISP 运营商会为每户家庭宽带分配一个公网 IP 地址，位于互联网上的主机通过该 IP 地址，再由路由器映射到内网某台提供服务的主机上，就实现了内网穿透。然而，由于 ISP 运营商分配到家庭宽带的公网 IP 地址是动态变化的，那么每次公网 IP 地址变化之后都需要动手更改目标 IP 地址，才能继续访问家中的服务。<code>DDNS(动态域名解析)</code> 技术解决了这个问题。</p>
+<h3 id="实现原理"><a href="#实现原理" class="headerlink" title="实现原理"></a>实现原理</h3><p>通过在内网某台主机(本文以树莓派为例)上不断检测本地 WAN 的公共 IP 地址变化，并不断向指定的域名更新记录。这样，当从外网通过域名解析主机时，将始终指向同一个主机。</p>
+<h3 id="前提条件"><a href="#前提条件" class="headerlink" title="前提条件"></a>前提条件</h3><p>为了实现 DDNS，至少应该准备:</p>
+<ol>
+<li>可远程管理的注册域名: 本文以阿里云万网域名为例</li>
+<li>路由器具备端口转发功能</li>
+<li>确保本地网络的公网 IP 可由外网访问，这一条主要是针对国内某些 ISP 将家庭宽带挂到某个大局域网下面，具体参见<a href="homeserver-setup-isp-device">电信宽带的正确使用姿势</a></li>
+</ol>
+<h3 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h3><p>国内市场上有诸如<a target="_blank" rel="noopener" href="https://www.oray.com/">花生壳</a>，国外市场上有诸如 <a target="_blank" rel="noopener" href="https://www.duckdns.org/">DuckDns</a> 的 DDNS 服务商，他们为用户提供二级域名使用权和相应的客户端软件用以更新 DNS 记录。为了争取最大的自由度，本文将绕过第三方通过开源手段来实现。</p>
+<p>假设我在阿里云(也可能是腾讯云，重要的是其提供相应的域名管理 API)注册了 <code>example.com</code>，阿里云负责提供全网都可访问该域名的 <code>dns</code> 服务。Git Clone 或<a target="_blank" rel="noopener" href="https://github.com/NewFuture/DDNS/archive/master.zip">下载 DDNS</a> 至树莓派。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ git <span class="built_in">clone</span> https://github.com/NewFuture/DDNS</span><br><span class="line">$ <span class="built_in">cd</span> DDNS</span><br><span class="line">$ python ./run.py</span><br></pre></td></tr></table></figure>
+<p>详细使用方法参考 <a target="_blank" rel="noopener" href="https://github.com/NewFuture/DDNS">DDNS Github Repo</a>。</p>
+<h3 id="在路由器中配置端口转发"><a href="#在路由器中配置端口转发" class="headerlink" title="在路由器中配置端口转发"></a>在路由器中配置端口转发</h3><p>路由器没有能力或并不知道从外网入站的网络访问需要什么样的服务，它需要将入站请求转发至提供该种服务的内网主机，并映射相应的端口号。</p>
+
+
+<blockquote>
+<p>由于众所周知的原因，国内 ISP 屏蔽了家庭网络的 80 及 443 端口，如果需要提供 http(s) 服务，需要选择其他端口。</p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button onclick="document.querySelector('.post-reward').classList.toggle('active');">
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechat-reward-image.jpg" alt="Frost He 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/images/alipay-reward-image.jpg" alt="Frost He 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/network/" rel="tag"><i class="fa fa-tag"></i> network</a>
+              <a href="/tags/router/" rel="tag"><i class="fa fa-tag"></i> router</a>
+              <a href="/tags/ddns/" rel="tag"><i class="fa fa-tag"></i> ddns</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/homeserver-setup-isp-device/" rel="prev" title="电信宽带的正确使用姿势">
+                  <i class="fa fa-chevron-left"></i> 电信宽带的正确使用姿势
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/smarthome-setup-ha-on-raspberrypi/" rel="next" title="智慧家庭 - 架设 HomeAssistant">
+                  智慧家庭 - 架设 HomeAssistant <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2015 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Frost He</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">381k</span>
+  </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

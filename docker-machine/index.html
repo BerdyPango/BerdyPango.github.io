@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="K2S73UudyU-JTh9S0U_KnOKgOvE7aW7EpO560okLyUU">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css" integrity="sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{&quot;hostname&quot;:&quot;blog.frosthe.net&quot;,&quot;root&quot;:&quot;&#x2F;&quot;,&quot;images&quot;:&quot;&#x2F;images&quot;,&quot;scheme&quot;:&quot;Mist&quot;,&quot;version&quot;:&quot;8.5.0&quot;,&quot;exturl&quot;:false,&quot;sidebar&quot;:{&quot;position&quot;:&quot;left&quot;,&quot;display&quot;:&quot;always&quot;,&quot;padding&quot;:18,&quot;offset&quot;:12,&quot;width&quot;:300},&quot;copycode&quot;:false,&quot;bookmark&quot;:{&quot;enable&quot;:false,&quot;color&quot;:&quot;#222&quot;,&quot;save&quot;:&quot;auto&quot;},&quot;fancybox&quot;:false,&quot;mediumzoom&quot;:false,&quot;lazyload&quot;:false,&quot;pangu&quot;:false,&quot;comments&quot;:{&quot;style&quot;:&quot;tabs&quot;,&quot;active&quot;:null,&quot;storage&quot;:true,&quot;lazyload&quot;:false,&quot;nav&quot;:null},&quot;motion&quot;:{&quot;enable&quot;:false,&quot;async&quot;:false,&quot;transition&quot;:{&quot;post_block&quot;:&quot;fadeIn&quot;,&quot;post_header&quot;:&quot;fadeInDown&quot;,&quot;post_body&quot;:&quot;fadeInDown&quot;,&quot;coll_header&quot;:&quot;fadeInLeft&quot;,&quot;sidebar&quot;:&quot;fadeInUp&quot;}},&quot;prism&quot;:false,&quot;i18n&quot;:{&quot;placeholder&quot;:&quot;搜索...&quot;,&quot;empty&quot;:&quot;没有找到任何搜索结果：${query}&quot;,&quot;hits_time&quot;:&quot;找到 ${hits} 个搜索结果（用时 ${time} 毫秒）&quot;,&quot;hits&quot;:&quot;找到 ${hits} 个搜索结果&quot;}}</script><script src="/js/config.js"></script>
+<meta name="description" content="有关 Docker Machine 的用法和场景">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Docker 初探 (6) - Docker Machine">
+<meta property="og:url" content="https://blog.frosthe.net/docker-machine/index.html">
+<meta property="og:site_name" content="FrostHe.Handbook">
+<meta property="og:description" content="有关 Docker Machine 的用法和场景">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2018-02-04T15:09:17.000Z">
+<meta property="article:modified_time" content="2018-10-13T02:13:08.297Z">
+<meta property="article:author" content="Frost He">
+<meta property="article:tag" content="ops">
+<meta property="article:tag" content="docker">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://blog.frosthe.net/docker-machine/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{&quot;sidebar&quot;:&quot;&quot;,&quot;isHome&quot;:false,&quot;isPost&quot;:true,&quot;lang&quot;:&quot;zh-CN&quot;,&quot;comments&quot;:true,&quot;permalink&quot;:&quot;https:&#x2F;&#x2F;blog.frosthe.net&#x2F;docker-machine&#x2F;&quot;,&quot;path&quot;:&quot;docker-machine&#x2F;&quot;,&quot;title&quot;:&quot;Docker 初探 (6) - Docker Machine&quot;}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">&quot;&quot;</script>
+<title>Docker 初探 (6) - Docker Machine | FrostHe.Handbook</title>
+  
+  <script class="next-config" data-name="google_analytics" type="application/json">{&quot;tracking_id&quot;:&quot;UA-125853342-1&quot;,&quot;only_pageview&quot;:true}</script>
+  <script src="/js/third-party/analytics/google-analytics.js"></script>
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+  <div class="site-meta">
+      <a
+        href="/" class="brand" rel="start">
+        
+        <h1 class="site-title">FrostHe.Handbook</h1>
+          <p class="site-subtitle">Talk less, do more</p>
+        
+      </a>
+      </div>
+      <div class="site-nav-right">
+        <div class="toggle popup-trigger">
+        </div>
+      </div>
+    </div>
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-film fa-fw"></i>时间线</a></li>
+        <li class="menu-item menu-item-about"><a href="/about" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar sidebar-active">
+
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Frost He" src="/images/avatar.jpg">
+    <p class="site-author-name" itemprop="name">Frost He</p>
+    <p>Full-stack web developer<p>
+        <div class="site-description" itemprop="description">
+          <i class="fa fa-fw fa-map-marker-alt"></i>
+          <span>Chengdu, China</span>
+        </div>
+      </div>
+                <div class="links-of-author site-overview-item animated">
+                    <span class="links-of-author-item">
+                      <a href="https://github.com/BerdyPango" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;BerdyPango" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+                    </span>
+                    <span class="links-of-author-item">
+                      <a href="https://plus.google.com/yourname" title="Google → https:&#x2F;&#x2F;plus.google.com&#x2F;yourname" rel="noopener" target="_blank"><i class="fab fa-google fa-fw"></i></a>
+                    </span>
+                    <span class="links-of-author-item">
+                      <a href="https://www.linkedin.com/in/frosthe0419/" title="Linkedin → https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;frosthe0419&#x2F;" rel="noopener" target="_blank"><i class="fab fa-linkedin fa-fw"></i></a>
+                    </span>
+                    <span class="links-of-author-item">
+                      <a href="https://www.instagram.com/frosthe_pro/" title="Instagram → https:&#x2F;&#x2F;www.instagram.com&#x2F;frosthe_pro&#x2F;" rel="noopener" target="_blank"><i class="fab fa-instagram fa-fw"></i></a>
+                    </span>
+                    <span class="links-of-author-item">
+                      <a href="https://steamcommunity.com/profiles/76561198049061021/" title="Steam → https:&#x2F;&#x2F;steamcommunity.com&#x2F;profiles&#x2F;76561198049061021&#x2F;" rel="noopener" target="_blank"><i class="fab fa-steam-square fa-fw"></i></a>
+                    </span>
+                </div>
+              
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blog.frosthe.net/docker-machine/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Frost He">
+      <meta itemprop="description" content="Chengdu, China">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FrostHe.Handbook">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Docker 初探 (6) - Docker Machine
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2018-02-04 23:09:17" itemprop="dateCreated datePublished" datetime="2018-02-04T23:09:17+08:00">2018-02-04</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2018-10-13 10:13:08" itemprop="dateModified" datetime="2018-10-13T10:13:08+08:00">2018-10-13</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Docker/" itemprop="url" rel="index"><span itemprop="name">Docker</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>2.6k</span>
+    </span>
+</div>
+
+            <div class="post-description">有关 Docker Machine 的用法和场景</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>参考资料: </p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://docs.docker.com/get-started/part4/">Swarms</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.docker.com/machine/overview/">Docker Machine</a></li>
+</ul>
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p><a target="_blank" rel="noopener" href="https://docs.docker.com/get-started/part4/">Docker GetStarted Swarm</a> 官方文档中，为了在单机上演示如何搭建 <code>Docker Swarm</code> 而引入了 <code>Docker Machine</code>，并在其中穿插了虚拟 shell 环境的内容，个人认为这部分内容干扰了集群搭建的关键信息。</p>
+<h1 id="Docker-Machine"><a href="#Docker-Machine" class="headerlink" title="Docker Machine"></a>Docker Machine</h1><p>通过 <code>Docker Machine</code> 可实现在虚拟主机或远程主机上安装 <code>Docker</code> 引擎，并使用 <code>docker-machine</code> 命令行对其进行管理的工具。<code>Docker Machine</code> 在 <code>Docker for Mac</code> 和 <code>Docker for Windows</code> 上都已经预装，<code>Linux</code> 系统需要手动安装。</p>
+<p><code>Docker Machine</code> 有以下两种常用场景:</p>
+<ul>
+<li>有些老的桌面系统主机如 <code>Windows</code> 和 <code>Mac</code>，它们不满足预装 <code>Docker for Windows</code> 或 <code>Docker for Mac</code> 的条件，但我想要在这些系统上运行 <code>Docker</code>。</li>
+<li>我想要在远程主机系统上运行统一的 <code>Docker image</code>。</li>
+</ul>
+<p><code>docker</code> 守护进程由服务端和客户端两部分组成，服务端发布 REST API 接口开放给客户端，<code>docker CLI</code> 客户端通过 REST API 接口与服务端通信。</p>
+
+
+<p>无论你的管理主机是 <code>Windows</code>，<code>Mac</code> 还是 <code>Linux</code>，都可以安装 <code>Docker Machine</code> 并使用 <code>docker-machine</code> 命令统一管理大量的 <code>Docker</code> 从机。通常，你会将 <code>Docker Machine</code> 安装到本地主机，<code>Docker Machine</code> 包含 <code>docker-machine</code> 命令行工具和 <code>Docker</code> 引擎的客户端 <code>docker</code> 命令行工具。可通过 <code>docker-machine</code> 命令行工具在本地主机的虚拟环境或云主机上安装 <code>Docker</code> 引擎，它将自动创建虚拟环境，安装 <code>Docker</code> 引擎，配置好 <code>docker</code> 客户端，每一个被管理的从机由 <code>Docker host</code>(运行了 Docker 引擎的主机) 和一个配置好的客户端组成，它们通常又被称为 **_”machines”_**。</p>
+
+
+<blockquote>
+<p>意即，如果仅仅安装 <code>Docker Machine</code>，将不会在本机安装 <code>Docker</code> 引擎，仅仅安装其客户端管理工具</p>
+</blockquote>
+<h2 id="在-Linux-上安装-Docker-Machine"><a href="#在-Linux-上安装-Docker-Machine" class="headerlink" title="在 Linux 上安装 Docker Machine"></a>在 Linux 上安装 Docker Machine</h2><p>首先在 <a target="_blank" rel="noopener" href="https://github.com/docker/machine/releases/">docker/machine release page</a> 页面上找到最新的发布版本号，并修改以下命令对应的位置</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ base=https://github.com/docker/machine/releases/download/v0.14.0 &amp;&amp;</span><br><span class="line">  curl -L <span class="variable">$base</span>/docker-machine-$(uname -s)-$(uname -m) &gt;/tmp/docker-machine &amp;&amp;</span><br><span class="line">  sudo install /tmp/docker-machine /usr/<span class="built_in">local</span>/bin/docker-machine</span><br></pre></td></tr></table></figure>
+<p>打印 <code>docker-machine</code> 的版本以确认安装完成:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ docker-machine --version</span><br><span class="line">docker-machine version 0.14.0, build 89b8332</span><br></pre></td></tr></table></figure>
+
+<h1 id="以非-driver-方式添加主机"><a href="#以非-driver-方式添加主机" class="headerlink" title="以非 driver 方式添加主机"></a>以非 driver 方式添加主机</h1><p><code>Docker Machine</code> 为众多的虚拟机和云服务商提供了 <code>driver</code>，以通过这些驱动在不同的服务商主机上安装 <code>Docker</code> 引擎，但也提供了一种 url 的方式来添加已有 <code>docker</code> 主机:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ docker-machine create --driver none --url=tcp://50.134.234.20:2376 custombox</span><br><span class="line">$ docker-machine ls</span><br><span class="line">NAME        ACTIVE   DRIVER    STATE     URL</span><br><span class="line">custombox   *        none      Running   tcp://50.134.234.20:2376</span><br></pre></td></tr></table></figure>
+<p>此后，便可通过 <code>docker-machine</code> 远程管理列表中的所有主机，可通过 <code>docker-machine ssh custombox</code> 向该主机发送指令，例如:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker-machine ssh custombox <span class="string">&quot;docker container ls&quot;</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>如果出于某些原因出现 ssh 连接的问题，那么可以改用系统本地的 ssh 进行通信，加入 <code>--native-ssh</code> 参数即可: <code>docker-machine --native-ssh ssh</code></p>
+</blockquote>
+<h1 id="配置虚拟-Docker-主机的-shell-环境"><a href="#配置虚拟-Docker-主机的-shell-环境" class="headerlink" title="配置虚拟 Docker 主机的 shell 环境"></a>配置虚拟 Docker 主机的 shell 环境</h1><p>除了通过 <code>docker-machine ssh</code> 向 Docker 主机发送命令之外，还可以使用 <code>docker-machine env &lt;machine&gt;</code> 配置一个虚拟 shell 环境直接与目标主机的 Docker 守护进程通信。这样，便可访问执行 <code>docker-machine</code> 的本地主机的资源，如 <code>docker-compose.yml</code> 文件:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ docker-machine env custombox</span><br><span class="line"></span><br><span class="line"><span class="built_in">export</span> DOCKER_TLS_VERIFY=<span class="string">&quot;1&quot;</span></span><br><span class="line"><span class="built_in">export</span> DOCKER_HOST=<span class="string">&quot;tcp://50.134.234.20:2376&quot;</span></span><br><span class="line"><span class="built_in">export</span> DOCKER_CERT_PATH=<span class="string">&quot;/Users/pango/.docker/machine/machines/custombox&quot;</span></span><br><span class="line"><span class="built_in">export</span> DOCKER_MACHINE_NAME=<span class="string">&quot;custombox&quot;</span></span><br><span class="line"><span class="comment"># Run this command to configure your shell:</span></span><br><span class="line"><span class="comment"># eval $(docker-machine env custombox)</span></span><br></pre></td></tr></table></figure>
+<p>执行输出结果返回的最后一行命令:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">eval</span> $(docker-machine env myvm1)</span><br></pre></td></tr></table></figure>
+<p>执行 <code>docker-machine ls</code> 验证 <code>custombox</code> 变成了活动主机，Active 一栏的 <code>*</code> 指示了该状态:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ docker-machine ls</span><br><span class="line"></span><br><span class="line">NAME        ACTIVE   DRIVER       STATE     URL                         SWARM     DOCKER        ERRORS</span><br><span class="line">custombox   *        none         Running   tcp://50.134.234.20:2376              v17.06.2-ce   </span><br></pre></td></tr></table></figure>
+
+<h1 id="清除-docker-machine-的-shell-变量设置"><a href="#清除-docker-machine-的-shell-变量设置" class="headerlink" title="清除 docker-machine 的 shell 变量设置"></a>清除 docker-machine 的 shell 变量设置</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">eval</span> $(docker-machine env -u)</span><br></pre></td></tr></table></figure>
+<p>该命令退出与目标主机建立的虚拟 shell 环境并回到之前的环境中。</p>
+<p>有关 <code>Docker Machine</code> 更多详情参考 <a target="_blank" rel="noopener" href="https://docs.docker.com/machine/overview/">Docker Machine</a>。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/ops/" rel="tag"><i class="fa fa-tag"></i> ops</a>
+              <a href="/tags/docker/" rel="tag"><i class="fa fa-tag"></i> docker</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/docker-stacks/" rel="prev" title="Docker 初探 (5) - Stacks">
+                  <i class="fa fa-chevron-left"></i> Docker 初探 (5) - Stacks
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/docker-deployment/" rel="next" title="Docker 初探 (7) - 部署">
+                  Docker 初探 (7) - 部署 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2015 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Frost He</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">381k</span>
+  </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

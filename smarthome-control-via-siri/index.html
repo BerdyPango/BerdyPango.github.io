@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="K2S73UudyU-JTh9S0U_KnOKgOvE7aW7EpO560okLyUU">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css" integrity="sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{&quot;hostname&quot;:&quot;blog.frosthe.net&quot;,&quot;root&quot;:&quot;&#x2F;&quot;,&quot;images&quot;:&quot;&#x2F;images&quot;,&quot;scheme&quot;:&quot;Mist&quot;,&quot;version&quot;:&quot;8.5.0&quot;,&quot;exturl&quot;:false,&quot;sidebar&quot;:{&quot;position&quot;:&quot;left&quot;,&quot;display&quot;:&quot;always&quot;,&quot;padding&quot;:18,&quot;offset&quot;:12,&quot;width&quot;:300},&quot;copycode&quot;:false,&quot;bookmark&quot;:{&quot;enable&quot;:false,&quot;color&quot;:&quot;#222&quot;,&quot;save&quot;:&quot;auto&quot;},&quot;fancybox&quot;:false,&quot;mediumzoom&quot;:false,&quot;lazyload&quot;:false,&quot;pangu&quot;:false,&quot;comments&quot;:{&quot;style&quot;:&quot;tabs&quot;,&quot;active&quot;:null,&quot;storage&quot;:true,&quot;lazyload&quot;:false,&quot;nav&quot;:null},&quot;motion&quot;:{&quot;enable&quot;:false,&quot;async&quot;:false,&quot;transition&quot;:{&quot;post_block&quot;:&quot;fadeIn&quot;,&quot;post_header&quot;:&quot;fadeInDown&quot;,&quot;post_body&quot;:&quot;fadeInDown&quot;,&quot;coll_header&quot;:&quot;fadeInLeft&quot;,&quot;sidebar&quot;:&quot;fadeInUp&quot;}},&quot;prism&quot;:false,&quot;i18n&quot;:{&quot;placeholder&quot;:&quot;搜索...&quot;,&quot;empty&quot;:&quot;没有找到任何搜索结果：${query}&quot;,&quot;hits_time&quot;:&quot;找到 ${hits} 个搜索结果（用时 ${time} 毫秒）&quot;,&quot;hits&quot;:&quot;找到 ${hits} 个搜索结果&quot;}}</script><script src="/js/config.js"></script>
+<meta name="description" content="本文介绍通过 HA 的 homekit 组件实现 Siri 控制智能家居的方法">
+<meta property="og:type" content="article">
+<meta property="og:title" content="智慧家庭 - 通过 Siri 控制连接至 HomeAssistant 的智能设备">
+<meta property="og:url" content="https://blog.frosthe.net/smarthome-control-via-siri/index.html">
+<meta property="og:site_name" content="FrostHe.Handbook">
+<meta property="og:description" content="本文介绍通过 HA 的 homekit 组件实现 Siri 控制智能家居的方法">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2018-05-26T03:03:44.000Z">
+<meta property="article:modified_time" content="2019-12-28T13:12:26.258Z">
+<meta property="article:author" content="Frost He">
+<meta property="article:tag" content="smart-home">
+<meta property="article:tag" content="home-assistant">
+<meta property="article:tag" content="homebridge">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://blog.frosthe.net/smarthome-control-via-siri/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{&quot;sidebar&quot;:&quot;&quot;,&quot;isHome&quot;:false,&quot;isPost&quot;:true,&quot;lang&quot;:&quot;zh-CN&quot;,&quot;comments&quot;:true,&quot;permalink&quot;:&quot;https:&#x2F;&#x2F;blog.frosthe.net&#x2F;smarthome-control-via-siri&#x2F;&quot;,&quot;path&quot;:&quot;smarthome-control-via-siri&#x2F;&quot;,&quot;title&quot;:&quot;智慧家庭 - 通过 Siri 控制连接至 HomeAssistant 的智能设备&quot;}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">&quot;&quot;</script>
+<title>智慧家庭 - 通过 Siri 控制连接至 HomeAssistant 的智能设备 | FrostHe.Handbook</title>
+  
+  <script class="next-config" data-name="google_analytics" type="application/json">{&quot;tracking_id&quot;:&quot;UA-125853342-1&quot;,&quot;only_pageview&quot;:true}</script>
+  <script src="/js/third-party/analytics/google-analytics.js"></script>
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+  <div class="site-meta">
+      <a
+        href="/" class="brand" rel="start">
+        
+        <h1 class="site-title">FrostHe.Handbook</h1>
+          <p class="site-subtitle">Talk less, do more</p>
+        
+      </a>
+      </div>
+      <div class="site-nav-right">
+        <div class="toggle popup-trigger">
+        </div>
+      </div>
+    </div>
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-film fa-fw"></i>时间线</a></li>
+        <li class="menu-item menu-item-about"><a href="/about" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar sidebar-active">
+
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Frost He" src="/images/avatar.jpg">
+    <p class="site-author-name" itemprop="name">Frost He</p>
+    <p>Full-stack web developer<p>
+        <div class="site-description" itemprop="description">
+          <i class="fa fa-fw fa-map-marker-alt"></i>
+          <span>Chengdu, China</span>
+        </div>
+      </div>
+                <div class="links-of-author site-overview-item animated">
+                    <span class="links-of-author-item">
+                      <a href="https://github.com/BerdyPango" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;BerdyPango" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+                    </span>
+                    <span class="links-of-author-item">
+                      <a href="https://plus.google.com/yourname" title="Google → https:&#x2F;&#x2F;plus.google.com&#x2F;yourname" rel="noopener" target="_blank"><i class="fab fa-google fa-fw"></i></a>
+                    </span>
+                    <span class="links-of-author-item">
+                      <a href="https://www.linkedin.com/in/frosthe0419/" title="Linkedin → https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;frosthe0419&#x2F;" rel="noopener" target="_blank"><i class="fab fa-linkedin fa-fw"></i></a>
+                    </span>
+                    <span class="links-of-author-item">
+                      <a href="https://www.instagram.com/frosthe_pro/" title="Instagram → https:&#x2F;&#x2F;www.instagram.com&#x2F;frosthe_pro&#x2F;" rel="noopener" target="_blank"><i class="fab fa-instagram fa-fw"></i></a>
+                    </span>
+                    <span class="links-of-author-item">
+                      <a href="https://steamcommunity.com/profiles/76561198049061021/" title="Steam → https:&#x2F;&#x2F;steamcommunity.com&#x2F;profiles&#x2F;76561198049061021&#x2F;" rel="noopener" target="_blank"><i class="fab fa-steam-square fa-fw"></i></a>
+                    </span>
+                </div>
+              
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blog.frosthe.net/smarthome-control-via-siri/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Frost He">
+      <meta itemprop="description" content="Chengdu, China">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FrostHe.Handbook">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          智慧家庭 - 通过 Siri 控制连接至 HomeAssistant 的智能设备
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2018-05-26 11:03:44" itemprop="dateCreated datePublished" datetime="2018-05-26T11:03:44+08:00">2018-05-26</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2019-12-28 21:12:26" itemprop="dateModified" datetime="2019-12-28T21:12:26+08:00">2019-12-28</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Smart-Home/" itemprop="url" rel="index"><span itemprop="name">Smart Home</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>6.7k</span>
+    </span>
+</div>
+
+            <div class="post-description">本文介绍通过 HA 的 homekit 组件实现 Siri 控制智能家居的方法</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>参考资料:</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/nfarina/homebridge">Github - Homebridge</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/home-assistant/homebridge-homeassistant">Github - Home Assistant Plugin</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/oznu/docker-homebridge">Github - HomeBridge Docker</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.home-assistant.io/components/homekit/#disable-auto-start">HomeKit - HomeAssistant</a></li>
+</ul>
+<p>本文索引:</p>
+<ul>
+<li><a href="#%E8%83%8C%E6%99%AF">背景</a></li>
+<li><a href="#%E9%80%9A%E8%BF%87-homekit-%E7%BB%84%E4%BB%B6%E5%AE%9E%E7%8E%B0">通过 HomeKit 组件实现</a><ul>
+<li><a href="#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9">注意事项</a></li>
+</ul>
+</li>
+<li><a href="#%E9%80%9A%E8%BF%87-homebridge-%E5%8F%8A%E5%85%B6%E6%8F%92%E4%BB%B6%E5%AE%9E%E7%8E%B0%E8%80%81%E6%96%B9%E6%B3%95">通过 HomeBridge 及其插件实现(老方法)</a><ul>
+<li><a href="#%E5%AE%89%E8%A3%85-nodejsoptional">安装 NodeJs(Optional)</a></li>
+<li><a href="#%E5%AE%89%E8%A3%85-homebridge">安装 Homebridge</a></li>
+<li><a href="#%E5%AE%89%E8%A3%85-ha-%E6%8F%92%E4%BB%B6">安装 HA 插件</a></li>
+<li><a href="#%E9%85%8D%E7%BD%AE-configjson">配置 config.json</a></li>
+<li><a href="#%E9%85%8D%E7%BD%AE%E5%BC%80%E6%9C%BA%E5%90%AF%E5%8A%A8-homebridge">配置开机启动 Homebridge</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>比起 <code>Alexa</code> ，通过 <code>Siri</code> 联通 <strong>HA</strong> 的优势在于:</p>
+<ul>
+<li>支持中文语音</li>
+<li>至少有一台 iOS 设备就可以实现，无需购买 <strong>Echo</strong> 系列的产品</li>
+</ul>
+<p><code>Siri</code> 通过 <code>HomeKit</code> 与 <code>Apple Home</code> 通信，<code>HomeKit</code> 扮演了 <code>Apple Home</code> 数据库的角色。只要 <code>HomeAssistant</code> 中暴露的实体能够被 <code>HomeKit*</code> 识别就可以由 <code>Siri</code> 进行控制。从 <strong>HA 0.64</strong> 开始就内置了 <code>homekit</code> 组件，不再需要单独运行 <code>HomeBridge</code> 及其 <code>HomeAssistant</code> 插件来实现。</p>
+<h2 id="通过-HomeKit-组件实现"><a href="#通过-HomeKit-组件实现" class="headerlink" title="通过 HomeKit 组件实现"></a>通过 HomeKit 组件实现</h2><p>首先安装必要组件:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get install libavahi-compat-libdnssd-dev</span><br></pre></td></tr></table></figure>
+
+<p>找到 <code>configuration.yaml</code> 文件，添加以下配置信息:</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">homekit:</span></span><br><span class="line">  <span class="attr">auto_start:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">filter:</span></span><br><span class="line">    <span class="attr">include_entities:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">light.lamp</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">entity_config:</span></span><br><span class="line">    <span class="attr">light.lamp:</span></span><br><span class="line">      <span class="attr">name:</span> <span class="string">台灯</span></span><br></pre></td></tr></table></figure>
+<p><code>homekit</code> 组件支持以下参数:</p>
+<ul>
+<li><code>auto_start</code>: 指示 <code>HomeKit Server</code> 是否应该在 <code>HomeAssistant Core</code> 启动完成后重新启动，可选，默认值为 <code>true</code></li>
+<li><code>port</code>: 自定义 <code>HomeKit Server</code> 暴露的端口，可选，默认值为 51827</li>
+<li><code>name</code>: 指定 <code>HomeKit</code> 的名称，同一网络中单个 <code>HomeAssistant</code> 实例必须唯一，可选，默认值为 <em>Home Assistant Bridge</em></li>
+<li><code>ip_address</code>: 显式指定 IP 地址，仅当 <code>Home Assistant</code> 的默认值不起作用时有用，可选</li>
+<li><code>safe_mode</code>: 仅当配对出现问题时设置该值，可选，默认为 <code>false</code></li>
+<li><code>filter</code>: 定义被暴露/隐藏的 <code>HomeAssistant</code> 实体:<ul>
+<li><code>include_domains</code>: 需要包含的域，可选</li>
+<li><code>include_entities</code>: 需要包含的实体，可选</li>
+<li><code>exclude_domains</code>: 需要排除的域，可选</li>
+<li><code>exclude_entities</code>: 需要排除的实体，可选</li>
+</ul>
+</li>
+<li><code>entity_config</code>: 针对实体的单独定义<ul>
+<li><code>&lt;entity_id&gt;</code>: 实体的引用<ul>
+<li><code>name</code>: 在 <code>HomeKit</code> 中用以显示的名称，可选，<code>HomeKit</code> 在首次运行时会缓存名称，当设备发生任何变化时，需要先移除并重新添加</li>
+<li><code>code</code>: 仅针对闹钟设备 <code>arm / disarm</code> 或智能锁设备 <code>lock / unlock</code> 有效，可选</li>
+<li><code>feature_list</code>: 仅针对 <code>media_player</code> 实体有效，以字典形式添加的功能列表，可选<ul>
+<li><code>feature</code>: 添加至实体的功能名称，必填，有效值为 <code>on_off</code>、<code>play_pause</code>、<code>play_stop</code> 和 <code>toogle_mute</code>。且 <code>media_player</code> 实体必须这些功能才能生效</li>
+</ul>
+</li>
+<li><code>type</code>: 仅针对开关(<code>switch</code>) 实体有效。表示在 <code>HomeKit</code> 中的开关类型，可选。有效值有 <code>faucet</code>、<code>outlet</code>、<code>shower</code>、<code>sprinker</code>、<code>switch</code> 和 <code>value</code>，默认值为 <code>switch</code>。<code>HomeKit</code> 在首次运行时会缓存类型，当设备发生任何变化时，需要先移除并重新添加。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>保存，重启 <strong>HA</strong>，将在主页面看到一个新的 Card:</p>
+
+
+<p>确保 iOS 设备与 <strong>HA</strong> 及智能设备处于同一 wifi 网络，打开 iOS 上的 Home App</p>
+<ol>
+<li>点击「添加配件」</li>
+<li>选择「没有代码或无法扫描」</li>
+<li>输入上图所示的 PIN Code</li>
+<li>弹出未认证配件时点击「仍然添加」</li>
+</ol>
+<p>添加完成后的配件如下图所示:</p>
+
+
+<p>现在，通过 iOS 设备呼出 <code>Siri</code>，让 TA 关闭台灯，即可生效。</p>
+<h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><ol>
+<li><code>homekit</code> 组件使用 <code>accessory id(aid)</code> 将连接至 <code>HomeAssistant</code> 的实体 <code>entity_id</code> 绑定起来，<code>homekit</code> 组件使用 <code>aid</code> 来识别设备。因此，一旦改变某个连接至 <code>HomeAssistant</code> 的设备的 <code>entity_id</code>，所有在 <code>Home App</code> 中针对该设备的改动都将丢失。</li>
+<li>单个 <code>HomeKit</code> 最多包含 100 个附件</li>
+<li>内置的 <code>homekit</code> 组件无法持久化 <strong>Home Assistant Bridge</strong> 桥接设备，但已被添加至该桥接设备的配件会被持久化，这是 <strong>HomeKit</strong> 本身的问题。为了解决这个问题，可引入一个 <code>Automation</code> - 当 <code>HomeKit</code> 所依赖的实体设置完成后启动 <code>HomeKit</code>。做法如下:<ol>
+<li>首先禁用 <code>homekit</code> 组件的自动启动:<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">homekit:</span></span><br><span class="line">  <span class="attr">auto_start:</span> <span class="literal">false</span></span><br></pre></td></tr></table></figure></li>
+<li>定义用于启动 <code>homekit</code> 组件的 <code>Automation</code>:<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">automation:</span> </span><br><span class="line">  <span class="bullet">-</span> <span class="attr">alias:</span> <span class="string">&#x27;Start HomeKit&#x27;</span></span><br><span class="line">    <span class="attr">trigger:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">platform:</span> <span class="string">event</span></span><br><span class="line">        <span class="attr">event_type:</span> <span class="string">light.lamp.network_ready</span></span><br><span class="line">    <span class="attr">action:</span> <span class="string">homekit.start</span></span><br></pre></td></tr></table></figure></li>
+<li>也可以使用一种更加泛化的判定方式，在 <code>HomeAssistant</code> 启动 5 分钟后再启动 <code>homekit</code> 组件:<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">automation:</span> </span><br><span class="line">  <span class="bullet">-</span> <span class="attr">alias:</span> <span class="string">&#x27;Start HomeKit&#x27;</span></span><br><span class="line">    <span class="attr">trigger:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">platform:</span> <span class="string">event</span></span><br><span class="line">        <span class="attr">event_type:</span> <span class="string">homeassistant_start</span></span><br><span class="line">    <span class="attr">action:</span> </span><br><span class="line">      <span class="bullet">-</span> <span class="attr">delay:</span> <span class="number">00</span><span class="string">:05</span>  <span class="comment"># Waits 5 minutes</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">service:</span> <span class="string">homekit.start</span></span><br></pre></td></tr></table></figure></li>
+</ol>
+</li>
+</ol>
+<hr>
+<h2 id="通过-HomeBridge-及其插件实现-老方法"><a href="#通过-HomeBridge-及其插件实现-老方法" class="headerlink" title="通过 HomeBridge 及其插件实现(老方法)"></a>通过 HomeBridge 及其插件实现(老方法)</h2><p><code>HomeBridge</code> 是一个发布在 <code>npm</code> 中的包，依赖 <code>NodeJs</code>，并且有各种各样的插件以支持不同的网关系统。</p>
+
+
+<h3 id="安装-NodeJs-Optional"><a href="#安装-NodeJs-Optional" class="headerlink" title="安装 NodeJs(Optional)"></a>安装 NodeJs(Optional)</h3><p>首先安装 <code>NodeJs</code>:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">$ sudo curl -sL https://deb.nodesource.com/setup_10.x | sudo -E bash -</span><br><span class="line"></span><br><span class="line">## Run `sudo apt-get install -y nodejs` to install Node.js 10.x and npm</span><br><span class="line">## You may also need development tools to build native addons:</span><br><span class="line">     sudo apt-get install gcc g++ make</span><br><span class="line">## To install the Yarn package manager, run:</span><br><span class="line">     curl -sL https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -</span><br><span class="line">     echo &quot;deb https://dl.yarnpkg.com/debian/ stable main&quot; | sudo tee /etc/apt/sources.list.d/yarn.list</span><br><span class="line">     sudo apt-get update &amp;&amp; sudo apt-get install yarn</span><br><span class="line"></span><br><span class="line">$ sudo apt install -y nodejs</span><br><span class="line"></span><br><span class="line">Reading package lists... Done</span><br><span class="line">Building dependency tree</span><br><span class="line">Reading state information... Done</span><br><span class="line">The following NEW packages will be installed:</span><br><span class="line">  nodejs</span><br><span class="line">0 upgraded, 1 newly installed, 0 to remove and 45 not upgraded.</span><br><span class="line">Need to get 13.4 MB of archives.</span><br><span class="line">After this operation, 66.7 MB of additional disk space will be used.</span><br><span class="line">Get:1 https://deb.nodesource.com/node_10.x stretch/main armhf nodejs armhf 10.9.0-1nodesource1 [13.4 MB]</span><br><span class="line">Fetched 13.4 MB in 6s (2,042 kB/s)</span><br><span class="line">Selecting previously unselected package nodejs.</span><br><span class="line">(Reading database ... 38984 files and directories currently installed.)</span><br><span class="line">Preparing to unpack .../nodejs_10.9.0-1nodesource1_armhf.deb ...</span><br><span class="line">Unpacking nodejs (10.9.0-1nodesource1) ...</span><br><span class="line">Setting up nodejs (10.9.0-1nodesource1) ...</span><br><span class="line">Processing triggers for man-db (2.7.6.1-2) ...</span><br></pre></td></tr></table></figure>
+
+<h3 id="安装-Homebridge"><a href="#安装-Homebridge" class="headerlink" title="安装 Homebridge"></a>安装 Homebridge</h3><p>通过 <code>npm</code> 安装 <code>HomeBridge</code> 包:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ sudo npm install -g --unsafe-perm homebridge</span><br><span class="line"></span><br><span class="line">make: Leaving directory <span class="string">&#x27;/usr/lib/node_modules/homebridge/node_modules/ed25519-hap/build&#x27;</span></span><br><span class="line">+ homebridge@0.4.44</span><br><span class="line">added 40 packages from 35 contributors <span class="keyword">in</span> 54.124s</span><br></pre></td></tr></table></figure>
+<p>现在执行 <code>homebridge</code> 命令，表示安装成功了。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ homebridge</span><br><span class="line">config.json (/home/pi/.homebridge/config.json) not found.</span><br><span class="line">No plugins found. See the README <span class="keyword">for</span> information on installing plugins.</span><br></pre></td></tr></table></figure>
+
+<h3 id="安装-HA-插件"><a href="#安装-HA-插件" class="headerlink" title="安装 HA 插件"></a>安装 HA 插件</h3><p>不带插件的 <code>Homebridge</code> 没有任何用</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ sudo npm install -g homebridge-homeassistant</span><br><span class="line"></span><br><span class="line">+ homebridge-homeassistant@3.1.0</span><br><span class="line">added 53 packages from 60 contributors in 17.553s</span><br></pre></td></tr></table></figure>
+<h3 id="配置-config-json"><a href="#配置-config-json" class="headerlink" title="配置 config.json"></a>配置 config.json</h3><p>在创建 <code>config.json</code> 之前，Homebridge 不会做任何事，<code>config.json</code> 放置在 <code>~/.homebridge</code> 目录下:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cd</span> ~/.homebridge</span><br><span class="line">$ sudo nano config.json</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">    <span class="string">&quot;bridge&quot;</span>: &#123;</span><br><span class="line">        <span class="string">&quot;name&quot;</span>: <span class="string">&quot;Homebridge&quot;</span>,</span><br><span class="line">        <span class="string">&quot;username&quot;</span>: <span class="string">&quot;CC:22:3D:E3:CE:30&quot;</span>,</span><br><span class="line">        <span class="string">&quot;port&quot;</span>: 51826,</span><br><span class="line">        <span class="string">&quot;pin&quot;</span>: <span class="string">&quot;031-45-154&quot;</span></span><br><span class="line">    &#125;,</span><br><span class="line"></span><br><span class="line">    <span class="string">&quot;platforms&quot;</span>: [</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="string">&quot;platform&quot;</span>: <span class="string">&quot;HomeAssistant&quot;</span>,</span><br><span class="line">        <span class="string">&quot;name&quot;</span>: <span class="string">&quot;HomeAssistant&quot;</span>,</span><br><span class="line">        <span class="string">&quot;host&quot;</span>: <span class="string">&quot;http://127.0.0.1:8123&quot;</span>,</span><br><span class="line">        <span class="string">&quot;password&quot;</span>: <span class="string">&quot;YOURPASSWORD&quot;</span>,</span><br><span class="line">        <span class="string">&quot;supported_types&quot;</span>: [<span class="string">&quot;automation&quot;</span>, <span class="string">&quot;binary_sensor&quot;</span>, <span class="string">&quot;climate&quot;</span>, <span class="string">&quot;cover&quot;</span>, <span class="string">&quot;device_tracker&quot;</span>, <span class="string">&quot;fan&quot;</span>, <span class="string">&quot;group&quot;</span>, <span class="string">&quot;input_boolean&quot;</span>, <span class="string">&quot;light&quot;</span>, <span class="string">&quot;lock&quot;</span>, <span class="string">&quot;media_player&quot;</span>, <span class="string">&quot;remote&quot;</span>, <span class="string">&quot;scene&quot;</span>, <span class="string">&quot;script&quot;</span>, <span class="string">&quot;sensor&quot;</span>$</span><br><span class="line">        <span class="string">&quot;default_visibility&quot;</span>: <span class="string">&quot;visible&quot;</span>,</span><br><span class="line">        <span class="string">&quot;logging&quot;</span>: <span class="literal">false</span>,</span><br><span class="line">        <span class="string">&quot;verify_ssl&quot;</span>: <span class="literal">false</span></span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>HomeBridge</code> 以被 <strong>HomeKit</strong> 识别的组件向其暴露，<code>bridge</code> 对象用于向 <strong>HomeKit</strong> 描述其组件自身的信息，包括用作显示名称的 <code>name</code>，用作唯一标识的 Mac 地址 <code>username</code>，端口号及 <code>pin</code>，该 <code>pin</code> 用于与 <strong>HomeKit</strong> 进行配对。<code>platforms</code> 是一个数组，代表配置的多种插件信息，这里仅安装了 <strong>HA</strong> 的插件，配置对象的信息均与 <strong>HA</strong> 有关，包含了诸如 <code>host</code>，<code>api-password</code>，支持的 <code>entity</code> 类型等，具体可参考 <a target="_blank" rel="noopener" href="https://github.com/home-assistant/homebridge-homeassistant">Github Repo</a>。</p>
+<p>配置完成后，重新启动 Homebridge:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ homebridge</span><br></pre></td></tr></table></figure>
+<p>打开 iOS 系统自带的 Home App 扫描屏幕上的二维码，取得 <code>HomeAssistant</code> 中暴露的 Entity(HA 中将所有接入网关的设备称为一个 Entity)并试试控制它们。然后再用「Hey, Siri」来控制试试。</p>
+<h3 id="配置开机启动-Homebridge"><a href="#配置开机启动-Homebridge" class="headerlink" title="配置开机启动 Homebridge"></a>配置开机启动 Homebridge</h3><ol>
+<li>粘贴默认配置信息:<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ sudo nano /etc/default/homebridge </span><br><span class="line"></span><br><span class="line"># Defaults / Configuration options for homebridge</span><br><span class="line"># The following settings tells homebridge where to find the config.json file and where to persist the data (i.e. pairing and others)</span><br><span class="line">HOMEBRIDGE_OPTS=-U /var/homebridge</span><br><span class="line"></span><br><span class="line"># If you uncomment the following line, homebridge will log more </span><br><span class="line"># You can display this via systemd&#x27;s journalctl: journalctl -f -u homebridge</span><br><span class="line"># DEBUG=*</span><br></pre></td></tr></table></figure></li>
+<li>创建 systemd service 文件:<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">$ sudo nano /etc/systemd/system/homebridge.service</span><br><span class="line"></span><br><span class="line">[Unit]</span><br><span class="line">Description=Node.js HomeKit Server </span><br><span class="line">After=syslog.target network-online.target</span><br><span class="line"></span><br><span class="line">[Service]</span><br><span class="line">Type=simple</span><br><span class="line">User=homebridge</span><br><span class="line">EnvironmentFile=/etc/default/homebridge</span><br><span class="line">ExecStart=/usr/bin/homebridge <span class="variable">$HOMEBRIDGE_OPTS</span></span><br><span class="line">Restart=on-failure</span><br><span class="line">RestartSec=10</span><br><span class="line">KillMode=process</span><br><span class="line"></span><br><span class="line">[Install]</span><br><span class="line">WantedBy=multi-user.target</span><br></pre></td></tr></table></figure></li>
+<li>创建专用于执行该服务的用户和群组:<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo useradd --system homebridge</span><br></pre></td></tr></table></figure></li>
+<li>创建 homebridge 配置目录并拷贝配置文件<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ sudo mkdir /var/homebridge</span><br><span class="line">$ sudo cp ~/.homebridge/config.json /var/homebridge/</span><br></pre></td></tr></table></figure></li>
+<li>将其他必要文件夹拷贝至该目录:<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo cp -r ~/.homebridge/persist /var/homebridge</span><br></pre></td></tr></table></figure></li>
+<li>更改该目录的权限:<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo chmod -R 0777 /var/homebridge</span><br></pre></td></tr></table></figure></li>
+<li>创建 system service 链接并启动服务:<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ sudo systemctl daemon-reload</span><br><span class="line">$ sudo systemctl <span class="built_in">enable</span> homebridge</span><br><span class="line">$ sudo systemctl start homebridge</span><br></pre></td></tr></table></figure></li>
+<li>检查服务启动状态及查看日志:<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ sudo systemctl status homebridge</span><br><span class="line"></span><br><span class="line">$ journalctl -f -u homebridge</span><br></pre></td></tr></table></figure></li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button onclick="document.querySelector('.post-reward').classList.toggle('active');">
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechat-reward-image.jpg" alt="Frost He 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/images/alipay-reward-image.jpg" alt="Frost He 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/smart-home/" rel="tag"><i class="fa fa-tag"></i> smart-home</a>
+              <a href="/tags/home-assistant/" rel="tag"><i class="fa fa-tag"></i> home-assistant</a>
+              <a href="/tags/homebridge/" rel="tag"><i class="fa fa-tag"></i> homebridge</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/smarthome-ha-basic-configuration/" rel="prev" title="智慧家庭 - 完善 HomeAssistant 的常见基础配置">
+                  <i class="fa fa-chevron-left"></i> 智慧家庭 - 完善 HomeAssistant 的常见基础配置
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/smarthome-ha-device-tracker/" rel="next" title="智慧家庭 - 使用 HA 的 Device Tracker 组件实现「在家检测」">
+                  智慧家庭 - 使用 HA 的 Device Tracker 组件实现「在家检测」 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2015 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Frost He</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">381k</span>
+  </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

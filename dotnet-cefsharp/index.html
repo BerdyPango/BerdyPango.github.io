@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="K2S73UudyU-JTh9S0U_KnOKgOvE7aW7EpO560okLyUU">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css" integrity="sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{&quot;hostname&quot;:&quot;blog.frosthe.net&quot;,&quot;root&quot;:&quot;&#x2F;&quot;,&quot;images&quot;:&quot;&#x2F;images&quot;,&quot;scheme&quot;:&quot;Mist&quot;,&quot;version&quot;:&quot;8.5.0&quot;,&quot;exturl&quot;:false,&quot;sidebar&quot;:{&quot;position&quot;:&quot;left&quot;,&quot;display&quot;:&quot;always&quot;,&quot;padding&quot;:18,&quot;offset&quot;:12,&quot;width&quot;:300},&quot;copycode&quot;:false,&quot;bookmark&quot;:{&quot;enable&quot;:false,&quot;color&quot;:&quot;#222&quot;,&quot;save&quot;:&quot;auto&quot;},&quot;fancybox&quot;:false,&quot;mediumzoom&quot;:false,&quot;lazyload&quot;:false,&quot;pangu&quot;:false,&quot;comments&quot;:{&quot;style&quot;:&quot;tabs&quot;,&quot;active&quot;:null,&quot;storage&quot;:true,&quot;lazyload&quot;:false,&quot;nav&quot;:null},&quot;motion&quot;:{&quot;enable&quot;:false,&quot;async&quot;:false,&quot;transition&quot;:{&quot;post_block&quot;:&quot;fadeIn&quot;,&quot;post_header&quot;:&quot;fadeInDown&quot;,&quot;post_body&quot;:&quot;fadeInDown&quot;,&quot;coll_header&quot;:&quot;fadeInLeft&quot;,&quot;sidebar&quot;:&quot;fadeInUp&quot;}},&quot;prism&quot;:false,&quot;i18n&quot;:{&quot;placeholder&quot;:&quot;搜索...&quot;,&quot;empty&quot;:&quot;没有找到任何搜索结果：${query}&quot;,&quot;hits_time&quot;:&quot;找到 ${hits} 个搜索结果（用时 ${time} 毫秒）&quot;,&quot;hits&quot;:&quot;找到 ${hits} 个搜索结果&quot;}}</script><script src="/js/config.js"></script>
+<meta name="description" content="本文根据 CefSharp 官方文档整理了在 .NET 中集成 CefSharp 的指南">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在 .NET Framework 中集成 CefSharp">
+<meta property="og:url" content="https://blog.frosthe.net/dotnet-cefsharp/index.html">
+<meta property="og:site_name" content="FrostHe.Handbook">
+<meta property="og:description" content="本文根据 CefSharp 官方文档整理了在 .NET 中集成 CefSharp 的指南">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2018-11-09T02:18:14.000Z">
+<meta property="article:modified_time" content="2018-11-24T11:24:38.854Z">
+<meta property="article:author" content="Frost He">
+<meta property="article:tag" content="dotnet">
+<meta property="article:tag" content="hybrid">
+<meta property="article:tag" content="chrome">
+<meta property="article:tag" content="cefsharp">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://blog.frosthe.net/dotnet-cefsharp/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{&quot;sidebar&quot;:&quot;&quot;,&quot;isHome&quot;:false,&quot;isPost&quot;:true,&quot;lang&quot;:&quot;zh-CN&quot;,&quot;comments&quot;:true,&quot;permalink&quot;:&quot;https:&#x2F;&#x2F;blog.frosthe.net&#x2F;dotnet-cefsharp&#x2F;&quot;,&quot;path&quot;:&quot;dotnet-cefsharp&#x2F;&quot;,&quot;title&quot;:&quot;在 .NET Framework 中集成 CefSharp&quot;}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">&quot;&quot;</script>
+<title>在 .NET Framework 中集成 CefSharp | FrostHe.Handbook</title>
+  
+  <script class="next-config" data-name="google_analytics" type="application/json">{&quot;tracking_id&quot;:&quot;UA-125853342-1&quot;,&quot;only_pageview&quot;:true}</script>
+  <script src="/js/third-party/analytics/google-analytics.js"></script>
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+  <div class="site-meta">
+      <a
+        href="/" class="brand" rel="start">
+        
+        <h1 class="site-title">FrostHe.Handbook</h1>
+          <p class="site-subtitle">Talk less, do more</p>
+        
+      </a>
+      </div>
+      <div class="site-nav-right">
+        <div class="toggle popup-trigger">
+        </div>
+      </div>
+    </div>
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-film fa-fw"></i>时间线</a></li>
+        <li class="menu-item menu-item-about"><a href="/about" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar sidebar-active">
+
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Frost He" src="/images/avatar.jpg">
+    <p class="site-author-name" itemprop="name">Frost He</p>
+    <p>Full-stack web developer<p>
+        <div class="site-description" itemprop="description">
+          <i class="fa fa-fw fa-map-marker-alt"></i>
+          <span>Chengdu, China</span>
+        </div>
+      </div>
+                <div class="links-of-author site-overview-item animated">
+                    <span class="links-of-author-item">
+                      <a href="https://github.com/BerdyPango" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;BerdyPango" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+                    </span>
+                    <span class="links-of-author-item">
+                      <a href="https://plus.google.com/yourname" title="Google → https:&#x2F;&#x2F;plus.google.com&#x2F;yourname" rel="noopener" target="_blank"><i class="fab fa-google fa-fw"></i></a>
+                    </span>
+                    <span class="links-of-author-item">
+                      <a href="https://www.linkedin.com/in/frosthe0419/" title="Linkedin → https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;frosthe0419&#x2F;" rel="noopener" target="_blank"><i class="fab fa-linkedin fa-fw"></i></a>
+                    </span>
+                    <span class="links-of-author-item">
+                      <a href="https://www.instagram.com/frosthe_pro/" title="Instagram → https:&#x2F;&#x2F;www.instagram.com&#x2F;frosthe_pro&#x2F;" rel="noopener" target="_blank"><i class="fab fa-instagram fa-fw"></i></a>
+                    </span>
+                    <span class="links-of-author-item">
+                      <a href="https://steamcommunity.com/profiles/76561198049061021/" title="Steam → https:&#x2F;&#x2F;steamcommunity.com&#x2F;profiles&#x2F;76561198049061021&#x2F;" rel="noopener" target="_blank"><i class="fab fa-steam-square fa-fw"></i></a>
+                    </span>
+                </div>
+              
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blog.frosthe.net/dotnet-cefsharp/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Frost He">
+      <meta itemprop="description" content="Chengdu, China">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FrostHe.Handbook">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          在 .NET Framework 中集成 CefSharp
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2018-11-09 10:18:14" itemprop="dateCreated datePublished" datetime="2018-11-09T10:18:14+08:00">2018-11-09</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2018-11-24 19:24:38" itemprop="dateModified" datetime="2018-11-24T19:24:38+08:00">2018-11-24</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Hybrid/" itemprop="url" rel="index"><span itemprop="name">Hybrid</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>9.3k</span>
+    </span>
+</div>
+
+            <div class="post-description">本文根据 CefSharp 官方文档整理了在 .NET 中集成 CefSharp 的指南</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>参考文档:</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/cefsharp/CefSharp/wiki/General-Usage">General Usage</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.codeproject.com/Articles/881315/Display-HTML-in-WPF-and-CefSharp-Tutorial-Part">Display HTML in WPF and CefSharp Tutorial Part 1</a></li>
+</ul>
+<p>本文索引:</p>
+<ul>
+<li><a href="#%E5%BF%AB%E9%80%9F%E5%BC%80%E5%A7%8B">快速开始</a></li>
+<li><a href="#%E8%BF%9B%E7%A8%8B-process">进程 Process</a></li>
+<li><a href="#%E7%BA%BF%E7%A8%8B-threads">线程 Threads</a></li>
+<li><a href="#initialize-%E5%92%8C-shutdown">Initialize 和 Shutdown</a><ul>
+<li><a href="#initialize">Initialize</a></li>
+<li><a href="#shutdown">Shutdown</a></li>
+</ul>
+</li>
+<li><a href="#%E9%85%8D%E7%BD%AE">配置</a><ul>
+<li><a href="#cefsettings">CefSettings</a></li>
+<li><a href="#browsersettings">BrowserSettings</a></li>
+</ul>
+</li>
+<li><a href="#ibrowseriframe-%E5%92%8C-ibrowserhost-%E5%AF%B9%E8%B1%A1">IBrowser，IFrame 和 IBrowserHost 对象</a></li>
+<li><a href="#handlers">Handlers</a></li>
+<li><a href="#%E9%85%8D%E7%BD%AE%E4%BB%A3%E7%90%86">配置代理</a></li>
+<li><a href="#%E8%AF%B7%E6%B1%82%E4%B8%8A%E4%B8%8B%E6%96%87">请求上下文</a></li>
+<li><a href="#%E9%AB%98-dpi-%E6%98%BE%E7%A4%BA%E5%99%A8%E6%94%AF%E6%8C%81">高 DPI 显示器支持</a></li>
+<li><a href="#javascript-%E9%9B%86%E6%88%90">Javascript 集成</a><ul>
+<li><a href="#%E4%BB%8E-net-%E4%B8%AD%E8%B0%83%E7%94%A8-javascript-%E6%96%B9%E6%B3%95">从 .NET 中调用 Javascript 方法</a></li>
+<li><a href="#%E4%BB%8E-net-%E4%B8%AD%E8%B0%83%E7%94%A8%E5%B8%A6%E6%9C%89%E8%BF%94%E5%9B%9E%E7%BB%93%E6%9E%9C%E7%9A%84-javascript-%E6%96%B9%E6%B3%95">从 .NET 中调用带有返回结果的 Javascript 方法</a></li>
+<li><a href="#%E5%B0%86%E4%B8%80%E4%B8%AA-net-%E7%B1%BB%E5%9E%8B%E6%9A%B4%E9%9C%B2%E7%BB%99-javascript">将一个 .NET 类型暴露给 Javascript</a><ul>
+<li><a href="#%E5%BC%82%E6%AD%A5-javascript-binding-api">异步 Javascript Binding API</a></li>
+<li><a href="#cefsharpbindobjectasync">CefSharp.BindObjectAsync</a></li>
+<li><a href="#cefsharpdeleteboundobject">CefSharp.DeleteBoundObject</a></li>
+<li><a href="#cefsharpremoveobjectfromcache">CefSharp.RemoveObjectFromCache</a></li>
+<li><a href="#cefsharpisobjectcached">CefSharp.IsObjectCached</a></li>
+<li><a href="#%E9%9B%86%E6%88%90%E7%A4%BA%E4%BE%8B">集成示例</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="快速开始"><a href="#快速开始" class="headerlink" title="快速开始"></a>快速开始</h2><p>创建一个新的 WPF 项目，目标框架为 <code>.NET Framework 4.5.2</code>，本项目将使用 <code>CefSharp 3</code> 库，该库仅支持 <code>x86</code> 和 <code>x64</code> 应用程序，这意味着项目必须指定编译目标，不支持 <code>Any Cpu</code>。创建项目后，首先打开配置管理器，Solution -&gt; Configuration Manager:</p>
+
+<p>由默认 <code>Debug</code> 配置创建新的 <code>x86</code> 和 <code>x64</code> 的编译配置:</p>
+
+<p>完成配置创建后，引入 <code>CefSharp.Wpf</code> Nuget 包:</p>
+
+<p>现在，<strong>保存所有更改并关闭 Visual Studio</strong>，因为 CefSharp 需要完全重启以加载其依赖项。重启打开 <code>Visual Studio</code> 项目，编译。</p>
+<h2 id="进程-Process"><a href="#进程-Process" class="headerlink" title="进程 Process"></a>进程 Process</h2><p><code>CEF</code> 运行时包含多个进程</p>
+<ul>
+<li><code>browser</code> 进程: 主进程，负责创建窗口，渲染和网络访问，该进程大部分情况下等同于「宿主应用程序」所在的进程，且执行大部分逻辑。</li>
+<li><code>render</code> 进程: 渲染和与 <code>Javascript</code> 交互(如 JS 对象绑定)由另一个 <code>render</code> 进程处理，进程模型将会为每一个单独的 <code>Origin</code>([scheme] + [domain]) 开辟一个 <code>render</code> 进程。</li>
+<li><code>plugin</code> 进程: 负责处理诸如 <code>Flash</code> 等插件</li>
+<li><code>gpu</code> 进程: 处理渲染加速等</li>
+</ul>
+<hr>
+<h2 id="线程-Threads"><a href="#线程-Threads" class="headerlink" title="线程 Threads"></a>线程 Threads</h2><p>不同级别的进程可管理多个线程，<code>browser</code> 进程包含了以下线程:</p>
+<ul>
+<li>UI 线程: <code>browser</code> 进程的主线程，默认情况下 <code>CefSharp</code> 使用 <code>setting.MultiThreadedMessageLoop = true</code> 设置，这使得 <code>CEF</code> 的 UI 线程与宿主应用程序的 UI 线程使用不同的线程。</li>
+<li>IO 线程: 在 <code>browser</code> 进程中负责处理 IPC 和网络消息</li>
+<li>File 线程: 在 <code>browser</code> 进程中负责与「文件系统」交互</li>
+<li>Renderer 线程: <code>render</code> 进程的主线程</li>
+</ul>
+<hr>
+<h2 id="Initialize-和-Shutdown"><a href="#Initialize-和-Shutdown" class="headerlink" title="Initialize 和 Shutdown"></a>Initialize 和 Shutdown</h2><h3 id="Initialize"><a href="#Initialize" class="headerlink" title="Initialize"></a>Initialize</h3><p><code>Initialize</code> 方法仅允许每个应用程序调用一次，该方法用于初始化底层 <code>CEF</code> 库，可以显式或隐式的调用该方法:</p>
+<ul>
+<li>隐式调用: 首次创建 <code>ChromiumWebBrowser</code> 实例时，将检查 <code>CEF</code> 是否已被初始化，如果没有，则使用默认配置调用初始化方法</li>
+<li>显式调用: 当希望指定自定义配置时，可显式调用 <code>CEF.Initialize(CefSettings settings)</code> 方法</li>
+</ul>
+<h3 id="Shutdown"><a href="#Shutdown" class="headerlink" title="Shutdown"></a>Shutdown</h3><p><code>ChromiumWebBrowser</code> 的 WPF 和 Winform 的实现都在对应的 <code>Exit</code> 事件中默认调用了 <code>Shutdown</code> 方法。要禁用这一行为，可在任一 <code>ChromiumWebBrowser</code> 实例创建之前设置 <code>CefSharpSettings.ShutdownOnExit = false</code>。</p>
+<blockquote>
+<p><code>Initialize</code> 和 <code>Shutdown</code> 都必须在应用程序的主线程中调用，如果在另外的线程中调用它们，应用程序将会挂起。</p>
+</blockquote>
+<p>在 <code>CefSharp.OffScreen</code> 应用中，在应用程序退出前必须显式调用 <code>Cef.Shutdown()</code> 方法。</p>
+<hr>
+<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><h3 id="CefSettings"><a href="#CefSettings" class="headerlink" title="CefSettings"></a>CefSettings</h3><p><code>CefSettings</code> 覆盖了应用程序级别的配置，一些常见的配置包括:</p>
+<ul>
+<li><code>BrowserSubprocessPath </code>: 启用子进程的路径，通常不建议更改</li>
+<li><code>MultiThreadedMessageLoop</code>: 默认为 <code>true</code>，也可以设置为 <code>false</code> 并将 <code>Cef</code> 集成至现有应用程序的消息泵中，参考 <a target="_blank" rel="noopener" href="https://github.com/cefsharp/CefSharp/issues/1748">https://github.com/cefsharp/CefSharp/issues/1748</a></li>
+<li><code>CommandLineArgsDisabled</code>: 设置为 <code>true</code> 以禁用使用标准的 <code>Chromium</code> 命令行参数控制浏览器行为</li>
+<li><code>CachePath</code>: 缓存数据在本机上存放的路径，若为空，则使用临时缓存和内存缓存。仅当该设置不为空时，HTML5 数据库(如 <code>localStorage</code>)才会被持久化</li>
+<li><code>Locale</code>: 传给 Blink 的本地化信息，<code>en-US</code> 为默认值，可由命令行参数 <code>lang</code> 控制</li>
+<li><code>LogFile</code>: Debug 日志使用的持久化目录与文件名。<code>./debug.log</code> 为默认值。可由命令行参数 <code>log-file</code> 控制</li>
+<li><code>LogSeverity</code>: 类似于 LogLevel，仅当等于或高于该级别的日志将会记录，可由 <code>log-severity</code> 命令行参数控制，可接收 <code>verbose</code>、<code>info</code>、<code>warning</code>、<code>error</code>、<code>error-report</code> 和 <code>disabled</code> 值。</li>
+<li><code>ResourceDirPath</code>: 资源路径，可由 <code>resources-dir-path</code> 命令行参数控制</li>
+<li><code>LocalesDirPath</code>: 本地化信息路径，可由 <code>locales-dir-path</code> 命令行参数控制</li>
+<li><code>RemoteDebuggingPort</code>: 可在 1024 - 65535 之间取值，用以启用远程调试，可由另一个 CEF 或谷歌浏览器访问，可由 <code>remote-debugging-port</code> 命令行参数控制。</li>
+</ul>
+<h3 id="BrowserSettings"><a href="#BrowserSettings" class="headerlink" title="BrowserSettings"></a>BrowserSettings</h3><p><code>BrowserSettings</code> 覆盖 <code>ChromiumWebBrowser</code> 实例级别的配置，具体参考 <code>BrowserSettings</code> 类型</p>
+<hr>
+<h2 id="IBrowser，IFrame-和-IBrowserHost-对象"><a href="#IBrowser，IFrame-和-IBrowserHost-对象" class="headerlink" title="IBrowser，IFrame 和 IBrowserHost 对象"></a>IBrowser，IFrame 和 IBrowserHost 对象</h2><p><code>IBrowser</code> 和 <code>IFrame</code> 对象用于向浏览器发送命令及从回掉函数中接收状态信息，每一个 <code>IBrowser</code> 对象都至少包含一个 <code>IFrame</code> 对象代表顶层窗口。即，如果一个浏览器窗口加载了两个 <code>&lt;iframe&gt;</code> 元素将会包含 3 个 <code>IFrame</code> 对象(一个顶层 IFrame 和两个 <code>&lt;iframe&gt;</code>)。</p>
+<p>在一个 <code>IBrowser</code> 对象中加载 url:</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">browser.MainFrame.LoadUrl(url);</span><br></pre></td></tr></table></figure>
+<p><code>IBrowserHost</code> 代表更底层的浏览器方法，例如:</p>
+<ul>
+<li><code>Print()</code></li>
+<li><code>ShowDevTools()</code></li>
+<li><code>CloseDevTools()</code></li>
+<li><code>StartDownload(string url)</code></li>
+</ul>
+<hr>
+<h2 id="Handlers"><a href="#Handlers" class="headerlink" title="Handlers"></a>Handlers</h2><p><code>CefSharp</code> 提供了一系列 <code>Handler</code> 对象，这些对象以 .NET 实现封装了浏览器的常见行为和事件。例如，当需要知道一个页面是否加载完成时，可侦听 <code>LoadingStateChanged</code> 事件。多数 <code>Handler</code> 的方法都提供了异步实现，所有 <code>Handler</code> 都遵循一个实现模式: 返回 <code>bool</code> 的方法意味着询问你是否需要自行处理，返回 <code>false</code> 表示使用默认实现，返回 <code>true</code> 表示由开发人员提供自定义实现。<code>IWebBrowser</code> 定义了以下常见的 <code>IXXXHandler</code>:</p>
+<ul>
+<li><code>IDownloadHandler</code>: 下载文件，进度通知，暂停，取消等</li>
+<li><code>IRequestHandler</code>: 处理导航、重定向、资源加载通知等</li>
+<li><code>IDialogHandler</code>: 文件对话框通知</li>
+<li><code>IDisplayHandler</code>: 地址栏变更，状态信息，控制台信息，全屏模式更改通知等</li>
+<li><code>ILoadHandler</code>: 加载状态信息、事件，弹出框通知信息</li>
+<li><code>ILifeSpanHandler</code>: 弹出框弹出及关闭事件</li>
+<li><code>IKeyboardHandler</code>: 键盘事件</li>
+<li><code>IJsDialogHandler</code>: javascript 消息框/弹出框</li>
+<li><code>IDragHandler</code>: 拖拽事件</li>
+<li><code>IContextMenuHandler</code>: 定制右键菜单</li>
+<li><code>IFocusHandler</code>: 焦点相关通知</li>
+<li><code>IResourceHandlerFactory</code>: 拦截资源请求相关</li>
+<li><code>IGeolocationHandler</code>: 地理位置请求相关</li>
+<li><code>IRenderProcessMessageHandler</code>: 从 <code>render</code> 进程发送的自定义 <code>CefSharp</code> 消息相关</li>
+<li><code>IFindHandler</code>: 与查找通知相关</li>
+</ul>
+<p>通常，使用定制化的 <code>Handler</code> 需要在创建 <code>ChromiumWebBrowser</code> 之后立即对相应的 <code>Handler</code> 赋值:</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">browser.DownloadHandler = <span class="keyword">new</span> DownloadHandler();</span><br></pre></td></tr></table></figure>
+<p>各个 <code>Handler</code> 的具体用法参见 <a target="_blank" rel="noopener" href="https://github.com/cefsharp/CefSharp/wiki/General-Usage#handlers">Handlers</a></p>
+<hr>
+<h2 id="配置代理"><a href="#配置代理" class="headerlink" title="配置代理"></a>配置代理</h2><p><code>CEF</code> 遵循使用同样的命令行命令来设置代理，如果代理有认证要求，可通过 <code>IRequestHandler.GetAuthCredentials()</code> 方法提供。</p>
+<hr>
+<h2 id="请求上下文"><a href="#请求上下文" class="headerlink" title="请求上下文"></a>请求上下文</h2><p>请求上下文(<code>RequestContext</code>)用于隔离 <code>IBrowser</code> 实例，包括可提供单独的缓存路径、单独的代理配置、单独的 <code>Cookie</code> 管理器及其他相关设置。<code>RequestContext</code> 有以下关键点:</p>
+<ul>
+<li>默认情况下，提供一个全局 <code>RequestContext</code>，由多个 <code>IBrowser</code> 实例共享设置</li>
+<li>可在运行时通过 <code>Preferences</code> 更改某些设置，这种情况下不要使用命令行工具</li>
+<li>Winform 在创建 <code>IBrowser</code> 实例之后立即设置 <code>RequestContext</code>；<code>OffScreen</code> 则须将 <code>RequestContext</code> 作为构造函数参数传入；WPF 则在 InitialComponent() 方法之后设置</li>
+<li>Plugin 加载通知通过 <code>IRequestContextHandler</code> 接口处理</li>
+<li>设置 <code>RequestContextSettings.CachePath</code> 以持久化 <code>Cookie</code>，<code>localStorage</code> 等数据</li>
+</ul>
+<hr>
+<h2 id="高-DPI-显示器支持"><a href="#高-DPI-显示器支持" class="headerlink" title="高 DPI 显示器支持"></a>高 DPI 显示器支持</h2><p>如果应用程序经常显示为黑屏，则很有可能需要开启「高 DPI」支持。要启用「高 DPI」支持，需要在对应应用程序的 <code>app.manifest</code> 文件中加入相应的节点以通知 Windows 该程序支持「高 DPI」，</p>
+<ul>
+<li>WinForm: 加入 <code>app.manifest</code> 并在第一时间调用 <code>Cef.EnableHighDPISupport()</code></li>
+<li>WPF: 加入 <code>app.manifest</code></li>
+<li>OffScreen: 加入 <code>app.manifest</code></li>
+</ul>
+<p><code>app.manifest</code> 类似于以下内容:</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">asmv3:application</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">asmv3:windowsSettings</span> <span class="attr">xmlns</span>=<span class="string">&quot;http://schemas.microsoft.com/SMI/2005/WindowsSettings&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dpiAware</span>&gt;</span>true/PM<span class="tag">&lt;/<span class="name">dpiAware</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">asmv3:windowsSettings</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">asmv3:application</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="Javascript-集成"><a href="#Javascript-集成" class="headerlink" title="Javascript 集成"></a>Javascript 集成</h2><h3 id="从-NET-中调用-Javascript-方法"><a href="#从-NET-中调用-Javascript-方法" class="headerlink" title="从 .NET 中调用 Javascript 方法"></a>从 .NET 中调用 Javascript 方法</h3><p><code>Javascript</code> 方法仅能在一个 <code>V8Context</code> 中执行，<code>IRenderProcessMessageHandler.OnContextCreated</code> 和 <code>IRenderProcessMessageHandler.OnContextReleased</code> 为 <code>Javascript</code> 代码的执行划定了一个清晰的边界。通常:</p>
+<ul>
+<li><code>Javascript</code> 在 <code>Frame</code> 级别执行，每个页面至少包含一个 <code>Frame</code></li>
+<li><code>IWebBrowser.ExecuteScriptAsync</code> 方法保留下来用于向后兼容，该方法可作为快速执行 <code>Javascript</code> 方法的入口</li>
+<li><code>OnFrameLoadStart</code> 事件触发时 <code>DOM</code> 还没有加载完成</li>
+<li><code>IRenderProcessMessageHandler.OnContextCreated</code> 和 <code>IRenderProcessMessageHandler.OnContextReleased</code> 仅在主 <code>Frame</code> 上触发。</li>
+</ul>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">browser.RenderProcessMessageHandler = <span class="keyword">new</span> RenderProcessMessageHandler();</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">RenderProcessMessageHandler</span> : <span class="title">IRenderProcessMessageHandler</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="comment">// Wait for the underlying JavaScript Context to be created. This is only called for the main frame.</span></span><br><span class="line">  <span class="comment">// If the page has no JavaScript, no context will be created.</span></span><br><span class="line">  <span class="keyword">void</span> IRenderProcessMessageHandler.OnContextCreated(IWebBrowser browserControl, IBrowser browser, IFrame frame)</span><br><span class="line">  &#123;</span><br><span class="line">    <span class="keyword">const</span> <span class="built_in">string</span> script = <span class="string">&quot;document.addEventListener(&#x27;DOMContentLoaded&#x27;, function()&#123; alert(&#x27;DomLoaded&#x27;); &#125;);&quot;</span>;</span><br><span class="line"></span><br><span class="line">    frame.ExecuteJavaScriptAsync(script);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//Wait for the page to finish loading (all resources will have been loaded, rendering is likely still happening)</span></span><br><span class="line">browser.LoadingStateChanged += (sender, args) =&gt;</span><br><span class="line">&#123;</span><br><span class="line">  <span class="comment">//Wait for the Page to finish loading</span></span><br><span class="line">  <span class="keyword">if</span> (args.IsLoading == <span class="literal">false</span>)</span><br><span class="line">  &#123;</span><br><span class="line">    browser.ExecuteJavaScriptAsync(<span class="string">&quot;alert(&#x27;All Resources Have Loaded&#x27;);&quot;</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//Wait for the MainFrame to finish loading</span></span><br><span class="line">browser.FrameLoadEnd += (sender, args) =&gt;</span><br><span class="line">&#123;</span><br><span class="line">  <span class="comment">//Wait for the MainFrame to finish loading</span></span><br><span class="line">  <span class="keyword">if</span>(args.Frame.IsMain)</span><br><span class="line">  &#123;</span><br><span class="line">    args.Frame.ExecuteJavaScriptAsync(<span class="string">&quot;alert(&#x27;MainFrame finished loading&#x27;);&quot;</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h3 id="从-NET-中调用带有返回结果的-Javascript-方法"><a href="#从-NET-中调用带有返回结果的-Javascript-方法" class="headerlink" title="从 .NET 中调用带有返回结果的 Javascript 方法"></a>从 .NET 中调用带有返回结果的 Javascript 方法</h3><p>如果希望调用一个带有返回结果的 Javascript 方法，使用 <code>Task&lt;JavascriptResponse&gt; EvaluateScriptAsync(string script, TimeSpan? timeout)</code>，Javascript 异步执行并最终返回一个 <code>JavascriptResponse</code> 类型的实例，包含错误消息，执行结果和是否成功的标志。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Get Document Height</span></span><br><span class="line"><span class="keyword">var</span> task = frame.EvaluateScriptAsync(<span class="string">&quot;(function() &#123; var body = document.body, html = document.documentElement; return  Math.max( body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight ); &#125;)();&quot;</span>, <span class="literal">null</span>);</span><br><span class="line"></span><br><span class="line">task.ContinueWith(t =&gt;</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (!t.IsFaulted)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">var</span> response = t.Result;</span><br><span class="line">        EvaluateJavaScriptResult = response.Success ? (response.Result ?? <span class="string">&quot;null&quot;</span>) : response.Message;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;, TaskScheduler.FromCurrentSynchronizationContext());</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>返回结果的类型仅支持基元类型，如 <code>int</code>，<code>bool</code>，<code>string</code> 等，目前还没有一个合适的方法将 <code>Javascript</code> 类型映射为一个 .NET 类型，但可借助 <code>JSON.toStringify()</code> 返回 JSON 字符串的形式来组织复杂类型，之后在 .NET 中利用 JSON.NET 将该字符串反序列化为相应的类型。</p>
+</blockquote>
+<h3 id="将一个-NET-类型暴露给-Javascript"><a href="#将一个-NET-类型暴露给-Javascript" class="headerlink" title="将一个 .NET 类型暴露给 Javascript"></a>将一个 .NET 类型暴露给 Javascript</h3><p>Javascript 绑定(JSB)实现了 <code>Javascript</code> 和 <code>.NET</code> 之间的通信，目前该方法提供了异步和同步版本的实现</p>
+<h4 id="异步-Javascript-Binding-API"><a href="#异步-Javascript-Binding-API" class="headerlink" title="异步 Javascript Binding API"></a>异步 Javascript Binding API</h4><ul>
+<li>利用 <code>Native Chromium IPC</code> 在 <code>browser</code> 进程和 <code>render</code> 进程之间传递数据，非常快速</li>
+<li>仅支持 .NET 方法，属性的 <code>Get/Set</code> 不能以异步模型完成绑定</li>
+<li>方法可返回基元类型，结构和复杂类型，这些类型仅属性被传递自 <code>Javascript</code>，可将其看作 DTO</li>
+<li>通过 <code>IJavascriptCallback</code> 接口支持 <code>Javascript</code> 回调函数</li>
+<li>异步模型返回一个标准的 <code>Javascript Promise</code></li>
+</ul>
+<p><code>CefSharp</code> 提供了 <code>Javascript</code> 对象 <code>CefSharp</code> 以支持 JSB，<code>CefSharp.BindObjectAsync()</code> 方法返回一个 <code>Promise</code> 对象，并在绑定对象可用时解析该对象，绑定的对象在全局上下文(<code>window</code> 对象的属性)创建。</p>
+<h4 id="CefSharp-BindObjectAsync"><a href="#CefSharp-BindObjectAsync" class="headerlink" title="CefSharp.BindObjectAsync"></a>CefSharp.BindObjectAsync</h4><p><code>CefSharp.BindObjectAsync(objectName, settings)</code> 绑定对象:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">bindBridgeObject</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="keyword">await</span> CefSharp.BindObjectAsync(objectName, settings);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>settings</code> 由以下两个属性:</p>
+<ul>
+<li><code>NotifyIfAdlreadyBound</code>: 若为 <code>true</code> 则触发 .NET <code>IJavascriptObjectRepository.ObjectBoundInJavascript</code> 事件，默认值 true</li>
+<li><code>IgnoreCache</code>: 若为 true，则忽略本地缓存</li>
+</ul>
+<p>返回一个 <code>JavaScript Promise</code> 对象。</p>
+<h4 id="CefSharp-DeleteBoundObject"><a href="#CefSharp-DeleteBoundObject" class="headerlink" title="CefSharp.DeleteBoundObject"></a>CefSharp.DeleteBoundObject</h4><p><code>CefSharp.DeleteBoundObject(objectName)</code>，删除匹配名称匹配的绑定对象:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CefSharp.DeleteBoundObject(<span class="string">&quot;boundAsync&quot;</span>);</span><br></pre></td></tr></table></figure>
+<p>返回 <code>true/false</code></p>
+<h4 id="CefSharp-RemoveObjectFromCache"><a href="#CefSharp-RemoveObjectFromCache" class="headerlink" title="CefSharp.RemoveObjectFromCache"></a>CefSharp.RemoveObjectFromCache</h4><p><code>CefSharp.RemoveObjectFromCache(objectName)</code>，从缓存中移除匹配名称的绑定对象:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CefSharp.RemoveObjectFromCache(<span class="string">&quot;boundAsync&quot;</span>);</span><br></pre></td></tr></table></figure>
+<h4 id="CefSharp-IsObjectCached"><a href="#CefSharp-IsObjectCached" class="headerlink" title="CefSharp.IsObjectCached"></a>CefSharp.IsObjectCached</h4><p><code>CefSharp.IsObjectCached(objectName)</code> 检查指定名称的对象是否被缓存:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CefSharp.IsObjectCached(<span class="string">&quot;boundAsync&quot;</span>) === <span class="literal">true</span>;</span><br></pre></td></tr></table></figure>
+<p>返回 <code>true/false</code></p>
+<h4 id="集成示例"><a href="#集成示例" class="headerlink" title="集成示例"></a>集成示例</h4><ol>
+<li>在 .NET 中创建一个将要暴露给 <code>Javascript</code> 的类型:<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">BoundObject</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">class</span> <span class="title">AsyncBoundObject</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Error</span>(<span class="params"></span>)</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> Exception(<span class="string">&quot;This is an exception coming from C#&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">	</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="built_in">int</span> <span class="title">Div</span>(<span class="params"><span class="built_in">int</span> divident, <span class="built_in">int</span> divisor</span>)</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> divident / divisor;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>将上述类型的实例注册至 <code>IBrowser.JavascriptObjectRepository</code>:<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// set ConcurrentTaskExecution to true if you want do concurrent jobs at one time.</span></span><br><span class="line">CefSharpSettings.ConcurrentTaskExecution = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">browser.JavascriptObjectRepository.ResolveObject += (sender, e) =&gt;</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">var</span> repo = e.ObjectRepository;</span><br><span class="line">    <span class="keyword">if</span> (e.ObjectName == <span class="string">&quot;bridge&quot;</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">var</span> boundObject = <span class="keyword">new</span> ServiceBridge();</span><br><span class="line">        <span class="keyword">var</span> bindingOptions = <span class="keyword">new</span> BindingOptions();</span><br><span class="line">        repo.Register(<span class="string">&quot;bridge&quot;</span>, boundObject, isAsync: <span class="literal">true</span>, options: bindingOptions);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></li>
+<li>在 <code>Javascript</code> 中调用 <code>CefSharp.BindObjectAsync()</code> 方法解析绑定对象:<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">   <span class="keyword">await</span> CefSharp.BindObjectAsync(<span class="string">&quot;boundAsync&quot;</span>);</span><br><span class="line"></span><br><span class="line">boundAsync.div(<span class="number">16</span>, <span class="number">2</span>).then(<span class="function"><span class="keyword">function</span> (<span class="params">actualResult</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">       alert(<span class="string">&quot;Calculated value from calling .NET Object: &quot;</span> + actualResult);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></li>
+</ol>
+<p>在 .NET 中接收绑定成功事件:</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">browser.JavascriptObjectRepository.ObjectBoundInJavascript += (sender, e) =&gt;</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">var</span> name = e.ObjectName;</span><br><span class="line"></span><br><span class="line">	Debug.WriteLine(<span class="string">$&quot;Object <span class="subst">&#123;e.ObjectName&#125;</span> was bound successfully.&quot;</span>);</span><br><span class="line">&#125;;    </span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/dotnet/" rel="tag"><i class="fa fa-tag"></i> dotnet</a>
+              <a href="/tags/hybrid/" rel="tag"><i class="fa fa-tag"></i> hybrid</a>
+              <a href="/tags/chrome/" rel="tag"><i class="fa fa-tag"></i> chrome</a>
+              <a href="/tags/cefsharp/" rel="tag"><i class="fa fa-tag"></i> cefsharp</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/security-oauth2-and-openid-connect/" rel="prev" title="OAuth 2.0 和 OpenID Connect">
+                  <i class="fa fa-chevron-left"></i> OAuth 2.0 和 OpenID Connect
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/cordova-get-started/" rel="next" title="Cordova 快速开始">
+                  Cordova 快速开始 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2015 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Frost He</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">381k</span>
+  </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

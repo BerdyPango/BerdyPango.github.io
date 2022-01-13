@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="K2S73UudyU-JTh9S0U_KnOKgOvE7aW7EpO560okLyUU">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css" integrity="sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{&quot;hostname&quot;:&quot;blog.frosthe.net&quot;,&quot;root&quot;:&quot;&#x2F;&quot;,&quot;images&quot;:&quot;&#x2F;images&quot;,&quot;scheme&quot;:&quot;Mist&quot;,&quot;version&quot;:&quot;8.5.0&quot;,&quot;exturl&quot;:false,&quot;sidebar&quot;:{&quot;position&quot;:&quot;left&quot;,&quot;display&quot;:&quot;always&quot;,&quot;padding&quot;:18,&quot;offset&quot;:12,&quot;width&quot;:300},&quot;copycode&quot;:false,&quot;bookmark&quot;:{&quot;enable&quot;:false,&quot;color&quot;:&quot;#222&quot;,&quot;save&quot;:&quot;auto&quot;},&quot;fancybox&quot;:false,&quot;mediumzoom&quot;:false,&quot;lazyload&quot;:false,&quot;pangu&quot;:false,&quot;comments&quot;:{&quot;style&quot;:&quot;tabs&quot;,&quot;active&quot;:null,&quot;storage&quot;:true,&quot;lazyload&quot;:false,&quot;nav&quot;:null},&quot;motion&quot;:{&quot;enable&quot;:false,&quot;async&quot;:false,&quot;transition&quot;:{&quot;post_block&quot;:&quot;fadeIn&quot;,&quot;post_header&quot;:&quot;fadeInDown&quot;,&quot;post_body&quot;:&quot;fadeInDown&quot;,&quot;coll_header&quot;:&quot;fadeInLeft&quot;,&quot;sidebar&quot;:&quot;fadeInUp&quot;}},&quot;prism&quot;:false,&quot;i18n&quot;:{&quot;placeholder&quot;:&quot;搜索...&quot;,&quot;empty&quot;:&quot;没有找到任何搜索结果：${query}&quot;,&quot;hits_time&quot;:&quot;找到 ${hits} 个搜索结果（用时 ${time} 毫秒）&quot;,&quot;hits&quot;:&quot;找到 ${hits} 个搜索结果&quot;}}</script><script src="/js/config.js"></script>
+<meta name="description" content="本文基于 Docker GetStarted 官方文档，去掉了与 Docker Machine 相关的内容，简化了搭建 Docker swarm 的过程">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Docker 初探 (4) - Swarms">
+<meta property="og:url" content="https://blog.frosthe.net/docker-swarms/index.html">
+<meta property="og:site_name" content="FrostHe.Handbook">
+<meta property="og:description" content="本文基于 Docker GetStarted 官方文档，去掉了与 Docker Machine 相关的内容，简化了搭建 Docker swarm 的过程">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2018-01-31T15:09:17.000Z">
+<meta property="article:modified_time" content="2018-10-13T02:13:22.447Z">
+<meta property="article:author" content="Frost He">
+<meta property="article:tag" content="ops">
+<meta property="article:tag" content="docker">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://blog.frosthe.net/docker-swarms/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{&quot;sidebar&quot;:&quot;&quot;,&quot;isHome&quot;:false,&quot;isPost&quot;:true,&quot;lang&quot;:&quot;zh-CN&quot;,&quot;comments&quot;:true,&quot;permalink&quot;:&quot;https:&#x2F;&#x2F;blog.frosthe.net&#x2F;docker-swarms&#x2F;&quot;,&quot;path&quot;:&quot;docker-swarms&#x2F;&quot;,&quot;title&quot;:&quot;Docker 初探 (4) - Swarms&quot;}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">&quot;&quot;</script>
+<title>Docker 初探 (4) - Swarms | FrostHe.Handbook</title>
+  
+  <script class="next-config" data-name="google_analytics" type="application/json">{&quot;tracking_id&quot;:&quot;UA-125853342-1&quot;,&quot;only_pageview&quot;:true}</script>
+  <script src="/js/third-party/analytics/google-analytics.js"></script>
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+  <div class="site-meta">
+      <a
+        href="/" class="brand" rel="start">
+        
+        <h1 class="site-title">FrostHe.Handbook</h1>
+          <p class="site-subtitle">Talk less, do more</p>
+        
+      </a>
+      </div>
+      <div class="site-nav-right">
+        <div class="toggle popup-trigger">
+        </div>
+      </div>
+    </div>
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-film fa-fw"></i>时间线</a></li>
+        <li class="menu-item menu-item-about"><a href="/about" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar sidebar-active">
+
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Frost He" src="/images/avatar.jpg">
+    <p class="site-author-name" itemprop="name">Frost He</p>
+    <p>Full-stack web developer<p>
+        <div class="site-description" itemprop="description">
+          <i class="fa fa-fw fa-map-marker-alt"></i>
+          <span>Chengdu, China</span>
+        </div>
+      </div>
+                <div class="links-of-author site-overview-item animated">
+                    <span class="links-of-author-item">
+                      <a href="https://github.com/BerdyPango" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;BerdyPango" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+                    </span>
+                    <span class="links-of-author-item">
+                      <a href="https://plus.google.com/yourname" title="Google → https:&#x2F;&#x2F;plus.google.com&#x2F;yourname" rel="noopener" target="_blank"><i class="fab fa-google fa-fw"></i></a>
+                    </span>
+                    <span class="links-of-author-item">
+                      <a href="https://www.linkedin.com/in/frosthe0419/" title="Linkedin → https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;frosthe0419&#x2F;" rel="noopener" target="_blank"><i class="fab fa-linkedin fa-fw"></i></a>
+                    </span>
+                    <span class="links-of-author-item">
+                      <a href="https://www.instagram.com/frosthe_pro/" title="Instagram → https:&#x2F;&#x2F;www.instagram.com&#x2F;frosthe_pro&#x2F;" rel="noopener" target="_blank"><i class="fab fa-instagram fa-fw"></i></a>
+                    </span>
+                    <span class="links-of-author-item">
+                      <a href="https://steamcommunity.com/profiles/76561198049061021/" title="Steam → https:&#x2F;&#x2F;steamcommunity.com&#x2F;profiles&#x2F;76561198049061021&#x2F;" rel="noopener" target="_blank"><i class="fab fa-steam-square fa-fw"></i></a>
+                    </span>
+                </div>
+              
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blog.frosthe.net/docker-swarms/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Frost He">
+      <meta itemprop="description" content="Chengdu, China">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FrostHe.Handbook">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Docker 初探 (4) - Swarms
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2018-01-31 23:09:17" itemprop="dateCreated datePublished" datetime="2018-01-31T23:09:17+08:00">2018-01-31</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2018-10-13 10:13:22" itemprop="dateModified" datetime="2018-10-13T10:13:22+08:00">2018-10-13</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Docker/" itemprop="url" rel="index"><span itemprop="name">Docker</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>3.4k</span>
+    </span>
+</div>
+
+            <div class="post-description">本文基于 Docker GetStarted 官方文档，去掉了与 Docker Machine 相关的内容，简化了搭建 Docker swarm 的过程</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>参考资料: </p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://docs.docker.com/get-started/part4/">Swarms</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.docker.com/engine/swarm/swarm-tutorial/create-swarm/">Create a swarm</a></li>
+</ul>
+<h1 id="Swarm-简介"><a href="#Swarm-简介" class="headerlink" title="Swarm 简介"></a>Swarm 简介</h1><p><code>Swarm</code> 是一组运行了 <code>Docker</code> 的机器并加入到同一个集群，通过使用相同的命令，但这些命令由在该集群上被称作 <strong>「集群管理员(Swarm Manager)」</strong> 的机器执行。集群上的机器可以是物理主机，也可以是虚拟主机，在加入集群之后，它们统一称为<strong>「节点(nodes)」</strong>。</p>
+<p><code>Swarm Manager</code> 是唯一能够执行命令的主机，并且负责授权其他主机以 <code>worker</code> 身份加入到集群中，<code>worker</code> 仅提供集群容量，没有任何指挥其他主机的权限。<code>Swarm Manager</code> 可通过</p>
+<ul>
+<li>「最小化节点」策略: 提取最为空闲的主机运行 <code>container</code>。</li>
+<li>「全局化」策略: 确保集群中的每一个节点都运行一个指定的 <code>container</code>。</li>
+</ul>
+<p>采用何种策略在 <code>docker-compose.yml</code> 文件中配置。</p>
+<p>之前的案例都是以<strong>「单机模式」</strong>运行应用程序，<code>Docker</code> 可转换为<strong>「集群模式」</strong>，启用集群模式的主机将立即成为 <code>Swarm Manager</code>，自此之后，所有的命令都将作用于整个集群而非仅仅本地主机。</p>
+<h1 id="搭建-Docker-集群"><a href="#搭建-Docker-集群" class="headerlink" title="搭建 Docker 集群"></a>搭建 Docker 集群</h1><p>执行 <code>docker swarm init</code> 便可启用集群模式便将当前主机作为 <code>Swarm Manager</code>。然后在另外一台主机执行 <code>docker swarm join</code> 命令以 <code>worker</code> 身份加入集群。</p>
+<p>接下来以一个可由公网访问的 <code>Linux</code> 主机(<code>Aiur</code>) 作为 <code>Swarm Manager</code>，一台 Windows PC(<code>moby</code>) 作为 <code>Worker</code>:</p>
+<blockquote>
+<p>可借助 <code>Docker Machine</code> 在一台第三方的主机执行 <code>docker-machine ssh &lt;hostname&gt; &quot;&lt;command&gt;&quot;</code> 远程连接到另外一台 <code>docker</code> 主机，并执行相应的命令，简单起见，这里统一采用本机执行命令的方式。有关 Docker Machine 的更多信息参考 <a href="/deployment/note-docker-machine">Docker Machine</a></p>
+</blockquote>
+<ol>
+<li>首先创建 <code>Swarm</code> 并暴露 <code>Manager</code> 的公网 ip 地址:<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ docker swarm init --advertise-addr 192.168.99.100</span><br><span class="line"></span><br><span class="line">Swarm initialized: current node (bsa93xks81o4ab971nv8ppzza) is now a manager.</span><br><span class="line"></span><br><span class="line">To add a worker to this swarm, run the following <span class="built_in">command</span>:</span><br><span class="line"></span><br><span class="line">    docker swarm join --token SWMTKN-1-40lg4ocglu93sdfyp28nosqvrupjgmb4iv9cnxv46kcwdqvqtw-btzb7tu4ks5stfe0spf0x62ty 192.168.99.100:2377</span><br><span class="line"></span><br><span class="line">To add a manager to this swarm, run <span class="string">&#x27;docker swarm join-token manager&#x27;</span> and follow the instructions.</span><br></pre></td></tr></table></figure>
+<code>--advertise-addr</code> 配置 <code>Manager</code> 节点以 <code>192.168.99.100</code> 向外发布，其他主机或集群中的其他节点必须能够访问该地址，输出的内容包含了如何加入新的 <code>worker</code> 节点以及如何加入新的 <code>manager</code> 节点。<code>--token</code> 是加入集群的凭证。</li>
+</ol>
+<blockquote>
+<p>2377 是 <code>Docker</code> 集群的默认管理端口，2376 是 Docker 守护进程的端口。</p>
+</blockquote>
+<p>查看当前 <code>docker</code> 的状态:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">$ docker info</span><br><span class="line"></span><br><span class="line"><span class="comment"># ...snip...</span></span><br><span class="line">Swarm: active</span><br><span class="line"> NodeID: bsa93xks81o4ab971nv8ppzza</span><br><span class="line"> Is Manager: <span class="literal">true</span></span><br><span class="line"> ClusterID: s767fic8a9abaxq6n42d8vhd2</span><br><span class="line"> Managers: 1</span><br><span class="line"> Nodes: 1</span><br><span class="line"><span class="comment"># ...snip...</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ docker node ls</span><br><span class="line"></span><br><span class="line">ID                            HOSTNAME            STATUS              AVAILABILITY        MANAGER STATUS      ENGINE VERSION</span><br><span class="line">bsa93xks81o4ab971nv8ppzza *   Aiur                Ready               Active              Leader              18.03.1-ce</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>将其他主机加入该节点<br>由创建集群提供的命令行代码将其他主机加入到节点:<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker swarm join --token SWMTKN-1-40lg4ocglu93sdfyp28nosqvrupjgmb4iv9cnxv46kcwdqvqtw-btzb7tu4ks5stfe0spf0x62ty 192.168.99.100:2377</span><br><span class="line">This node joined a swarm as a worker.</span><br></pre></td></tr></table></figure>
+执行 <code>docker node ls</code> 查看节点:<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ docker node ls</span><br><span class="line"></span><br><span class="line">ID                            HOSTNAME            STATUS              AVAILABILITY        MANAGER STATUS      ENGINE VERSION</span><br><span class="line">bsa93xks81o4ab971nv8ppzza *   Aiur                Ready               Active              Leader              18.03.1-ce</span><br><span class="line">l1tat89t1ihfi04ad11mccsmi     moby                Ready               Active                                  17.09.1-ce</span><br></pre></td></tr></table></figure>
+ID 后面的 <code>*</code> 表示当前连接的节点。</li>
+</ol>
+<h1 id="在集群上部署应用"><a href="#在集群上部署应用" class="headerlink" title="在集群上部署应用"></a>在集群上部署应用</h1><p>现在，在 Swarm Manager 主机环境中执行在<a href="/deployment/note-docker-services">Docker 初探 - Serivces</a> 中相同的命令 <code>docker stack deploy</code> 来部署应用:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ docker stack deploy -c docker-compose.yml getstartedlab</span><br><span class="line"></span><br><span class="line">Creating network getstartedlab_webnet</span><br><span class="line">Creating service getstartedlab_web</span><br></pre></td></tr></table></figure>
+<p>执行相同的命令来查看 service 中的 containers，与之前不同的是，5 份 container 的副本被分配到了集群的两个节点上 <code>Aiur</code> 和 <code>moby</code>。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ docker stack ps getstartedlab</span><br><span class="line"></span><br><span class="line">ID                  NAME                  IMAGE                       NODE                DESIRED STATE       CURRENT STATE                ERROR               PORTS</span><br><span class="line">aumkvyzfh3oo        getstartedlab_web.1   frosthe/get-started:part2   moby                Running             Running about a minute ago</span><br><span class="line">y82s9nuonx3p        getstartedlab_web.2   frosthe/get-started:part2   Aiur                Running             Running about a minute ago</span><br><span class="line">yp2zx0bncv55        getstartedlab_web.3   frosthe/get-started:part2   moby                Running             Running about a minute ago</span><br><span class="line">ul7f48j0grzy        getstartedlab_web.4   frosthe/get-started:part2   moby                Running             Running about a minute ago</span><br><span class="line">jzn0fndpf206        getstartedlab_web.5   frosthe/get-started:part2   Aiur                Running             Running about a minute ago</span><br></pre></td></tr></table></figure>
+
+<h1 id="访问集群"><a href="#访问集群" class="headerlink" title="访问集群"></a>访问集群</h1><p>通过访问 <code>Aiur</code> 和 <code>moby</code> 两者的 ip 地址都可以访问应用程序，返回的 <code>Hostname</code> 轮流展示 5 个 container 的 ID。但这些 container 实例分别运行于两个节点上。</p>
+<p>之所以访问任何一个节点的 ip 地址都可以到达应用程序是因为参与集群的节点共用<strong>「入口路由网格」</strong>，这保证了一个 <code>service</code> 在部署到集群的某个端口后，无论哪个节点正在运行或没有运行任何 <code>container</code> 实例，该端口都会保留给该 <code>service</code>。下图表示了一个名为 <code>my-web</code> 的服务在一个三节点的集群中发布 8080 端口:</p>
+
+
+
+<blockquote>
+<p>要使入口路由网格正常运作，请确保集群中各个节点的以下端口是可访问的:</p>
+</blockquote>
+<ul>
+<li>7946 TCP/UDP 端口用于发现 container 网络</li>
+<li>4789 UDP 端口用于 ingress network</li>
+</ul>
+<h1 id="清理与重启"><a href="#清理与重启" class="headerlink" title="清理与重启"></a>清理与重启</h1><p>停止 <code>stack</code>:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ docker stack rm getstartedlab</span><br><span class="line"></span><br><span class="line">Removing service getstartedlab_web</span><br><span class="line">Removing network getstartedlab_webnet</span><br></pre></td></tr></table></figure>
+<p>将节点主机从集群分离:</p>
+<ul>
+<li><code>Worker</code>:<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ docker swarm leave</span><br><span class="line">Node left the swarm.</span><br></pre></td></tr></table></figure></li>
+<li><code>Manager</code>:<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ docker swarm leave --force</span><br><span class="line">Node left the swarm.</span><br></pre></td></tr></table></figure></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/ops/" rel="tag"><i class="fa fa-tag"></i> ops</a>
+              <a href="/tags/docker/" rel="tag"><i class="fa fa-tag"></i> docker</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/docker-services/" rel="prev" title="Docker 初探 (3) - Services">
+                  <i class="fa fa-chevron-left"></i> Docker 初探 (3) - Services
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/docker-stacks/" rel="next" title="Docker 初探 (5) - Stacks">
+                  Docker 初探 (5) - Stacks <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2015 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Frost He</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">381k</span>
+  </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="K2S73UudyU-JTh9S0U_KnOKgOvE7aW7EpO560okLyUU">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css" integrity="sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{&quot;hostname&quot;:&quot;blog.frosthe.net&quot;,&quot;root&quot;:&quot;&#x2F;&quot;,&quot;images&quot;:&quot;&#x2F;images&quot;,&quot;scheme&quot;:&quot;Mist&quot;,&quot;version&quot;:&quot;8.5.0&quot;,&quot;exturl&quot;:false,&quot;sidebar&quot;:{&quot;position&quot;:&quot;left&quot;,&quot;display&quot;:&quot;always&quot;,&quot;padding&quot;:18,&quot;offset&quot;:12,&quot;width&quot;:300},&quot;copycode&quot;:false,&quot;bookmark&quot;:{&quot;enable&quot;:false,&quot;color&quot;:&quot;#222&quot;,&quot;save&quot;:&quot;auto&quot;},&quot;fancybox&quot;:false,&quot;mediumzoom&quot;:false,&quot;lazyload&quot;:false,&quot;pangu&quot;:false,&quot;comments&quot;:{&quot;style&quot;:&quot;tabs&quot;,&quot;active&quot;:null,&quot;storage&quot;:true,&quot;lazyload&quot;:false,&quot;nav&quot;:null},&quot;motion&quot;:{&quot;enable&quot;:false,&quot;async&quot;:false,&quot;transition&quot;:{&quot;post_block&quot;:&quot;fadeIn&quot;,&quot;post_header&quot;:&quot;fadeInDown&quot;,&quot;post_body&quot;:&quot;fadeInDown&quot;,&quot;coll_header&quot;:&quot;fadeInLeft&quot;,&quot;sidebar&quot;:&quot;fadeInUp&quot;}},&quot;prism&quot;:false,&quot;i18n&quot;:{&quot;placeholder&quot;:&quot;搜索...&quot;,&quot;empty&quot;:&quot;没有找到任何搜索结果：${query}&quot;,&quot;hits_time&quot;:&quot;找到 ${hits} 个搜索结果（用时 ${time} 毫秒）&quot;,&quot;hits&quot;:&quot;找到 ${hits} 个搜索结果&quot;}}</script><script src="/js/config.js"></script>
+<meta name="description" content="本文介绍了 OAuth2.0，OpenID Connect 和 .NET 生态实现 IdentityServer4">
+<meta property="og:type" content="article">
+<meta property="og:title" content="OAuth 2.0 和 OpenID Connect">
+<meta property="og:url" content="https://blog.frosthe.net/security-oauth2-and-openid-connect/index.html">
+<meta property="og:site_name" content="FrostHe.Handbook">
+<meta property="og:description" content="本文介绍了 OAuth2.0，OpenID Connect 和 .NET 生态实现 IdentityServer4">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2018-07-28T12:35:31.000Z">
+<meta property="article:modified_time" content="2019-09-27T14:03:12.385Z">
+<meta property="article:author" content="Frost He">
+<meta property="article:tag" content="security">
+<meta property="article:tag" content="oauth">
+<meta property="article:tag" content="jwt">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://blog.frosthe.net/security-oauth2-and-openid-connect/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{&quot;sidebar&quot;:&quot;&quot;,&quot;isHome&quot;:false,&quot;isPost&quot;:true,&quot;lang&quot;:&quot;zh-CN&quot;,&quot;comments&quot;:true,&quot;permalink&quot;:&quot;https:&#x2F;&#x2F;blog.frosthe.net&#x2F;security-oauth2-and-openid-connect&#x2F;&quot;,&quot;path&quot;:&quot;security-oauth2-and-openid-connect&#x2F;&quot;,&quot;title&quot;:&quot;OAuth 2.0 和 OpenID Connect&quot;}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">&quot;&quot;</script>
+<title>OAuth 2.0 和 OpenID Connect | FrostHe.Handbook</title>
+  
+  <script class="next-config" data-name="google_analytics" type="application/json">{&quot;tracking_id&quot;:&quot;UA-125853342-1&quot;,&quot;only_pageview&quot;:true}</script>
+  <script src="/js/third-party/analytics/google-analytics.js"></script>
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+  <div class="site-meta">
+      <a
+        href="/" class="brand" rel="start">
+        
+        <h1 class="site-title">FrostHe.Handbook</h1>
+          <p class="site-subtitle">Talk less, do more</p>
+        
+      </a>
+      </div>
+      <div class="site-nav-right">
+        <div class="toggle popup-trigger">
+        </div>
+      </div>
+    </div>
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-film fa-fw"></i>时间线</a></li>
+        <li class="menu-item menu-item-about"><a href="/about" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar sidebar-active">
+
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Frost He" src="/images/avatar.jpg">
+    <p class="site-author-name" itemprop="name">Frost He</p>
+    <p>Full-stack web developer<p>
+        <div class="site-description" itemprop="description">
+          <i class="fa fa-fw fa-map-marker-alt"></i>
+          <span>Chengdu, China</span>
+        </div>
+      </div>
+                <div class="links-of-author site-overview-item animated">
+                    <span class="links-of-author-item">
+                      <a href="https://github.com/BerdyPango" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;BerdyPango" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+                    </span>
+                    <span class="links-of-author-item">
+                      <a href="https://plus.google.com/yourname" title="Google → https:&#x2F;&#x2F;plus.google.com&#x2F;yourname" rel="noopener" target="_blank"><i class="fab fa-google fa-fw"></i></a>
+                    </span>
+                    <span class="links-of-author-item">
+                      <a href="https://www.linkedin.com/in/frosthe0419/" title="Linkedin → https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;frosthe0419&#x2F;" rel="noopener" target="_blank"><i class="fab fa-linkedin fa-fw"></i></a>
+                    </span>
+                    <span class="links-of-author-item">
+                      <a href="https://www.instagram.com/frosthe_pro/" title="Instagram → https:&#x2F;&#x2F;www.instagram.com&#x2F;frosthe_pro&#x2F;" rel="noopener" target="_blank"><i class="fab fa-instagram fa-fw"></i></a>
+                    </span>
+                    <span class="links-of-author-item">
+                      <a href="https://steamcommunity.com/profiles/76561198049061021/" title="Steam → https:&#x2F;&#x2F;steamcommunity.com&#x2F;profiles&#x2F;76561198049061021&#x2F;" rel="noopener" target="_blank"><i class="fab fa-steam-square fa-fw"></i></a>
+                    </span>
+                </div>
+              
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blog.frosthe.net/security-oauth2-and-openid-connect/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Frost He">
+      <meta itemprop="description" content="Chengdu, China">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FrostHe.Handbook">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          OAuth 2.0 和 OpenID Connect
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2018-07-28 20:35:31" itemprop="dateCreated datePublished" datetime="2018-07-28T20:35:31+08:00">2018-07-28</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2019-09-27 22:03:12" itemprop="dateModified" datetime="2019-09-27T22:03:12+08:00">2019-09-27</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Cryptography/" itemprop="url" rel="index"><span itemprop="name">Cryptography</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>6.8k</span>
+    </span>
+</div>
+
+            <div class="post-description">本文介绍了 OAuth2.0，OpenID Connect 和 .NET 生态实现 IdentityServer4</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>参考资料:</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://oauthdebugger.com/">OAuth 2.0 Debugger</a></li>
+<li><a target="_blank" rel="noopener" href="https://oidcdebugger.com/">OpenID Connect Debugger</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=996OiexHze0">Youtube Video - OAuth 2.0 and OpenID Connect</a></li>
+<li><a target="_blank" rel="noopener" href="https://developer.okta.com/blog/2017/06/21/what-the-heck-is-oauth">What the Heck is OAuth</a></li>
+</ul>
+<p>本文索引:</p>
+<ul>
+<li><a href="#%E5%89%8D%E8%A8%80">前言</a></li>
+<li><a href="#oauthoidc-%E5%92%8C-identityserver4-%E4%B8%89%E8%80%85%E7%9A%84%E5%85%B3%E7%B3%BB">OAuth、OIDC 和 IdentityServer4 三者的关系</a></li>
+<li><a href="#oauth-%E8%A7%92%E8%89%B2%E5%AE%9A%E4%B9%89">OAuth 角色定义</a></li>
+<li><a href="#oauth-tokens">OAuth Tokens</a><ul>
+<li><a href="#access-token">Access Token</a></li>
+<li><a href="#refresh-tokens">Refresh Tokens</a></li>
+</ul>
+</li>
+<li><a href="#authorization-grant">Authorization Grant</a></li>
+<li><a href="#oauth-endpoints">OAuth EndPoints</a></li>
+<li><a href="#%E6%8E%88%E6%9D%83%E9%80%9A%E4%BF%A1%E9%80%9A%E9%81%93">授权通信通道</a><ul>
+<li><a href="#front-channel">Front Channel</a></li>
+<li><a href="#back-channel">Back Channel</a></li>
+</ul>
+</li>
+<li><a href="#oauth-flows">OAuth Flows</a><ul>
+<li><a href="#implicit-flow">Implicit Flow</a></li>
+<li><a href="#authorization-code-flow">Authorization Code Flow</a></li>
+<li><a href="#client-credential-flow">Client Credential Flow</a></li>
+<li><a href="#resource-owner-password-flow">Resource Owner Password Flow</a></li>
+<li><a href="#device-flow">Device Flow</a></li>
+</ul>
+</li>
+<li><a href="#%E5%AE%89%E5%85%A8%E6%8F%90%E9%86%92">安全提醒</a></li>
+<li><a href="#oauth-%E4%B8%8D%E6%98%AF%E8%AE%A4%E8%AF%81%E5%8D%8F%E8%AE%AE">OAuth 不是认证协议</a></li>
+<li><a href="#auth-20-%E7%9A%84%E4%BC%AA%E8%AE%A4%E8%AF%81">Auth 2.0 的伪认证</a></li>
+<li><a href="#open-id-connect">Open ID Connect</a></li>
+</ul>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>工作中经常听到关于 <code>OAuth2</code> 的讨论，但很难用只言片语将这一整套体系解释清楚。本文希望通过查阅资料和开发实践，阐明 <code>OAuth2</code>、<code>OIDC</code> 和 <code>IdentityServer4</code> 三者关于 <code>what</code>、<code>why</code>、和 <code>how</code> 的问题。</p>
+<h2 id="OAuth、OIDC-和-IdentityServer4-三者的关系"><a href="#OAuth、OIDC-和-IdentityServer4-三者的关系" class="headerlink" title="OAuth、OIDC 和 IdentityServer4 三者的关系"></a>OAuth、OIDC 和 IdentityServer4 三者的关系</h2><p>假设有一个这样的需求: 客户端程序需要访问资源服务器的 API，又不希望每次访问都带上用户名密码做一次认证。面对这样的需求，不同的开发人员有自己的考虑，可能的实现多种多样。在经过长期沉淀和提炼之后，先驱们总结出了在不同场景下「委托授权」的最佳实践，然后为这一套最佳实践制定出一套规范 - <code>OAuth</code>。</p>
+<p><code>OAuth</code> 标准化了「委托授权」涉及的各个参与方、数据和 <code>EndPoint</code>，其目的在于为实现者提供一套统一的参考标准。由于时代原因，<code>OAuth 1.0</code> 已经不适合现代 Web 技术的使用场景，所以本文中谈到的 <code>OAuth</code> 均指 <code>OAuth 2.0</code>。<code>OAuth</code> 先于 <code>OIDC</code> 诞生，两者均为规范(Specifications)，<code>OAuth</code> 对应 <a target="_blank" rel="noopener" href="https://tools.ietf.org/html/rfc6749">RFC6749</a>，<code>OIDC</code> 对应 <a target="_blank" rel="noopener" href="https://openid.net/specs/openid-connect-core-1_0.html">OpenID Connect Core 1.0 incorporating errata set 1</a>，而 <code>IdentityServer4</code> 为 <code>OIDC</code> 在 .NET 平台 <a target="_blank" rel="noopener" href="https://openid.net/certification/">官方授权</a>的实现类库。</p>
+<h2 id="OAuth-角色定义"><a href="#OAuth-角色定义" class="headerlink" title="OAuth 角色定义"></a>OAuth 角色定义</h2><ul>
+<li><code>Resource Owner</code>: 资源数据的拥有者，绝大多数情况下指用户，例如，我是 <code>Facebook</code> 帐号数据的拥有者</li>
+<li><code>Resource Server</code>: 受保护资源的服务方，通常以 API 形式向外界暴露资源数据，例如，<code>Facebook</code> 的 <code>User Profile</code> 服务</li>
+<li><code>Client</code>: 想要访问 <code>Resource Owner</code> 托管在 <code>Resource Server</code> 数据的第三方应用程序<ul>
+<li><code>Public Clients</code>: 暴露在公开的分发渠道中的应用程序，诸如 <code>Web App</code>、<code>Mobile App</code> 和 <code>IoT</code> 设备</li>
+<li><code>Confidential Clients</code>: 受信任的机密应用程序，自存储 <code>secret</code>。它们没有公开暴露在互联网中，无法轻易被反向工程</li>
+</ul>
+</li>
+<li><code>Authorization Server</code>: 授权服务方，管理 <code>Resource Owner</code> 身份信息和授权列表的服务</li>
+</ul>
+<p>一个简单的 <code>OAuth</code> 流程如下所示:</p>
+
+
+
+
+<h2 id="OAuth-Tokens"><a href="#OAuth-Tokens" class="headerlink" title="OAuth Tokens"></a>OAuth Tokens</h2><p><code>OAuth</code> 规范定义了两种 Token: <code>Aceess Token</code> 和 <code>Refresh Token</code>。</p>
+<h3 id="Access-Token"><a href="#Access-Token" class="headerlink" title="Access Token"></a>Access Token</h3><p><code>Access Token</code> 是为 <code>Public Client</code> 用于短期(数小时或数分钟)访问受保护资源(<code>Resource Server</code>)的凭证。由于其相对较短的生存期，可以无需为它们设计撤销方案，等待其自动过期即可。</p>
+<h3 id="Refresh-Tokens"><a href="#Refresh-Tokens" class="headerlink" title="Refresh Tokens"></a>Refresh Tokens</h3><p>当 <code>Resource Owner</code> 撤销某 <code>Client</code> 应用程序的访问权限时，实际是撤销了其 <code>Refresh Token</code>，这意味着当用户再次授权 <code>Client</code> 访问权限时，<code>Client</code> 将使用新的 <code>Refresh Token</code>，是一种强制过期措施。而每一次通过 <code>Refresh Token</code> 获得的都是一枚新的 <code>Access Token</code>。</p>
+<blockquote>
+<p><code>OAuth</code> 规范中没有对 <code>Token</code> 定义具体内容，它可以是任何格式。由于 JWT 的广泛使用，很容易将这里的 <code>Token</code> 与 JWT 对等起来，在后文的介绍中将区分它们。</p>
+</blockquote>
+<h2 id="Authorization-Grant"><a href="#Authorization-Grant" class="headerlink" title="Authorization Grant"></a>Authorization Grant</h2><p><code>Authorization Grant</code> 是「授权许可」的泛化名称，表示 <code>Authorization Server</code> 在授权用户之后返回给 <code>Client</code> 的许可载体，<code>Client</code> 可借由该载体进一步向 <code>Authorization Server</code> 换取 <code>Access Token</code>。该载体通常以 <code>code</code> 表示，为一段随机生成的字符串，有效期非常短。</p>
+<h2 id="OAuth-EndPoints"><a href="#OAuth-EndPoints" class="headerlink" title="OAuth EndPoints"></a>OAuth EndPoints</h2><p><code>OAuth</code> 规范为 <code>Authorization Server</code> 定义了标准化的 <code>Endpoint</code> 用于不同的场景:</p>
+<ul>
+<li><code>/oauth2/authorize</code>: <code>Authorize Endpoint</code>，认证用户并征求用户授权，返回 <code>Authorization Grant</code></li>
+<li><code>/oauth2/token</code>: <code>Token Endpoint</code>，分发 <code>Refresh Token</code> 和 <code>Access Token</code>，当 <code>Access Token</code> 过期后，可利用 <code>Refresh Token</code> 申请新的 <code>Access Token</code></li>
+<li><code>/oauth2/introspect</code>: 用于检视某个 <code>Token</code> 是否仍然有效</li>
+<li><code>/oauth2/revoke</code>: 用于撤销 <code>Refresh Token</code></li>
+</ul>
+<blockquote>
+<p>关于 <code>OAuth</code> 一个显著的争论是，开发人员不得不管理 <code>Refresh Token</code>。这也是开发人员偏爱 <code>API Keys</code> 的原因，虽然 <code>API Keys</code> 方便很多，但任何客户端都必须保存 <code>API Keys</code>，这加大了安全风险。</p>
+</blockquote>
+<h2 id="授权通信通道"><a href="#授权通信通道" class="headerlink" title="授权通信通道"></a>授权通信通道</h2><p><code>OAuth</code> 中将「委托授权」在各个流程中涉及的步骤分成了前后两步: <code>Front Channel</code> 和 <code>Back Channel</code>。</p>
+<h3 id="Front-Channel"><a href="#Front-Channel" class="headerlink" title="Front Channel"></a>Front Channel</h3><p><code>Front Channel</code> 表示发生在开放的互联网中的部分，典型的场景是由「用户代理程序」发起的部分。以浏览器为例，其流程如下:</p>
+<ol>
+<li><code>Resource Owner</code> 委托 <code>Client</code> 访问 <code>Resource Server</code></li>
+<li><code>Client</code> 被重定向至 <code>Authorization Server</code> 的 <code>Authorize Endpoint</code></li>
+<li><code>Authorization Server</code> 认证 <code>Resource Owner</code>，展示对话框征求用户授权</li>
+<li><code>Resource Owner</code> 认证通过，并同意授权后，<code>Authorization Server</code> 返回 <code>Authorization Grant</code> 并通过浏览器重定向至 <code>Client</code> 指定的 <code>redirect_uri</code>。</li>
+</ol>
+
+
+<p>首先来看 <code>Request</code>:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">GET https://accounts.google.com/o/oauth2/auth?scope=gmail.insert gmail.send</span><br><span class="line">&amp;redirect_uri=https://app.example.com/oauth2/callback</span><br><span class="line">&amp;response_type=code&amp;client_id=812741506391</span><br><span class="line">&amp;state=af0ifjsldkj</span><br></pre></td></tr></table></figure>
+<p>请求的查询字符串参数中:</p>
+<ul>
+<li><code>scope</code>: 表示欲访问资源的预定义资源集，此处为 Gmail 的 API</li>
+<li><code>redirect_uri</code>: 指示 <code>Authorization Server</code> 在完成授权后应该重定向的地址，该值必须与 <code>Client</code> 注册时提供的地址一致</li>
+<li><code>response_type</code>: 指示请求的 <code>OAuth Flow</code></li>
+<li><code>client_id</code>: 标识 <code>Client</code>，同样须与 <code>Client</code> 注册时的值一致</li>
+<li><code>state</code>: 用于减轻跨站请求伪造的验证数据</li>
+</ul>
+<p>接下来是 <code>Response</code>:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">HTTP/1.1 302 Found</span><br><span class="line">Location: https://app.example.com/oauth2/callback?</span><br><span class="line">code=MsCeLvIaQm6bTrgtp7&amp;state=af0ifjsldkj</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>code</code>: 代表 <code>Authorization Grant</code> 的字面值</li>
+<li><code>state</code>: 将 <code>request</code> 中的 <code>state</code> 原封不动的传回，以供 <code>Client</code> 应用程序验证请求来源</li>
+</ul>
+<h3 id="Back-Channel"><a href="#Back-Channel" class="headerlink" title="Back Channel"></a>Back Channel</h3><p><code>Front Channel</code> 的工作完成之后。<code>Back Channel</code> 开始，<code>Client</code> 接收到由 <code>Authorization Server</code> 的重定向请求后，取得 <code>code</code>，接着使用 <code>code</code>、<code>ClientId</code> 及 <code>Client Credential</code> 向 <code>Authorization Server</code> 请求换取 <code>Access Token</code> 及 <code>Refresh Token</code>(可选)。<code>Client</code> 再以 <code>Access Token</code> 访问受保护的资源。</p>
+
+
+<p><code>Request</code> 的源数据为:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">POST /oauth2/v3/token HTTP/1.1</span><br><span class="line">Host: www.googleapis.com</span><br><span class="line">Content-Type: application/x-www-form-urlencoded</span><br><span class="line"></span><br><span class="line">code=MsCeLvIaQm6bTrgtp7&amp;client_id=812741506391&amp;client_secret=&#123;client_secret&#125;&amp;redirect_uri=https://app.example.com/oauth2/callback&amp;grant_type=authorization_code</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>grant_type</code>: 授权许可的类型，代表了一种 <code>OAuth Flow</code>，此案例中为 <code>authorization_code</code>，这是典型的 <code>OAuth Flow</code></li>
+</ul>
+<p><code>Response</code>:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;access_token&quot;</span>: <span class="string">&quot;2YotnFZFEjr1zCsicMWpAA&quot;</span>,</span><br><span class="line">  <span class="string">&quot;token_type&quot;</span>: <span class="string">&quot;Bearer&quot;</span>,</span><br><span class="line">  <span class="string">&quot;expires_in&quot;</span>: 3600,</span><br><span class="line">  <span class="string">&quot;refresh_token&quot;</span>: <span class="string">&quot;tGzv3JOkF0XG5Qx2TlKWIA&quot;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>Response</code> 的 <code>Body</code> 部分为 JSON 格式，描述了 <code>Token</code> 的信息。</p>
+<blockquote>
+<p>值得注意的是，<code>access_token</code> 和 <code>refresh_token</code> 不一定是 Jwt。</p>
+</blockquote>
+<h2 id="OAuth-Flows"><a href="#OAuth-Flows" class="headerlink" title="OAuth Flows"></a>OAuth Flows</h2><h3 id="Implicit-Flow"><a href="#Implicit-Flow" class="headerlink" title="Implicit Flow"></a>Implicit Flow</h3><p><code>Implicit Flow</code> 又称为简化流程，因为没有任何后台服务参与使用 <code>Authorization Grant</code> 换取 <code>Access Token</code> 的流程，整个过程由 <code>Browser</code> 直接与 <code>Authorization Server</code> 通信。</p>
+
+
+<p><code>Implicit Flow</code> 常见于 <code>SPA</code> 应用程序，<code>Access Token</code> 由 <code>Authorization Server</code> 直接返回给浏览器，并且不支持 <code>Refresh Token</code>，它假定 <code>Resource Owner</code> 和 <code>Public Client</code> 运行在同一设备上。由于所有流程发生在浏览器，它是最脆弱的一种流程。</p>
+<h3 id="Authorization-Code-Flow"><a href="#Authorization-Code-Flow" class="headerlink" title="Authorization Code Flow"></a>Authorization Code Flow</h3><p>简称为 <code>Code Flow</code>，也是 <code>OAuth</code> 推崇的方案，该 <code>Flow</code> 同时采用了 <code>Front Channel</code> 和 <code>Back Channel</code>。它常见于 <code>Web App</code> 的场景。<code>Client</code> 应用程序通过 <code>Front Channel</code> 向 <code>Authorization Server</code> 申请 <code>Authorization Code</code>，再通过 <code>Back Channel</code> 用 <code>Authorization Code</code> 换取 <code>Access Token</code>。它假定 <code>Resource Owner</code> 和 <code>Client</code> 应用程序运行在不同的设备上，<code>Access Token</code> 始终不会传输到「用户代理应用程序」。</p>
+
+
+<h3 id="Client-Credential-Flow"><a href="#Client-Credential-Flow" class="headerlink" title="Client Credential Flow"></a>Client Credential Flow</h3><p><code>Client Credential Flow</code> 适用于 <code>server-to-server</code> 的场景。在这种场景中，<code>Client</code> 须是 <code>Confidential Client</code>，利用 <code>Client Credential</code> 作为 <code>Client</code> 的凭证完成授权流程，整个过程全部发生在 <code>Back Channel</code>，可使用对称或非对称加密算法对 <code>Client Credential</code> 进行加密。</p>
+<h3 id="Resource-Owner-Password-Flow"><a href="#Resource-Owner-Password-Flow" class="headerlink" title="Resource Owner Password Flow"></a>Resource Owner Password Flow</h3><p>这是一种过时的流程，已不再推荐使用。这种 <code>Flow</code> 将用户的帐号密码通过「用户代理应用程序」向 <code>Authorization Server</code> 请求 <code>Access Token</code>。通常情况下它不支持 <code>Refresh Token</code> 并假定 <code>Resource Owner</code> 和 <code>Public Client</code> 运行在同一设备。</p>
+<h3 id="Device-Flow"><a href="#Device-Flow" class="headerlink" title="Device Flow"></a>Device Flow</h3><p>用于类似 TV 等硬件设备，或仅仅运行一个 Cli 的程序，直接与 <code>Authorization Server</code> 通信取得一个 <code>code</code>，再用 <code>code</code> 换取 <code>Access Token</code> 的流程。</p>
+<h2 id="安全提醒"><a href="#安全提醒" class="headerlink" title="安全提醒"></a>安全提醒</h2><p>上述所有这些 <code>Flow</code> 都不同程度地涉及了 <code>OAuth</code> 规范中定义的角色，应该采用哪种 <code>Flow</code> 取决于 <code>Client</code> 的类型，但有以下几点值得注意:</p>
+<ul>
+<li>使用 <code>state</code> 参数验证完整性以减轻 <a target="_blank" rel="noopener" href="https://www.owasp.org/index.php/Cross-Site_Request_Forgery_(CSRF)">CSRF(Cross-Site Request Forgery)</a> 攻击</li>
+<li>启用白名单验证用于重定向的 <code>Url</code></li>
+<li>使用 <code>ClientId</code> 绑定特定的 <code>Client</code> 与指定的 <code>Grant Type</code> 和 <code>Token</code> 类型</li>
+<li>确保 <code>Confidential Clients</code> 的 <code>Secret</code> 不会泄露</li>
+</ul>
+<p><code>OAuth</code> 规范的 <code>Token</code> 并不会与终端用户绑定，它可以像 <code>Session Cookie</code> 一样被传递，任何人都能将其拷贝并用在 <code>Authoriazaion Header</code> 中。<code>OAuth</code> 将授权策略与身份认证解耦，它可以实现细粒度与粗粒度授权的融合，并且代替传统 Web App 的访问管理机制。同时，<code>OAuth</code> 对访问受保护资源 API 提供了限制和撤销机制，确保特定 <code>Client</code> 只能可访问受限的 API。</p>
+<h2 id="OAuth-不是认证协议"><a href="#OAuth-不是认证协议" class="headerlink" title="OAuth 不是认证协议"></a>OAuth 不是认证协议</h2><p><code>OAuth</code> 是一套授权流程的框架并非协议。它关注的重点是如何委托 <code>Authorization Server</code> 进行授权，而不是认证。<code>OAuth</code> 的官方文档没有提到有关用户的操作，所有 <code>Flow</code> 的目的都是为了取得一个可以访问受保护资源 API 的 <code>Access Token</code>。</p>
+<h2 id="Auth-2-0-的伪认证"><a href="#Auth-2-0-的伪认证" class="headerlink" title="Auth 2.0 的伪认证"></a>Auth 2.0 的伪认证</h2><p>Facebook Connect 和 Twitter 最早使用 <code>Access Token</code> 向一个 <code>/me</code> 的 <code>Endpoint</code> 取得用户数据，该 <code>Endpoint</code> 并没有在 <code>OAuth</code> 的规范中定义，这种方式被称为伪认证。</p>
+<h2 id="Open-ID-Connect"><a href="#Open-ID-Connect" class="headerlink" title="Open ID Connect"></a>Open ID Connect</h2><p>为了解决伪认证以非规范化的方式被滥用，<code>OAuth</code> 框架的一部分、Facebook Connect 以及 SAML2.0 被合并为 <a target="_blank" rel="noopener" href="https://openid.net/connect/">OpenID Connect(OIDC)</a>，OIDC 在 OAuth 2.0 基础上扩展了一个经过签名的 <code>ID Token</code>，以及一个 <code>UserInfo Endpoint</code> 用于获取用户数据。<code>OIDC</code> 还标准化了针对身份信息的 <code>scope</code> 和 <code>claim</code>，例如 <code>profile</code>、<code>email</code>、<code>address</code> 和 <code>phone</code>。除此之外，OIDC 将注册、发现等功能作为组件纳入规范之中。与 <code>OAuth</code> 的 <code>Request</code> 相比，其 <code>scope</code> 可接受新的值，如 <code>openid</code> 和 <code>email</code>:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">GET https://accounts.google.com/o/oauth2/auth?</span><br><span class="line">**scope=openid email**&amp;</span><br><span class="line">redirect_uri=https://app.example.com/oauth2/callback&amp;</span><br><span class="line">response_type=code&amp;</span><br><span class="line">client_id=812741506391&amp;</span><br><span class="line">state=af0ifjsldkj</span><br></pre></td></tr></table></figure>
+<p>以及在 <code>Authorization Grant</code> 向 <code>Authorization Server</code> 换取 <code>Token</code> 后的 <code>Response</code> 中新增了 <code>ID Token</code>:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="string">&quot;access_token&quot;</span>: <span class="string">&quot;2YotnFZFEjr1zCsicMWpAA&quot;</span>,</span><br><span class="line">  <span class="string">&quot;token_type&quot;</span>: <span class="string">&quot;Bearer&quot;</span>,</span><br><span class="line">  <span class="string">&quot;expires_in&quot;</span>: 3600,</span><br><span class="line">  <span class="string">&quot;refresh_token&quot;</span>: <span class="string">&quot;tGzv3JOkF0XG5Qx2TlKWIA&quot;</span>,</span><br><span class="line">  **<span class="string">&quot;id_token&quot;</span>: <span class="string">&quot;eyJhbGciOiJSUzI1NiIsImtpZCI6IjFlOWdkazcifQ...&quot;</span>**</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>ID Token</code> 是一个 JWT(JSON Wbe Token)，JWT 非常小巧，易于传输，由 3 部分组成:</p>
+<ul>
+<li><code>header</code>: 包含签名所使用的算法</li>
+<li><code>body</code>: 包含代表用户身份信息的 <code>claim</code></li>
+<li><code>signature</code>: 用于完整性验证的签名信息</li>
+</ul>
+<p><code>OIDC Flow</code> 涉及以下步骤:</p>
+<ol>
+<li>发现 <code>OIDC</code> 元数据</li>
+<li>发起一种 <code>OAuth Flow</code> 来取得 <code>ID Token</code> 和 <code>Access Token</code></li>
+<li>取得用于 JWT 签名的 <code>Key</code> 并动态注册 <code>Client</code> 应用程序(可选)</li>
+<li><code>Client</code> 基于 JWT 的日期与签名离线验证 <code>ID Token</code></li>
+<li>利用 <code>Access Token</code> 按需获取用户数据</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/security/" rel="tag"><i class="fa fa-tag"></i> security</a>
+              <a href="/tags/oauth/" rel="tag"><i class="fa fa-tag"></i> oauth</a>
+              <a href="/tags/jwt/" rel="tag"><i class="fa fa-tag"></i> jwt</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/security-cert-wildcard-from-letsencrypt/" rel="prev" title="向 Let's Encrypt CA 申请通配符证书">
+                  <i class="fa fa-chevron-left"></i> 向 Let's Encrypt CA 申请通配符证书
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/dotnet-cefsharp/" rel="next" title="在 .NET Framework 中集成 CefSharp">
+                  在 .NET Framework 中集成 CefSharp <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2015 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Frost He</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">381k</span>
+  </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

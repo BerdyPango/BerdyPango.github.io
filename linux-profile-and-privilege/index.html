@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="K2S73UudyU-JTh9S0U_KnOKgOvE7aW7EpO560okLyUU">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css" integrity="sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{&quot;hostname&quot;:&quot;blog.frosthe.net&quot;,&quot;root&quot;:&quot;&#x2F;&quot;,&quot;images&quot;:&quot;&#x2F;images&quot;,&quot;scheme&quot;:&quot;Mist&quot;,&quot;version&quot;:&quot;8.5.0&quot;,&quot;exturl&quot;:false,&quot;sidebar&quot;:{&quot;position&quot;:&quot;left&quot;,&quot;display&quot;:&quot;always&quot;,&quot;padding&quot;:18,&quot;offset&quot;:12,&quot;width&quot;:300},&quot;copycode&quot;:false,&quot;bookmark&quot;:{&quot;enable&quot;:false,&quot;color&quot;:&quot;#222&quot;,&quot;save&quot;:&quot;auto&quot;},&quot;fancybox&quot;:false,&quot;mediumzoom&quot;:false,&quot;lazyload&quot;:false,&quot;pangu&quot;:false,&quot;comments&quot;:{&quot;style&quot;:&quot;tabs&quot;,&quot;active&quot;:null,&quot;storage&quot;:true,&quot;lazyload&quot;:false,&quot;nav&quot;:null},&quot;motion&quot;:{&quot;enable&quot;:false,&quot;async&quot;:false,&quot;transition&quot;:{&quot;post_block&quot;:&quot;fadeIn&quot;,&quot;post_header&quot;:&quot;fadeInDown&quot;,&quot;post_body&quot;:&quot;fadeInDown&quot;,&quot;coll_header&quot;:&quot;fadeInLeft&quot;,&quot;sidebar&quot;:&quot;fadeInUp&quot;}},&quot;prism&quot;:false,&quot;i18n&quot;:{&quot;placeholder&quot;:&quot;搜索...&quot;,&quot;empty&quot;:&quot;没有找到任何搜索结果：${query}&quot;,&quot;hits_time&quot;:&quot;找到 ${hits} 个搜索结果（用时 ${time} 毫秒）&quot;,&quot;hits&quot;:&quot;找到 ${hits} 个搜索结果&quot;}}</script><script src="/js/config.js"></script>
+<meta name="description" content="本文记录了 Linux 系统下档案是什么，档案是如何组织的，包括权限的设定与划分">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux 基础 - 档案与权限(chgrp&#x2F;chown&#x2F;chmod)">
+<meta property="og:url" content="https://blog.frosthe.net/linux-profile-and-privilege/index.html">
+<meta property="og:site_name" content="FrostHe.Handbook">
+<meta property="og:description" content="本文记录了 Linux 系统下档案是什么，档案是如何组织的，包括权限的设定与划分">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2016-04-25T09:26:47.000Z">
+<meta property="article:modified_time" content="2019-01-12T13:15:03.562Z">
+<meta property="article:author" content="Frost He">
+<meta property="article:tag" content="linux">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://blog.frosthe.net/linux-profile-and-privilege/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{&quot;sidebar&quot;:&quot;&quot;,&quot;isHome&quot;:false,&quot;isPost&quot;:true,&quot;lang&quot;:&quot;zh-CN&quot;,&quot;comments&quot;:true,&quot;permalink&quot;:&quot;https:&#x2F;&#x2F;blog.frosthe.net&#x2F;linux-profile-and-privilege&#x2F;&quot;,&quot;path&quot;:&quot;linux-profile-and-privilege&#x2F;&quot;,&quot;title&quot;:&quot;Linux 基础 - 档案与权限(chgrp&#x2F;chown&#x2F;chmod)&quot;}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">&quot;&quot;</script>
+<title>Linux 基础 - 档案与权限(chgrp/chown/chmod) | FrostHe.Handbook</title>
+  
+  <script class="next-config" data-name="google_analytics" type="application/json">{&quot;tracking_id&quot;:&quot;UA-125853342-1&quot;,&quot;only_pageview&quot;:true}</script>
+  <script src="/js/third-party/analytics/google-analytics.js"></script>
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+  <div class="site-meta">
+      <a
+        href="/" class="brand" rel="start">
+        
+        <h1 class="site-title">FrostHe.Handbook</h1>
+          <p class="site-subtitle">Talk less, do more</p>
+        
+      </a>
+      </div>
+      <div class="site-nav-right">
+        <div class="toggle popup-trigger">
+        </div>
+      </div>
+    </div>
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-film fa-fw"></i>时间线</a></li>
+        <li class="menu-item menu-item-about"><a href="/about" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar sidebar-active">
+
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Frost He" src="/images/avatar.jpg">
+    <p class="site-author-name" itemprop="name">Frost He</p>
+    <p>Full-stack web developer<p>
+        <div class="site-description" itemprop="description">
+          <i class="fa fa-fw fa-map-marker-alt"></i>
+          <span>Chengdu, China</span>
+        </div>
+      </div>
+                <div class="links-of-author site-overview-item animated">
+                    <span class="links-of-author-item">
+                      <a href="https://github.com/BerdyPango" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;BerdyPango" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+                    </span>
+                    <span class="links-of-author-item">
+                      <a href="https://plus.google.com/yourname" title="Google → https:&#x2F;&#x2F;plus.google.com&#x2F;yourname" rel="noopener" target="_blank"><i class="fab fa-google fa-fw"></i></a>
+                    </span>
+                    <span class="links-of-author-item">
+                      <a href="https://www.linkedin.com/in/frosthe0419/" title="Linkedin → https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;frosthe0419&#x2F;" rel="noopener" target="_blank"><i class="fab fa-linkedin fa-fw"></i></a>
+                    </span>
+                    <span class="links-of-author-item">
+                      <a href="https://www.instagram.com/frosthe_pro/" title="Instagram → https:&#x2F;&#x2F;www.instagram.com&#x2F;frosthe_pro&#x2F;" rel="noopener" target="_blank"><i class="fab fa-instagram fa-fw"></i></a>
+                    </span>
+                    <span class="links-of-author-item">
+                      <a href="https://steamcommunity.com/profiles/76561198049061021/" title="Steam → https:&#x2F;&#x2F;steamcommunity.com&#x2F;profiles&#x2F;76561198049061021&#x2F;" rel="noopener" target="_blank"><i class="fab fa-steam-square fa-fw"></i></a>
+                    </span>
+                </div>
+              
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blog.frosthe.net/linux-profile-and-privilege/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Frost He">
+      <meta itemprop="description" content="Chengdu, China">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FrostHe.Handbook">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Linux 基础 - 档案与权限(chgrp/chown/chmod)
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2016-04-25 17:26:47" itemprop="dateCreated datePublished" datetime="2016-04-25T17:26:47+08:00">2016-04-25</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2019-01-12 21:15:03" itemprop="dateModified" datetime="2019-01-12T21:15:03+08:00">2019-01-12</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Linux-Basic/" itemprop="url" rel="index"><span itemprop="name">Linux Basic</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>2.9k</span>
+    </span>
+</div>
+
+            <div class="post-description">本文记录了 Linux 系统下档案是什么，档案是如何组织的，包括权限的设定与划分</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>参考资料: <a target="_blank" rel="noopener" href="http://linux.vbird.org/linux_basic/0210filepermission.php#filepermission_perm">http://linux.vbird.org/linux_basic/0210filepermission.php#filepermission_perm</a></p>
+<p>本文大纲: </p>
+<!-- TOC -->
+
+<ul>
+<li><a href="#%E4%BF%AE%E6%94%B9%E6%A1%A3%E6%A1%88%E5%B1%9E%E6%80%A7%E5%8F%8A%E6%9D%83%E9%99%90">修改档案属性及权限</a><ul>
+<li><a href="#%E6%9B%B4%E6%94%B9%E7%BE%A4%E7%BB%84">更改群组</a></li>
+<li><a href="#%E6%9B%B4%E6%94%B9%E6%A1%A3%E6%A1%88%E6%8B%A5%E6%9C%89%E8%80%85">更改档案拥有者</a></li>
+<li><a href="#%E6%9B%B4%E6%94%B9%E6%9D%83%E9%99%90">更改权限</a></li>
+</ul>
+</li>
+<li><a href="#%E6%9D%83%E9%99%90%E7%9A%84%E6%84%8F%E4%B9%89">权限的意义</a></li>
+</ul>
+<!-- /TOC -->
+
+<p>当执行 <code>ls -al</code> 后，当前目录下所有档案的详情被列出</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">dr-xr-xr-x. 17 root root 4096 May 4 17:56 ..</span><br><span class="line">-rw-------. 1 root root 1816 May 4 17:57 anaconda-ks.cfg</span><br></pre></td></tr></table></figure>
+<ul>
+<li>第 1 列用一组字符组合来表示其类别和属性，该字符串的第一位标识该档案的类别，详情见后文，而后连续 9 个字符，每 3 个一组，表示<strong>该权限的拥有者</strong>，<strong>同群组的其他用户</strong>和<strong>其他用户</strong>对该档案的权限，例如 <code>-rwxr-xr--</code> 表示一个档案的权限为：<ul>
+<li>该档案为文件</li>
+<li>拥有者对其拥有读取，修改和执行权限</li>
+<li>同一群组中的其他用户对其拥有读取和执行权限</li>
+<li>其他用户对其仅有读取权限</li>
+</ul>
+</li>
+<li>第 2 列表示有多少不同的档案名链接到该档案的 i-node，每个档案将会将它的权限与属性记录到档案系统的 i-node 中</li>
+<li>第 3 列表示档案的拥有者用户</li>
+<li>第 4 列表示该档案所属第群组</li>
+<li>第 5 列表示该档案所占用第磁盘空间，预设单位为 bytes</li>
+<li>第 6 列表示该档案的创建日期或修改日期</li>
+<li>第 7 列为档案名</li>
+</ul>
+<h1 id="修改档案属性及权限"><a href="#修改档案属性及权限" class="headerlink" title="修改档案属性及权限"></a>修改档案属性及权限</h1><h2 id="更改群组"><a href="#更改群组" class="headerlink" title="更改群组"></a>更改群组</h2><p>chgrp: 该指令为 change group 的缩写，目标群组必须在 <code>/etc/group</code> 中存在，使用 <code>-R</code> 指定递归改变父级目录下的群组: </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$sudo</span> chgrp &lt;target-group&gt; -R filename/directory</span><br></pre></td></tr></table></figure>
+
+<h2 id="更改档案拥有者"><a href="#更改档案拥有者" class="headerlink" title="更改档案拥有者"></a>更改档案拥有者</h2><p><code>chown</code> 为 change owner 的缩写，目标用户必须在 <code>/etc/passwd</code> 中存在，可使用 <code>-R</code> 选项指定递归更改选项。</p>
+<p>该命令还可以顺便修改群组，例如:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$sudo</span> chown user1:group1 filename</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>可使用 <code>.</code> 或者 <code>:</code> 来隔开用户名和群组名，但如果在用户名中包含 <code>.</code> 字符，则容易造成混淆，所以一般建议使用 <code>:</code> 来隔开用户名和群组。</p>
+</blockquote>
+<p><code>chown</code> 也可通过 <code>.</code> 直接更改群组,如:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$sudo</span> chown .group1 filename</span><br></pre></td></tr></table></figure>
+
+<p>更改群组一个常见的应用为，当通过 <code>cp</code> 复制一个档案时，也会同时复制命令执行者的属性与权限，此时更改属性和权限就显得尤其必要了</p>
+<h2 id="更改权限"><a href="#更改权限" class="headerlink" title="更改权限"></a>更改权限</h2><p>chmod 为更改档案权限的指令，默认情况下，可使用字符来为三种角色指定权限，首先指定角色: </p>
+<ul>
+<li><code>u</code>: 代表拥有者，即 users</li>
+<li><code>g</code>: 代表拥有者群组，即 group</li>
+<li><code>o</code>: 代表其他，即 others</li>
+<li><code>a</code>: 代表所有，即 all</li>
+</ul>
+<p>然后使用以下连字符修改权限: </p>
+<ul>
+<li>=: 代表赋值，指定</li>
+<li>+: 代表增加权限</li>
+<li>-: 代表移除权限</li>
+</ul>
+<p>例如 <code>chmod u=rwx,go=r-x filename</code> 表示设定档案的权限为 <code>rwxr-xr-x</code>，或 <code>chmod g+w filename</code> 在不知道原来权限的基础上增加群组的写入权限。</p>
+<p><code>chmod</code> 可以使用数字或字符来更改档案的权限，数字代表的含义为: </p>
+<ul>
+<li>r: 4</li>
+<li>w: 2</li>
+<li>x: 1</li>
+<li>-: -</li>
+</ul>
+<p>每种身份的权限由三者数字累加起来得到一个数字，例如 <code>chmod 740 filename</code> 表示拥有者具有 <code>rwx</code> 权限，同群组其他用户具有 <code>r--</code> 权限，其他用户则具有 <code>---</code> 权限。</p>
+<h1 id="权限的意义"><a href="#权限的意义" class="headerlink" title="权限的意义"></a>权限的意义</h1><p>权限分为三种：</p>
+<ul>
+<li>r: 读取权限<ul>
+<li>针对文件：读取文件的实际内容</li>
+<li>针对目录：读取目录结构清单，例如使用 ls 指令</li>
+</ul>
+</li>
+<li>w: 写入权限<ul>
+<li>针对文件: 可编辑，新增或修改文件的内容，但不含<strong>删除</strong>操作</li>
+<li>针对目录: 具有对改动该目录结构的权限，包含：<ul>
+<li>新建文件与目录</li>
+<li>删除已经存在的文件或目录(不受被删除文件和目录的权限限制)</li>
+<li>重命名文件或目录</li>
+<li>移动文件或目录</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>x: 执行权限<ul>
+<li>针对文件: 执行文件(如果该文件可执行)</li>
+<li>针对目录: 指示用户能否进入该目录，如执行 cd 指令<br>表格形式如下：</li>
+</ul>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>元件</th>
+<th>内容</th>
+<th>迭代物件</th>
+<th>r</th>
+<th>w</th>
+<th>x</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>文件</td>
+<td>详细资料</td>
+<td>文件夹文件</td>
+<td>读取文件内容</td>
+<td>修改文件内容</td>
+<td>执行文件内容</td>
+</tr>
+<tr>
+<td>目录</td>
+<td>目录名称</td>
+<td>可分类抽屉</td>
+<td>读取目录内容</td>
+<td>修改目录结构</td>
+<td>进入该目录</td>
+</tr>
+</tbody></table>
+<p>除了文件和目录两种档案之外，还有其他一些档案类型：</p>
+<ul>
+<li>常规文件(regular file)，常规文件档案，权限的第一栏为 <code>-</code>，例如 <code>-rwxrwxrwx</code>，常规文件又可分为三类：<ul>
+<li>文本文件: 可以直接读取的内如，几乎所有的配置型文件都属于这一类，可执行 <code>cat &lt;filename&gt;</code> 来查看文件内容</li>
+<li>二进制文件: Linux 系统仅认知且可执行二进制文件(binary file)，script 脚本及批处理不算，例如，当执行 <code>cat</code> 指令时，<code>cat</code> 就是一个 <code>binary file</code>。</li>
+<li>数据文件(data): 供不同的程序自己使用的特殊格式的文件，例如，当使用 Linux 登入时，系统会将登录日志记录在 <code>/var/log/wtmp</code> 文件内，但该文件是一个数据文件，只能通过 <code>last</code> 指令读出来，若使用 <code>cat</code> 读取该文件会显示乱码</li>
+</ul>
+</li>
+<li>目录(directory): 目录档案，权限第一栏为 <code>d</code>，例如 <code>drwxrwxrwx</code></li>
+<li>链接(link): 类似于 <code>windows</code> 系统的快捷方式，第一栏为 <code>l</code>，例如 <code>lrwxrwxrwx</code><ul>
+<li>软链接: 见 inode</li>
+<li>硬链接: 见 inode</li>
+</ul>
+</li>
+<li>设备与装置档案: 系统周边及存储等相关的档案，通常集中在 <code>/dev</code> 目录下，他们又分为：<ul>
+<li>区块(block)设备档案: 存储资料，提供系统随机存储的设备，硬盘与软盘都属于这类，第一栏为 <code>b</code>，可查阅 <code>/dev/sda</code> 下的内容。</li>
+<li>字符(character)设备档: 亦即外设，如键盘，鼠标等，这些设备的特点是<strong>「一次性读取」</strong>，不能截断输出，例如，不能让鼠标<strong>「跳跃到」</strong>另外一个地方，而是<strong>「连续滑动」</strong>到另一个地方。权限第一栏为 <code>c</code></li>
+</ul>
+</li>
+<li>数据接口档案(sockets): 主要用于网络数据通信，第一栏为 <code>s</code>，该类型通常位于 <code>/run</code> 或 <code>/tmp</code> 这些目录中</li>
+<li>数据传输接口档案(FIFO, pipe): FIFO(first in first out)也是一种特殊的档案类型，它是为了解决多个解决同时存取一个文件所造成的错误问题。第一栏为 <code>p</code></li>
+</ul>
+<blockquote>
+<p>设备是系统文件，最好不好随意修改。</p>
+</blockquote>
+<p>windows 系统中可执行文件通常带有 <code>.exe</code> <code>.bat</code> 等扩展名，而 <code>Linux</code> 系统中基本没有所谓的「扩展名」概念，一个 <code>Linux</code> 文件能否被执行与它的权限栏 10 个属性有关，与其文件名或扩展名没有任何关系，只要其权限中带有 <code>x</code> 属性，该文件就可以被执行。</p>
+<p>为了保持可读性，通常还是会在文件末尾加上扩展名以让用户了解该文件是什么，常用的扩展名有：</p>
+<ul>
+<li>*.sh: 脚本或批处理文件，因为这些文件基于 <code>shell</code> 写出，所以为其添加了 <code>.sh</code> 扩展名</li>
+<li>*Z, *.tar, *.tar.gz, *.zip, *.tgz: 压缩包文件，由不同的压缩程序如 gunzip, tar 等输出，所以根据不同的程序命名不同的扩展名</li>
+<li>*.html, *.php: php 语法写成的网页文件等</li>
+</ul>
+<p>总之，<code>Linux</code> 的文件名仅仅是为了让用户了解其用途而已，能否执行取决于文件权限，如果 <code>/bin/ls</code> 文件的可执行权限被移除，那么 <code>ls</code> 便无法使用了。</p>
+<p>关于档案的几点注意：</p>
+<ul>
+<li>单一文件或目录文件名长度不超过 256 字节</li>
+<li>名称中不得包含 * ? &gt; &lt; ; &amp; ! [ ] | \ ‘ “ ` ( ) { } 等特殊字符</li>
+<li>第一个字符为 <code>.</code> 时，表示该档案为隐藏档案</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/linux/" rel="tag"><i class="fa fa-tag"></i> linux</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/linux-account-and-group/" rel="prev" title="Linux 基础 - 用户和群组">
+                  <i class="fa fa-chevron-left"></i> Linux 基础 - 用户和群组
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/linux-document-preset-and-hidden-privilage/" rel="next" title="Linux 基础 - 预设权限(umask)，隐藏权限(chattr/lsattr)和特殊权限(SUID/SGID/SBIT)">
+                  Linux 基础 - 预设权限(umask)，隐藏权限(chattr/lsattr)和特殊权限(SUID/SGID/SBIT) <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2015 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Frost He</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">381k</span>
+  </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

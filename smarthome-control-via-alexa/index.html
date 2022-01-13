@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="K2S73UudyU-JTh9S0U_KnOKgOvE7aW7EpO560okLyUU">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css" integrity="sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{&quot;hostname&quot;:&quot;blog.frosthe.net&quot;,&quot;root&quot;:&quot;&#x2F;&quot;,&quot;images&quot;:&quot;&#x2F;images&quot;,&quot;scheme&quot;:&quot;Mist&quot;,&quot;version&quot;:&quot;8.5.0&quot;,&quot;exturl&quot;:false,&quot;sidebar&quot;:{&quot;position&quot;:&quot;left&quot;,&quot;display&quot;:&quot;always&quot;,&quot;padding&quot;:18,&quot;offset&quot;:12,&quot;width&quot;:300},&quot;copycode&quot;:false,&quot;bookmark&quot;:{&quot;enable&quot;:false,&quot;color&quot;:&quot;#222&quot;,&quot;save&quot;:&quot;auto&quot;},&quot;fancybox&quot;:false,&quot;mediumzoom&quot;:false,&quot;lazyload&quot;:false,&quot;pangu&quot;:false,&quot;comments&quot;:{&quot;style&quot;:&quot;tabs&quot;,&quot;active&quot;:null,&quot;storage&quot;:true,&quot;lazyload&quot;:false,&quot;nav&quot;:null},&quot;motion&quot;:{&quot;enable&quot;:false,&quot;async&quot;:false,&quot;transition&quot;:{&quot;post_block&quot;:&quot;fadeIn&quot;,&quot;post_header&quot;:&quot;fadeInDown&quot;,&quot;post_body&quot;:&quot;fadeInDown&quot;,&quot;coll_header&quot;:&quot;fadeInLeft&quot;,&quot;sidebar&quot;:&quot;fadeInUp&quot;}},&quot;prism&quot;:false,&quot;i18n&quot;:{&quot;placeholder&quot;:&quot;搜索...&quot;,&quot;empty&quot;:&quot;没有找到任何搜索结果：${query}&quot;,&quot;hits_time&quot;:&quot;找到 ${hits} 个搜索结果（用时 ${time} 毫秒）&quot;,&quot;hits&quot;:&quot;找到 ${hits} 个搜索结果&quot;}}</script><script src="/js/config.js"></script>
+<meta name="description" content="本文介绍两种实现 Alexa 控制 HA 的方法">
+<meta property="og:type" content="article">
+<meta property="og:title" content="智慧家庭 - 通过 Amazon Alexa 控制连接至 HomeAssistant 的智能设备">
+<meta property="og:url" content="https://blog.frosthe.net/smarthome-control-via-alexa/index.html">
+<meta property="og:site_name" content="FrostHe.Handbook">
+<meta property="og:description" content="本文介绍两种实现 Alexa 控制 HA 的方法">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2018-05-28T03:01:44.000Z">
+<meta property="article:modified_time" content="2019-12-28T13:12:24.010Z">
+<meta property="article:author" content="Frost He">
+<meta property="article:tag" content="smart-home">
+<meta property="article:tag" content="home-assistant">
+<meta property="article:tag" content="alexa">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://blog.frosthe.net/smarthome-control-via-alexa/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{&quot;sidebar&quot;:&quot;&quot;,&quot;isHome&quot;:false,&quot;isPost&quot;:true,&quot;lang&quot;:&quot;zh-CN&quot;,&quot;comments&quot;:true,&quot;permalink&quot;:&quot;https:&#x2F;&#x2F;blog.frosthe.net&#x2F;smarthome-control-via-alexa&#x2F;&quot;,&quot;path&quot;:&quot;smarthome-control-via-alexa&#x2F;&quot;,&quot;title&quot;:&quot;智慧家庭 - 通过 Amazon Alexa 控制连接至 HomeAssistant 的智能设备&quot;}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">&quot;&quot;</script>
+<title>智慧家庭 - 通过 Amazon Alexa 控制连接至 HomeAssistant 的智能设备 | FrostHe.Handbook</title>
+  
+  <script class="next-config" data-name="google_analytics" type="application/json">{&quot;tracking_id&quot;:&quot;UA-125853342-1&quot;,&quot;only_pageview&quot;:true}</script>
+  <script src="/js/third-party/analytics/google-analytics.js"></script>
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+  <div class="site-meta">
+      <a
+        href="/" class="brand" rel="start">
+        
+        <h1 class="site-title">FrostHe.Handbook</h1>
+          <p class="site-subtitle">Talk less, do more</p>
+        
+      </a>
+      </div>
+      <div class="site-nav-right">
+        <div class="toggle popup-trigger">
+        </div>
+      </div>
+    </div>
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-film fa-fw"></i>时间线</a></li>
+        <li class="menu-item menu-item-about"><a href="/about" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar sidebar-active">
+
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Frost He" src="/images/avatar.jpg">
+    <p class="site-author-name" itemprop="name">Frost He</p>
+    <p>Full-stack web developer<p>
+        <div class="site-description" itemprop="description">
+          <i class="fa fa-fw fa-map-marker-alt"></i>
+          <span>Chengdu, China</span>
+        </div>
+      </div>
+                <div class="links-of-author site-overview-item animated">
+                    <span class="links-of-author-item">
+                      <a href="https://github.com/BerdyPango" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;BerdyPango" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+                    </span>
+                    <span class="links-of-author-item">
+                      <a href="https://plus.google.com/yourname" title="Google → https:&#x2F;&#x2F;plus.google.com&#x2F;yourname" rel="noopener" target="_blank"><i class="fab fa-google fa-fw"></i></a>
+                    </span>
+                    <span class="links-of-author-item">
+                      <a href="https://www.linkedin.com/in/frosthe0419/" title="Linkedin → https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;frosthe0419&#x2F;" rel="noopener" target="_blank"><i class="fab fa-linkedin fa-fw"></i></a>
+                    </span>
+                    <span class="links-of-author-item">
+                      <a href="https://www.instagram.com/frosthe_pro/" title="Instagram → https:&#x2F;&#x2F;www.instagram.com&#x2F;frosthe_pro&#x2F;" rel="noopener" target="_blank"><i class="fab fa-instagram fa-fw"></i></a>
+                    </span>
+                    <span class="links-of-author-item">
+                      <a href="https://steamcommunity.com/profiles/76561198049061021/" title="Steam → https:&#x2F;&#x2F;steamcommunity.com&#x2F;profiles&#x2F;76561198049061021&#x2F;" rel="noopener" target="_blank"><i class="fab fa-steam-square fa-fw"></i></a>
+                    </span>
+                </div>
+              
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blog.frosthe.net/smarthome-control-via-alexa/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Frost He">
+      <meta itemprop="description" content="Chengdu, China">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FrostHe.Handbook">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          智慧家庭 - 通过 Amazon Alexa 控制连接至 HomeAssistant 的智能设备
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2018-05-28 11:01:44" itemprop="dateCreated datePublished" datetime="2018-05-28T11:01:44+08:00">2018-05-28</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2019-12-28 21:12:24" itemprop="dateModified" datetime="2019-12-28T21:12:24+08:00">2019-12-28</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Smart-Home/" itemprop="url" rel="index"><span itemprop="name">Smart Home</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>2.1k</span>
+    </span>
+</div>
+
+            <div class="post-description">本文介绍两种实现 Alexa 控制 HA 的方法</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>参考资料:</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.home-assistant.io/cloud/">Home Assistant Cloud</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/mike-grant/haaska">HAASKA</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.home-assistant.io/components/alexa/">HA - Alexa/Amazon Echo</a></li>
+</ul>
+<p>本文索引:</p>
+<ul>
+<li><a href="#%E5%89%8D%E8%A8%80">前言</a></li>
+<li><a href="#%E9%80%9A%E8%BF%87-home-assistant-cloud-%E5%AE%9E%E7%8E%B0">通过 Home Assistant Cloud 实现</a><ul>
+<li><a href="#%E9%85%8D%E7%BD%AE-home-assistant-cloud">配置 Home Assistant Cloud</a><ul>
+<li><a href="#%E5%88%9B%E5%BB%BA-home-assistant-cloud-%E8%B4%A6%E5%8F%B7">创建 Home Assistant Cloud 账号</a></li>
+<li><a href="#%E6%BF%80%E6%B4%BB-alexa-home-assistant-skill">激活 Alexa Home Assistant Skill</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#%E9%80%9A%E8%BF%87-haaska-%E5%AE%9E%E7%8E%B0tbd">通过 HAASKA 实现(TBD)</a><ul>
+<li><a href="#%E5%87%86%E5%A4%87-haaska">准备 HAASKA</a><ul>
+<li><a href="#%E9%85%8D%E7%BD%AE-amazon-aws">配置 Amazon AWS</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#%E9%80%9A%E8%BF%87-emulated-hue-bridge-%E7%9A%84%E6%96%B9%E5%BC%8F%E5%AE%9E%E7%8E%B0">通过 Emulated Hue Bridge 的方式实现</a><ul>
+<li><a href="#%E5%8E%9F%E7%90%86">原理</a></li>
+<li><a href="#%E5%AE%9E%E7%8E%B0">实现</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>要使用 <code>Amazon Alexa</code> 控制接入 <code>HomeAssistant</code> 的智能设备，有以下可能的办法:</p>
+<ul>
+<li><code>Home Assistant Cloud</code>: 官方推崇的方式，通过启用 <code>Alexa</code> 的 <code>HomeAssistant Skill</code>，结合 <a target="_blank" rel="noopener" href="https://www.nabucasa.com/">Home Assistant Cloud</a> 服务可实现开箱即用的集成，不差钱的可选择这种方案</li>
+<li><code>HAASKA</code>(Home Assistant Alexa Skill Adaptor): 社区的开源项目，用 <code>python</code> 编写适用于 <code>Alexa Skill</code> 的 <code>AWS Lamba</code> 函数包，实现了 <a target="_blank" rel="noopener" href="https://www.home-assistant.io/components/alexa/#smart-home">Home Assistant Smart Home API</a> 和 <a target="_blank" rel="noopener" href="https://developer.amazon.com/alexa/connected-devices">Alexa Smart Home Skill API</a> 之间的桥梁作用，需要一系列进阶的配置，动手能力的强可选用此方案。</li>
+<li><code>Emulated Hue Bridge</code>: 纯本地方式，将 <code>Alexa-based</code> 设备作为 <a target="_blank" rel="noopener" href="https://www.home-assistant.io/components/emulated_hue/">Emulated Hue Bridge</a> 网关接入 HA，通过 <code>Hue API</code> 与 HA 中的设备进行交互，最简单的方案，但功能非常有限</li>
+</ul>
+<p>接下来将分别展示这些方案的实现过程。</p>
+<h2 id="通过-Home-Assistant-Cloud-实现"><a href="#通过-Home-Assistant-Cloud-实现" class="headerlink" title="通过 Home Assistant Cloud 实现"></a>通过 Home Assistant Cloud 实现</h2><h3 id="配置-Home-Assistant-Cloud"><a href="#配置-Home-Assistant-Cloud" class="headerlink" title="配置 Home Assistant Cloud"></a>配置 Home Assistant Cloud</h3><p><code>Home Assistant Cloud</code> 是由 <a target="_blank" rel="noopener" href="https://www.nabucasa.com/">NABU CASA</a> 提供的云服务，可试用 31 天。</p>
+<h4 id="创建-Home-Assistant-Cloud-账号"><a href="#创建-Home-Assistant-Cloud-账号" class="headerlink" title="创建 Home Assistant Cloud 账号"></a>创建 Home Assistant Cloud 账号</h4><p>进入 HA 的 <code>Configuration Tab</code>，点击 <code>Create Account</code></p>
+
+
+<p>注册完成后，在相同的界面登录，进入到管理界面:</p>
+
+
+<h4 id="激活-Alexa-Home-Assistant-Skill"><a href="#激活-Alexa-Home-Assistant-Skill" class="headerlink" title="激活 Alexa Home Assistant Skill"></a>激活 Alexa Home Assistant Skill</h4><p>进入 <code>Alexa Skills</code> 列表，搜索 <code>Home Assistant</code>，点击激活，之后登录刚刚注册的 <code>Home Assistant Cloud</code> 账号。</p>
+
+
+
+
+<p>之后，在 HA 的 <code>configuration.yaml</code> 中进行配置:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">cloud:</span><br><span class="line">  alexa:</span><br><span class="line">    filter:</span><br><span class="line">      include_entities:</span><br><span class="line">        - light.yeelight_ct2_7c49eb1551e8</span><br><span class="line">      include_domains:</span><br><span class="line">        - switch</span><br><span class="line">      exclude_entities:</span><br><span class="line">        - switch.outside</span><br><span class="line">    entity_config:</span><br><span class="line">      light.yeelight_ct2_7c49eb1551e8:</span><br><span class="line">        name: Lamp</span><br><span class="line">        description: The lamp with a green cover</span><br><span class="line">      switch.stairs:</span><br><span class="line">        display_categories: LIGHT</span><br></pre></td></tr></table></figure>
+
+<p>以上 <code>cloud</code> 节点是配置如何向 <code>Alexa</code> 暴露 HA 中的实体，与之前讨论的 <code>homekit</code> 组件配置方法类似，具体可参考: <a target="_blank" rel="noopener" href="https://www.nabucasa.com/config/amazon_alexa/">Alexa via Home Assistant Cloud</a>。</p>
+<p>完成之后重启 HA，对 <code>Alexa</code> 说一声 “Alexa, turn on the lamp.” 试试看。</p>
+<hr>
+<h2 id="通过-HAASKA-实现-TBD"><a href="#通过-HAASKA-实现-TBD" class="headerlink" title="通过 HAASKA 实现(TBD)"></a>通过 HAASKA 实现(TBD)</h2><p>由于 <code>Amazon</code> 对 <code>Alexa Skill</code> 的限制条件(例如只能使用 HTTPS)，要通过 <code>HAASKA</code> 实现通过 <code>Alexa</code> 控制 <code>HomeAssistant</code>，需要确保以下条件得到满足:</p>
+<ul>
+<li><code>Home Assistant</code> 实例的版本高于 0.78</li>
+<li>路由器可配置端口转发</li>
+<li><code>Home Assistant</code> 必须以 <code>HTTPS</code> 向外暴露: <code>Amazon</code> 的要求</li>
+<li>如果家中的 WAN 不是静态 IP 地址，则需要配置 <code>DDNS</code></li>
+<li>成为 <code>Amazon</code> 开发者并创建一个 <code>AWS</code> 账号: <code>HAASKA</code> 将使用 <code>AWS Lamba</code> 服务，<code>AWS</code> 支持每月 100 万免费请求。</li>
+</ul>
+<h3 id="准备-HAASKA"><a href="#准备-HAASKA" class="headerlink" title="准备 HAASKA"></a>准备 HAASKA</h3><p>可直接至 <a target="_blank" rel="noopener" href="https://github.com/mike-grant/haaska/releases">Release</a> 页面下载 <code>HAASKA</code> 的 <code>Zip</code> 包。接着，在 <code>configuration.yaml</code> 文件中添加以下组件的配置节:</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">api:</span></span><br><span class="line"></span><br><span class="line"><span class="attr">alexa:</span></span><br><span class="line">  <span class="attr">smart_home:</span></span><br></pre></td></tr></table></figure>
+<p>然后导航至 <code>HomeAssistant</code> 的 UI 界面上的 <code>Profile</code> 页面，在底部的 <code>Long-Lived Access Tokens</code> 中创建一个长生存期的 <code>Access Token</code>:</p>
+
+<p>完成之后，记录下返回的 <code>Token</code> 以作后用，它形如:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">eyJ0eXAiOiJKV1QiLCJhbGciOi......</span><br></pre></td></tr></table></figure>
+<h4 id="配置-Amazon-AWS"><a href="#配置-Amazon-AWS" class="headerlink" title="配置 Amazon AWS"></a>配置 Amazon AWS</h4><p>首先导航至 <a target="_blank" rel="noopener" href="https://developer.amazon.com/loginwithamazon/console/site/lwa/overview.html">Login with Amazon Console</a>，点击 <code>Create a New Security Profile</code>:</p>
+
+
+<hr>
+<h2 id="通过-Emulated-Hue-Bridge-的方式实现"><a href="#通过-Emulated-Hue-Bridge-的方式实现" class="headerlink" title="通过 Emulated Hue Bridge 的方式实现"></a>通过 Emulated Hue Bridge 的方式实现</h2><h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><p>这种办法是使用 HA 的 <a target="_blank" rel="noopener" href="https://www.home-assistant.io/components/emulated_hue/">Emulated Hue Bridge</a> 组件暴露 <code>Hue API</code>，让 <code>Alexa-based</code> 设备误以为 HA 是一个 <code>Philips Hue Hub</code>。</p>
+<h3 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h3><p>编辑 <code>configuration.yaml</code> 配置文件: </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Amazon Alexa</span></span><br><span class="line">emulated_hue:</span><br><span class="line">  host_ip: 192.168.1.140</span><br></pre></td></tr></table></figure>
+<p>保存更改，重启 HA 服务</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker container restart home-assistant</span><br></pre></td></tr></table></figure>
+<p>重新使用 <code>Echo</code> -&gt; <code>Start Home</code> 查找设备，即会将所有与 HA 关联的设备列出。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button onclick="document.querySelector('.post-reward').classList.toggle('active');">
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechat-reward-image.jpg" alt="Frost He 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/images/alipay-reward-image.jpg" alt="Frost He 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/smart-home/" rel="tag"><i class="fa fa-tag"></i> smart-home</a>
+              <a href="/tags/home-assistant/" rel="tag"><i class="fa fa-tag"></i> home-assistant</a>
+              <a href="/tags/alexa/" rel="tag"><i class="fa fa-tag"></i> alexa</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/smarthome-ha-device-tracker/" rel="prev" title="智慧家庭 - 使用 HA 的 Device Tracker 组件实现「在家检测」">
+                  <i class="fa fa-chevron-left"></i> 智慧家庭 - 使用 HA 的 Device Tracker 组件实现「在家检测」
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/smarthome-enable-remote-access-to-ha/" rel="next" title="智慧家庭 - 外网远程访问家庭服务器中的 Home Assistant 实例">
+                  智慧家庭 - 外网远程访问家庭服务器中的 Home Assistant 实例 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2015 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Frost He</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">381k</span>
+  </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

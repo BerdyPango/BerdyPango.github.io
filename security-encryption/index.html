@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="K2S73UudyU-JTh9S0U_KnOKgOvE7aW7EpO560okLyUU">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css" integrity="sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{&quot;hostname&quot;:&quot;blog.frosthe.net&quot;,&quot;root&quot;:&quot;&#x2F;&quot;,&quot;images&quot;:&quot;&#x2F;images&quot;,&quot;scheme&quot;:&quot;Mist&quot;,&quot;version&quot;:&quot;8.5.0&quot;,&quot;exturl&quot;:false,&quot;sidebar&quot;:{&quot;position&quot;:&quot;left&quot;,&quot;display&quot;:&quot;always&quot;,&quot;padding&quot;:18,&quot;offset&quot;:12,&quot;width&quot;:300},&quot;copycode&quot;:false,&quot;bookmark&quot;:{&quot;enable&quot;:false,&quot;color&quot;:&quot;#222&quot;,&quot;save&quot;:&quot;auto&quot;},&quot;fancybox&quot;:false,&quot;mediumzoom&quot;:false,&quot;lazyload&quot;:false,&quot;pangu&quot;:false,&quot;comments&quot;:{&quot;style&quot;:&quot;tabs&quot;,&quot;active&quot;:null,&quot;storage&quot;:true,&quot;lazyload&quot;:false,&quot;nav&quot;:null},&quot;motion&quot;:{&quot;enable&quot;:false,&quot;async&quot;:false,&quot;transition&quot;:{&quot;post_block&quot;:&quot;fadeIn&quot;,&quot;post_header&quot;:&quot;fadeInDown&quot;,&quot;post_body&quot;:&quot;fadeInDown&quot;,&quot;coll_header&quot;:&quot;fadeInLeft&quot;,&quot;sidebar&quot;:&quot;fadeInUp&quot;}},&quot;prism&quot;:false,&quot;i18n&quot;:{&quot;placeholder&quot;:&quot;搜索...&quot;,&quot;empty&quot;:&quot;没有找到任何搜索结果：${query}&quot;,&quot;hits_time&quot;:&quot;找到 ${hits} 个搜索结果（用时 ${time} 毫秒）&quot;,&quot;hits&quot;:&quot;找到 ${hits} 个搜索结果&quot;}}</script><script src="/js/config.js"></script>
+<meta name="description" content="关于密码信息的概念及工作原理笔记，不间断更新">
+<meta property="og:type" content="article">
+<meta property="og:title" content="加解密笔记及 .NET 实现">
+<meta property="og:url" content="https://blog.frosthe.net/security-encryption/index.html">
+<meta property="og:site_name" content="FrostHe.Handbook">
+<meta property="og:description" content="关于密码信息的概念及工作原理笔记，不间断更新">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2018-06-21T05:17:30.000Z">
+<meta property="article:modified_time" content="2019-09-27T14:03:12.382Z">
+<meta property="article:author" content="Frost He">
+<meta property="article:tag" content="security">
+<meta property="article:tag" content="cryptography">
+<meta property="article:tag" content="netframework">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://blog.frosthe.net/security-encryption/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{&quot;sidebar&quot;:&quot;&quot;,&quot;isHome&quot;:false,&quot;isPost&quot;:true,&quot;lang&quot;:&quot;zh-CN&quot;,&quot;comments&quot;:true,&quot;permalink&quot;:&quot;https:&#x2F;&#x2F;blog.frosthe.net&#x2F;security-encryption&#x2F;&quot;,&quot;path&quot;:&quot;security-encryption&#x2F;&quot;,&quot;title&quot;:&quot;加解密笔记及 .NET 实现&quot;}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">&quot;&quot;</script>
+<title>加解密笔记及 .NET 实现 | FrostHe.Handbook</title>
+  
+  <script class="next-config" data-name="google_analytics" type="application/json">{&quot;tracking_id&quot;:&quot;UA-125853342-1&quot;,&quot;only_pageview&quot;:true}</script>
+  <script src="/js/third-party/analytics/google-analytics.js"></script>
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+  <div class="site-meta">
+      <a
+        href="/" class="brand" rel="start">
+        
+        <h1 class="site-title">FrostHe.Handbook</h1>
+          <p class="site-subtitle">Talk less, do more</p>
+        
+      </a>
+      </div>
+      <div class="site-nav-right">
+        <div class="toggle popup-trigger">
+        </div>
+      </div>
+    </div>
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-film fa-fw"></i>时间线</a></li>
+        <li class="menu-item menu-item-about"><a href="/about" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar sidebar-active">
+
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Frost He" src="/images/avatar.jpg">
+    <p class="site-author-name" itemprop="name">Frost He</p>
+    <p>Full-stack web developer<p>
+        <div class="site-description" itemprop="description">
+          <i class="fa fa-fw fa-map-marker-alt"></i>
+          <span>Chengdu, China</span>
+        </div>
+      </div>
+                <div class="links-of-author site-overview-item animated">
+                    <span class="links-of-author-item">
+                      <a href="https://github.com/BerdyPango" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;BerdyPango" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+                    </span>
+                    <span class="links-of-author-item">
+                      <a href="https://plus.google.com/yourname" title="Google → https:&#x2F;&#x2F;plus.google.com&#x2F;yourname" rel="noopener" target="_blank"><i class="fab fa-google fa-fw"></i></a>
+                    </span>
+                    <span class="links-of-author-item">
+                      <a href="https://www.linkedin.com/in/frosthe0419/" title="Linkedin → https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;frosthe0419&#x2F;" rel="noopener" target="_blank"><i class="fab fa-linkedin fa-fw"></i></a>
+                    </span>
+                    <span class="links-of-author-item">
+                      <a href="https://www.instagram.com/frosthe_pro/" title="Instagram → https:&#x2F;&#x2F;www.instagram.com&#x2F;frosthe_pro&#x2F;" rel="noopener" target="_blank"><i class="fab fa-instagram fa-fw"></i></a>
+                    </span>
+                    <span class="links-of-author-item">
+                      <a href="https://steamcommunity.com/profiles/76561198049061021/" title="Steam → https:&#x2F;&#x2F;steamcommunity.com&#x2F;profiles&#x2F;76561198049061021&#x2F;" rel="noopener" target="_blank"><i class="fab fa-steam-square fa-fw"></i></a>
+                    </span>
+                </div>
+              
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blog.frosthe.net/security-encryption/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Frost He">
+      <meta itemprop="description" content="Chengdu, China">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FrostHe.Handbook">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          加解密笔记及 .NET 实现
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2018-06-21 13:17:30" itemprop="dateCreated datePublished" datetime="2018-06-21T13:17:30+08:00">2018-06-21</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2019-09-27 22:03:12" itemprop="dateModified" datetime="2019-09-27T22:03:12+08:00">2019-09-27</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Cryptography/" itemprop="url" rel="index"><span itemprop="name">Cryptography</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>3.2k</span>
+    </span>
+</div>
+
+            <div class="post-description">关于密码信息的概念及工作原理笔记，不间断更新</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>参考资料: </p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://tools.ietf.org/html/rfc3602">RFC3602 规范</a></li>
+<li><a target="_blank" rel="noopener" href="https://proandroiddev.com/security-best-practices-symmetric-encryption-with-aes-in-java-7616beaaade9">Security Best Practices: Symmetric Encryption with AES in Java and Android</a></li>
+<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/dotnet/standard/security/cryptographic-services">Cryptographic Services</a></li>
+</ul>
+<h2 id="加密的意义"><a href="#加密的意义" class="headerlink" title="加密的意义"></a>加密的意义</h2><p>加密技术首要考虑的关注点在于: </p>
+<ul>
+<li>保密: 确保通信的数据不能被第三方读取</li>
+<li>数据完整: 确保数据在通信过程中不能被第三方纂改</li>
+<li>认证: 验证数据来源，防止第三方伪造数据</li>
+</ul>
+<h2 id="密码学基础概念"><a href="#密码学基础概念" class="headerlink" title="密码学基础概念"></a>密码学基础概念</h2><ul>
+<li>对称加密: 加解密双方使用同一个密钥对消息进行加解密，</li>
+<li>非对称加密</li>
+<li>密文哈希: 哈希算法将一组任意大小的二进制数据变成一组固定大小的二进制数据，且无法实施逆向工程</li>
+<li>消息认证码: 消息认证码 Message Authentication Code(Mac) 是提供给消息接收方以验证消息来源及确保消息完整性的额外信息</li>
+<li>数字签名</li>
+</ul>
+<h2 id="AES-Advanced-Encryption-Standard-CBC-Cipher-Block-Chaining"><a href="#AES-Advanced-Encryption-Standard-CBC-Cipher-Block-Chaining" class="headerlink" title="AES(Advanced Encryption Standard) CBC(Cipher Block Chaining)"></a>AES(Advanced Encryption Standard) CBC(Cipher Block Chaining)</h2><p>原理: 加解密双方使用同一个密钥(secret key)加解密信息，<code>CBC</code> 将明文按<strong>固定字节大小</strong>切割，得到的每一块称为一个 <code>Block</code>，每个 <code>Block</code> 将前一个密文 <code>Block</code> 与当前 <code>Block</code> 进行 <code>XOR</code> 运算。这样，每一个 <code>Block</code> 都依赖前序所有的 <code>Block</code>。而第一个 <code>Block</code> 使用一个相同长度的随机生成的 <code>Block</code>(初始化向量 IV(Initialization Vector))进行 <code>XOR</code> 运算。鉴于被加密消息不一定能够被切割为 <code>Block</code> 长度的整数倍，于是引入「补齐 Padding」算法在尾部进行填充，具体来说，其加密经历以下过程:</p>
+<ol>
+<li><code>plainText</code> 被分割为 <code>length / block-size</code> 个 <code>block</code>，如果最后一个 <code>block</code> 不足 <code>block-size</code>，使用 <code>Padding</code> 补齐</li>
+<li>随机生成一个 <code>IV</code> 与首个 <code>block</code> 进行 XOR 运算得到 <code>cipherText</code></li>
+<li>上一个 <code>cipherText</code> 与下一个 <code>plainText</code> 进行 XOR 运算得到 <code>cipherText</code></li>
+</ol>
+
+
+<blockquote>
+<p>通常每份明文加密前都会随机生成 IV，以防止多次加密后得到相同的结果</p>
+</blockquote>
+<ul>
+<li>AES 支持 128 位，192 位及 256 位大小的密文块</li>
+<li>因为 IV 的长度总是与 <code>Block</code> 的长度相同，在传输或持久化数据时，常见的做法是将 IV 直接作为前缀 <code>Prepend</code> 到密文前面</li>
+<li>在过程中 <code>Key</code> 的长度与 <code>Block</code> 的长度没有直接关系，只会影响循环加密的次数，128 位的密钥有 10 个加密循环，192 位密钥有 12 个加密循环，256 位密钥有 14 个加密循环</li>
+</ul>
+<p>具体参考 <a target="_blank" rel="noopener" href="https://tools.ietf.org/html/rfc3602">RFC3602 规范</a></p>
+<p>.NET 提供了以下类型实现对称加密算法:</p>
+<ul>
+<li>AesManaged (.NET Framework 3.5 时引入)</li>
+<li>DESCryptoServiceProvider</li>
+<li>HMACSHA1 (This is technically a secret-key algorithm because it represents message authentication code that is calculated by using a cryptographic hash function combined with a secret key)</li>
+<li>RC2CryptoServiceProvider</li>
+<li>RijndaelManaged</li>
+<li>TripleDESCryptoServiceProvider</li>
+</ul>
+<h2 id="消息认证码-MAC-Message-Authentication-Code"><a href="#消息认证码-MAC-Message-Authentication-Code" class="headerlink" title="消息认证码(MAC, Message Authentication Code)"></a>消息认证码(MAC, Message Authentication Code)</h2><p>对称加密本身并不能验证加密数据的完整性，第三方可能拦截加密的密文然后替换掉其中某些字节发送给接收方。数据加密完成之后，基于密文使用 MAC 算法得到一个 MAC 值，然后将该值以合适的方式附加到密文上。常用的 MAC 算法有 HMAC(Hash-based Message Authentication Code)。</p>
+<p>MAC 的作用与数字签名类似，唯一的区别在于加密方和解密方使用相同的 Key，虽然确保了数据完整性，但也意味着消息将被处理两次，同样的，接收方在收到数据后也将处理两次。</p>
+<h2 id="公钥加密-Public-key-Encryption"><a href="#公钥加密-Public-key-Encryption" class="headerlink" title="公钥加密(Public-key Encryption)"></a>公钥加密(Public-key Encryption)</h2><p>Public/Private 密钥对<br>加密双方使用一个非对称密钥对 - 公钥和私钥，数据由公钥加密后只能由私钥解密，而数据由私钥签名的则只能由公钥验证，公钥可以是公开的，但私钥必须保密。</p>
+<p>现假设 A 和 B 想要通信，A 负责生成密钥对，那么 A 将其公钥发送给 B，B 使用公钥对通信信息加密，后将密文发送给 A，A 用其私钥解密密文。在此情景中，如果 A 将公钥发送给 B 时被攻击者拦截，同时攻击者将后续的密文一并拦截，但持有公钥和密文是无法解密信息的。另外，B 在收到公钥后，如何验证收到的的确是 A 的私钥？A 将一段消息使用某种哈希算法得到签名，再将签名使用私钥加密，B 接到签名信息和消息后，使用公钥解密密文得到签名信息，再使用相同的哈希算法处理收到的消息，B 通过对比两个签名的哈希值来判断消息是否被篡改。</p>
+<p>信息流向始终是 B 流向 A，如果 A 想要向 B 发送消息，必须使用相同的方法得到 B 的公钥。所以，通常使用非对称加密传输对称加密的密钥和 IV，通信的双方使用对称加密对信息加密。</p>
+<p>.NET 提供了以下类型实现公钥加密算法:</p>
+<ul>
+<li>DSACryptoServiceProvider</li>
+<li>RSACryptoServiceProvider</li>
+<li>ECDiffieHellman (基类)</li>
+<li>ECDiffieHellmanCng</li>
+<li>ECDiffieHellmanCngPublicKey (基类)</li>
+<li>ECDiffieHellmanKeyDerivationFunction (基类)</li>
+<li>ECDsaCng</li>
+</ul>
+<h2 id="数字签名"><a href="#数字签名" class="headerlink" title="数字签名"></a>数字签名</h2><p>数字签名用于验证发送方的身份，对称加密也提供支持数字签名。首先，A 使用某种哈希算法处理一条消息得到字面为<strong>哈希值</strong>的「消息摘要」，然后 A 使用私钥将消息摘要加密，密文的字面值则称为「数字签名」。B 收到消息和数字签名后，使用 A 的<strong>公钥</strong>解密该数字签名得到「消息摘要」，然后使用<strong>相同的哈希算法</strong>对收到的消息进行处理，如果得到的哈希值与解密后的「消息摘要」一致，那么 B 便可以认为该消息的确来源于 A 且未被篡改。</p>
+<p>要验证数据被某个发送方签名，接收需要得知以下信息:</p>
+<ul>
+<li>发送方的公钥</li>
+<li>数字签名(消息载体经过哈希处理后被发送方以私钥进行加密之后的密文)</li>
+<li>被签名的数据(哈希处理之前的消息载体)</li>
+<li>发送方使用的哈希算法</li>
+</ul>
+<p>.NET 提供了以下类型实现数字签名算法:</p>
+<ul>
+<li>DSACryptoServiceProvider</li>
+<li>RSACryptoServiceProvider</li>
+<li>ECDsa (基类)</li>
+<li>ECDsaCng</li>
+</ul>
+<h2 id="哈希值"><a href="#哈希值" class="headerlink" title="哈希值"></a>哈希值</h2><p>哈希算法将一组任意大小的二进制数据变成一组固定大小的二进制数据，且无法实施逆向工程。哈希值是数据的数字化形式。通信的双方可以利用哈希值确保数据完整性，A 将消息和消息的哈希值一起发送给 B，B 收到消息后使用相同的哈希算法得到消息的哈希值，然后与收到的消息进行比对，如果比对无误，则可确保消息未被更改。然后，任何第三方都可以给 B 发送消息和消息哈希值，B 无法简单通过哈希值知道发送方的身份。通常，数字签名和哈希一起使用。</p>
+<p>.NET 提供了以下类型实现哈希算法:</p>
+<ul>
+<li>HMACSHA1</li>
+<li>MACTripleDES</li>
+<li>MD5CryptoServiceProvider</li>
+<li>RIPEMD160</li>
+<li>SHA1Managed</li>
+<li>SHA256Managed</li>
+<li>SHA384Managed</li>
+<li>SHA512Managed</li>
+</ul>
+<h2 id="数字证书"><a href="#数字证书" class="headerlink" title="数字证书"></a>数字证书</h2><p>数字证书又称为公开密钥证书(Public key certificate)，用来证明公开密钥拥有者的身份。该文件包含了:</p>
+<ul>
+<li>公钥信息</li>
+<li>拥有者的身份信息(Subject)</li>
+<li>数字证书认证机构(Issuer)对这份文件的数字签名</li>
+</ul>
+<p>拥有者凭借此文件，可向计算机系统或其他用户表明身份，证书的检验方通过查看其签发机构来检验该证书是否有效，如果检验方信任该签发机构，就代表信任证书上的密钥，凭借公钥加密与拥有者进行安全的通信。数字证书详情参考<a href="/security/security-all-about-certificates">X.509 数字证书</a></p>
+<h2 id="生成随机数"><a href="#生成随机数" class="headerlink" title="生成随机数"></a>生成随机数</h2><p>随机数生成与加密的多个操作都有关，加密密钥需要尽可能的随机，.NET 提供了 <code>RNGCryptoServiceProvider</code> 类型来实现随机数生成。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/security/" rel="tag"><i class="fa fa-tag"></i> security</a>
+              <a href="/tags/cryptography/" rel="tag"><i class="fa fa-tag"></i> cryptography</a>
+              <a href="/tags/netframework/" rel="tag"><i class="fa fa-tag"></i> netframework</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/homeserver-setup-seafile-on-raspberry-pi/" rel="prev" title="在树莓派上通过 Docker 搭建 Seafile 私有云服务">
+                  <i class="fa fa-chevron-left"></i> 在树莓派上通过 Docker 搭建 Seafile 私有云服务
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/security-all-about-certificates/" rel="next" title="X.509 数字证书">
+                  X.509 数字证书 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2015 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Frost He</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">381k</span>
+  </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

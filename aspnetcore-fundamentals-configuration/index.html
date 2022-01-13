@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="K2S73UudyU-JTh9S0U_KnOKgOvE7aW7EpO560okLyUU">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css" integrity="sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{&quot;hostname&quot;:&quot;blog.frosthe.net&quot;,&quot;root&quot;:&quot;&#x2F;&quot;,&quot;images&quot;:&quot;&#x2F;images&quot;,&quot;scheme&quot;:&quot;Mist&quot;,&quot;version&quot;:&quot;8.5.0&quot;,&quot;exturl&quot;:false,&quot;sidebar&quot;:{&quot;position&quot;:&quot;left&quot;,&quot;display&quot;:&quot;always&quot;,&quot;padding&quot;:18,&quot;offset&quot;:12,&quot;width&quot;:300},&quot;copycode&quot;:false,&quot;bookmark&quot;:{&quot;enable&quot;:false,&quot;color&quot;:&quot;#222&quot;,&quot;save&quot;:&quot;auto&quot;},&quot;fancybox&quot;:false,&quot;mediumzoom&quot;:false,&quot;lazyload&quot;:false,&quot;pangu&quot;:false,&quot;comments&quot;:{&quot;style&quot;:&quot;tabs&quot;,&quot;active&quot;:null,&quot;storage&quot;:true,&quot;lazyload&quot;:false,&quot;nav&quot;:null},&quot;motion&quot;:{&quot;enable&quot;:false,&quot;async&quot;:false,&quot;transition&quot;:{&quot;post_block&quot;:&quot;fadeIn&quot;,&quot;post_header&quot;:&quot;fadeInDown&quot;,&quot;post_body&quot;:&quot;fadeInDown&quot;,&quot;coll_header&quot;:&quot;fadeInLeft&quot;,&quot;sidebar&quot;:&quot;fadeInUp&quot;}},&quot;prism&quot;:false,&quot;i18n&quot;:{&quot;placeholder&quot;:&quot;搜索...&quot;,&quot;empty&quot;:&quot;没有找到任何搜索结果：${query}&quot;,&quot;hits_time&quot;:&quot;找到 ${hits} 个搜索结果（用时 ${time} 毫秒）&quot;,&quot;hits&quot;:&quot;找到 ${hits} 个搜索结果&quot;}}</script><script src="/js/config.js"></script>
+<meta name="description" content="配置 API 提供了统一的方式以键值对的形式来读取和设置配置项，配置项在运行时从多个配置源读取信息，并以一个多层级的字典表树来存储这些值">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ASP.NET Core 框架基础 - 配置系统">
+<meta property="og:url" content="https://blog.frosthe.net/aspnetcore-fundamentals-configuration/index.html">
+<meta property="og:site_name" content="FrostHe.Handbook">
+<meta property="og:description" content="配置 API 提供了统一的方式以键值对的形式来读取和设置配置项，配置项在运行时从多个配置源读取信息，并以一个多层级的字典表树来存储这些值">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2017-06-01T09:53:44.000Z">
+<meta property="article:modified_time" content="2018-10-13T02:17:33.193Z">
+<meta property="article:author" content="Frost He">
+<meta property="article:tag" content="aspnet-core">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://blog.frosthe.net/aspnetcore-fundamentals-configuration/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{&quot;sidebar&quot;:&quot;&quot;,&quot;isHome&quot;:false,&quot;isPost&quot;:true,&quot;lang&quot;:&quot;zh-CN&quot;,&quot;comments&quot;:true,&quot;permalink&quot;:&quot;https:&#x2F;&#x2F;blog.frosthe.net&#x2F;aspnetcore-fundamentals-configuration&#x2F;&quot;,&quot;path&quot;:&quot;aspnetcore-fundamentals-configuration&#x2F;&quot;,&quot;title&quot;:&quot;ASP.NET Core 框架基础 - 配置系统&quot;}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">&quot;&quot;</script>
+<title>ASP.NET Core 框架基础 - 配置系统 | FrostHe.Handbook</title>
+  
+  <script class="next-config" data-name="google_analytics" type="application/json">{&quot;tracking_id&quot;:&quot;UA-125853342-1&quot;,&quot;only_pageview&quot;:true}</script>
+  <script src="/js/third-party/analytics/google-analytics.js"></script>
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+  <div class="site-meta">
+      <a
+        href="/" class="brand" rel="start">
+        
+        <h1 class="site-title">FrostHe.Handbook</h1>
+          <p class="site-subtitle">Talk less, do more</p>
+        
+      </a>
+      </div>
+      <div class="site-nav-right">
+        <div class="toggle popup-trigger">
+        </div>
+      </div>
+    </div>
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-film fa-fw"></i>时间线</a></li>
+        <li class="menu-item menu-item-about"><a href="/about" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar sidebar-active">
+
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Frost He" src="/images/avatar.jpg">
+    <p class="site-author-name" itemprop="name">Frost He</p>
+    <p>Full-stack web developer<p>
+        <div class="site-description" itemprop="description">
+          <i class="fa fa-fw fa-map-marker-alt"></i>
+          <span>Chengdu, China</span>
+        </div>
+      </div>
+                <div class="links-of-author site-overview-item animated">
+                    <span class="links-of-author-item">
+                      <a href="https://github.com/BerdyPango" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;BerdyPango" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+                    </span>
+                    <span class="links-of-author-item">
+                      <a href="https://plus.google.com/yourname" title="Google → https:&#x2F;&#x2F;plus.google.com&#x2F;yourname" rel="noopener" target="_blank"><i class="fab fa-google fa-fw"></i></a>
+                    </span>
+                    <span class="links-of-author-item">
+                      <a href="https://www.linkedin.com/in/frosthe0419/" title="Linkedin → https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;frosthe0419&#x2F;" rel="noopener" target="_blank"><i class="fab fa-linkedin fa-fw"></i></a>
+                    </span>
+                    <span class="links-of-author-item">
+                      <a href="https://www.instagram.com/frosthe_pro/" title="Instagram → https:&#x2F;&#x2F;www.instagram.com&#x2F;frosthe_pro&#x2F;" rel="noopener" target="_blank"><i class="fab fa-instagram fa-fw"></i></a>
+                    </span>
+                    <span class="links-of-author-item">
+                      <a href="https://steamcommunity.com/profiles/76561198049061021/" title="Steam → https:&#x2F;&#x2F;steamcommunity.com&#x2F;profiles&#x2F;76561198049061021&#x2F;" rel="noopener" target="_blank"><i class="fab fa-steam-square fa-fw"></i></a>
+                    </span>
+                </div>
+              
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blog.frosthe.net/aspnetcore-fundamentals-configuration/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Frost He">
+      <meta itemprop="description" content="Chengdu, China">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FrostHe.Handbook">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          ASP.NET Core 框架基础 - 配置系统
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2017-06-01 17:53:44" itemprop="dateCreated datePublished" datetime="2017-06-01T17:53:44+08:00">2017-06-01</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2018-10-13 10:17:33" itemprop="dateModified" datetime="2018-10-13T10:17:33+08:00">2018-10-13</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/ASP-NET-Core/" itemprop="url" rel="index"><span itemprop="name">ASP.NET Core</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>6.2k</span>
+    </span>
+</div>
+
+            <div class="post-description">配置 API 提供了统一的方式以键值对的形式来读取和设置配置项，配置项在运行时从多个配置源读取信息，并以一个多层级的字典表树来存储这些值</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>参考资料:</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/aspnet/core/fundamentals/configuration/?view=aspnetcore-2.1&tabs=basicconfiguration">Configuration in ASP.NET Core</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.cnblogs.com/artech/p/new-config-system-01.html">http://www.cnblogs.com/artech/p/new-config-system-01.html</a></li>
+</ul>
+<p>本文大纲: </p>
+<!-- TOC -->
+
+<ul>
+<li><a href="#%E5%89%8D%E8%A8%80">前言</a></li>
+<li><a href="#%E4%BB%8E%E7%BC%96%E7%A8%8B%E8%A7%92%E5%BA%A6%E8%AE%A4%E8%AF%86%E9%85%8D%E7%BD%AE%E7%B3%BB%E7%BB%9F">从编程角度认识配置系统</a></li>
+<li><a href="#%E4%BB%8E%E8%AE%BE%E8%AE%A1%E8%A7%92%E5%BA%A6%E8%AE%A4%E8%AF%86%E9%85%8D%E7%BD%AE%E7%B3%BB%E7%BB%9F">从设计角度认识配置系统</a><ul>
+<li><a href="#%E9%85%8D%E7%BD%AE%E6%95%B0%E6%8D%AE%E7%9A%84%E8%BD%AC%E6%8D%A2">配置数据的转换</a></li>
+<li><a href="#configuration-%E5%AF%B9%E8%B1%A1">Configuration 对象</a></li>
+<li><a href="#configurationprovider-%E5%AF%B9%E8%B1%A1">ConfigurationProvider 对象</a></li>
+<li><a href="#configurationsource-%E5%AF%B9%E8%B1%A1">ConfigurationSource 对象</a></li>
+<li><a href="#configurationbuilder-%E5%AF%B9%E8%B1%A1">ConfigurationBuilder 对象</a></li>
+</ul>
+</li>
+<li><a href="#%E5%AF%B9%E8%B1%A1%E5%85%B3%E7%B3%BB%E5%9B%BE">对象关系图</a></li>
+<li><a href="#%E5%90%8C%E6%AD%A5-configuration-%E7%9A%84%E6%9B%B4%E6%94%B9">同步 Configuration 的更改</a></li>
+</ul>
+<!-- /TOC -->
+
+<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>配置 API 提供了统一的方式以键值对的形式来读取和设置配置项，配置项在运行时从多个配置源读取信息，并以一个多层级的字典表树来存储这些值。配置源支持以下提供器:</p>
+<ul>
+<li>文件格式(INI, JSON 和 XML)</li>
+<li>命令行参数</li>
+<li>环境变量</li>
+<li>内存对象</li>
+<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/aspnet/core/security/app-secrets?view=aspnetcore-2.1&tabs=visual-studio">Secret Manager</a> 存储</li>
+<li><a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/aspnet/core/security/key-vault-configuration?view=aspnetcore-2.1&tabs=aspnetcore2x">Azure Key Vault</a></li>
+<li>自定义配置源提供器</li>
+</ul>
+<p>任何一个配置项的值都映射到一个字符串键，框架内置了实现类型将配置项映射到一个 POCO 对象。<code>Options</code> 模式使用 <code>Options</code> 类型代表一组关联的设置项。</p>
+<h1 id="从编程角度认识配置系统"><a href="#从编程角度认识配置系统" class="headerlink" title="从编程角度认识配置系统"></a>从编程角度认识配置系统</h1><p>从编程角度来看，开发人员主要用到了以下三个对象</p>
+<ul>
+<li><code>Configuration</code>: 客户代码最终使用的包含配置项的对象</li>
+<li><code>ConfigurationBuilder</code>: 构建 <code>Configuration</code> 的对象</li>
+<li><code>ConfigurationSource</code>: 配置源对象</li>
+</ul>
+
+
+<p>读取配置时，根据配置的定义方式创建相应的 <code>ConfigurationSource</code> 对象，并将其注册到创建的 <code>ConfigurationBuilder</code> 对象上，后者利用注册的这些 <code>ConfigurationSource</code> 提供最终的 <code>Configuration</code> 对象。</p>
+<p><code>IConfiguration</code>, <code>IConfigurationSource</code> 和 <code>IConfigurationBuilder</code> 接口分别代表这些对象的抽象，三者均定义在 <code>Microsoft.Extensions.Configuration.Abstractions</code> 包中，默认实现定义在 <code>Microsoft.Extensions.Configuration</code> 包中。</p>
+<p>虽然大部分情况下配置从整体来说都具有结构化的层次关系，但是<strong>「原子」</strong>配置项都以最简单的<strong>「键-值对」</strong>的形式来体现，并且键和值通常都是字符串。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> configBuilder = <span class="keyword">new</span> ConfigurationBuilder();</span><br><span class="line"><span class="keyword">var</span> configuration = configBuilder</span><br><span class="line">                    .Add(<span class="keyword">new</span> MemoryConfigurationSource &#123; InitialData = source &#125;)</span><br><span class="line">                    .Build();</span><br></pre></td></tr></table></figure>
+<p>这里首先创建了一个 <code>ConfigurationBuilder</code> 对象，然后将一个 <code>MemoryConfigurationSource</code> 对象注册到它上面，随后调用 <code>IConfigurationBuilder.Build</code> 方法得到一个 <code>IConfiguration</code> 对象。</p>
+<p>真实项目中涉及的配置大都具有结构化的层次，<code>Configuration</code> 对象同样具有这样的结构，结构化配置具有一个配置树，一个 <code>Configuration</code> 对象对应这棵树的某个节点，而整棵配置树也可由根节点对应的 <code>Configuration</code> 来表示，以键值对体现的原子配置项对应配置树中不具有子节点的<strong>「叶子节点」</strong>。</p>
+<h1 id="从设计角度认识配置系统"><a href="#从设计角度认识配置系统" class="headerlink" title="从设计角度认识配置系统"></a>从设计角度认识配置系统</h1><p>配置具有多种原始来源，如内存对象，物理文件，数据库或其他自定义存储介质。如果采用物理文件来存储配置数据，我们还可以选择不同的文件格式(JSON, XML 和 INI)。因此配置的原始数据结构是不确定的，配置模型的最终目的在于提取原始的配置数据并将其转换成一个 <code>Configuration</code> 对象以对客户代码提供统一的编程模型。</p>
+<h2 id="配置数据的转换"><a href="#配置数据的转换" class="headerlink" title="配置数据的转换"></a>配置数据的转换</h2><p>配置从原始结构向逻辑结构的转换需要一种<strong>「中间结构」</strong>——数据字典，整棵配置树的所有节点都会转换成基于字典的中间结构，最终再完成到 <code>Configuration</code> 对象的转换，父子级节点之间以 <code>:</code> 进行连接。</p>
+
+
+<p>一个 <code>Configuration</code> 对象具有树形层次结构的意思不是说该类型具有对应的数据成员(字段或属性)定义，而是它提供的 API <strong>「在逻辑上体现出树形层次结构」</strong>，配置树是一种逻辑结构。</p>
+<h2 id="Configuration-对象"><a href="#Configuration-对象" class="headerlink" title="Configuration 对象"></a>Configuration 对象</h2><p>一个 <code>Configuration</code> 对象表示配置树的某个配置节点，表示根节点的对象与表示其它配置节点的对象是不同的，所以配置模型采用 <code>IConfigurationRoot</code> 接口来表示根节点，根节点以外的其他配置节点则用 <code>IConfigurationSection</code> 接口表示，这两个接口都继承自 <code>IConfiguration</code>。下图为我们展示了由一个 <code>ConfigurationRoot</code> 对象和一组 <code>ConfigurationSection</code> 对象构成的配置树。</p>
+
+<p>下面的代码展示了 <code>IConfigurationRoot</code> 接口的定义，该接口仅定义了一个 <code>Reload</code> 方法实现对配置数据的重新加载。<code>ConfigurationRoot</code> 对象表示配置树的根，也代表整棵配置树，如果它被重新加载，意味着整棵配置树的所有配置数据均被重新加载。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">IConfigurationRoot</span> : <span class="title">IConfiguration</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">Reload</span>(<span class="params"></span>)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>非根配置节点的 <code>IConfigurationSection</code> 接口具有如下三个属性: </p>
+<ul>
+<li>Key: 只读，用来唯一标识多个具有相同父节点的 <code>ConfigurationSection</code> 对象</li>
+<li>Path 表示当前配置节点在配置树中的路径，该路径由多个 Key 值组成，并采用冒号(<code>:</code>)分隔纵深节点。Path 和 Key 的值体现了当前配置节在整个配置树中的位置。</li>
+<li>Value: 表示当前 <code>IConfigurationSection</code> 配置节点的值。只有配置树的<strong>叶子节点</strong>对应的<code>ConfigurationSection</code> 对象的 Value 属性才有值，非叶子节点对应的 <code>ConfigurationSection</code> 对象仅表示存放子配置节点的逻辑容器，它们的 Value 为 Null。值得一提的是，这个 Value 属性并不是只读的，而是可读可写的，但是写入的值不会被持久化，因为配置树只是逻辑结构，而非物理结构。所以一旦配置树被重新加载，写入的值将会丢失。<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">IConfigurationSection</span> : <span class="title">IConfiguration</span></span><br><span class="line">&#123;    </span><br><span class="line">    <span class="built_in">string</span> Path &#123; <span class="keyword">get</span>; &#125;</span><br><span class="line">    <span class="built_in">string</span> Key &#123; <span class="keyword">get</span>; &#125;</span><br><span class="line">    <span class="built_in">string</span> Value &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+现在来看看 <code>IConfiguration</code> 接口的定义: <figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">IConfiguration</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function">IEnumerable&lt;IConfigurationSection&gt; <span class="title">GetChildren</span>(<span class="params"></span>)</span>;</span><br><span class="line">    <span class="function">IConfigurationSection <span class="title">GetSection</span>(<span class="params"><span class="built_in">string</span> key</span>)</span>;</span><br><span class="line">    <span class="function">IChangeToken <span class="title">GetReloadToken</span>(<span class="params"></span>)</span>;</span><br><span class="line">   </span><br><span class="line">    <span class="built_in">string</span> <span class="keyword">this</span>[<span class="built_in">string</span> key] &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><code>GetChildren</code>: 返回 <code>ConfigurationSection</code> 的集合，表示所有从属于它的配置节点</li>
+<li><code>GetSection</code>: 根据指定的 key 返回一个具体的子配置节点。key 参数与当前配置对象的 Path 属性的值进行组合以确定目标配置节点所在的路径。</li>
+<li><code>GetReloadToken</code>: 返回当配置重新加载时进行回调的 <code>IChangeToken</code> 对象，有关 <code>IChangeToken</code> 详见后文。</li>
+</ul>
+<p>以下示例通过不同的 key 值获得相同配置节点的值:</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">Dictionary&lt;<span class="built_in">string</span>, <span class="built_in">string</span>&gt; source = <span class="keyword">new</span> Dictionary&lt;<span class="built_in">string</span>, <span class="built_in">string</span>&gt;</span><br><span class="line">&#123;</span><br><span class="line">    [<span class="meta"><span class="meta-string">&quot;A:B:C&quot;</span></span>] = <span class="string">&quot;ABC&quot;</span></span><br><span class="line">&#125;;</span><br><span class="line">IConfiguration root = <span class="keyword">new</span> ConfigurationBuilder()</span><br><span class="line">        .Add(<span class="keyword">new</span> MemoryConfigurationSource &#123; InitialData = source &#125;)</span><br><span class="line">        .Build();</span><br><span class="line"> </span><br><span class="line">IConfigurationSection section1 = root.GetSection(<span class="string">&quot;A:B:C&quot;</span>);</span><br><span class="line">IConfigurationSection section2 = root.GetSection(<span class="string">&quot;A:B&quot;</span>).GetSection(<span class="string">&quot;C&quot;</span>);</span><br><span class="line">IConfigurationSection section3 = root.GetSection(<span class="string">&quot;A&quot;</span>).GetSection(<span class="string">&quot;B:C&quot;</span>);</span><br><span class="line"> </span><br><span class="line">Debug.Assert(section1.Value == <span class="string">&quot;ABC&quot;</span>);</span><br><span class="line">Debug.Assert(section2.Value == <span class="string">&quot;ABC&quot;</span>);</span><br><span class="line">Debug.Assert(section3.Value == <span class="string">&quot;ABC&quot;</span>);</span><br><span class="line"> </span><br><span class="line">Debug.Assert(!ReferenceEquals(section1, section2));</span><br><span class="line">Debug.Assert(!ReferenceEquals(section1, section3));        </span><br><span class="line">Debug.Assert(<span class="literal">null</span> != root.GetSection(<span class="string">&quot;D&quot;</span>));</span><br></pre></td></tr></table></figure>
+<p>虽然上述代码得到的 <code>ConfigurationSection</code> 对象均指向配置树的同一个节点，但是它们并非同一个对象。当调用 <code>GetSection</code> 方法时，无论配置树是否存在一个与指定路径匹配的配置节点，它总是会创建一个 <code>ConfigurationSection</code> 对象。</p>
+<blockquote>
+<p><code>IConfiguration</code> 的索引器执行与 <code>GetSection</code> 方法相同的逻辑。</p>
+</blockquote>
+<h2 id="ConfigurationProvider-对象"><a href="#ConfigurationProvider-对象" class="headerlink" title="ConfigurationProvider 对象"></a>ConfigurationProvider 对象</h2><p>虽然每种不同类型的配置源都具有一个对应的 <code>ConfigurationSource</code> 类型，但对原始数据的读取并不由 <code>ConfigurationSource</code> 实现，而是委托一个对应的 <code>ConfigurationProvider</code> 对象来完成。不同配置类型的 <code>ConfigurationSource</code> 由不同的 <code>ConfigurationProvider</code> 实现读取。</p>
+
+<p><code>ConfigurationProvider</code> 将配置数据从原始结构转换为数据字典，因此定义在 <code>IConfigurationProvider</code> 接口中的方法大多为针对字典对象的操作:</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">IConfigurationProvider</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="function"><span class="keyword">void</span> <span class="title">Load</span>(<span class="params"></span>)</span>;</span><br><span class="line"> </span><br><span class="line">  <span class="function"><span class="built_in">bool</span> <span class="title">TryGet</span>(<span class="params"><span class="built_in">string</span> key, <span class="keyword">out</span> <span class="built_in">string</span> <span class="keyword">value</span></span>)</span>;</span><br><span class="line">  <span class="function"><span class="keyword">void</span> <span class="title">Set</span>(<span class="params"><span class="built_in">string</span> key, <span class="built_in">string</span> <span class="keyword">value</span></span>)</span>;</span><br><span class="line">  <span class="function">IEnumerable&lt;<span class="built_in">string</span>&gt; <span class="title">GetChildKeys</span>(<span class="params">IEnumerable&lt;<span class="built_in">string</span>&gt; earlierKeys, <span class="built_in">string</span> parentPath</span>)</span></span><br><span class="line"><span class="function">&#125;</span></span><br></pre></td></tr></table></figure>
+<p>配置数据通过调用 <code>ConfigurationProvider</code> 的 <code>Load</code> 方法完成加载。<code>TryGet</code> 方法获取由指定的Key 所标识的配置项的值。<code>ConfigurationProvider</code> 是只读的，<code>ConfigurationProvider</code> 只负责从持久化资源中读取配置数据，而不负责更新保存在持久化资源的配置数据，它的 <code>Set</code> 方法设置的配置数据只会保存在内存中。<code>ConfigurationProvider</code> 的 <code>GetChildKeys</code> 方法用于获取某个指定配置节点的所有子节点的 Key。</p>
+<h2 id="ConfigurationSource-对象"><a href="#ConfigurationSource-对象" class="headerlink" title="ConfigurationSource 对象"></a>ConfigurationSource 对象</h2><p><code>ConfiurationSource</code> 在配置模型中代表配置源，它通过注册到 <code>ConfigurationBuilder</code> 上为后者创建的 <code>Configuration</code> 提供原始的配置数据。由于原始配置数据的读取实现在相应的 <code>ConfigurationProvider</code> 中，所以 <code>ConfigurationSource</code> 的作用在于提供相应的 <code>ConfigurationProvider</code>。如下面的代码片段所示，该接口具有一个唯一的 <code>Build</code> 方法根据指定的 <code>ConfigurationBuilder</code> 对象提供对应的<code>ConfigurationProvider</code>。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">IConfigurationSource</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function">IConfigurationProvider <span class="title">Build</span>(<span class="params">IConfigurationBuilder builder</span>)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="ConfigurationBuilder-对象"><a href="#ConfigurationBuilder-对象" class="headerlink" title="ConfigurationBuilder 对象"></a>ConfigurationBuilder 对象</h2><p><code>ConfigurationBulder</code> 在整个配置模型中处于一个核心地位，它是 <code>Configuration</code> 的创建者，<code>IConfigurationBulder</code> 接口定义了两个方法，其中 <code>Add</code> 方法用于注册 <code>ConfigurationSource</code>，最终的 <code>Configuration</code> 则通过 <code>Build</code> 方法创建，后者返回一个代表整棵配置树的<code>ConfigurationRoot</code> 对象。注册的 <code>ConfigurationSource</code> 保存在 <code>Sources</code> 属性表示的集合中，<code>Properties</code> 属性则以字典的形式存放任意的自定义数据。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">IConfigurationBuilder</span></span><br><span class="line">&#123;</span><br><span class="line">    IEnumerable&lt;IConfigurationSource&gt;  Sources &#123; <span class="keyword">get</span>; &#125;</span><br><span class="line">    Dictionary&lt;<span class="built_in">string</span>, <span class="built_in">object</span>&gt;         Properties &#123; <span class="keyword">get</span>; &#125;</span><br><span class="line"> </span><br><span class="line">    <span class="function">IConfigurationBuilder     <span class="title">Add</span>(<span class="params">IConfigurationSource source</span>)</span>;</span><br><span class="line">    <span class="function">IConfigurationRoot        <span class="title">Build</span>(<span class="params"></span>)</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>配置系统提供了 <code>ConfigurationBulder</code> 类型作为 <code>IConfigurationBulder</code> 接口的默认实现者。</p>
+<blockquote>
+<p>无论是 <code>ConfigurationRoot</code> 还是 <code>ConfigurationSection</code>，它们自身都没有维护任何数据。这句话有点自相矛盾，因为配置树仅仅是 API 在逻辑上所体现的数据结构，并不代表具体的配置数据也是按照这样的结构进行存储的。</p>
+</blockquote>
+<h1 id="对象关系图"><a href="#对象关系图" class="headerlink" title="对象关系图"></a>对象关系图</h1><p>配置系统的四个核心对象之间的关系简单而清晰，可以通过一句话来概括: <code>ConfigurationBuilder</code> 利用注册的 <code>ConfigurationSource</code> 得到相应的 <code>ConfigurationProvider</code>，再调用 <code>ConfigurationProvider</code> 的 <code>Load</code> 方法读取原始配置数据并创建出相应的 <code>Configuration</code> 对象。下图所示的 UML 展示了配置模型涉及的主要接口/类型以及它们之间的关系:</p>
+
+
+<h1 id="同步-Configuration-的更改"><a href="#同步-Configuration-的更改" class="headerlink" title="同步 Configuration 的更改"></a>同步 Configuration 的更改</h1><p>参考<a target="_blank" rel="noopener" href="http://www.cnblogs.com/artech/p/new-config-system-10.html">配置的同步机制是如何实现的？</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/aspnet-core/" rel="tag"><i class="fa fa-tag"></i> aspnet-core</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/aspnetcore-fundamentals-filesystem/" rel="prev" title="ASP.NET Core 框架基础 - 文件系统">
+                  <i class="fa fa-chevron-left"></i> ASP.NET Core 框架基础 - 文件系统
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/aspnetcore-fundamentals-configuration-options/" rel="next" title="ASP.NET Core 框架基础 - 配置系统 Options 模式">
+                  ASP.NET Core 框架基础 - 配置系统 Options 模式 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2015 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Frost He</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">381k</span>
+  </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

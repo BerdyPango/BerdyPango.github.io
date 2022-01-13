@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="K2S73UudyU-JTh9S0U_KnOKgOvE7aW7EpO560okLyUU">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css" integrity="sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{&quot;hostname&quot;:&quot;blog.frosthe.net&quot;,&quot;root&quot;:&quot;&#x2F;&quot;,&quot;images&quot;:&quot;&#x2F;images&quot;,&quot;scheme&quot;:&quot;Mist&quot;,&quot;version&quot;:&quot;8.5.0&quot;,&quot;exturl&quot;:false,&quot;sidebar&quot;:{&quot;position&quot;:&quot;left&quot;,&quot;display&quot;:&quot;always&quot;,&quot;padding&quot;:18,&quot;offset&quot;:12,&quot;width&quot;:300},&quot;copycode&quot;:false,&quot;bookmark&quot;:{&quot;enable&quot;:false,&quot;color&quot;:&quot;#222&quot;,&quot;save&quot;:&quot;auto&quot;},&quot;fancybox&quot;:false,&quot;mediumzoom&quot;:false,&quot;lazyload&quot;:false,&quot;pangu&quot;:false,&quot;comments&quot;:{&quot;style&quot;:&quot;tabs&quot;,&quot;active&quot;:null,&quot;storage&quot;:true,&quot;lazyload&quot;:false,&quot;nav&quot;:null},&quot;motion&quot;:{&quot;enable&quot;:false,&quot;async&quot;:false,&quot;transition&quot;:{&quot;post_block&quot;:&quot;fadeIn&quot;,&quot;post_header&quot;:&quot;fadeInDown&quot;,&quot;post_body&quot;:&quot;fadeInDown&quot;,&quot;coll_header&quot;:&quot;fadeInLeft&quot;,&quot;sidebar&quot;:&quot;fadeInUp&quot;}},&quot;prism&quot;:false,&quot;i18n&quot;:{&quot;placeholder&quot;:&quot;搜索...&quot;,&quot;empty&quot;:&quot;没有找到任何搜索结果：${query}&quot;,&quot;hits_time&quot;:&quot;找到 ${hits} 个搜索结果（用时 ${time} 毫秒）&quot;,&quot;hits&quot;:&quot;找到 ${hits} 个搜索结果&quot;}}</script><script src="/js/config.js"></script>
+<meta name="description" content="记录了搭建新购入的树莓派的全过程">
+<meta property="og:type" content="article">
+<meta property="og:title" content="家庭数字化系统 - 准备树莓派">
+<meta property="og:url" content="https://blog.frosthe.net/homeserver-setup-raspberry-pi/index.html">
+<meta property="og:site_name" content="FrostHe.Handbook">
+<meta property="og:description" content="记录了搭建新购入的树莓派的全过程">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2018-06-01T08:01:04.000Z">
+<meta property="article:modified_time" content="2019-12-28T13:12:19.168Z">
+<meta property="article:author" content="Frost He">
+<meta property="article:tag" content="linux">
+<meta property="article:tag" content="raspberry-pi">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://blog.frosthe.net/homeserver-setup-raspberry-pi/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{&quot;sidebar&quot;:&quot;&quot;,&quot;isHome&quot;:false,&quot;isPost&quot;:true,&quot;lang&quot;:&quot;zh-CN&quot;,&quot;comments&quot;:true,&quot;permalink&quot;:&quot;https:&#x2F;&#x2F;blog.frosthe.net&#x2F;homeserver-setup-raspberry-pi&#x2F;&quot;,&quot;path&quot;:&quot;homeserver-setup-raspberry-pi&#x2F;&quot;,&quot;title&quot;:&quot;家庭数字化系统 - 准备树莓派&quot;}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">&quot;&quot;</script>
+<title>家庭数字化系统 - 准备树莓派 | FrostHe.Handbook</title>
+  
+  <script class="next-config" data-name="google_analytics" type="application/json">{&quot;tracking_id&quot;:&quot;UA-125853342-1&quot;,&quot;only_pageview&quot;:true}</script>
+  <script src="/js/third-party/analytics/google-analytics.js"></script>
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+  <div class="site-meta">
+      <a
+        href="/" class="brand" rel="start">
+        
+        <h1 class="site-title">FrostHe.Handbook</h1>
+          <p class="site-subtitle">Talk less, do more</p>
+        
+      </a>
+      </div>
+      <div class="site-nav-right">
+        <div class="toggle popup-trigger">
+        </div>
+      </div>
+    </div>
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-film fa-fw"></i>时间线</a></li>
+        <li class="menu-item menu-item-about"><a href="/about" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar sidebar-active">
+
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Frost He" src="/images/avatar.jpg">
+    <p class="site-author-name" itemprop="name">Frost He</p>
+    <p>Full-stack web developer<p>
+        <div class="site-description" itemprop="description">
+          <i class="fa fa-fw fa-map-marker-alt"></i>
+          <span>Chengdu, China</span>
+        </div>
+      </div>
+                <div class="links-of-author site-overview-item animated">
+                    <span class="links-of-author-item">
+                      <a href="https://github.com/BerdyPango" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;BerdyPango" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+                    </span>
+                    <span class="links-of-author-item">
+                      <a href="https://plus.google.com/yourname" title="Google → https:&#x2F;&#x2F;plus.google.com&#x2F;yourname" rel="noopener" target="_blank"><i class="fab fa-google fa-fw"></i></a>
+                    </span>
+                    <span class="links-of-author-item">
+                      <a href="https://www.linkedin.com/in/frosthe0419/" title="Linkedin → https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;frosthe0419&#x2F;" rel="noopener" target="_blank"><i class="fab fa-linkedin fa-fw"></i></a>
+                    </span>
+                    <span class="links-of-author-item">
+                      <a href="https://www.instagram.com/frosthe_pro/" title="Instagram → https:&#x2F;&#x2F;www.instagram.com&#x2F;frosthe_pro&#x2F;" rel="noopener" target="_blank"><i class="fab fa-instagram fa-fw"></i></a>
+                    </span>
+                    <span class="links-of-author-item">
+                      <a href="https://steamcommunity.com/profiles/76561198049061021/" title="Steam → https:&#x2F;&#x2F;steamcommunity.com&#x2F;profiles&#x2F;76561198049061021&#x2F;" rel="noopener" target="_blank"><i class="fab fa-steam-square fa-fw"></i></a>
+                    </span>
+                </div>
+              
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blog.frosthe.net/homeserver-setup-raspberry-pi/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Frost He">
+      <meta itemprop="description" content="Chengdu, China">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FrostHe.Handbook">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          家庭数字化系统 - 准备树莓派
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2018-06-01 16:01:04" itemprop="dateCreated datePublished" datetime="2018-06-01T16:01:04+08:00">2018-06-01</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2019-12-28 21:12:19" itemprop="dateModified" datetime="2019-12-28T21:12:19+08:00">2019-12-28</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Home-Server/" itemprop="url" rel="index"><span itemprop="name">Home Server</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>2.7k</span>
+    </span>
+</div>
+
+            <div class="post-description">记录了搭建新购入的树莓派的全过程</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>参考资料:</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.raspberrypi.org/blog/docker-comes-to-raspberry-pi/">Docker Comes to Raspberry Pi</a></li>
+</ul>
+<p>本文目录:</p>
+<ul>
+<li><a href="#%E8%83%8C%E6%99%AF">背景</a></li>
+<li><a href="#%E7%A1%AC%E4%BB%B6%E5%87%86%E5%A4%87">硬件准备</a></li>
+<li><a href="#%E8%BD%AF%E4%BB%B6%E5%87%86%E5%A4%87">软件准备</a></li>
+<li><a href="#%E5%AE%89%E8%A3%85%E5%8F%8A%E9%85%8D%E7%BD%AE%E7%B3%BB%E7%BB%9F%E9%95%9C%E5%83%8F">安装及配置系统镜像</a></li>
+<li><a href="#%E4%B8%BA%E6%A0%91%E8%8E%93%E6%B4%BE-raspbian-%E7%B3%BB%E7%BB%9F%E5%AE%89%E8%A3%85-docker-%E5%BC%95%E6%93%8E">为树莓派 Raspbian 系统安装 Docker 引擎</a><ul>
+<li><a href="#%E5%AE%89%E8%A3%85-docker-%E5%BC%95%E6%93%8E">安装 Docker 引擎</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>作为一名技术宅，自然是希望自己家里的「数字化系统」越 fancy 越好，但考虑到腰包里毛爷爷的数量，不得不搜寻物美价廉的方案来实现一些「非刚需，但 Nice to Have」的需求，这些需求包括但不限于:</p>
+<ul>
+<li>局域网多设备的文件共享</li>
+<li>7 * 24小时无人值守的下载器</li>
+<li>绕过第三方云存储的私有云同步方案</li>
+<li>家庭媒体中心的搭建</li>
+<li>家庭智能设备的网关系统</li>
+</ul>
+<p>笔者打算针对上述罗列的内容单辟一个系列，以一篇一个主题覆盖其中所有的细节。如果你也有以上列表中的一项或多项需求，不妨继续往下看。</p>
+<h2 id="硬件准备"><a href="#硬件准备" class="headerlink" title="硬件准备"></a>硬件准备</h2><p>为了达成这一愿景，需要在基础设施上投入一些成本，其中最重要的是家庭服务器。我们对家庭服务器的期待至少有: 性能稳定，功耗低，价格低廉。如今爆火的树莓派非常符合家庭小型服务器的要求，网络上关于树莓派的文章很多，这里不再赘述。</p>
+
+
+<p>假设我们手上已经有了一台树莓派(2 代以上的版本都可以)，还需要准备以下设备: </p>
+<ul>
+<li>网线 * 1</li>
+<li>Micro SD 卡 * 1，容量大于 8 GB</li>
+<li>Micro SD 读卡器 * 1</li>
+<li>键盘 * 1</li>
+<li>HDMI 线 * 1</li>
+<li>显示器 * 1</li>
+<li>USB 电源线 * 1</li>
+</ul>
+<h2 id="软件准备"><a href="#软件准备" class="headerlink" title="软件准备"></a>软件准备</h2><ul>
+<li>Raspbian Stretch Lite 系统镜像 -&gt; <a target="_blank" rel="noopener" href="https://www.raspberrypi.org/downloads/raspbian/">下载地址</a></li>
+<li>Etcher 映像烧录软件 -&gt; <a target="_blank" rel="noopener" href="https://etcher.io/">下载地址</a>: 将树莓派系统镜像烧录至 Micro SD 卡的工具软件</li>
+</ul>
+<blockquote>
+<p>官方提供了 3 个版本的系统镜像，本文为了尽量保持简单，选择最为精简的版本 Raspbian Stretch Lite，此镜像是基于命令行工具的版本，本系列文章均基于命令行工具版本的系统镜像介绍，如果对命令行界面不熟悉，可以选择另外两个自带桌面 GUI 的版本</p>
+</blockquote>
+<h2 id="安装及配置系统镜像"><a href="#安装及配置系统镜像" class="headerlink" title="安装及配置系统镜像"></a>安装及配置系统镜像</h2><ol>
+<li>使用 Etcher 将 Raspbian Stretch Lite 烧录至 Micro SD 卡中 </li>
+<li>将 Micro SD 卡插入树莓派</li>
+<li>将网线，电源线，HDMI 线和键盘与树莓派相连</li>
+<li>树莓派开机，第一次启动大概需要 1-2 分钟</li>
+<li>使用预设用户/密码为 pi/raspberry 登录系统</li>
+<li>键入 <code>sudo raspi-config</code> 进行如下设置:
+<ol>
+<li>-&gt; 1 Change User Password，修改 pi 用户登录密码</li>
+<li>-&gt; 2 Network Options -&gt; N1 Hostname，更改 Hostname</li>
+<li>-&gt; 2 Network Options -&gt; N2 Wi-fi，设置家庭局域网的 Wifi，不管是使用无线还是有线网络，确保树莓派与家庭中的其他设备位于同一个局域网即可</li>
+<li>-&gt; 5 Interfacing Options -&gt; P2 SSH，启用 SSH，对于使用命令行或需要通过其他主机远程管理树莓派的需求，这一步是必须的</li>
+</ol>
+</li>
+<li>配置完成后，重启树莓派</li>
+<li>在 PC 上使用 SSH 客户端软件(如 PuTTY 等)远程登录树莓派</li>
+<li>(可选)为了防止 IP 地址过期，可通过路由器管理界面给树莓派分配静态的 IP 地址 </li>
+</ol>
+<p>至此，树莓派的准备工作就完成了，其网络拓扑如下:</p>
+
+
+<h2 id="为树莓派-Raspbian-系统安装-Docker-引擎"><a href="#为树莓派-Raspbian-系统安装-Docker-引擎" class="headerlink" title="为树莓派 Raspbian 系统安装 Docker 引擎"></a>为树莓派 Raspbian 系统安装 Docker 引擎</h2><blockquote>
+<p>之所以将这一步纳入树莓派的准备工作中，是因为笔者发现在实际使用过程中，几乎所有常见的服务都发布了其相应的 Docker 镜像。对容器化不熟悉的朋友可以参考 iOS 对 App 的管理思路: 每个 App 都从统一的入口(App Store)下载，在单独的隔离环境运行，卸载时也不会出现诸如 Windows 上大量残余文件需要手动清理的问题。</p>
+</blockquote>
+<p>对计算机(特别是服务器)的管理和维护是非常乏味的工作，相信各位在使用 Windows 系统时或多或少都有过系统盘空间越来越少，系统使用起来越来越卡顿的经验。而服务器是以高可用性为宗旨的，如何最大程度的降低维护成本是管理服务器的首要考量。<code>Docker</code> 解决了不同的服务在部署时由于依赖问题而污染宿主机的问题。使得安装和部署某个服务在单独的隔离环境中进行，简化了流程，也更加清晰。</p>
+<h3 id="安装-Docker-引擎"><a href="#安装-Docker-引擎" class="headerlink" title="安装 Docker 引擎"></a>安装 Docker 引擎</h3><p>树莓派官网提供了安装 <code>Docker</code> 引擎的脚本，下载安装脚本并执行: </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">$ curl -sSL https://get.docker.com | sh</span><br><span class="line"></span><br><span class="line">Client:</span><br><span class="line"> Version:      18.05.0-ce</span><br><span class="line"> API version:  1.37</span><br><span class="line"> Go version:   go1.9.5</span><br><span class="line"> Git commit:   f150324</span><br><span class="line"> Built:        Wed May  9 22:24:36 2018</span><br><span class="line"> OS/Arch:      linux/arm</span><br><span class="line"> Experimental: <span class="literal">false</span></span><br><span class="line"> Orchestrator: swarm</span><br><span class="line"></span><br><span class="line">Server:</span><br><span class="line"> Engine:</span><br><span class="line">  Version:      18.05.0-ce</span><br><span class="line">  API version:  1.37 (minimum version 1.12)</span><br><span class="line">  Go version:   go1.9.5</span><br><span class="line">  Git commit:   f150324</span><br><span class="line">  Built:        Wed May  9 22:20:37 2018</span><br><span class="line">  OS/Arch:      linux/arm</span><br><span class="line">  Experimental: <span class="literal">false</span></span><br><span class="line">If you would like to use Docker as a non-root user, you should now consider</span><br><span class="line">adding your user to the <span class="string">&quot;docker&quot;</span> group with something like:</span><br><span class="line"></span><br><span class="line">  sudo usermod -aG docker pi</span><br><span class="line"></span><br><span class="line">Remember that you will have to <span class="built_in">log</span> out and back <span class="keyword">in</span> <span class="keyword">for</span> this to take effect!</span><br><span class="line"></span><br><span class="line">WARNING: Adding a user to the <span class="string">&quot;docker&quot;</span> group will grant the ability to run</span><br><span class="line">         containers <span class="built_in">which</span> can be used to obtain root privileges on the</span><br><span class="line">         docker host.</span><br><span class="line">         Refer to https://docs.docker.com/engine/security/security/<span class="comment">#docker-daemon-attack-surface</span></span><br><span class="line">         <span class="keyword">for</span> more information.</span><br></pre></td></tr></table></figure>
+
+<p>将 <code>pi</code> 用户加入 <code>docker</code> 群组</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo usermod -aG docker pi</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>如提示所说，用户 <code>pi</code> 加入群组后需要再次登录以生效</p>
+</blockquote>
+<p>再次以 <code>pi</code> 用户登录树莓派，执行 <code>docker -v</code>，看到版本号即表示安装成功:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ docker -v</span><br><span class="line"></span><br><span class="line">Docker version 18.05.0-ce, build f150324</span><br></pre></td></tr></table></figure>
+<p>至此，树莓派准备就绪，可以开始部署各种应用服务了。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+  <button onclick="document.querySelector('.post-reward').classList.toggle('active');">
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechat-reward-image.jpg" alt="Frost He 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/images/alipay-reward-image.jpg" alt="Frost He 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/linux/" rel="tag"><i class="fa fa-tag"></i> linux</a>
+              <a href="/tags/raspberry-pi/" rel="tag"><i class="fa fa-tag"></i> raspberry-pi</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/smarthome-enable-remote-access-to-ha/" rel="prev" title="智慧家庭 - 外网远程访问家庭服务器中的 Home Assistant 实例">
+                  <i class="fa fa-chevron-left"></i> 智慧家庭 - 外网远程访问家庭服务器中的 Home Assistant 实例
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/homeserver-setup-seafile-on-raspberry-pi/" rel="next" title="在树莓派上通过 Docker 搭建 Seafile 私有云服务">
+                  在树莓派上通过 Docker 搭建 Seafile 私有云服务 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2015 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Frost He</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">381k</span>
+  </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

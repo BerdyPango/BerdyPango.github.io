@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="K2S73UudyU-JTh9S0U_KnOKgOvE7aW7EpO560okLyUU">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css" integrity="sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{&quot;hostname&quot;:&quot;blog.frosthe.net&quot;,&quot;root&quot;:&quot;&#x2F;&quot;,&quot;images&quot;:&quot;&#x2F;images&quot;,&quot;scheme&quot;:&quot;Mist&quot;,&quot;version&quot;:&quot;8.5.0&quot;,&quot;exturl&quot;:false,&quot;sidebar&quot;:{&quot;position&quot;:&quot;left&quot;,&quot;display&quot;:&quot;always&quot;,&quot;padding&quot;:18,&quot;offset&quot;:12,&quot;width&quot;:300},&quot;copycode&quot;:false,&quot;bookmark&quot;:{&quot;enable&quot;:false,&quot;color&quot;:&quot;#222&quot;,&quot;save&quot;:&quot;auto&quot;},&quot;fancybox&quot;:false,&quot;mediumzoom&quot;:false,&quot;lazyload&quot;:false,&quot;pangu&quot;:false,&quot;comments&quot;:{&quot;style&quot;:&quot;tabs&quot;,&quot;active&quot;:null,&quot;storage&quot;:true,&quot;lazyload&quot;:false,&quot;nav&quot;:null},&quot;motion&quot;:{&quot;enable&quot;:false,&quot;async&quot;:false,&quot;transition&quot;:{&quot;post_block&quot;:&quot;fadeIn&quot;,&quot;post_header&quot;:&quot;fadeInDown&quot;,&quot;post_body&quot;:&quot;fadeInDown&quot;,&quot;coll_header&quot;:&quot;fadeInLeft&quot;,&quot;sidebar&quot;:&quot;fadeInUp&quot;}},&quot;prism&quot;:false,&quot;i18n&quot;:{&quot;placeholder&quot;:&quot;搜索...&quot;,&quot;empty&quot;:&quot;没有找到任何搜索结果：${query}&quot;,&quot;hits_time&quot;:&quot;找到 ${hits} 个搜索结果（用时 ${time} 毫秒）&quot;,&quot;hits&quot;:&quot;找到 ${hits} 个搜索结果&quot;}}</script><script src="/js/config.js"></script>
+<meta name="description" content="本文介绍了 Linux 系统与档案与目录管理相关的指令">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux 基础 - 档案与目录管理(ls&#x2F;cp&#x2F;rm&#x2F;mv&#x2F;basename&#x2F;dirname)">
+<meta property="og:url" content="https://blog.frosthe.net/linux-document-management/index.html">
+<meta property="og:site_name" content="FrostHe.Handbook">
+<meta property="og:description" content="本文介绍了 Linux 系统与档案与目录管理相关的指令">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2016-04-29T09:21:36.000Z">
+<meta property="article:modified_time" content="2019-01-12T13:05:18.883Z">
+<meta property="article:author" content="Frost He">
+<meta property="article:tag" content="linux">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://blog.frosthe.net/linux-document-management/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{&quot;sidebar&quot;:&quot;&quot;,&quot;isHome&quot;:false,&quot;isPost&quot;:true,&quot;lang&quot;:&quot;zh-CN&quot;,&quot;comments&quot;:true,&quot;permalink&quot;:&quot;https:&#x2F;&#x2F;blog.frosthe.net&#x2F;linux-document-management&#x2F;&quot;,&quot;path&quot;:&quot;linux-document-management&#x2F;&quot;,&quot;title&quot;:&quot;Linux 基础 - 档案与目录管理(ls&#x2F;cp&#x2F;rm&#x2F;mv&#x2F;basename&#x2F;dirname)&quot;}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">&quot;&quot;</script>
+<title>Linux 基础 - 档案与目录管理(ls/cp/rm/mv/basename/dirname) | FrostHe.Handbook</title>
+  
+  <script class="next-config" data-name="google_analytics" type="application/json">{&quot;tracking_id&quot;:&quot;UA-125853342-1&quot;,&quot;only_pageview&quot;:true}</script>
+  <script src="/js/third-party/analytics/google-analytics.js"></script>
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+  <div class="site-meta">
+      <a
+        href="/" class="brand" rel="start">
+        
+        <h1 class="site-title">FrostHe.Handbook</h1>
+          <p class="site-subtitle">Talk less, do more</p>
+        
+      </a>
+      </div>
+      <div class="site-nav-right">
+        <div class="toggle popup-trigger">
+        </div>
+      </div>
+    </div>
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-film fa-fw"></i>时间线</a></li>
+        <li class="menu-item menu-item-about"><a href="/about" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar sidebar-active">
+
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Frost He" src="/images/avatar.jpg">
+    <p class="site-author-name" itemprop="name">Frost He</p>
+    <p>Full-stack web developer<p>
+        <div class="site-description" itemprop="description">
+          <i class="fa fa-fw fa-map-marker-alt"></i>
+          <span>Chengdu, China</span>
+        </div>
+      </div>
+                <div class="links-of-author site-overview-item animated">
+                    <span class="links-of-author-item">
+                      <a href="https://github.com/BerdyPango" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;BerdyPango" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+                    </span>
+                    <span class="links-of-author-item">
+                      <a href="https://plus.google.com/yourname" title="Google → https:&#x2F;&#x2F;plus.google.com&#x2F;yourname" rel="noopener" target="_blank"><i class="fab fa-google fa-fw"></i></a>
+                    </span>
+                    <span class="links-of-author-item">
+                      <a href="https://www.linkedin.com/in/frosthe0419/" title="Linkedin → https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;frosthe0419&#x2F;" rel="noopener" target="_blank"><i class="fab fa-linkedin fa-fw"></i></a>
+                    </span>
+                    <span class="links-of-author-item">
+                      <a href="https://www.instagram.com/frosthe_pro/" title="Instagram → https:&#x2F;&#x2F;www.instagram.com&#x2F;frosthe_pro&#x2F;" rel="noopener" target="_blank"><i class="fab fa-instagram fa-fw"></i></a>
+                    </span>
+                    <span class="links-of-author-item">
+                      <a href="https://steamcommunity.com/profiles/76561198049061021/" title="Steam → https:&#x2F;&#x2F;steamcommunity.com&#x2F;profiles&#x2F;76561198049061021&#x2F;" rel="noopener" target="_blank"><i class="fab fa-steam-square fa-fw"></i></a>
+                    </span>
+                </div>
+              
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blog.frosthe.net/linux-document-management/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Frost He">
+      <meta itemprop="description" content="Chengdu, China">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FrostHe.Handbook">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Linux 基础 - 档案与目录管理(ls/cp/rm/mv/basename/dirname)
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2016-04-29 17:21:36" itemprop="dateCreated datePublished" datetime="2016-04-29T17:21:36+08:00">2016-04-29</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2019-01-12 21:05:18" itemprop="dateModified" datetime="2019-01-12T21:05:18+08:00">2019-01-12</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Linux-Basic/" itemprop="url" rel="index"><span itemprop="name">Linux Basic</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>1.7k</span>
+    </span>
+</div>
+
+            <div class="post-description">本文介绍了 Linux 系统与档案与目录管理相关的指令</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>档案管理主要涉及: </p>
+<ul>
+<li>显示档案详情</li>
+<li>拷贝</li>
+<li>删除档案</li>
+<li>移动档案</li>
+</ul>
+<h1 id="ls-检视档案"><a href="#ls-检视档案" class="headerlink" title="ls(检视档案)"></a>ls(检视档案)</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ls [-aAdfFhilnrRSt] 档名或目录名</span><br><span class="line">ls [--color=&#123;never,auto,always&#125;] 档名或目录名</span><br><span class="line">ls [--full-time] 档名或目录名</span><br></pre></td></tr></table></figure>
+<p>ls 常用的选项有:</p>
+<ul>
+<li><code>-a</code>: 全部档案，包括隐藏档案</li>
+<li><code>-A</code>: 全部的档案，包括隐藏档案，但不包括 <code>.</code> 与 <code>..</code> 两个目录</li>
+<li><code>-d</code>: 仅列出目录</li>
+<li><code>-f</code>: 直接列出结果，而不进行排序(<code>ls</code> 预设会以名称排序)</li>
+<li><code>-F</code>: 为档案名添加特殊符号以标识其类别，例如 <code>*</code> 代表可执行档案，<code>/</code> 代表目录，<code>=:</code> 代表 socket 档案，<code>|:</code> 代表 FIFO 档案。</li>
+<li><code>-h</code>: 将档案容量以人类友好的方式列出(GB, KB)</li>
+<li><code>-i</code>: 列出 inode 号码</li>
+<li><code>-l</code>: 列出详情</li>
+<li><code>-n</code>: 使用 UID 与 GID 而非用户名称和群组名称</li>
+<li><code>-r</code>: 将排序结果反向输出</li>
+<li><code>-R</code>: 递归显示所有目录</li>
+<li><code>-S</code>: 以档案容量大小排序</li>
+<li><code>-t</code>: 以时间排序</li>
+</ul>
+<p>ls 指令包含了很多功能，Linux 档案系统记录了与档案有关的权限和属性，这些数据都放在 i-node 里面，有关 i-node 的详情，见后文。</p>
+<p>由于 <code>ls -l</code> 非常常用，很多 <code>Linux</code> 的发布版本使用 <code>ll</code> 指令使其成为 <code>ls -l</code> 的缩写，而这是由 Bash shell 的 alias 功能实现的，有关这部分内容，见后文。</p>
+<h1 id="cp-复制档案或目录"><a href="#cp-复制档案或目录" class="headerlink" title="cp(复制档案或目录)"></a>cp(复制档案或目录)</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cp [-adfilprsu] <span class="built_in">source</span> destination</span><br><span class="line">cp [options] source1 source2 source3 .... directory</span><br></pre></td></tr></table></figure>
+<p>cp 常用选项:</p>
+<ul>
+<li><code>-i</code>: 若目标已经存在，则要求询问是否覆盖</li>
+<li><code>-d</code>: 若源为 link 档，则复制 link 档的属性而非档案本身的属性</li>
+<li><code>-f</code>: force 的简写，若目标档已经存在且无法开启，则移除后再试一次</li>
+<li><code>-p</code>: 复制档案及其属性，备份常用</li>
+<li><code>-r</code>: 启用递归复制</li>
+<li><code>-s</code>: 复制为符号链接(symbolic link)</li>
+<li><code>-l</code>: 复制为硬式链接(hard link)</li>
+<li><code>--preserve=all</code>: 除了 <code>-p</code> 的相关属性外，还加入 SELinux 的属性，links，xattr 也复制。</li>
+<li><code>-a</code>: 相当于 <code>-dr --preserve=all</code></li>
+</ul>
+<blockquote>
+<p>如果不加任何选项，档案被复制后其属性会发生改变，如果想要完全复制档案，则需要加上 <code>-a</code> 选项。</p>
+</blockquote>
+<p>在复制其他用户的资料时(必须要有 Read 权限)，总是希望得到的档案权限归自身用户所有，所以 <code>cp</code> 指令预设复制后的档案归复制者所有，这意味着在不加任何选项的情况下，得到的档案权限与复制者用户一致。在使用 <code>cp</code> 指令进行复制时，考虑以下几点:</p>
+<ul>
+<li>是否需要完整保留原始档案的咨询？</li>
+<li>原始档是否为符号链接档</li>
+<li>原始档是否为特殊的档案，例如 FIFO，socket 等？</li>
+<li>原始档是否为目录？</li>
+</ul>
+<h1 id="rm-移除档案或目录"><a href="#rm-移除档案或目录" class="headerlink" title="rm(移除档案或目录)"></a>rm(移除档案或目录)</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rm [-fir]档案或目录</span><br></pre></td></tr></table></figure>
+<p><code>rm</code> 指令关键选项:</p>
+<ul>
+<li><code>-f</code>: force 的简写，忽略不存在的档案，不会出现警告</li>
+<li><code>-i</code>: 互动模式，在删除询问使用者</li>
+<li><code>-r</code>: 递归删除</li>
+</ul>
+<blockquote>
+<p>使用 <code>*</code> 通配符可以删除任意匹配的档案或目录</p>
+</blockquote>
+<p>Linux 系统下，为了防止档案被 root 误删，很多发行版预设加入了 <code>-i</code> 这个选项。但是使用 <code>rm -r</code> 这个指令系统不会再次询问，使用前要特别注意。如果确定目录不要了，那么使用 <code>rm -r</code> 来递归删除是不错的方式。</p>
+<h1 id="mv-移动档案与目录，或更改名称"><a href="#mv-移动档案与目录，或更改名称" class="headerlink" title="mv(移动档案与目录，或更改名称)"></a>mv(移动档案与目录，或更改名称)</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mv [-fiu] <span class="built_in">source</span> destination </span><br><span class="line">mv [options] source1 source2 source3 .... directory </span><br></pre></td></tr></table></figure>
+<p><code>mv</code> 指令关键选项:</p>
+<ul>
+<li><code>-f</code>: force 的缩写，如果目标档已经存在，则不询问而直接覆盖</li>
+<li><code>-i</code>: 互动模式，若目标档案已经存在，则会询问是否覆盖</li>
+<li><code>-u</code>: 若目标档案已经存在，且原始档较新才会执行移动</li>
+</ul>
+<blockquote>
+<p><code>-u</code> 选项可以用来测试新旧档案，看看是否需要搬移；<code>rm</code> 指令可以用来重命名文件，但 Linux 有另外一个 <code>rename</code> 指令可以进行批量改名。</p>
+</blockquote>
+<h1 id="basename-和-dirname"><a href="#basename-和-dirname" class="headerlink" title="basename 和 dirname"></a>basename 和 dirname</h1><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">basename /etc/sysconfig/network</span><br><span class="line">network</span><br></pre></td></tr></table></figure>
+<p><code>basename</code> 用于获取档案本身的名称</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">dirname /etc/sysconfig/network</span><br><span class="line">/etc/sysconfig</span><br></pre></td></tr></table></figure>
+<p><code>dirname</code> 用于获取包含档案的目录的完整路径</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/linux/" rel="tag"><i class="fa fa-tag"></i> linux</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/linux-directory-operations/" rel="prev" title="Linux 基础 - 目录操作与 $PATH">
+                  <i class="fa fa-chevron-left"></i> Linux 基础 - 目录操作与 $PATH
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/linux-document-inspect/" rel="next" title="Linux 基础 - 档案内容查阅(cat/tac/nl/more/less/head/tail/od/touch)">
+                  Linux 基础 - 档案内容查阅(cat/tac/nl/more/less/head/tail/od/touch) <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2015 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Frost He</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">381k</span>
+  </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="K2S73UudyU-JTh9S0U_KnOKgOvE7aW7EpO560okLyUU">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css" integrity="sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{&quot;hostname&quot;:&quot;blog.frosthe.net&quot;,&quot;root&quot;:&quot;&#x2F;&quot;,&quot;images&quot;:&quot;&#x2F;images&quot;,&quot;scheme&quot;:&quot;Mist&quot;,&quot;version&quot;:&quot;8.5.0&quot;,&quot;exturl&quot;:false,&quot;sidebar&quot;:{&quot;position&quot;:&quot;left&quot;,&quot;display&quot;:&quot;always&quot;,&quot;padding&quot;:18,&quot;offset&quot;:12,&quot;width&quot;:300},&quot;copycode&quot;:false,&quot;bookmark&quot;:{&quot;enable&quot;:false,&quot;color&quot;:&quot;#222&quot;,&quot;save&quot;:&quot;auto&quot;},&quot;fancybox&quot;:false,&quot;mediumzoom&quot;:false,&quot;lazyload&quot;:false,&quot;pangu&quot;:false,&quot;comments&quot;:{&quot;style&quot;:&quot;tabs&quot;,&quot;active&quot;:null,&quot;storage&quot;:true,&quot;lazyload&quot;:false,&quot;nav&quot;:null},&quot;motion&quot;:{&quot;enable&quot;:false,&quot;async&quot;:false,&quot;transition&quot;:{&quot;post_block&quot;:&quot;fadeIn&quot;,&quot;post_header&quot;:&quot;fadeInDown&quot;,&quot;post_body&quot;:&quot;fadeInDown&quot;,&quot;coll_header&quot;:&quot;fadeInLeft&quot;,&quot;sidebar&quot;:&quot;fadeInUp&quot;}},&quot;prism&quot;:false,&quot;i18n&quot;:{&quot;placeholder&quot;:&quot;搜索...&quot;,&quot;empty&quot;:&quot;没有找到任何搜索结果：${query}&quot;,&quot;hits_time&quot;:&quot;找到 ${hits} 个搜索结果（用时 ${time} 毫秒）&quot;,&quot;hits&quot;:&quot;找到 ${hits} 个搜索结果&quot;}}</script><script src="/js/config.js"></script>
+<meta name="description" content="Notes of ES5">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Web Front-end Development Notes - ES5">
+<meta property="og:url" content="https://blog.frosthe.net/web-frontend-devnotes-es5/index.html">
+<meta property="og:site_name" content="FrostHe.Handbook">
+<meta property="og:description" content="Notes of ES5">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2019-10-14T01:21:58.000Z">
+<meta property="article:modified_time" content="2020-10-10T04:11:34.572Z">
+<meta property="article:author" content="Frost He">
+<meta property="article:tag" content="javascript">
+<meta property="article:tag" content="es5">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://blog.frosthe.net/web-frontend-devnotes-es5/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{&quot;sidebar&quot;:&quot;&quot;,&quot;isHome&quot;:false,&quot;isPost&quot;:true,&quot;lang&quot;:&quot;zh-CN&quot;,&quot;comments&quot;:true,&quot;permalink&quot;:&quot;https:&#x2F;&#x2F;blog.frosthe.net&#x2F;web-frontend-devnotes-es5&#x2F;&quot;,&quot;path&quot;:&quot;web-frontend-devnotes-es5&#x2F;&quot;,&quot;title&quot;:&quot;Web Front-end Development Notes - ES5&quot;}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">&quot;&quot;</script>
+<title>Web Front-end Development Notes - ES5 | FrostHe.Handbook</title>
+  
+  <script class="next-config" data-name="google_analytics" type="application/json">{&quot;tracking_id&quot;:&quot;UA-125853342-1&quot;,&quot;only_pageview&quot;:true}</script>
+  <script src="/js/third-party/analytics/google-analytics.js"></script>
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+  <div class="site-meta">
+      <a
+        href="/" class="brand" rel="start">
+        
+        <h1 class="site-title">FrostHe.Handbook</h1>
+          <p class="site-subtitle">Talk less, do more</p>
+        
+      </a>
+      </div>
+      <div class="site-nav-right">
+        <div class="toggle popup-trigger">
+        </div>
+      </div>
+    </div>
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-film fa-fw"></i>时间线</a></li>
+        <li class="menu-item menu-item-about"><a href="/about" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar sidebar-active">
+
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Frost He" src="/images/avatar.jpg">
+    <p class="site-author-name" itemprop="name">Frost He</p>
+    <p>Full-stack web developer<p>
+        <div class="site-description" itemprop="description">
+          <i class="fa fa-fw fa-map-marker-alt"></i>
+          <span>Chengdu, China</span>
+        </div>
+      </div>
+                <div class="links-of-author site-overview-item animated">
+                    <span class="links-of-author-item">
+                      <a href="https://github.com/BerdyPango" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;BerdyPango" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i></a>
+                    </span>
+                    <span class="links-of-author-item">
+                      <a href="https://plus.google.com/yourname" title="Google → https:&#x2F;&#x2F;plus.google.com&#x2F;yourname" rel="noopener" target="_blank"><i class="fab fa-google fa-fw"></i></a>
+                    </span>
+                    <span class="links-of-author-item">
+                      <a href="https://www.linkedin.com/in/frosthe0419/" title="Linkedin → https:&#x2F;&#x2F;www.linkedin.com&#x2F;in&#x2F;frosthe0419&#x2F;" rel="noopener" target="_blank"><i class="fab fa-linkedin fa-fw"></i></a>
+                    </span>
+                    <span class="links-of-author-item">
+                      <a href="https://www.instagram.com/frosthe_pro/" title="Instagram → https:&#x2F;&#x2F;www.instagram.com&#x2F;frosthe_pro&#x2F;" rel="noopener" target="_blank"><i class="fab fa-instagram fa-fw"></i></a>
+                    </span>
+                    <span class="links-of-author-item">
+                      <a href="https://steamcommunity.com/profiles/76561198049061021/" title="Steam → https:&#x2F;&#x2F;steamcommunity.com&#x2F;profiles&#x2F;76561198049061021&#x2F;" rel="noopener" target="_blank"><i class="fab fa-steam-square fa-fw"></i></a>
+                    </span>
+                </div>
+              
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://blog.frosthe.net/web-frontend-devnotes-es5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpg">
+      <meta itemprop="name" content="Frost He">
+      <meta itemprop="description" content="Chengdu, China">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="FrostHe.Handbook">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Web Front-end Development Notes - ES5
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2019-10-14 09:21:58" itemprop="dateCreated datePublished" datetime="2019-10-14T09:21:58+08:00">2019-10-14</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2020-10-10 12:11:34" itemprop="dateModified" datetime="2020-10-10T12:11:34+08:00">2020-10-10</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/WebFrontend/" itemprop="url" rel="index"><span itemprop="name">WebFrontend</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>7.9k</span>
+    </span>
+</div>
+
+            <div class="post-description">Notes of ES5</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <ul>
+<li><a href="#es-history">ES History</a></li>
+<li><a href="#javascript-basics">Javascript Basics</a><ul>
+<li><a href="#falsy-and-truthy-values">Falsy and Truthy Values</a></li>
+<li><a href="#double-exclamation-marks">Double exclamation marks</a></li>
+<li><a href="#equal-operations">Equal Operations</a></li>
+<li><a href="#function-expression-and-function-declaration">Function Expression and Function Declaration</a></li>
+<li><a href="#arrays">Arrays</a></li>
+</ul>
+</li>
+<li><a href="#javascript-engine">Javascript Engine</a><ul>
+<li><a href="#execution-context">Execution Context</a></li>
+<li><a href="#hoisting%E6%8F%90%E5%8D%87">Hoisting(提升)</a></li>
+<li><a href="#event--event-loop">Event &amp; Event Loop</a></li>
+</ul>
+</li>
+<li><a href="#prototype-inheritance">Prototype Inheritance</a></li>
+<li><a href="#functions">Functions</a><ul>
+<li><a href="#passing-functions-as-arguments">Passing Functions as Arguments</a></li>
+<li><a href="#functions-returning-functions">Functions Returning Functions</a></li>
+<li><a href="#immediately-invoked-funtion-expressioniife">Immediately Invoked Funtion Expression(IIFE)</a></li>
+<li><a href="#closures">Closures</a></li>
+<li><a href="#bind-call-and-apply">Bind, Call and Apply</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="ES-History"><a href="#ES-History" class="headerlink" title="ES History"></a>ES History</h2><ul>
+<li>1997: ES1 became the first version of the Javascript language standard.</li>
+<li>2009: ES5, fully supported in all browers.</li>
+<li>2015: ES2015/ES6 released in 2015. Changed to annual release cycle.<ul>
+<li>Asynchronouse Javascript</li>
+<li>AJAX and API calls</li>
+<li>Modern dev setups(Webpack and Babel)</li>
+</ul>
+</li>
+<li>2016/2017/2018/2019/…: ES2016/ES2017/ES2018/ES2019/…</li>
+</ul>
+<p>Using transpiling and polyfilling to convert to ES5.</p>
+<hr>
+<h2 id="Javascript-Basics"><a href="#Javascript-Basics" class="headerlink" title="Javascript Basics"></a>Javascript Basics</h2><h3 id="Falsy-and-Truthy-Values"><a href="#Falsy-and-Truthy-Values" class="headerlink" title="Falsy and Truthy Values"></a>Falsy and Truthy Values</h3><p>The following values are considered by Javascript to be truthys:</p>
+<ul>
+<li>Object: <code>&#123;&#125;</code></li>
+<li>Array: <code>[]</code></li>
+<li>Not empty string: <code>&quot;anything&quot;</code></li>
+<li>Number other than zero: <code>3.14</code></li>
+<li>Date: <code>new Date();</code></li>
+</ul>
+<p>The following values are considered by Javascript to be falseys:</p>
+<ul>
+<li><code>undefined</code></li>
+<li><code>null</code></li>
+<li><code>0</code>: Even if a variable is assigned <code>0</code>, but it still tells it’s undefined when testing with <code>if</code>, it’s a common pattern in javascript to test a variable whether it’s undefined by using <code>if(variable || variable === 0)</code>. See more <a target="_blank" rel="noopener" href="https://www.udemy.com/course/the-complete-javascript-course/learn/lecture/10788426?start=187#bookmarks">here</a></li>
+<li><code>&#39;&#39;</code>: empty string value.</li>
+<li><code>NaN</code>: Not a number</li>
+</ul>
+<h3 id="Double-exclamation-marks"><a href="#Double-exclamation-marks" class="headerlink" title="Double exclamation marks"></a>Double exclamation marks</h3><p><code>!!</code> is used to cast a Javascript variable to boolean:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> name = <span class="string">&quot;Brain&quot;</span>;</span><br><span class="line"><span class="comment">// cast to boolean, it will return true.</span></span><br><span class="line"><span class="keyword">var</span> bool = !!name;</span><br></pre></td></tr></table></figure>
+
+<p>The JavaScript engine that is executing your code will attempt to convert(or coerce) a value to a boolean when necessary, such as when evaluated in an if-statement.</p>
+<h3 id="Equal-Operations"><a href="#Equal-Operations" class="headerlink" title="Equal Operations"></a>Equal Operations</h3><p>Always use <code>===/!==</code> to compare in javascript, see <a target="_blank" rel="noopener" href="https://dorey.github.io/JavaScript-Equality-Table/">here</a>.</p>
+<h3 id="Function-Expression-and-Function-Declaration"><a href="#Function-Expression-and-Function-Declaration" class="headerlink" title="Function Expression and Function Declaration"></a>Function Expression and Function Declaration</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Function declaration</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">doSometing</span>(<span class="params"></span>) </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Function Expression</span></span><br><span class="line"><span class="keyword">var</span> doSomething = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;&#125;;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Arrays"><a href="#Arrays" class="headerlink" title="Arrays"></a>Arrays</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// could store elements of different data types</span></span><br><span class="line"><span class="keyword">var</span> john = [<span class="string">&quot;John&quot;</span>, <span class="string">&quot;Smith&quot;</span>, <span class="number">1990</span>, <span class="string">&quot;Teacher&quot;</span>, <span class="literal">false</span>];</span><br><span class="line"><span class="comment">// push method add element to the last of an array.</span></span><br><span class="line">john.push(<span class="string">&quot;blue&quot;</span>);</span><br><span class="line"><span class="comment">// unshift method add element to the first of an array.</span></span><br><span class="line">john.unshift(<span class="string">&quot;Mr.&quot;</span>);</span><br><span class="line"><span class="comment">// pop method pop the last element of an array.</span></span><br><span class="line"><span class="keyword">var</span> lastElement = john.pop();</span><br><span class="line"><span class="comment">// shift method pop the first element of an array.</span></span><br><span class="line"><span class="keyword">var</span> firstElement = john.shift();</span><br><span class="line"><span class="comment">// retrieve the index of a given element. If the given element can not found, returns -1.</span></span><br><span class="line"><span class="keyword">var</span> index = john.indexOf(<span class="number">1990</span>);</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="Javascript-Engine"><a href="#Javascript-Engine" class="headerlink" title="Javascript Engine"></a>Javascript Engine</h2><h3 id="Execution-Context"><a href="#Execution-Context" class="headerlink" title="Execution Context"></a>Execution Context</h3><p>A new execution context is created on top of the current execution context every time a function gets called. There’re 2 phases for an execution context to be put on the execution stack:</p>
+<ol>
+<li>Creation phase:<ul>
+<li>Creation of the <strong>Variable Object(VO)</strong>:<ul>
+<li>The argument object is created, containing all the arguments that were passed into the function</li>
+<li>Function declarations are scanned: for each function, a property is created in the Variable Object, pointig to the function.</li>
+<li>Variable declarations are scanned: for each variable, a property is created in the Variable Object, and set to <code>undefined</code>.</li>
+</ul>
+</li>
+<li>Creation of the <strong>Scoping Chain</strong>: Each new function creates a scope, it stores all the Variable Object up to global scope. The only way to create a new scope is to write a new function.<ul>
+<li>Lexical scoping(作用域继承)): A function that is lexically within another function gets access to the scope of the outer function.</li>
+</ul>
+</li>
+<li>Determine value of the <code>this</code> variable<ul>
+<li>Regular function call: <code>this</code> keyword points to the global object(the <code>window</code> object in browser)</li>
+<li>Method call: <code>this</code> keyword points to the object that is calling the method.<ul>
+<li>Inner function defined inside a method, <code>this</code> keyword still points to the global object!</li>
+<li><code>this</code> keyword only gets assigned when the function is called, which means the value of <code>this</code> keyword is determined instantly at runtime.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Execution phase: run the function that generated the current execution context line by line.</li>
+</ol>
+<p>Global Context: for variables and functions not inside of any function. Associated with <code>window</code> object.</p>
+<p>A function like below may cause a series of changes like below:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">calculate</span>(<span class="params">year</span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(year);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">window</span> object(execution context)</span><br><span class="line">  - calculate <span class="function"><span class="keyword">function</span> <span class="title">object</span>(<span class="params">execution context</span>)</span></span><br><span class="line"><span class="function">    - <span class="title">argument</span> <span class="title">object</span>: <span class="title">contains</span> <span class="function"><span class="keyword">function</span> <span class="title">arguments</span></span></span></span><br><span class="line"><span class="function"><span class="function">    - <span class="title">variable</span> <span class="title">object</span></span></span></span><br><span class="line"><span class="function"><span class="function">        - <span class="title">all</span> <span class="title">functions</span></span></span></span><br><span class="line"><span class="function"><span class="function">        - <span class="title">all</span> <span class="title">variables</span> <span class="title">set</span> <span class="title">to</span> <span class="title">undefined</span></span></span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>Anonymouse functions’ scoping chain remains the same as the declared functions.</p>
+</blockquote>
+<h3 id="Hoisting-提升"><a href="#Hoisting-提升" class="headerlink" title="Hoisting(提升)"></a>Hoisting(提升)</h3><p>Functions and variables are available before the execution actually get started. They are hoisted in different ways:</p>
+<ul>
+<li>Functions: functions are already defined before the execution phase starts. Hositing only works for <strong>Function Declarations</strong> over <strong>Function Expressions</strong>.</li>
+<li>Variables: available are set to <code>undefined</code> and will be defined in the execution phase.</li>
+</ul>
+<h3 id="Event-amp-Event-Loop"><a href="#Event-amp-Event-Loop" class="headerlink" title="Event &amp; Event Loop"></a>Event &amp; Event Loop</h3><p>See details <a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/EventLoop">here</a>.</p>
+<ul>
+<li><code>Execution Stack</code>: stores a set of execution context, the first execution context is the <code>Global Execution Context</code>. Each time a function is executed, a new execution context bound to that function is created and pushed into the execution stack.</li>
+<li><code>Message Queue</code>: Stores all functions that are to be executed. Event handler functions or async functions are all stored here. They are in form of <code>callback</code> functions.</li>
+<li><code>Event Loop</code>: The job of the event loop, is to constantly monitor the <code>Message Queue</code> and <code>Execution Stack</code>, and to push the first callback function in line onto the execution stack as soon as the stack is empty(the <code>Global Execution Context</code> is idle).</li>
+<li><code>Event Listener</code>: The event listener is normally a function, which also has its own execution context.</li>
+</ul>
+
+
+<h4 id="Message-Queue"><a href="#Message-Queue" class="headerlink" title="Message Queue"></a>Message Queue</h4><p>A JavaScript runtime uses a message queue, which is a list of messages to be processed. Each message has an associated function which gets called in order to handle the message. The runtime handles message from the oldest. To do so, the message is removed from the queue and its corresponding function is called with the message as an input parameter. As always, calling a function creates a new stack frame for that function’s use.</p>
+<p>Each message is processed completely before any other message is processed. It cannot be pre-empted and will run entirely before any other code runs(prevent modify data the function manipulates). A downside of this model is that if a message takes too long to complete, the web application is unable to process user interactions like click or scroll. A good practice to follow is to make message processing short and if possible cut down one message into several messages.</p>
+<p>A very interesting property of the event loop model is that JavaScript, unlike a lot of other languages, never blocks. Handling I/O is typically performed via events and callbacks, so when the application is waiting for an <code>IndexedDB</code> query to return or an <code>XHR</code> request to return, it can still process other things like user input.</p>
+<h4 id="setTimeout"><a href="#setTimeout" class="headerlink" title="setTimeout"></a>setTimeout</h4><p>The function <code>setTimeout</code> is called with 2 arguments:</p>
+<ul>
+<li>a message to add to the queue, and a time value (optional; defaults to 0).</li>
+<li>The time value represents the (minimum) delay after which the message will actually be pushed into the queue.</li>
+</ul>
+<p>If there is no other message in the queue, and the stack is empty, the message is processed right after the delay. However, if there are messages, the setTimeout message will have to wait for other messages to be processed. For this reason, the second argument indicates a minimum time—not a guaranteed time.</p>
+<hr>
+<h2 id="Prototype-Inheritance"><a href="#Prototype-Inheritance" class="headerlink" title="Prototype Inheritance"></a>Prototype Inheritance</h2><p>Every javascript object has a property called <code>prototype</code>. The <code>Object</code> object is the root constructor of every other object. This is also known as <code>Prototype Chain</code>.</p>
+<ul>
+<li><code>new</code> operator will create an new empty object and call the function constructor with <code>this</code> keyword points to the empty object. Which means <code>this</code> keyword will be set as the object’s scope.</li>
+<li><code>instandOf</code>:</li>
+<li><code>object.create()</code>: receive an object parameter as the new object’s prototype, and another arguments object describing the properties.</li>
+</ul>
+<blockquote>
+<p>Variables that associated with an object contains the reference to that object in memory.</p>
+</blockquote>
+<hr>
+<h2 id="Functions"><a href="#Functions" class="headerlink" title="Functions"></a>Functions</h2><h3 id="Passing-Functions-as-Arguments"><a href="#Passing-Functions-as-Arguments" class="headerlink" title="Passing Functions as Arguments"></a>Passing Functions as Arguments</h3><p>Behaves like delegates.</p>
+<h3 id="Functions-Returning-Functions"><a href="#Functions-Returning-Functions" class="headerlink" title="Functions Returning Functions"></a>Functions Returning Functions</h3><p>Returns a delegate from functions.</p>
+<h3 id="Immediately-Invoked-Funtion-Expression-IIFE"><a href="#Immediately-Invoked-Funtion-Expression-IIFE" class="headerlink" title="Immediately Invoked Funtion Expression(IIFE)"></a>Immediately Invoked Funtion Expression(IIFE)</h3><p>An IIFE looks something like below:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">(<span class="function"><span class="keyword">function</span> (<span class="params">goodLuck</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> score = <span class="built_in">Math</span>.random() * <span class="number">10</span>;</span><br><span class="line">  <span class="built_in">console</span>.log(score &gt;= <span class="number">5</span> - goodLuck);</span><br><span class="line">&#125;)(<span class="number">5</span>);</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>IIFE creates a new function scope and variables defiend inside an IIFE will not be visible outside the function.</p>
+</blockquote>
+<h3 id="Closures"><a href="#Closures" class="headerlink" title="Closures"></a>Closures</h3><p>An inner function has always access to the variables and parameters of its outer function, even after the outer function has returned. What makes it happen is the scope chain always stay <strong>intact</strong> despite the execution context.</p>
+<h3 id="Bind-Call-and-Apply"><a href="#Bind-Call-and-Apply" class="headerlink" title="Bind, Call and Apply"></a>Bind, Call and Apply</h3><p><code>function.call(&#123;target-object&#125;, params...)</code> actually is borrowing method from other objects.<br><code>function.apply(&#123;target-object&#125;, [params])</code> works the same way as <code>call</code> but accepts the arguments as array.</p>
+<p><code>function.bind()</code> returns a function copy with preset arguments:</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> johnFriendly = john.presentation.bind(john, <span class="string">&quot;friendly&quot;</span>);</span><br><span class="line">johnFriendly(<span class="string">&quot;morning&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> emilyFormal = john.presentation.bind(emily, <span class="string">&quot;formal&quot;</span>);</span><br><span class="line">emilyFormal(<span class="string">&quot;afternoon&quot;</span>);</span><br></pre></td></tr></table></figure>
+
+<p>This is called <code>function carrying</code>.</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/javascript/" rel="tag"><i class="fa fa-tag"></i> javascript</a>
+              <a href="/tags/es5/" rel="tag"><i class="fa fa-tag"></i> es5</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/hobby-project-how-to-make-a-raspberry-pi-game-console/" rel="prev" title="DIY - 自制树莓派便携游戏机">
+                  <i class="fa fa-chevron-left"></i> DIY - 自制树莓派便携游戏机
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/web-frontend-devnotes-es6/" rel="next" title="Web Front-end Development Notes - ES6">
+                  Web Front-end Development Notes - ES6 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2015 – 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Frost He</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">381k</span>
+  </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
